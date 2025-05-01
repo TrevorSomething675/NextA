@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './register.module.css';
 import RegisterForm from '@/models/auth/Register';
 import { useRouter } from 'next/navigation'; 
-import auth from '@/store/auth';
+import auth from '@/stores/auth';
 
 const Register: React.FC<{ changeFormStatus: any }> = ({ changeFormStatus }) => {
     const { register, handleSubmit } = useForm<RegisterForm>();

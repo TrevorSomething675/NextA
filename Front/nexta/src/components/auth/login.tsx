@@ -1,6 +1,6 @@
 import styles from './login.module.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import auth from '@/store/auth';
+import auth from '@/stores/auth';
 import LoginForm from '@/models/auth/Login';
 import { useRouter } from 'next/navigation'; 
 import { useState } from 'react';

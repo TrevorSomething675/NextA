@@ -5,7 +5,7 @@ import styles from './accountHeader.module.css';
 import LoginSvg from '../svgs/loginSvg/loginSvg';
 
 import { useEffect, useState } from 'react';
-import auth from '@/store/auth';
+import auth from '@/stores/auth';
 import ExitSvg from '../svgs/exitSvg/exitSvg';
 import { useRouter } from 'next/navigation';
 

@@ -4,8 +4,8 @@ using MediatR;
 
 namespace Nexta.Application.Queries.GetDetailsQuery
 {
-    public class GetDetailsQueryRequest(DetailsFilter filter) : IRequest<Result<GetDetailsQueryResponse>>
+    public class GetDetailsQueryRequest : IRequest<Result<GetDetailsQueryResponse>>
     {
-		public DetailsFilter Filter { get; set; } = filter;
+		public BaseFilter Filter { get; set; } = null!;
 	}
 }

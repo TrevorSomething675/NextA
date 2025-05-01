@@ -10,10 +10,13 @@ class Auth{
 
     constructor(){
         makeAutoObservable(this);
-        this.user.email = localStorage.getItem('email');
-        this.user.firstName = localStorage.getItem('firstName');
-        this.user.lastName = localStorage.getItem('lastName');
-        this.user.middleName = localStorage.getItem('middleName');
+        if(typeof window !== 'undefined')
+        {
+            this.user.email = localStorage?.getItem('email');
+            this.user.firstName = localStorage?.getItem('firstName');
+            this.user.lastName = localStorage?.getItem('lastName');
+            this.user.middleName = localStorage?.getItem('middleName');
+        }
     }
     setAuth(isAuth:boolean){
         this.isAuth = isAuth;
@@ -23,15 +26,9 @@ class Auth{
     }
 
     async checkAuth(){
-        const isAuth = Boolean(localStorage.getItem('isAuth'));
+        const isAuth = Boolean(localStorage?.getItem('isAuth'));
         if(isAuth){
             this.setAuth(true);
-            /*
-            this.setUser({
-                name: String(localStorage.getItem('firstName')),
-                id: String(localStorage.getItem('Id'))
-            } as User)
-             */
         } else{
             this.setAuth(false);
         }

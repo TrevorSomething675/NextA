@@ -2,7 +2,7 @@
 
 namespace Nexta.Application.Commands.DeleteDetailFromBasket
 {
-    public class DeleteDetailFromBasketResponse(UserDetail userDetail)
+    public class DeleteBasketDetailCommandResponse(UserDetail userDetail)
     {
 		public UserDetail UserDetail { get; set; } = userDetail;
 	}

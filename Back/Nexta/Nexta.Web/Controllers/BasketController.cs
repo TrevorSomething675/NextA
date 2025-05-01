@@ -1,5 +1,6 @@
 ﻿using Nexta.Application.Commands.AddDetailToBasketCommand;
 using Nexta.Application.Commands.DeleteDetailFromBasket;
+using Nexta.Application.Queries.GetUserBasketDetails;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
@@ -14,16 +15,22 @@ namespace Nexta.Web.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpPost(nameof(AddDetailToBasket))]
-		public async Task<IActionResult> AddDetailToBasket([FromHeader] AddDetailToBasketRequest request, CancellationToken cancellationToken = default)
+		[HttpPost(nameof(AddBasketDetail))]
+		public async Task<IActionResult> AddBasketDetail([FromHeader] AddBasketDetailQueryRequest request, CancellationToken cancellationToken = default)
 		{
 			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
 		}
 
-		[HttpPost(nameof(DeleteDetailFromBasket))]
-		public async Task<IActionResult> DeleteDetailFromBasket([FromHeader] DeleteDetailFromBasketHandler request, CancellationToken cancellationToken = default)
+		[HttpPost(nameof(DeleteBasketDetail))]
+		public async Task<IActionResult> DeleteBasketDetail([FromHeader] DeleteBasketDetailCommandRequest request, CancellationToken cancellationToken = default)
 		{
+			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
+		}
 
+		[HttpPost(nameof(GetBasketDetails))]
+		public async Task<IActionResult> GetBasketDetails([FromBody] GetBasketDetailsQueryRequest request, CancellationToken cancellationToken = default)
+		{
+			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
 		}
 	}
 }

@@ -21,7 +21,6 @@ services.AddScoped<IJwtTokenService, JwtTokenService>();
 services.AddRouting();
 services.AddControllers();
 services.AddDbContextFactory<MainContext>();
-
 /*
 using (var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
 {
@@ -64,7 +63,6 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 	}
 }
 */
-
 var app = builder.Build();
 
 app.UseCors(builder =>

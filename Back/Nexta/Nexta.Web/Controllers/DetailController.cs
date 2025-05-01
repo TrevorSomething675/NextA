@@ -15,9 +15,9 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpGet(nameof(GetAll))]
-		public async Task<IActionResult> GetAll([FromHeader] DetailsFilter filter, CancellationToken cancellationToken = default)
+		public async Task<IActionResult> GetAll([FromHeader] GetDetailsQueryRequest request, CancellationToken cancellationToken = default)
 		{
-			return (await _mediator.Send(new GetDetailsQueryRequest(filter), cancellationToken)).ToActionResult();
+			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
 		}
 	}
 }

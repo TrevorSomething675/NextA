@@ -1,6 +1,6 @@
 ﻿namespace Nexta.Domain.Filters
 {
-    public class DetailsFilter
+    public class BaseFilter
     {
         public int PageNumber { get; set; } = 1;
     }

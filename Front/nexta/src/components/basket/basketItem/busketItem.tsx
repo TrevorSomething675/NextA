@@ -70,21 +70,3 @@ const BasketItem = () => {
 }
 
 export default BasketItem;
-
-/*
-<Image src='/newsItem1.jpg' height={100} width={100} alt='' className={styles.image}/>
-
-            <div className={styles.detailContainer}>
-                <h2 className={styles.detailHeader}>Название детали</h2>
-                <div className={styles.detailBody}>
-                <p className={styles.p}>Описание деталиОписание деталиОписание деталиОписание деталиОписание деталиОписание деталиОписание детали
-                    Описание деталиОписание деталиОписание деталиОписание деталиОписание деталиОписание деталиОписание 
-                    деталиОписание деталиОписание детали</p>
-                </div>
-                <div className={styles.detailFooter}>
-                    <p className={styles.priceText}>
-                        Цена: 660.03 руб.
-                    </p>
-                </div>
-            </div>
-            */

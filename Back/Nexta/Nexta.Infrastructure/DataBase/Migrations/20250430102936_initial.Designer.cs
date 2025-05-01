@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Nexta.Infrastructure.DataBase.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20250413100153_initial")]
+    [Migration("20250430102936_initial")]
     partial class initial
     {
         /// <inheritdoc />

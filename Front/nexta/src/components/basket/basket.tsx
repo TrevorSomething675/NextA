@@ -1,7 +1,34 @@
-import styles from './basket.module.css';
+'use client'
+
+import GetBasketDetailsRequest from "@/models/basket/GetBasketDetailsRequest";
+import BasketService from '@/services/BasketService';
 import BasketItem from './basketItem/busketItem';
+import styles from './basket.module.css';
+import { useEffect } from 'react';
+import basket from "@/stores/basket";
 
 const Basket = () => {
+    useEffect(() => {
+        if(typeof window !== 'undefined')
+        {
+            const localUserId = localStorage.getItem('id');
+            const getBasketDetailsRequest:GetBasketDetailsRequest ={
+                filter:{
+                    pageNumber: 1,
+                    userId: localUserId
+                }
+            } 
+            BasketService.GetBasketDetails(getBasketDetailsRequest)
+            .then(result => {
+                basket.setBasketDetails(result?.data?.value);
+                console.log(result.data);
+            }).catch(error =>{
+                console.error(error);
+            });
+        }
+    }, []);
+    
+    
     return <div className={styles.container}> 
         <div className={styles.basketHeader}>
             <h2 className={styles.h2}>Ваша корзина</h2>
@@ -22,7 +49,7 @@ const Basket = () => {
                 Итоговая сумма: 1000.66 руб.
             </div>
         </div>
-    </div> 
+    </div>
 }
 
 export default Basket;
