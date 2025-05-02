@@ -1,11 +1,11 @@
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
+import Image from '../image/Image';
 import styles from './logo.module.css';
-import Image from 'next/image'
 
 const Logo = () => {
-    return <div>
-        <Link href="/">
-            <Image src="/nextaLogo.jpg" alt="" width={300} height={100} className={styles.img}/>
+    return <div className={styles.container}>
+        <Link to='/'>
+            <Image srcImage='/nextaLogo.jpg' isBase64Image={false} />
         </Link>
     </div>
 }

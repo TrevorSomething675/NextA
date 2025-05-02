@@ -1,8 +1,8 @@
-import User from '@/models/account/User';
-import LoginForm from '@/models/auth/Login';
-import RegisterForm from '@/models/auth/Register';
-import AuthService from '@/services/AuthService';
 import { makeAutoObservable } from 'mobx';
+import User from '../models/account/User';
+import LoginForm from '../models/auth/Login';
+import AuthService from '../services/AuthService';
+import RegisterForm from '../models/auth/Register';
 
 class Auth{
     user = {} as User;
@@ -36,20 +36,26 @@ class Auth{
 
     async login(data:LoginForm)
     {
-        const response = await AuthService.login(data);
-        if(response.statusCode != 200){
+        try
+        {
+            const response = await AuthService.login(data);
+            if(response.statusCode != 200){
+                return response;
+            }
+            localStorage.setItem('accessToken', response.value.accessToken!);
+            localStorage.setItem('firstName', response.value.user.firstName!);
+            localStorage.setItem('lastName', response.value.user.lastName!);
+            localStorage.setItem('middleName', response.value.user.middleName!);
+            localStorage.setItem('email', response.value.user.email!);
+            localStorage.setItem('id', response.value.user.id!)
+            localStorage.setItem('isAuth', 'true');
+            this.setAuth(true);
+            this.setUser(response.value.user);
             return response;
         }
-        localStorage.setItem('accessToken', response.value.accessToken!);
-        localStorage.setItem('firstName', response.value.user.firstName!);
-        localStorage.setItem('lastName', response.value.user.lastName!);
-        localStorage.setItem('middleName', response.value.user.middleName!);
-        localStorage.setItem('email', response.value.user.email!);
-        localStorage.setItem('id', response.value.user.id!)
-        localStorage.setItem('isAuth', 'true');
-        this.setAuth(true);
-        this.setUser(response.value.user);
-        return response;
+        catch(error){
+            console.error(error);
+        }
     }
 
     async register(registerData:RegisterForm){

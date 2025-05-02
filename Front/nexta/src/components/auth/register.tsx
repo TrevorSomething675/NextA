@@ -1,8 +1,8 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './register.module.css';
-import RegisterForm from '@/models/auth/Register';
-import { useRouter } from 'next/navigation'; 
-import auth from '@/stores/auth';
+import RegisterForm from '../../models/auth/Register';
+import auth from '../../stores/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC<{ changeFormStatus: any }> = ({ changeFormStatus }) => {
     const { register, handleSubmit } = useForm<RegisterForm>();
@@ -11,11 +11,11 @@ const Register: React.FC<{ changeFormStatus: any }> = ({ changeFormStatus }) => 
         changeFormStatus();
     }
 
-    const router = useRouter();
+    const navigate = useNavigate();
 
     const submit: SubmitHandler<RegisterForm> = async (data: RegisterForm) => {
         await auth.register(data);
-        router.push('/');
+        navigate('/');
     }
 
     return (

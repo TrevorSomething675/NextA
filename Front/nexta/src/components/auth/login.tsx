@@ -1,9 +1,9 @@
 import styles from './login.module.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import auth from '@/stores/auth';
-import LoginForm from '@/models/auth/Login';
-import { useRouter } from 'next/navigation'; 
 import { useState } from 'react';
+import auth from '../../stores/auth';
+import LoginForm from '../../models/auth/Login';
+import { useNavigate } from 'react-router-dom';
 
 const Login:React.FC<{changeFormStatus:any}> = ({changeFormStatus}) => {
     const { register, handleSubmit } = useForm<LoginForm>();
@@ -13,12 +13,11 @@ const Login:React.FC<{changeFormStatus:any}> = ({changeFormStatus}) => {
         changeFormStatus();
     }
 
-    const router = useRouter();
-
+    const navigate = useNavigate();
     const submit: SubmitHandler<LoginForm> = async (data: LoginForm) => {
         const result = await auth.login(data);
         if(result?.statusCode == 200){
-            router.push('/');
+            navigate('/');
         } else{
             setError(result?.errorMessages.join(', ')!);
         }

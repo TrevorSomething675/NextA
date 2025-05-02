@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    height: auto;
+    justify-content: center;
+}
+
+.ul{
+    display: flex;
+    list-style: none;
+}
+
+.hr{
+    display: none;
+}
+
+.newsItem{
+    min-height: auto;
+    min-width: auto;
+    padding: 1rem;
+    max-height: 30rem;
+}
+
+.img{
+    box-shadow: 0 0.125rem 0.5rem 0 rgba(2, 2, 2, 0.555), 0 0.125rem 2rem 0 rgba(0, 0, 0, 0.034);
+    border-radius: 0.7rem;
+    height: 100%;
+    width: 100%;
+}

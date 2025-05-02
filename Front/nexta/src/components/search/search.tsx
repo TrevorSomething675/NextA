@@ -1,11 +1,10 @@
-import React from 'react';
+import SvgSeachIcon from '../svgs/searchIcon/SearchIcon';
 import styles from './search.module.css';
-import SearchIcon from '@/components/svgs/searchIcon/SearchIcon';
 
 const Search = () => {
     return <div className={styles.container}>
         <button className={styles.searchButton}>
-            <SearchIcon />
+            <SvgSeachIcon />
         </button>
     <input className={styles.searchInput} placeholder="Введите артикул или название запчасти"/>
 </div>

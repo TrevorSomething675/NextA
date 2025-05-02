@@ -1,6 +1,6 @@
 import styles from './person.module.css';
 import PersonSvg from '../svgs/personSvg/personSvg';
-import auth from '@/stores/auth';
+import auth from '../../stores/auth';
 
 const Person = () => {
     return <div className={styles.container}>

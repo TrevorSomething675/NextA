@@ -1,10 +1,8 @@
-'use client'
-
 import styles from './header.module.css';
 
-import Logo from '@/components/logo/logo';
 import AccountHeader from '../accountHeader/accountHeader';
 import Logo2 from '../logo2/logo2';
+import Logo from '../logo/logo';
 
 const Header:React.FC = () => {
     return <div className={styles.header}>

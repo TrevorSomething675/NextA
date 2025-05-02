@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+}
+
+.personItem{
+    margin: 0.25rem 0 0 0.5rem;
+}
+
+.personText{
+    color: var(--dark-white-color);
+}
+
+.personPrice{
+    color:var(--black-color);
+}
+
+.personData{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

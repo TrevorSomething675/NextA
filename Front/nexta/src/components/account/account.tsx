@@ -1,7 +1,5 @@
-'use client'
-
 import styles from './account.module.css';
-import auth from '@/stores/auth';
+import auth from '../../stores/auth';
 
 const Account = () => {
     return <div className={styles.container}>

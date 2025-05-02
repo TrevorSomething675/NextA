@@ -1,9 +1,9 @@
-import api from "@/http";
 import axios, { AxiosResponse } from "axios";
-import ApiResponse from "@/models/auth/ApiResponse";
-import AuthModel from "@/models/auth/AuthModel";
-import RegisterForm from "@/models/auth/Register";
-import LoginForm from "@/models/auth/Login";
+import api from "../http";
+import ApiResponse from "../models/auth/ApiResponse";
+import AuthModel from "../models/auth/AuthModel";
+import LoginForm from "../models/auth/Login";
+import RegisterForm from "../models/auth/Register";
 
 class AuthService {
     static async login(data: LoginForm): Promise<ApiResponse<AuthModel>> {
@@ -21,7 +21,7 @@ class AuthService {
             return response.data;
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                return error?.response.data;
+                throw new Error(`Ошибка сервера: ${error.response.status}`);
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }

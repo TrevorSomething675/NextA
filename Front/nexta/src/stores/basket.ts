@@ -1,5 +1,5 @@
-import Detail from "@/models/Detail";
 import { action, makeObservable, observable } from "mobx";
+import Detail from "../models/Detail";
 
 class BasketStore{
     details: Detail[] = [];
