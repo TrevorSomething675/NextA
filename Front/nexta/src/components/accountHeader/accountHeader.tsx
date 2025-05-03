@@ -2,37 +2,41 @@ import BasketMini from '../basketMini/basketMini';
 import Person from '../person/person';
 import styles from './accountHeader.module.css';
 import LoginSvg from '../svgs/loginSvg/loginSvg';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ExitSvg from '../svgs/exitSvg/exitSvg';
 import auth from '../../stores/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
-const AccountHeader = () => {
-    const [isAuth, SetAuth] = useState(auth.isAuth)
+const AccountHeader = observer(() => {
     const navigate = useNavigate();
 
     const logout = () => {
         auth.logout();
-        SetAuth(false);
+        auth.setAuth(false);
         navigate('/')
     }
 
     useEffect(() => {
         const checkAuth = async () => {
             await auth.checkAuth();
-            SetAuth(auth.isAuth);
+            auth.setAuth(auth.isAuth);
         };
         
         checkAuth();
     }, []);
 
     return <div className={styles.container}>
-        {isAuth ? <>
+        {auth.isAuth ? <>
             <div className={styles.accountItem}>
+                <Link to='/Basket'>
                     <BasketMini />
+                </Link>
             </div>
             <div className={styles.accountItem}>
+                <Link to='/Account'>
                     <Person />
+                </Link>
             </div>
             <div className={styles.accountItem}>
                 <button className={styles.exitBtn} onClick={logout}>
@@ -51,6 +55,6 @@ const AccountHeader = () => {
         </Link>
         </>}
     </div>
-}
+});
 
 export default AccountHeader;

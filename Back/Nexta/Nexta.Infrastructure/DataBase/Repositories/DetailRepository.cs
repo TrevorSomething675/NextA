@@ -32,8 +32,8 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			{
 				var details = await context.Details
 					.AsNoTracking()
-					.Skip(filter.PageNumber - 1)
-					.Take(new Range((filter.PageNumber - 1) * 8, filter.PageNumber * 8))
+					.Skip((filter.PageNumber - 1) * 8)
+					.Take(filter.PageNumber * 8)
 					.ToListAsync();
 
 				var countDetails = await context.Details

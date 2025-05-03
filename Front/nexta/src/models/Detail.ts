@@ -3,7 +3,7 @@ interface Detail{
     name:string,
     article:string,
     description:string,
-    detailStatus:string,
+    status:string,
     orderDate:string,
     deliveryDate:string,
     count:number,

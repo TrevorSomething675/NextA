@@ -14,8 +14,8 @@ namespace Nexta.Web.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpGet(nameof(GetAll))]
-		public async Task<IActionResult> GetAll([FromHeader] GetDetailsQueryRequest request, CancellationToken cancellationToken = default)
+		[HttpPost(nameof(GetAll))]
+		public async Task<IActionResult> GetAll([FromBody] GetDetailsQueryRequest request, CancellationToken cancellationToken = default)
 		{
 			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
 		}

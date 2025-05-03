@@ -18,7 +18,7 @@ class BasketStore{
     }
 
     deleteBasketDetail = (id:string) =>{
-        let updatedDetails = this.details.filter(detal => detal.id !== id);
+        const updatedDetails = this.details.filter(detal => detal.id !== id);
         this.details = updatedDetails;
     }
 

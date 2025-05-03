@@ -1,6 +1,7 @@
 ﻿using Nexta.Domain.Entities;
 using Nexta.Domain.Models;
 using AutoMapper;
+using Nexta.Domain.Models.DataModels;
 
 namespace Nexta.Application.Mappings
 {
@@ -8,7 +9,8 @@ namespace Nexta.Application.Mappings
     {
         public DetailProfile()
         {
-            CreateMap<Detail, DetailEntity>();
+            CreateMap<Detail, DetailEntity>().ReverseMap();
+            CreateMap<PagedData<DetailEntity>, PagedData<Detail>>();
         }
 	}
 }

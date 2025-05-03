@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import api from "../http";
-import ApiResponse from "../models/auth/ApiResponse";
+import ApiResponse from "../models/ApiResponse";
 import AuthModel from "../models/auth/AuthModel";
 import LoginForm from "../models/auth/Login";
 import RegisterForm from "../models/auth/Register";
@@ -21,14 +21,15 @@ class AuthService {
             return response.data;
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                throw new Error(`Ошибка сервера: ${error.response.status}`);
-            } else {
+                return error.response.data as ApiResponse<AuthModel>;
+            } 
+            else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
         }
     }
 
-    static async register(registerData:RegisterForm): Promise<AxiosResponse<ApiResponse<AuthModel>>>{
+    static async register(registerData:RegisterForm): Promise<ApiResponse<AuthModel>>{
         const formData = new FormData();
         
         formData.append('Email', registerData.email);
@@ -38,10 +39,19 @@ class AuthService {
         formData.append('Password', registerData.password);
         formData.append('ConfirmPassword', registerData.confirmPassword);
 
-        const response = await api.post<ApiResponse<AuthModel>>('Auth/Register', formData, {headers:{
-            'Content-Type': 'multipart/form-data'
-        }});
-        return response;
+        try{
+            const response = await api.post<ApiResponse<AuthModel>>('Auth/Register', formData, {headers:{
+                'Content-Type': 'multipart/form-data'
+            }});
+            return response.data;
+        } catch(error) {
+            if(axios.isAxiosError(error) && error.response){
+                return error.response.data as ApiResponse<AuthModel>;
+            } 
+            else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
     }
 
     static async logout():Promise<void>{

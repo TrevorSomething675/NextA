@@ -10,7 +10,7 @@ namespace Nexta.Application.Queries.GetUserBasketDetails
 	{
 		private readonly IDetailRepository _detailRepository;
 		private readonly IMapper _mapper;
-		public GetBasketDetailsQueryHandler(IDetailRepository detailRepository, IMapper mapper) 
+		public GetBasketDetailsQueryHandler(IDetailRepository detailRepository, IMapper mapper)
 		{
 			_detailRepository = detailRepository;
 			_mapper = mapper;

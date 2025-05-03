@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 
-
 services.AddAppOptions();
 services.AddAppMapper();
 services.AddAppRepositories();
@@ -21,48 +20,63 @@ services.AddScoped<IJwtTokenService, JwtTokenService>();
 services.AddRouting();
 services.AddControllers();
 services.AddDbContextFactory<MainContext>();
-/*
+
 using (var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
 {
-	var user = new UserEntity
+	if (!context.Users.Any())
 	{
-		Email = "Test1@mail.ru",
-		FirstName = "TestFName1",
-		LastName = "TestLName1",
-		MiddleName = "TestMName1",
-		PasswordHash = "123",
-	};
-	var detail = new DetailEntity
-	{
-		Name = "TestDetail1",
-		Article = "TestArticle1",
-		Description = "TestDescription1",
-		Status = Nexta.Domain.Enums.DetailStatus.Accepted,
-		OrderDate = DateTime.UtcNow,
-		DeliveryDate = DateTime.UtcNow,
-		Count = 1,
-		NewPrice = 800,
-		OldPrice = 1000,
-	};
-	if (context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru") == null)
-	{
-		context.Users.Add(user);
-		context.Details.Add(detail);
-		context.SaveChanges();
-
-		var userEntity = context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru");
-		var detailEntity = context.Details.FirstOrDefault(d => d.Name == "TestDetail1");
-
-		var userDetailEntity = new UserDetailEntity
+		var user = new UserEntity
 		{
-			Detail = detailEntity,
-			User = userEntity,
+			Email = "Test1@mail.ru",
+			FirstName = "TestFName1",
+			LastName = "TestLName1",
+			MiddleName = "TestMName1",
+			PasswordHash = "123",
 		};
-		context.UserDetails.Add(userDetailEntity);
-		context.SaveChanges();
+		var detail = new DetailEntity
+		{
+			Name = "TestDetail1",
+			Article = "TestArticle1",
+			Description = "TestDescription1",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 1,
+			NewPrice = 800,
+			OldPrice = 1000,
+		};
+		var detail2 = new DetailEntity
+		{
+			Name = "TestDetail2",
+			Article = "TestArticle2",
+			Description = "TestDescription2",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 3,
+			NewPrice = 700,
+			OldPrice = 700,
+		};
+		if (context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru") == null)
+		{
+			context.Users.Add(user);
+			context.Details.AddRange(detail, detail2);
+			context.SaveChanges();
+
+			var userEntity = context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru");
+			var detailEntity = context.Details.FirstOrDefault(d => d.Name == "TestDetail1");
+
+			var userDetailEntity = new UserDetailEntity
+			{
+				Detail = detailEntity,
+				User = userEntity,
+			};
+			context.UserDetails.Add(userDetailEntity);
+			context.SaveChanges();
+		}
 	}
 }
-*/
+
 var app = builder.Build();
 
 app.UseCors(builder =>

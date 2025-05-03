@@ -23,7 +23,7 @@ const Login:React.FC<{changeFormStatus:any}> = ({changeFormStatus}) => {
         }
     }
     
-    return <div className={styles.container}>
+    return <div className={styles.container}> 
         <form className={styles.form} onSubmit={handleSubmit(submit)}>
             <h2 className={styles.h2}>Вход</h2>
             <div>
