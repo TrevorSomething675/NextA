@@ -15,22 +15,22 @@ namespace Nexta.Web.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpPost(nameof(AddBasketDetail))]
-		public async Task<IActionResult> AddBasketDetail([FromHeader] AddBasketDetailQueryRequest request, CancellationToken cancellationToken = default)
+		[HttpPost("[action]")]
+		public async Task<IActionResult> Get([FromBody] GetBasketDetailsQueryRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
+			return (await _mediator.Send(request, ct)).ToActionResult();
 		}
 
-		[HttpPost(nameof(DeleteBasketDetail))]
-		public async Task<IActionResult> DeleteBasketDetail([FromHeader] DeleteBasketDetailCommandRequest request, CancellationToken cancellationToken = default)
+		[HttpPost("[action]")]
+		public async Task<IActionResult> Add([FromHeader] AddBasketDetailQueryRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
+			return (await _mediator.Send(request, ct)).ToActionResult();
 		}
 
-		[HttpPost(nameof(GetBasketDetails))]
-		public async Task<IActionResult> GetBasketDetails([FromBody] GetBasketDetailsQueryRequest request, CancellationToken cancellationToken = default)
+		[HttpPost("[action]")]
+		public async Task<IActionResult> Delete([FromHeader] DeleteBasketDetailCommandRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
+			return (await _mediator.Send(request, ct)).ToActionResult();
 		}
 	}
 }

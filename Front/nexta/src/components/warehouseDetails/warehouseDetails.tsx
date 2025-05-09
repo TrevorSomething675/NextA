@@ -1,18 +1,18 @@
-import GetDetailsResponse from '../../models/details/GetDetailsResponse';
+import React, { useEffect, useState } from 'react';
+import styles from './warehouseDetails.module.css';
 import GetDetailsRequest from '../../models/details/GetDetailsRequest';
 import DetailsFilter from '../../models/details/DetailsFilter';
-import DetailsService from '../../services/DetailsService';
-import React, { useEffect, useState } from 'react';
 import DetailItem from '../detailItem/detailItem';
-import styles from './details.module.css';
 import Pagging from '../pagging/pagging';
+import WarehouseService from '../../services/WarehouseService';
+import GetWarehouseResponse from '../../models/warehouse/GetWarehouseResponse';
 
-const Details:React.FC<{pageNumber?:number}> = () => {
+const WarehouseDetails:React.FC<{pageNumber?:number}> = () => {
     const handlePageNumberChange = (pageNumber:number = 1) => {
         fetchData(pageNumber);
     };
 
-    const [response, setResponse] = useState<GetDetailsResponse>({} as GetDetailsResponse);
+    const [response, setResponse] = useState<GetWarehouseResponse>({} as GetWarehouseResponse);
     const fetchData = async (pageNumber:number) => {
         const filter:DetailsFilter = {
             pageNumber: pageNumber
@@ -20,7 +20,7 @@ const Details:React.FC<{pageNumber?:number}> = () => {
         const request:GetDetailsRequest = {
             filter: filter
         }
-        const result = await DetailsService.GetDetails(request);
+        const result = await WarehouseService.GetDetails(request);
         if(result.statusCode == 200){
             setResponse(result.value)
         }
@@ -44,12 +44,12 @@ const Details:React.FC<{pageNumber?:number}> = () => {
                 </tr>
             </thead>
             <tbody className={styles.tbody}>
-                {(response?.pagedDetails?.items !== undefined) && (response.pagedDetails.items.map((detail) =>
+                {(response?.details?.items !== undefined) && (response.details.items.map((detail) =>
                     <DetailItem key={detail.id} detail={detail} />
                 ))}
             </tbody>
         </table>
-        {(response?.pagedDetails?.items !== undefined) && <Pagging pageCount={response?.pagedDetails.pageCount} onPageNumberChange={handlePageNumberChange} />}
+        {(response?.details?.items !== undefined) && <Pagging pageCount={response?.details.pageCount} onPageNumberChange={handlePageNumberChange} />}
     </div>
 }
-export default Details;
+export default WarehouseDetails;

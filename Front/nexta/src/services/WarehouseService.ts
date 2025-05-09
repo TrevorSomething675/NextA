@@ -1,17 +1,17 @@
-import GetDetailsResponse from "../models/details/GetDetailsResponse";
 import GetDetailsRequest from "../models/details/GetDetailsRequest";
 import ApiResponse from "../models/ApiResponse";
 import axios from 'axios';
 import api from "../http";
+import GetWarehouseResponse from "../models/warehouse/GetWarehouseResponse";
 
-class DetailsService{
+class WarehouseService{
     static async GetDetails(request:GetDetailsRequest){
         try{
-            const response = await api.post<ApiResponse<GetDetailsResponse>>('Detail/Get', request);
+            const response = await api.post<ApiResponse<GetWarehouseResponse>>('Warehouse/Get', request);
             return response.data
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as ApiResponse<GetDetailsResponse>
+                return error.response.data as ApiResponse<GetWarehouseResponse>
             }
             else{
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
@@ -20,4 +20,4 @@ class DetailsService{
     }
 }
 
-export default DetailsService;
+export default WarehouseService;

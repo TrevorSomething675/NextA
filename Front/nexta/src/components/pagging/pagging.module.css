@@ -1,0 +1,21 @@
+.paggingContainer{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.button{
+    color: var(--dark-grey-color);
+    font-size: 1.3rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline 2px;
+    transition: .3s;
+}
+
+.button:hover{
+    color: var(--red-color);
+    transition: .3s;
+}

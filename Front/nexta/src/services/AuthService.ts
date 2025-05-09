@@ -1,9 +1,9 @@
+import RegisterForm from "../models/auth/Register";
+import AuthModel from "../models/auth/AuthModel";
+import ApiResponse from "../models/ApiResponse";
+import LoginForm from "../models/auth/Login";
 import axios from "axios";
 import api from "../http";
-import ApiResponse from "../models/ApiResponse";
-import AuthModel from "../models/auth/AuthModel";
-import LoginForm from "../models/auth/Login";
-import RegisterForm from "../models/auth/Register";
 
 class AuthService {
     static async login(data: LoginForm): Promise<ApiResponse<AuthModel>> {

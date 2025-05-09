@@ -13,7 +13,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			_dbContextFactory = dbContextFactory;
 		}
 
-		public async Task<UserDetailEntity?> Get(Guid userId, Guid detailId, CancellationToken ct = default)
+		public async Task<UserDetailEntity?> GetAsync(Guid userId, Guid detailId, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
@@ -23,7 +23,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<UserDetailEntity> Add(UserDetailEntity userDetailToAdd, CancellationToken ct = default)
+		public async Task<UserDetailEntity> AddAsync(UserDetailEntity userDetailToAdd, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
@@ -34,7 +34,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<UserDetailEntity> Delete(UserDetailEntity userDetailToAdd, CancellationToken ct = default)
+		public async Task<UserDetailEntity> DeleteAsync(UserDetailEntity userDetailToAdd, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{

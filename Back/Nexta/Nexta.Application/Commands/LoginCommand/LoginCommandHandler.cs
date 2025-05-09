@@ -23,11 +23,11 @@ namespace Nexta.Application.Commands.LoginCommand
 			_mapper = mapper;
 		}
 
-		public async Task<Result<LoginCommandResponse>> Handle(LoginCommandRequest request, CancellationToken cancellationToken)
+		public async Task<Result<LoginCommandResponse>> Handle(LoginCommandRequest request, CancellationToken ct)
 		{
 			try
 			{
-				var user = _mapper.Map<User>(await _userRepository.GetByEmailAsync(request.Email));
+				var user = _mapper.Map<User>(await _userRepository.GetByEmailAsync(request.Email, ct));
 				if (user == null)
 					return new Result<LoginCommandResponse>().Invalid("Пользователь не зарегистрирован");
 

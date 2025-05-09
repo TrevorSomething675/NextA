@@ -1,7 +1,7 @@
-﻿using Nexta.Application.Commands.LoginCommand;
+﻿using Nexta.Application.Commands.RegistrationCommand;
+using Nexta.Application.Commands.LoginCommand;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Nexta.Application.Commands.RegistrationCommand;
 
 namespace Nexta.Web.Controllers
 {
@@ -14,13 +14,13 @@ namespace Nexta.Web.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpPost(nameof(Login))]
+		[HttpPost("[action]")]
 		public async Task<IActionResult> Login(LoginCommandRequest request, CancellationToken ct = default)
 		{
 			return (await _mediator.Send(request, ct)).ToActionResult();
 		}
 
-		[HttpPost(nameof(Register))]
+		[HttpPost("[action]")]
 		public async Task<IActionResult> Register(RegistrationCommandRequest request, CancellationToken ct = default)
 		{
 			return (await _mediator.Send(request, ct)).ToActionResult();

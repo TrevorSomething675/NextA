@@ -6,12 +6,13 @@ namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface IDetailRepository
     {
-        Task<DetailEntity?> Get(Guid id, CancellationToken ct);
-        Task<PagedData<DetailEntity>> GetAll(BaseFilter filter, CancellationToken ct);
-        Task<List<DetailEntity>> GetBasketDetails(BasketDetailsFilter filter, CancellationToken ct = default);
+        Task<DetailEntity?> GetAsync(Guid id, CancellationToken ct);
+        Task<PagedData<DetailEntity>> GetAllAsync(BaseFilter filter, CancellationToken ct);
+        Task<PagedData<DetailEntity>> GetWarehouseDetailsAsync(BaseFilter filter, CancellationToken ct = default);
+        Task<List<DetailEntity>> GetBasketDetailsAsync(BasketDetailsFilter filter, CancellationToken ct = default);
 
-		Task<DetailEntity> Add(DetailEntity detailToAdd, CancellationToken ct);
-        Task<DetailEntity> Update(DetailEntity detailToUpdate, CancellationToken ct);
-        Task<DetailEntity> Delete(Guid id, CancellationToken ct);
+		Task<DetailEntity> AddAsync(DetailEntity detailToAdd, CancellationToken ct);
+        Task<DetailEntity> UpdateAsync(DetailEntity detailToUpdate, CancellationToken ct);
+        Task<DetailEntity> DeleteAsync(Guid id, CancellationToken ct);
     }
 }

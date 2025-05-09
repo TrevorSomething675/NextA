@@ -41,7 +41,7 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
-			Count = 1,
+			Count = 0,
 			NewPrice = 800,
 			OldPrice = 1000,
 		};
@@ -53,14 +53,110 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
-			Count = 3,
+			Count = 0,
+			NewPrice = 700,
+			OldPrice = 700,
+		};
+		var detail3 = new DetailEntity
+		{
+			Name = "TestDetail3",
+			Article = "TestArticle3",
+			Description = "TestDescription3",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 1,
+			NewPrice = 700,
+			OldPrice = 700,
+		};
+		var detail4 = new DetailEntity
+		{
+			Name = "TestDetail4",
+			Article = "TestArticle4",
+			Description = "TestDescription4",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 5,
+			NewPrice = 500,
+			OldPrice = 700,
+		};
+		var detail5 = new DetailEntity
+		{
+			Name = "TestDetail5",
+			Article = "TestArticle5",
+			Description = "TestDescription5",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 2,
+			NewPrice = 700,
+			OldPrice = 700,
+		};
+		var detail6 = new DetailEntity
+		{
+			Name = "TestDetail6",
+			Article = "TestArticle6",
+			Description = "TestDescription6",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 1,
+			NewPrice = 700,
+			OldPrice = 700,
+		};
+		var detail7 = new DetailEntity
+		{
+			Name = "TestDetail7",
+			Article = "TestArticle7",
+			Description = "TestDescription7",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 1,
+			NewPrice = 700,
+			OldPrice = 700,
+		};
+		var detail8 = new DetailEntity
+		{
+			Name = "TestDetail8",
+			Article = "TestArticle8",
+			Description = "TestDescription8",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 4,
+			NewPrice = 700,
+			OldPrice = 700,
+		};
+		var detail9 = new DetailEntity
+		{
+			Name = "TestDetail9",
+			Article = "TestArticle9",
+			Description = "TestDescription9",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 6,
+			NewPrice = 700,
+			OldPrice = 700,
+		};
+		var detail10 = new DetailEntity
+		{
+			Name = "TestDetail10",
+			Article = "TestArticle10",
+			Description = "TestDescription10",
+			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			OrderDate = DateTime.UtcNow,
+			DeliveryDate = DateTime.UtcNow,
+			Count = 2,
 			NewPrice = 700,
 			OldPrice = 700,
 		};
 		if (context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru") == null)
 		{
 			context.Users.Add(user);
-			context.Details.AddRange(detail, detail2);
+			context.Details.AddRange(detail, detail2, detail3, detail4, detail5, detail6, detail7, detail8, detail9, detail10);
 			context.SaveChanges();
 
 			var userEntity = context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru");

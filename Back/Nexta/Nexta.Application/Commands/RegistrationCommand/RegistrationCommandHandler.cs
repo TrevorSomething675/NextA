@@ -12,8 +12,8 @@ namespace Nexta.Application.Commands.RegistrationCommand
 	public class RegistrationCommandHandler : IRequestHandler<RegistrationCommandRequest, Result<RegistrationCommandResponse>>
 	{
 		private readonly IMapper _mapper;
-		private readonly IJwtTokenService _jwtTokenService;
 		private readonly IUserRepository _userRepository;
+		private readonly IJwtTokenService _jwtTokenService;
 		private readonly IPasswordHashService _passwordHashService;
 		public RegistrationCommandHandler(IJwtTokenService jwtTokenService, IUserRepository userRepository, 
 			IMapper mapper, IPasswordHashService passwordHashService)
@@ -23,11 +23,11 @@ namespace Nexta.Application.Commands.RegistrationCommand
 			_userRepository = userRepository;
 			_mapper = mapper;
 		}
-		public async Task<Result<RegistrationCommandResponse>> Handle(RegistrationCommandRequest request, CancellationToken cancellationToken)
+		public async Task<Result<RegistrationCommandResponse>> Handle(RegistrationCommandRequest request, CancellationToken ct)
 		{
 			try
 			{
-				var user = await _userRepository.GetByEmailAsync(request.Email);
+				var user = await _userRepository.GetByEmailAsync(request.Email, ct);
 				if (user != null)
 					return new Result<RegistrationCommandResponse>().Invalid("Такой пользователь уже существует");
 
@@ -37,7 +37,7 @@ namespace Nexta.Application.Commands.RegistrationCommand
 					userToCreate.PasswordHash = passwordHash!;
 					userToCreate.Role = Role.User;
 
-				var createdUser = _mapper.Map<User>(await _userRepository.AddAsync(userToCreate));
+				var createdUser = _mapper.Map<User>(await _userRepository.AddAsync(userToCreate, ct));
 
 				var accessToken = _jwtTokenService.CreateAccessToken(createdUser.Id, userToCreate.Role.ToString());
 

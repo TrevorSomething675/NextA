@@ -16,11 +16,11 @@ namespace Nexta.Application.Queries.GetDetailsQuery
             _detailRepository = detailRepository;
             _mapper = mapper;
         }
-		public async Task<Result<GetDetailsQueryResponse>> Handle(GetDetailsQueryRequest request, CancellationToken cancellationToken)
+		public async Task<Result<GetDetailsQueryResponse>> Handle(GetDetailsQueryRequest request, CancellationToken ct)
 		{
             try
             {
-                var pagedDetails = _mapper.Map<PagedData<Detail>>(await _detailRepository.GetAll(request.Filter, cancellationToken));
+                var pagedDetails = _mapper.Map<PagedData<Detail>>(await _detailRepository.GetAllAsync(request.Filter, ct));
 
                 var response = new GetDetailsQueryResponse(pagedDetails);
 

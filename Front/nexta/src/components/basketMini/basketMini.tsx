@@ -1,3 +1,4 @@
+import basket from '../../stores/basket';
 import styles from './basketMini.module.css';
 
 const BasketMini = () => {
@@ -12,7 +13,7 @@ const BasketMini = () => {
                 Корзина
             </div>
             <div className={styles.backetPrice}>
-                2344.22 ₽
+                {basket.totalPrice}
             </div>
         </div>
     </div> 

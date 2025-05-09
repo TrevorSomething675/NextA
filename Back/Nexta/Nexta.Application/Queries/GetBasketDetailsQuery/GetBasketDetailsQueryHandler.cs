@@ -16,13 +16,13 @@ namespace Nexta.Application.Queries.GetUserBasketDetails
 			_mapper = mapper;
 		}
 
-		public async Task<Result<GetBasketDetailsQueryResponse>> Handle(GetBasketDetailsQueryRequest request, CancellationToken cancellationToken)
+		public async Task<Result<GetBasketDetailsQueryResponse>> Handle(GetBasketDetailsQueryRequest request, CancellationToken ct)
 		{
 			try
 			{
-				var pagedUserDetails = _mapper.Map<List<Detail>>(await _detailRepository.GetBasketDetails(request.Filter, cancellationToken));
+				var pagedBasketDetails = _mapper.Map<List<Detail>>(await _detailRepository.GetBasketDetailsAsync(request.Filter, ct));
 
-				return new Result<GetBasketDetailsQueryResponse>(new GetBasketDetailsQueryResponse(pagedUserDetails)).Success();
+				return new Result<GetBasketDetailsQueryResponse>(new GetBasketDetailsQueryResponse(pagedBasketDetails)).Success();
 			}
 			catch(Exception ex)
 			{

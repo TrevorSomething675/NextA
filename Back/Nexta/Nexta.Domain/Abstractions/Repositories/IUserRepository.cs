@@ -4,12 +4,12 @@ namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface IUserRepository
     {
-		Task<UserEntity?> GetByEmailAsync(string email);
-		Task<UserEntity?> GetAsync(Guid id);
-		Task<List<UserEntity>> GetAllAsync();
+		Task<UserEntity?> GetByEmailAsync(string email, CancellationToken ct);
+		Task<UserEntity?> GetAsync(Guid id, CancellationToken ct);
+		Task<List<UserEntity>> GetAllAsync(CancellationToken ct);
 
-		Task<UserEntity> AddAsync(UserEntity userToAdd);
-		Task<UserEntity> UpdateAsync(UserEntity userToUpdate);
-		Task<UserEntity> DeleteAsync(Guid id);
+		Task<UserEntity> AddAsync(UserEntity userToAdd, CancellationToken ct);
+		Task<UserEntity> UpdateAsync(UserEntity userToUpdate, CancellationToken ct);
+		Task<UserEntity> DeleteAsync(Guid id, CancellationToken ct);
 	}
 }

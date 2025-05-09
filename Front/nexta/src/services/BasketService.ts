@@ -1,14 +1,14 @@
 import GetBasketDetailsRequest from "../models/basket/GetBasketDetailsRequest";
+import AddBasketDetailRequest from "../models/basket/AddBasketDetailRequest";
 import ApiResponse from "../models/ApiResponse";
 import Detail from "../models/Detail";
 import axios from "axios";
 import api from "../http";
-import AddBasketDetailRequest from "../models/basket/AddBasketDetailRequest";
 
 class BasketService{
     static async GetBasketDetails(data:GetBasketDetailsRequest){
         try{
-            const response = await api.post<ApiResponse<Detail[]>>('Basket/GetBasketDetails', data)
+            const response = await api.post<ApiResponse<Detail[]>>('Basket/Get', data)
             return response.data;
         } catch(error) {
             if(axios.isAxiosError(error) && error.response){
@@ -21,7 +21,7 @@ class BasketService{
     }
     static async AddBasketDetail(data:AddBasketDetailRequest){
         try{
-            const response = await api.post<ApiResponse<Detail>>('Basket/AddBasketDetailQueryRequest', data)
+            const response = await api.post<ApiResponse<Detail>>('Basket/Add', data)
             return response.data;
         } catch(error){
             if(axios.isAxiosError(error) && error.response){

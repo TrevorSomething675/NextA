@@ -16,11 +16,11 @@ namespace Nexta.Application.Commands.DeleteDetailFromBasket
 			_userDetailRepository = userDetailRepository;
 			_mapper = mapper;
 		}
-		public async Task<Result<DeleteBasketDetailCommandResponse>> Handle(DeleteBasketDetailCommandRequest request, CancellationToken cancellationToken)
+		public async Task<Result<DeleteBasketDetailCommandResponse>> Handle(DeleteBasketDetailCommandRequest request, CancellationToken ct)
 		{
 			try
 			{
-				var userDetail = await _userDetailRepository.Get(request.UserId, request.DetailId);
+				var userDetail = await _userDetailRepository.GetAsync(request.UserId, request.DetailId, ct);
 				if (userDetail == null)
 					return new Result<DeleteBasketDetailCommandResponse>().NotFound();
 
@@ -30,7 +30,7 @@ namespace Nexta.Application.Commands.DeleteDetailFromBasket
 					DetailId = request.DetailId
 				};
 
-				var deletedUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.Delete(userDetailToDelete));
+				var deletedUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.DeleteAsync(userDetailToDelete, ct));
 
 				return new Result<DeleteBasketDetailCommandResponse>().Success();
 			}

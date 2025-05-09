@@ -46,7 +46,7 @@ const BasketPage = () => {
                 </svg>
             </button>
             <div className={styles.resultSum}>
-                Итоговая сумма: 1000.66 руб.
+                Итоговая сумма: {basket.totalPrice}
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@ import Detail from "../models/Detail";
 
 class BasketStore{
     details: Detail[] = [];
-
+    totalPrice: number = 0;
     constructor(){
         makeObservable(this, {
             details: observable,

@@ -3,8 +3,6 @@ using Nexta.Domain.Models.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Entities;
 using Nexta.Domain.Filters;
-using Microsoft.EntityFrameworkCore.Internal;
-using Nexta.Domain.Models;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -17,24 +15,24 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			_dbContextFactory = dbContextFactory;
 		}
 
-		public async Task<DetailEntity?> Get(Guid id, CancellationToken ct)
+		public async Task<DetailEntity?> GetAsync(Guid id, CancellationToken ct = default)
 		{
-			await using(var context = await _dbContextFactory.CreateDbContextAsync())
+			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var detail = await context.Details.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id);
+				var detail = await context.Details.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id, ct);
 				return detail;
 			}
 		}
 
-		public async Task<PagedData<DetailEntity>> GetAll(BaseFilter filter, CancellationToken ct)
+		public async Task<PagedData<DetailEntity>> GetAllAsync(BaseFilter filter, CancellationToken ct = default)
 		{
-			await using (var context = await _dbContextFactory.CreateDbContextAsync())
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var details = await context.Details
 					.AsNoTracking()
 					.Skip((filter.PageNumber - 1) * 8)
 					.Take(filter.PageNumber * 8)
-					.ToListAsync();
+					.ToListAsync(ct);
 
 				var countDetails = await context.Details
 					.AsNoTracking()
@@ -47,7 +45,30 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<List<DetailEntity>> GetBasketDetails(BasketDetailsFilter filter, CancellationToken ct = default)
+		public async Task<PagedData<DetailEntity>> GetWarehouseDetailsAsync(BaseFilter filter, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var details = await context.Details
+					.AsNoTracking()
+					.Where(d => d.Count > 0)
+					.Skip((filter.PageNumber - 1) * 8)
+					.Take(filter.PageNumber * 8)
+					.ToListAsync(ct);
+
+				var countDetais = await context.Details
+					.AsNoTracking()
+					.Where(d => d.Count > 0)
+					.Select(d => d.Id)
+					.ToListAsync(ct);
+
+				var pageCount = (int)Math.Ceiling((double)countDetais.Count / 8);
+
+				return new PagedData<DetailEntity>(details, details.Count, pageCount);
+			}
+		}
+
+		public async Task<List<DetailEntity>> GetBasketDetailsAsync(BasketDetailsFilter filter, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
@@ -58,23 +79,21 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 					.Select(d => d.Detail)
 					.ToListAsync(ct);
 
-				var pageCount = (int)Math.Ceiling((double)userDetails.Count / 8);
-
 				return userDetails;
 			}
 		}
 
-		public Task<DetailEntity> Add(DetailEntity detailToAdd, CancellationToken ct)
+		public Task<DetailEntity> AddAsync(DetailEntity detailToAdd, CancellationToken ct = default)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<DetailEntity> Delete(Guid id, CancellationToken ct)
+		public Task<DetailEntity> DeleteAsync(Guid id, CancellationToken ct = default)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<DetailEntity> Update(DetailEntity detailToUpdate, CancellationToken ct)
+		public Task<DetailEntity> UpdateAsync(DetailEntity detailToUpdate, CancellationToken ct = default)
 		{
 			throw new NotImplementedException();
 		}

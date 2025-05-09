@@ -21,18 +21,18 @@ namespace Nexta.Application.Commands.AddDetailToBasketCommand
 		{
 			try
 			{
-				var userDetail = await _userDetailRepository.Get(request.UserId, request.DetailId, ct);
+				var userDetail = await _userDetailRepository.GetAsync(request.UserId, request.DetailId, ct);
 
 				if (userDetail != null)
 					return new Result<AddBasketDetailQueryResponse>().BadRequest("Деталь уже в корзине");
 
-				var userDetailToCreate = new UserDetailEntity 
+				var userDetailToCreate = new UserDetailEntity
 				{ 
-					UserId = request.UserId, 
-					DetailId = request.DetailId 
+					UserId = request.UserId,
+					DetailId = request.DetailId
 				};
 
-				var createdUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.Add(userDetailToCreate));
+				var createdUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.AddAsync(userDetailToCreate, ct));
 
 				return new Result<AddBasketDetailQueryResponse>(new AddBasketDetailQueryResponse(createdUserDetail)).Success();
 			}

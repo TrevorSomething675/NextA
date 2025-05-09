@@ -1,6 +1,5 @@
 ﻿using Nexta.Application.Queries.GetDetailsQuery;
 using Microsoft.AspNetCore.Mvc;
-using Nexta.Domain.Filters;
 using MediatR;
 
 namespace Nexta.Web.Controllers
@@ -14,10 +13,10 @@ namespace Nexta.Web.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpPost(nameof(GetAll))]
-		public async Task<IActionResult> GetAll([FromBody] GetDetailsQueryRequest request, CancellationToken cancellationToken = default)
+		[HttpPost("[action]")]
+		public async Task<IActionResult> GetAll([FromBody] GetDetailsQueryRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, cancellationToken)).ToActionResult();
+			return (await _mediator.Send(request, ct)).ToActionResult();
 		}
 	}
 }
