@@ -7,5 +7,6 @@
 
 		public Guid DetailId { get; set; }
 		public DetailEntity Detail { get; set; } = null!;
+		public int Count { get; set; }
 	}
 }

@@ -1,28 +1,31 @@
-import { action, makeObservable, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import Detail from "../models/Detail";
 
-class BasketStore{
+class BasketStore {
     details: Detail[] = [];
-    totalPrice: number = 0;
-    constructor(){
-        makeObservable(this, {
-            details: observable,
-            setBasketDetails: action,
-            deleteBasketDetail:action,
-            addBasketDetaul:action
-        })
+    constructor() {
+        makeAutoObservable(this);
     }
 
-    setBasketDetails = (details:Detail[]) =>{
+get totalPrice() {
+    return this.details.reduce((sum, detail) => {
+        const userDetails = Array.isArray(detail.userDetail) ? detail.userDetail : [];
+        const userDetailsSum = userDetails.reduce((innerSum, userDet) => {
+            return innerSum + (userDet?.count ?? 0) * (detail?.newPrice ?? 0);
+        }, 0);
+        return sum + userDetailsSum;
+    }, 0);
+}
+    
+    setBasketDetails = (details: Detail[]) => {
         this.details = details;
     }
 
-    deleteBasketDetail = (id:string) =>{
-        const updatedDetails = this.details.filter(detal => detal.id !== id);
-        this.details = updatedDetails;
+    deleteBasketDetail = (id: string) => {
+        this.details = this.details.filter(detail => detail.id !== id);
     }
 
-    addBasketDetaul = (detail:Detail) =>{
+    addBasketDetail = (detail: Detail) => {
         this.details.push(detail);
     }
 }

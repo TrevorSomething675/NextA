@@ -22,13 +22,13 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Add([FromHeader] AddBasketDetailQueryRequest request, CancellationToken ct = default)
+		public async Task<IActionResult> Add([FromBody] AddBasketDetailQueryRequest request, CancellationToken ct = default)
 		{
 			return (await _mediator.Send(request, ct)).ToActionResult();
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Delete([FromHeader] DeleteBasketDetailCommandRequest request, CancellationToken ct = default)
+		public async Task<IActionResult> Delete([FromBody] DeleteBasketDetailCommandRequest request, CancellationToken ct = default)
 		{
 			return (await _mediator.Send(request, ct)).ToActionResult();
 		}

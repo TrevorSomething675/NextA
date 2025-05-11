@@ -10,11 +10,13 @@ namespace Nexta.Application.Commands.AddDetailToBasketCommand
 	public class AddBasketDetailQueryHandler : IRequestHandler<AddBasketDetailQueryRequest, Result<AddBasketDetailQueryResponse>>
 	{
 		private readonly IUserDetailRepository _userDetailRepository;
+		private readonly IDetailRepository _detailRepository;
 		private readonly IMapper _mapper;
 
-		public AddBasketDetailQueryHandler(IUserDetailRepository userDetailRepository, IMapper mapper)
+		public AddBasketDetailQueryHandler(IUserDetailRepository userDetailRepository, IMapper mapper, IDetailRepository detailRepository)
 		{
 			_userDetailRepository = userDetailRepository;
+			_detailRepository = detailRepository;
 			_mapper = mapper;
 		}
 		public async Task<Result<AddBasketDetailQueryResponse>> Handle(AddBasketDetailQueryRequest request, CancellationToken ct)
@@ -29,12 +31,18 @@ namespace Nexta.Application.Commands.AddDetailToBasketCommand
 				var userDetailToCreate = new UserDetailEntity
 				{ 
 					UserId = request.UserId,
-					DetailId = request.DetailId
+					DetailId = request.DetailId,
+					Count = request.CountToPay
 				};
 
 				var createdUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.AddAsync(userDetailToCreate, ct));
 
-				return new Result<AddBasketDetailQueryResponse>(new AddBasketDetailQueryResponse(createdUserDetail)).Success();
+				if (createdUserDetail == null)
+					return new Result<AddBasketDetailQueryResponse>().BadRequest("Деталь не получилось добавить");
+
+				var createdDetail = _mapper.Map<Detail>(await _detailRepository.GetAsync(createdUserDetail.DetailId, ct));
+
+				return new Result<AddBasketDetailQueryResponse>(new AddBasketDetailQueryResponse(createdDetail)).Success();
 			}
 			catch (Exception ex)
 			{

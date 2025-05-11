@@ -16,5 +16,7 @@ namespace Nexta.Domain.Models
 		public int Count { get; set; }
 		public int NewPrice { get; set; }
 		public int OldPrice { get; set; }
+
+		public List<UserDetail>? UserDetail { get; set; }
 	}
 }

@@ -19,7 +19,9 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 		{
 			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var detail = await context.Details.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id, ct);
+				var detail = await context.Details.AsNoTracking()
+					.Include(d => d.UserDetail)
+					.FirstOrDefaultAsync(d => d.Id == id, ct);
 				return detail;
 			}
 		}
@@ -72,14 +74,13 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var userDetails = await context.UserDetails
+				var details = await context.Details
 					.AsNoTracking()
-					.Include(ud => ud.Detail)
-					.Where(ud => ud.UserId == filter.UserId)
-					.Select(d => d.Detail)
+					.Include(d => d.UserDetail)
+					.Where(d => d.UserDetail.Select(ud => ud.UserId).Contains(filter.UserId))
 					.ToListAsync(ct);
 
-				return userDetails;
+				return details;
 			}
 		}
 

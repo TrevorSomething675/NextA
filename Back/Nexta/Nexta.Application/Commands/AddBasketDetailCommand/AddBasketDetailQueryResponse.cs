@@ -2,8 +2,8 @@
 
 namespace Nexta.Application.Commands.AddDetailToBasketCommand
 {
-    public class AddBasketDetailQueryResponse(UserDetail userDetail)
+    public class AddBasketDetailQueryResponse(Detail detail)
     {
-        public UserDetail UserDetail { get; set; } = userDetail;
+        public Detail Detail { get; set; } = detail;
     }
 }

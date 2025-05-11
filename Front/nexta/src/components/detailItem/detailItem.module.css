@@ -16,3 +16,57 @@
     color: var(--black-color);
     transition: .2s;
 }
+
+.oldPrice{
+    margin: 0 0 0 0.35rem;
+    font-size: 0.9rem;
+    text-decoration: line-through;
+}
+
+.newPrice{
+    color: var(--red-color);
+}
+
+.down{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.down:hover{
+    text-shadow: 1px 1px 15px var(--black-color);
+    transition: .2s;
+}
+
+.up{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.up:hover{
+    transition: .2s;
+    text-shadow: 1px 1px 15px var(--black-color);
+}
+
+.countInput{
+    text-align: center;
+    font-size: 1rem;
+    flex-direction: row;
+    background: none;
+    border: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}

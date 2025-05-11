@@ -17,7 +17,8 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var userDetail = await context.UserDetails.FirstOrDefaultAsync(u => u.DetailId == detailId && u.UserId == userId, ct);
+				var userDetail = await context.UserDetails
+					.FirstOrDefaultAsync(u => u.DetailId == detailId && u.UserId == userId, ct);
 
 				return userDetail;
 			}
@@ -28,6 +29,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var createdUserDetail = await context.UserDetails.AddAsync(userDetailToAdd, ct);
+
 				await context.SaveChangesAsync(ct);
 
 				return createdUserDetail.Entity;

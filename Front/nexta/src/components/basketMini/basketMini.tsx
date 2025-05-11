@@ -1,7 +1,8 @@
+import { observer } from 'mobx-react';
 import basket from '../../stores/basket';
 import styles from './basketMini.module.css';
 
-const BasketMini = () => {
+const BasketMini = observer(() => {
     return <div className={styles.container}> 
         <div className={styles.basketLogo}>
             <svg xmlns="http://www.w3.org/2000/svg" width="2.25rem" height="2.25rem" fill="currentColor" viewBox="0 0 16 16">
@@ -17,6 +18,6 @@ const BasketMini = () => {
             </div>
         </div>
     </div> 
-}
+});
 
 export default BasketMini;

@@ -7,5 +7,6 @@ namespace Nexta.Application.Commands.AddDetailToBasketCommand
     {
         public Guid UserId { get; set; }
         public Guid DetailId { get; set; }
+        public int CountToPay { get; set; }
     }
 }

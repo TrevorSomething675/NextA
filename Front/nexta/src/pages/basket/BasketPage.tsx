@@ -1,32 +1,33 @@
 import BasketItem from '../../components/basketItem/busketItem';
 import styles from './basket.module.css';
+import basket from '../../stores/basket';
 import { useEffect } from 'react';
-import BasketService from '../../services/BasketService';
-import GetBasketDetailsRequest from '../../models/basket/GetBasketDetailsRequest';
 import BasketDetailsFilter from '../../models/basket/BasketDetailsFilter';
 import auth from '../../stores/auth';
-import basket from '../../stores/basket';
+import GetBasketDetailsRequest from '../../models/basket/GetBasketDetailsRequest';
+import BasketService from '../../services/BasketService';
+import { observer } from 'mobx-react';
 
-const BasketPage = () => {
+const BasketPage = observer(() => {
     useEffect(() => {
-        const fetchData = async() => {
-            const filter:BasketDetailsFilter = {
-                pageNumber: 1,
-                userId: auth?.user?.id
-            };
-            const request:GetBasketDetailsRequest = {
-                filter: filter
-            };
-            const result = await BasketService.GetBasketDetails(request);
-            if(result.statusCode == 200){
-                basket.setBasketDetails(result.value);
-            } else {
-                console.error('Ошибка на странице BasketPage');
-            };
-        }
-        fetchData();
-        }, []);
-    
+    const fetchData = async() => {
+        const filter:BasketDetailsFilter = {
+            pageNumber: 1,
+            userId: auth?.user?.id
+        };
+        const request:GetBasketDetailsRequest = {
+            filter: filter
+        };
+        const result = await BasketService.GetBasketDetails(request);
+        if(result.statusCode == 200 && result.value){
+            basket.setBasketDetails(result.value.details);
+        } else {
+            console.error('Ошибка на странице BasketPage');
+        };
+    }
+    fetchData();
+    }, []); 
+
     return <div className={styles.container}> 
         <div className={styles.basketHeader}>
             <h2 className={styles.h2}>Ваша корзина</h2>
@@ -34,7 +35,7 @@ const BasketPage = () => {
         <div className={styles.basketBody}>
         {basket?.details?.length > 0 ?(
             <ul>
-                {basket.details.map((detail) => <BasketItem detail={detail}/>)}
+                {basket.details.map((detail) => <BasketItem detail={detail} key={detail.id}/>)}
             </ul>
         ) : (<p className={styles.text}>Корзина пуста</p>)}
         </div>
@@ -50,6 +51,6 @@ const BasketPage = () => {
             </div>
         </div>
     </div>
-}
+});
 
 export default BasketPage;

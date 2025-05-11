@@ -23,6 +23,8 @@ services.AddDbContextFactory<MainContext>();
 
 using (var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
 {
+	context.Database.EnsureDeleted();
+	context.Database.EnsureCreated();
 	if (!context.Users.Any())
 	{
 		var user = new UserEntity
@@ -42,44 +44,41 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
 			Count = 0,
-			NewPrice = 800,
-			OldPrice = 1000,
+			NewPrice = 1000
 		};
 		var detail2 = new DetailEntity
 		{
 			Name = "TestDetail2",
 			Article = "TestArticle2",
 			Description = "TestDescription2",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			Status = Nexta.Domain.Enums.DetailStatus.AtWork,
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
 			Count = 0,
-			NewPrice = 700,
-			OldPrice = 700,
+			NewPrice = 700
 		};
 		var detail3 = new DetailEntity
 		{
 			Name = "TestDetail3",
 			Article = "TestArticle3",
 			Description = "TestDescription3",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			Status = Nexta.Domain.Enums.DetailStatus.AtWork,
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
 			Count = 1,
-			NewPrice = 700,
-			OldPrice = 700,
+			NewPrice = 700
 		};
 		var detail4 = new DetailEntity
 		{
 			Name = "TestDetail4",
 			Article = "TestArticle4",
 			Description = "TestDescription4",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
+			Status = Nexta.Domain.Enums.DetailStatus.AtWork,
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
 			Count = 5,
 			NewPrice = 500,
-			OldPrice = 700,
+			OldPrice = 700
 		};
 		var detail5 = new DetailEntity
 		{
@@ -91,7 +90,7 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			DeliveryDate = DateTime.UtcNow,
 			Count = 2,
 			NewPrice = 700,
-			OldPrice = 700,
+			OldPrice = 700
 		};
 		var detail6 = new DetailEntity
 		{
@@ -102,8 +101,7 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
 			Count = 1,
-			NewPrice = 700,
-			OldPrice = 700,
+			NewPrice = 700
 		};
 		var detail7 = new DetailEntity
 		{
@@ -114,8 +112,7 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
 			Count = 1,
-			NewPrice = 700,
-			OldPrice = 700,
+			NewPrice = 700
 		};
 		var detail8 = new DetailEntity
 		{
@@ -127,7 +124,7 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			DeliveryDate = DateTime.UtcNow,
 			Count = 4,
 			NewPrice = 700,
-			OldPrice = 700,
+			OldPrice = 700
 		};
 		var detail9 = new DetailEntity
 		{
@@ -137,9 +134,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
 			OrderDate = DateTime.UtcNow,
 			DeliveryDate = DateTime.UtcNow,
-			Count = 6,
+			Count = 0,
 			NewPrice = 700,
-			OldPrice = 700,
+			OldPrice = 700
 		};
 		var detail10 = new DetailEntity
 		{
@@ -151,7 +148,7 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			DeliveryDate = DateTime.UtcNow,
 			Count = 2,
 			NewPrice = 700,
-			OldPrice = 700,
+			OldPrice = 700
 		};
 		if (context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru") == null)
 		{

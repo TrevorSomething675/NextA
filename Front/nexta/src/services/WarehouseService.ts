@@ -6,10 +6,10 @@ import GetWarehouseResponse from "../models/warehouse/GetWarehouseResponse";
 
 class WarehouseService{
     static async GetDetails(request:GetDetailsRequest){
-        try{
+        try {
             const response = await api.post<ApiResponse<GetWarehouseResponse>>('Warehouse/Get', request);
             return response.data
-        } catch(error){
+        } catch(error) {
             if(axios.isAxiosError(error) && error.response){
                 return error.response.data as ApiResponse<GetWarehouseResponse>
             }
