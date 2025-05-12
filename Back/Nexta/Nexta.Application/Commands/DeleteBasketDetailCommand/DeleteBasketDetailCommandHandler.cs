@@ -32,7 +32,7 @@ namespace Nexta.Application.Commands.DeleteDetailFromBasket
 
 				var deletedUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.DeleteAsync(userDetailToDelete, ct));
 
-				return new Result<DeleteBasketDetailCommandResponse>().Success();
+				return new Result<DeleteBasketDetailCommandResponse>(new DeleteBasketDetailCommandResponse(deletedUserDetail)).Success();
 			}
 			catch(Exception ex)
 			{

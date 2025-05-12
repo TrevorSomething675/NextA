@@ -14,7 +14,7 @@ const BasketMini = observer(() => {
                 Корзина
             </div>
             <div className={styles.backetPrice}>
-                {basket.totalPrice}
+                {basket.totalPrice} руб.
             </div>
         </div>
     </div> 

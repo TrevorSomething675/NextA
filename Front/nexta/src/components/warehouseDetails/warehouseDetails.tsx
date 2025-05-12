@@ -39,8 +39,9 @@ const WarehouseDetails:React.FC<{pageNumber?:number}> = () => {
                     <th>Описание</th>
                     <th>Статус</th>
                     <th>Доставка в ПВЗ</th>
-                    <th>Кол-во</th>
-                    <th>Стоимость</th>
+                    <th>Кол-воб, шт</th>
+                    <th>Стоимость, ₽</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody className={styles.tbody}>

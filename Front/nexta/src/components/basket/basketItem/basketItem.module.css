@@ -2,17 +2,31 @@
     padding: 0.55rem 0 0.55rem 0;
 }
 
-.addBasketBtn{
+.removeBasketBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     background: none;
     border: none;
     text-decoration: underline;
-    color:var(--green-color);
+    color:var(--red-color);
     font-size: 1.2rem;
     transition: .2s;
 }
 
-.addBasketBtn:hover{
+.trashContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trash{
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.removeBasketBtn:hover{
     color: var(--black-color);
     transition: .2s;
 }

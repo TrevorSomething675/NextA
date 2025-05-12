@@ -6,7 +6,7 @@ class BasketStore {
     constructor() {
         makeAutoObservable(this);
     }
-
+    
 get totalPrice() {
     return this.details.reduce((sum, detail) => {
         const userDetails = Array.isArray(detail.userDetail) ? detail.userDetail : [];
@@ -15,7 +15,7 @@ get totalPrice() {
         }, 0);
         return sum + userDetailsSum;
     }, 0);
-}
+    }
     
     setBasketDetails = (details: Detail[]) => {
         this.details = details;

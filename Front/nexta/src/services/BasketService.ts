@@ -40,7 +40,7 @@ class BasketService{
             return response.data;
         } catch(error) {
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as ApiResponse<Detail[]>
+                return error.response.data as ApiResponse<Detail>
             } 
             else{
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
