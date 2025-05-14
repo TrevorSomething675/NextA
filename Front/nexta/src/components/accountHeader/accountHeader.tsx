@@ -7,6 +7,7 @@ import ExitSvg from '../svgs/exitSvg/exitSvg';
 import auth from '../../stores/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import basket from '../../stores/basket';
 
 const AccountHeader = observer(() => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const AccountHeader = observer(() => {
     const logout = () => {
         auth.logout();
         auth.setAuth(false);
+        basket.clear();
         navigate('/')
     }
 

@@ -28,6 +28,10 @@ get totalPrice() {
     addBasketDetail = (detail: Detail) => {
         this.details.push(detail);
     }
+
+    clear = () =>{
+        this.details = [];
+    }
 }
 
 export default new BasketStore();

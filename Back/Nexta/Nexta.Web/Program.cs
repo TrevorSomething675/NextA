@@ -20,7 +20,7 @@ services.AddScoped<IJwtTokenService, JwtTokenService>();
 services.AddRouting();
 services.AddControllers();
 services.AddDbContextFactory<MainContext>();
-
+/*
 using (var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
 {
 	context.Database.EnsureDeleted();
@@ -40,9 +40,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail1",
 			Article = "TestArticle1",
 			Description = "TestDescription1",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 0,
 			NewPrice = 1000
 		};
@@ -51,9 +51,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail2",
 			Article = "TestArticle2",
 			Description = "TestDescription2",
-			Status = Nexta.Domain.Enums.DetailStatus.AtWork,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 0,
 			NewPrice = 700
 		};
@@ -62,9 +62,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail3",
 			Article = "TestArticle3",
 			Description = "TestDescription3",
-			Status = Nexta.Domain.Enums.DetailStatus.AtWork,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 1,
 			NewPrice = 700
 		};
@@ -73,9 +73,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail4",
 			Article = "TestArticle4",
 			Description = "TestDescription4",
-			Status = Nexta.Domain.Enums.DetailStatus.AtWork,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 5,
 			NewPrice = 500,
 			OldPrice = 700
@@ -85,9 +85,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail5",
 			Article = "TestArticle5",
 			Description = "TestDescription5",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.OutOfStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 2,
 			NewPrice = 700,
 			OldPrice = 700
@@ -97,9 +97,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail6",
 			Article = "TestArticle6",
 			Description = "TestDescription6",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.OutOfStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 1,
 			NewPrice = 700
 		};
@@ -108,9 +108,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail7",
 			Article = "TestArticle7",
 			Description = "TestDescription7",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 1,
 			NewPrice = 700
 		};
@@ -119,9 +119,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail8",
 			Article = "TestArticle8",
 			Description = "TestDescription8",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 4,
 			NewPrice = 700,
 			OldPrice = 700
@@ -131,9 +131,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail9",
 			Article = "TestArticle9",
 			Description = "TestDescription9",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 0,
 			NewPrice = 700,
 			OldPrice = 700
@@ -143,9 +143,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			Name = "TestDetail10",
 			Article = "TestArticle10",
 			Description = "TestDescription10",
-			Status = Nexta.Domain.Enums.DetailStatus.Accepted,
-			OrderDate = DateTime.UtcNow,
-			DeliveryDate = DateTime.UtcNow,
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 2,
 			NewPrice = 700,
 			OldPrice = 700
@@ -169,7 +169,7 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 		}
 	}
 }
-
+*/
 var app = builder.Build();
 
 app.UseCors(builder =>

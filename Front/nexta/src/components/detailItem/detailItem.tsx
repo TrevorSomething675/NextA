@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Detail, { Status } from '../../models/Detail';
+import Detail, { DetailStatus } from '../../models/Detail';
 import styles from './detailItem.module.css';
 import AddBasketDetailRequest from '../../models/basket/AddBasketDetailRequest';
 import auth from '../../stores/auth';
@@ -11,11 +11,9 @@ import GetBasketDetailsRequest from '../../models/basket/GetBasketDetailsRequest
 const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     const [count, setCount] = useState(1);
     const statusLabels = {
-        [Status.Unkown]: 'Неизвестный статус',
-        [Status.Rejected]: 'Отказ',
-        [Status.Accepted]: 'Принят',
-        [Status.AtWork]: 'В работе',
-        [Status.Waiting]: 'Ожидает',
+        [DetailStatus.Unkown]: 'Неизвестный статус',
+        [DetailStatus.InStock]: 'Есть на складе',
+        [DetailStatus.OutOfStock]: 'Нет на складе',
     };
 
     const fetchData = async() =>{

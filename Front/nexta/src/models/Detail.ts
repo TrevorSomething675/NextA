@@ -5,7 +5,7 @@ interface Detail{
     name:string,
     article:string,
     description:string,
-    status:Status,
+    status:DetailStatus,
     orderDate:string,
     deliveryDate:string,
     count:number,
@@ -14,13 +14,11 @@ interface Detail{
     userDetail: UserDetail[]
 }
 
-enum Status{
+enum DetailStatus{
     Unkown = -1, //Неизвестный статус
-    Rejected = 0, //Отказ
-    Accepted = 1, //Принят
-    AtWork = 2, //В работе
-    Waiting = 3 //Ожидает
+    InStock = 0, //Есть на складе
+    OutOfStock = 1, //Нет на складе
 }
 
-export { Status };
+export { DetailStatus };
 export default Detail;

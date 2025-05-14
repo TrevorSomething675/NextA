@@ -10,10 +10,10 @@ namespace Nexta.Domain.Models
 		public string Description { get; set; } = null!;
 		public DetailStatus Status { get; set; }
 
-		public DateTime OrderDate { get; set; }
-		public DateTime DeliveryDate { get; set; }
+		public string OrderDate { get; set; } = string.Empty;
+		public string DeliveryDate { get; set; } = string.Empty;
 
-		public int Count { get; set; }
+		public int Count { get; set; } 
 		public int NewPrice { get; set; }
 		public int OldPrice { get; set; }
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Detail, { Status } from '../../../models/Detail';
+import Detail from '../../../models/Detail';
 import styles from './basketItem.module.css';
 import auth from '../../../stores/auth';
 import BasketService from '../../../services/BasketService';
@@ -8,15 +8,16 @@ import DeleteBasketDetailRequest from '../../../models/basket/DeleteBasketDetail
 import basket from '../../../stores/basket';
 import BasketDetailsFilter from '../../../models/basket/BasketDetailsFilter';
 import GetBasketDetailsRequest from '../../../models/basket/GetBasketDetailsRequest';
+import { UserDetailStatus } from '../../../models/UserDetail';
 
 const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
-    const [count, setCount] = useState(detail.userDetail[0].count);
+    const [count, setCount] = useState(detail?.userDetail[0]?.count ?? 0);
     const statusLabels = {
-        [Status.Unkown]: 'Неизвестный статус',
-        [Status.Rejected]: 'Отказ',
-        [Status.Accepted]: 'Принят',
-        [Status.AtWork]: 'В работе',
-        [Status.Waiting]: 'Ожидает',
+        [UserDetailStatus.Unkown]: 'Неизвестный статус',
+        [UserDetailStatus.Accepted]: 'Принят',
+        [UserDetailStatus.AtWork]: 'В работе',
+        [UserDetailStatus.Rejected]: 'Отказ',
+        [UserDetailStatus.Waiting]: 'Ожидает'
     };
 
     const fetchData = async() =>{
@@ -52,8 +53,8 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
 
     return <tr className={styles.tr}>
             <td>{detail.article}</td>
-            <td>{statusLabels[detail.status]}</td>
-            <td>{detail.deliveryDate}</td>
+            <td>{statusLabels[detail?.userDetail[0]?.status]}</td>
+            <td>{detail.userDetail !== undefined && detail?.userDetail[0]?.deliveryDate}</td>
             <td>
                 <button type="button" className={styles.down} onClick={decrement}>◄</button>
                     <input

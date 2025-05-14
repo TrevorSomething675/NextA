@@ -9,8 +9,8 @@ namespace Nexta.Domain.Entities
 		public string Description { get; set; } = null!;
 		public DetailStatus Status { get; set; }
 
-		public DateTime OrderDate { get; set; }
-		public DateTime DeliveryDate { get; set; }
+		public DateOnly OrderDate { get; set; }
+		public DateOnly DeliveryDate { get; set; }
 
 		public int Count { get; set; }
 		public int NewPrice { get; set; }

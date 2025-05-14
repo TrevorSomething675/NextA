@@ -21,8 +21,6 @@ namespace Nexta.Application.Queries.GetUserBasketDetails
 			try
 			{
 				var pagedBasketDetails = _mapper.Map<List<Detail>>(await _detailRepository.GetBasketDetailsAsync(request.Filter, ct));
-				var jija = pagedBasketDetails.FirstOrDefault().DeliveryDate.ToString();
-				var jija2 = pagedBasketDetails.FirstOrDefault().DeliveryDate;
 
 				return new Result<GetBasketDetailsQueryResponse>(new GetBasketDetailsQueryResponse(pagedBasketDetails)).Success();
 			}

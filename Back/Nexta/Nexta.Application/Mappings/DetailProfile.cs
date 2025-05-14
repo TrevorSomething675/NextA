@@ -9,7 +9,9 @@ namespace Nexta.Application.Mappings
     {
         public DetailProfile()
         {
-            CreateMap<Detail, DetailEntity>().ReverseMap();
+            CreateMap<Detail, DetailEntity>()
+                //.ForMember(src => src.DeliveryDate, opt => opt.MapFrom(x => x.DeliveryDate))
+                .ReverseMap();
             CreateMap<PagedData<DetailEntity>, PagedData<Detail>>();
         }
 	}

@@ -76,9 +76,14 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			{
 				var details = await context.Details
 					.AsNoTracking()
+					.Where(d => d.UserDetail.Any(ud => ud.UserId == filter.UserId))
 					.Include(d => d.UserDetail)
-					.Where(d => d.UserDetail.Select(ud => ud.UserId).Contains(filter.UserId))
 					.ToListAsync(ct);
+
+				foreach (var detail in details)
+				{
+					detail.UserDetail = detail.UserDetail?.Where(ud => ud.UserId == filter.UserId).ToList();
+				}
 
 				return details;
 			}

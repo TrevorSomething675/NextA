@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexta.Infrastructure.DataBase;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Nexta.Infrastructure.DataBase.Migrations
+namespace Nexta.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20250513103331_convertDateTimeToDateOnlyForDetail")]
+    partial class convertDateTimeToDateOnlyForDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,12 +75,6 @@ namespace Nexta.Infrastructure.DataBase.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<int>("Count")
-                        .HasColumnType("integer");
-
-                    b.Property<DateOnly>("DeliveryDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.HasKey("UserId", "DetailId");

@@ -2,6 +2,7 @@
 using Nexta.Domain.Models.DataModels;
 using Nexta.Domain.Entities;
 using Nexta.Domain.Models;
+using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
 
@@ -32,7 +33,9 @@ namespace Nexta.Application.Commands.AddDetailToBasketCommand
 				{ 
 					UserId = request.UserId,
 					DetailId = request.DetailId,
-					Count = request.CountToPay
+					Count = request.CountToPay,
+					Status = UserDetailStatus.AtWork,
+					DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2))
 				};
 
 				var createdUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.AddAsync(userDetailToCreate, ct));

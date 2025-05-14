@@ -3,9 +3,7 @@
 	public enum DetailStatus : int
 	{
 		Unkown = -1, //Неизвестный статус
-		Rejected = 0, //Отказ
-		Accepted = 1, //Принят
-		AtWork = 2, //В работе
-		Waiting = 3 //Ожидает
+		InStock = 0, //Есть на складе
+		OutOfStock = 1, //Нет на складе
 	}
 }
