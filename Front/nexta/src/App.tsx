@@ -13,8 +13,9 @@ import GetBasketDetailsRequest from './models/basket/GetBasketDetailsRequest'
 import auth from './stores/auth'
 import BasketService from './services/BasketService'
 import basket from './stores/basket'
+import DetailPage from './pages/detail/detailPage'
 
-const App = () => {            
+const App = () => {
   useEffect(() => {
     const fetchData = async() => {
         const filter:BasketDetailsFilter = {
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="*" element={<HomePage />} />
             <Route path="Auth" element={<AuthPage />} />
             <Route path="Basket" element={<BasketPage />} />
+            <Route path="Detail/:id" element={<DetailPage />} />
             <Route path="Account" element={<AccountPage />} />
           </Routes>
         </div>

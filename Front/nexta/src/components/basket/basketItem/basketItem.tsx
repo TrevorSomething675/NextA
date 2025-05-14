@@ -9,9 +9,11 @@ import basket from '../../../stores/basket';
 import BasketDetailsFilter from '../../../models/basket/BasketDetailsFilter';
 import GetBasketDetailsRequest from '../../../models/basket/GetBasketDetailsRequest';
 import { UserDetailStatus } from '../../../models/UserDetail';
+import { useNavigate } from 'react-router-dom';
 
 const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
     const [count, setCount] = useState(detail?.userDetail[0]?.count ?? 0);
+    const navigate = useNavigate();
     const statusLabels = {
         [UserDetailStatus.Unkown]: 'Неизвестный статус',
         [UserDetailStatus.Accepted]: 'Принят',
@@ -19,6 +21,10 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
         [UserDetailStatus.Rejected]: 'Отказ',
         [UserDetailStatus.Waiting]: 'Ожидает'
     };
+
+    const goToDetailPage = () => {
+        navigate(`/Detail/${detail.id}`);
+    }
 
     const fetchData = async() =>{
         const request:DeleteBasketDetailRequest = {
@@ -52,7 +58,9 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
     };
 
     return <tr className={styles.tr}>
-            <td>{detail.article}</td>
+            <td>
+                <button onClick={goToDetailPage}>{detail.article}</button>
+            </td>
             <td>{statusLabels[detail?.userDetail[0]?.status]}</td>
             <td>{detail.userDetail !== undefined && detail?.userDetail[0]?.deliveryDate}</td>
             <td>
