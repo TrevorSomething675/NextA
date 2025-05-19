@@ -7,14 +7,30 @@ import BasketService from '../../services/BasketService';
 import basket from '../../stores/basket';
 import BasketDetailsFilter from '../../models/basket/BasketDetailsFilter';
 import GetBasketDetailsRequest from '../../models/basket/GetBasketDetailsRequest';
+import { useNavigate } from 'react-router-dom';
 
 const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     const [count, setCount] = useState(1);
+    const navigate = useNavigate();
     const statusLabels = {
         [DetailStatus.Unkown]: 'Неизвестный статус',
         [DetailStatus.InStock]: 'Есть на складе',
         [DetailStatus.OutOfStock]: 'Нет на складе',
     };
+        const goToDetailPage = () => {
+        navigate(`/Detail/${detail.id}`);
+    }
+    const getColorForStatus = (status:any) => {
+        switch (status) {
+            case DetailStatus.InStock:
+            return '#1b8700';
+            case DetailStatus.OutOfStock:
+            return '#ed7e00';
+            case DetailStatus.Unkown:
+            default:
+            return 'gray';
+        }
+    }
 
     const fetchData = async() =>{
         const request:AddBasketDetailRequest = {
@@ -50,10 +66,14 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     };
 
     return <tr className={styles.tr}>
-            <td>{detail.name}</td>
+            <td>
+                <button onClick={goToDetailPage} className={styles.button}>
+                    {detail.name}
+                </button>
+            </td>
             <td>{detail.article}</td>
             <td>{detail.description}</td>
-            <td>{statusLabels[detail.status]}</td>
+            <td style={{color: getColorForStatus(detail.status)}}>{statusLabels[detail.status]}</td>
             <td>{detail.deliveryDate}</td>
             <td>
                 <button type="button" className={styles.down} onClick={decrement}>◄</button>
@@ -71,11 +91,11 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
             </td>
             <td>
                 <span className={styles.newPrice}>
-                    {detail.newPrice} руб.
+                    {detail.newPrice * count} руб.
                 </span>
                 {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
                     <span className={styles.oldPrice}>
-                        {detail.oldPrice} руб.
+                        {detail.oldPrice * count} руб.
                     </span>
                 }
             </td>

@@ -7,11 +7,11 @@ import DetailItem from '../detailItem/detailItem';
 import styles from './details.module.css';
 import Pagging from '../pagging/pagging';
 
-const Details:React.FC<{pageNumber?:number}> = () => {
+const Details:React.FC = () => {
     const handlePageNumberChange = (pageNumber:number = 1) => {
         fetchData(pageNumber);
     };
-
+    
     const [response, setResponse] = useState<GetDetailsResponse>({} as GetDetailsResponse);
     const fetchData = async (pageNumber:number) => {
         const filter:DetailsFilter = {

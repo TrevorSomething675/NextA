@@ -17,6 +17,21 @@
     transition: .2s;
 }
 
+.button{
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    transition: .2s;
+    text-decoration: underline;
+}
+
+.button:hover{
+    color:var(--red-color);
+    cursor: pointer;
+    transition: .2s;
+}
+
 .oldPrice{
     margin: 0 0 0 0.35rem;
     font-size: 0.9rem;

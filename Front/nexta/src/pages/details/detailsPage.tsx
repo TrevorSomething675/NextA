@@ -1,5 +1,5 @@
-import Footer from "@/components/footer/footer";
-import Header from "@/components/header/header";
+import Footer from "../../components/footer/footer";
+import Header from "../../components/header/header";
 
 const DetailsPage = () => {
     return <div className='page-container'>

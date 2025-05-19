@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import styles from './basket.module.css';
+import styles from './basketPage.module.css';
 import BasketHeader from '../../components/basket/basketHeader/basketHeader';
 import BasketBody from '../../components/basket/basketBody/basketBody';
 import BasketFooter from '../../components/basket/basketFooter/basketFooter';

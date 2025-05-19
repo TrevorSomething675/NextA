@@ -15,6 +15,27 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			_dbContextFactory = dbContextFactory;
 		}
 
+		public async Task<PagedData<DetailEntity>> SearchDetail(SearchDetailFilter filter, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var searchTerm = filter.SearchTerm.ToLower();
+
+				var details = await context.Details.Where(d =>
+					EF.Functions.Like(d.Article.ToLower(), $"{searchTerm}") ||
+					EF.Functions.Like(d.Article.ToLower(), $"{searchTerm}%") ||
+					EF.Functions.Like(d.Article.ToLower(), $"%{searchTerm}") ||
+					EF.Functions.Like(d.Name.ToLower(), $"{searchTerm}"))
+					.Skip((filter.PageNumber - 1) * 8)
+					.Take(filter.PageNumber * 8)
+					.ToListAsync(ct);
+
+				var pageCount = (int)Math.Ceiling((double)details.Count / 8);
+
+				return new PagedData<DetailEntity>(details, details.Count, pageCount);
+			}
+		}
+
 		public async Task<DetailEntity?> GetAsync(Guid id, CancellationToken ct = default)
 		{
 			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
@@ -22,6 +43,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				var detail = await context.Details.AsNoTracking()
 					.Include(d => d.UserDetail)
 					.FirstOrDefaultAsync(d => d.Id == id, ct);
+
 				return detail;
 			}
 		}

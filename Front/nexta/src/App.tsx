@@ -3,10 +3,6 @@ import Footer from './components/footer/footer'
 import "./globals.css"
 import "./colors.css"
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import AuthPage from './pages/auth/AuthPage'
-import AccountPage from './pages/account/AccountPage'
-import BasketPage from './pages/basket/BasketPage'
-import HomePage from './pages/home/HomePage'
 import { useEffect } from 'react'
 import BasketDetailsFilter from './models/basket/BasketDetailsFilter'
 import GetBasketDetailsRequest from './models/basket/GetBasketDetailsRequest'
@@ -14,6 +10,10 @@ import auth from './stores/auth'
 import BasketService from './services/BasketService'
 import basket from './stores/basket'
 import DetailPage from './pages/detail/detailPage'
+import BasketPage from './pages/basket/BasketPage'
+import HomePage from './pages/home/HomePage'
+import AuthPage from './pages/auth/AuthPage'
+import AccountPage from './pages/account/AccountPage'
 
 const App = () => {
   useEffect(() => {

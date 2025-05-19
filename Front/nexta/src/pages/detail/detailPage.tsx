@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import DetailsService from '../../services/DetailsService';
 import Detail from '../../models/Detail';
+import DetailHeader from '../../components/detail/detailHeader/detailHeader';
+import DetailBody from '../../components/detail/detailBody/detailBody';
 
 const DetailPage = () => {
     const {id} = useParams();
@@ -18,7 +20,10 @@ const DetailPage = () => {
     }, [id]);
 
     return <div className={styles.container}>
-        {detail !== undefined && detail.id}
+        <div className={styles.detailContainer}>
+            <DetailHeader detail={detail} />
+            <DetailBody detail={detail} />
+        </div>
     </div>
 }
 

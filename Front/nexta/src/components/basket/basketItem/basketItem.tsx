@@ -59,7 +59,7 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
 
     return <tr className={styles.tr}>
             <td>
-                <button onClick={goToDetailPage}>{detail.article}</button>
+                <button onClick={goToDetailPage} className={styles.button}>{detail.article}</button>
             </td>
             <td>{statusLabels[detail?.userDetail[0]?.status]}</td>
             <td>{detail.userDetail !== undefined && detail?.userDetail[0]?.deliveryDate}</td>

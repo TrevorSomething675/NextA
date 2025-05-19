@@ -150,10 +150,46 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			NewPrice = 700,
 			OldPrice = 700
 		};
+		var detail11 = new DetailEntity
+		{
+			Name = "TestDetail11",
+			Article = "TestArticle11",
+			Description = "TestDescription11",
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			Count = 4,
+			NewPrice = 700,
+			OldPrice = 700
+		};
+		var detail12 = new DetailEntity
+		{
+			Name = "TestDetail12",
+			Article = "TestArticle12",
+			Description = "TestDescription12",
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			Count = 0,
+			NewPrice = 700,
+			OldPrice = 700
+		};
+		var detail13 = new DetailEntity
+		{
+			Name = "TestDetail13",
+			Article = "TestArticle13",
+			Description = "TestDescription13",
+			Status = Nexta.Domain.Enums.DetailStatus.InStock,
+			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
+			Count = 2,
+			NewPrice = 700,
+			OldPrice = 700
+		};
 		if (context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru") == null)
 		{
 			context.Users.Add(user);
-			context.Details.AddRange(detail, detail2, detail3, detail4, detail5, detail6, detail7, detail8, detail9, detail10);
+			context.Details.AddRange(detail, detail2, detail3, detail4, detail5, detail6, detail7, detail8, detail9, detail10, detail11, detail12, detail13);
 			context.SaveChanges();
 
 			var userEntity = context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru");

@@ -39,7 +39,7 @@ const WarehouseDetails:React.FC<{pageNumber?:number}> = () => {
                     <th>Описание</th>
                     <th>Статус</th>
                     <th>Доставка в ПВЗ</th>
-                    <th>Кол-воб, шт</th>
+                    <th>Кол-во, шт</th>
                     <th>Стоимость, ₽</th>
                     <th></th>
                 </tr>
