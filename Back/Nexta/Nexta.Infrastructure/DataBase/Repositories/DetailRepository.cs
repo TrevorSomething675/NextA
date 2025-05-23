@@ -25,7 +25,9 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 					EF.Functions.Like(d.Article.ToLower(), $"{searchTerm}") ||
 					EF.Functions.Like(d.Article.ToLower(), $"{searchTerm}%") ||
 					EF.Functions.Like(d.Article.ToLower(), $"%{searchTerm}") ||
-					EF.Functions.Like(d.Name.ToLower(), $"{searchTerm}"))
+					EF.Functions.Like(d.Name.ToLower(), $"{searchTerm}") ||
+					EF.Functions.Like(d.Name.ToLower(), $"{searchTerm}%") ||
+					EF.Functions.Like(d.Name.ToLower(), $"%{searchTerm}"))
 					.Skip((filter.PageNumber - 1) * 8)
 					.Take(filter.PageNumber * 8)
 					.ToListAsync(ct);
