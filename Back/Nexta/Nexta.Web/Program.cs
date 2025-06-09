@@ -251,8 +251,8 @@ app.UseCors(builder =>
 		.AllowAnyHeader()
 		.AllowCredentials();
 });
-app.UseAppAuth();
 app.UseRouting();
+app.UseAppAuth();
 app.MapControllers();
 
 app.Run();

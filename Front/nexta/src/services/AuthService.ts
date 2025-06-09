@@ -18,6 +18,9 @@ class AuthService {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            localStorage.setItem('AccessToken', response.data.value.accessToken);
+            localStorage.setItem('RefreshToken', response.data.value.refreshToken);
+
             return response.data;
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -43,6 +46,9 @@ class AuthService {
             const response = await api.post<ApiResponse<AuthModel>>('Auth/Register', formData, {headers:{
                 'Content-Type': 'multipart/form-data'
             }});
+            localStorage.setItem('AccessToken', response.data.value.accessToken);
+            localStorage.setItem('RefreshToken', response.data.value.refreshToken);
+
             return response.data;
         } catch(error) {
             if(axios.isAxiosError(error) && error.response){

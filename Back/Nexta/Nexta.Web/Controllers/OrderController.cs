@@ -3,9 +3,11 @@ using Nexta.Application.Queries.GetLegacyOrdersQuery;
 using Nexta.Application.Queries.GetOrdersQuery;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Nexta.Web.Controllers
 {
+	[Authorize]
 	[Route("[controller]")]
 	public class OrderController : ControllerBase
 	{
