@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orderItem{
+    margin: 0 0 0 0.25rem;
+}
+
+.orderText{
+    color: var(--dark-white-color);
+}
+
+.orderCount{
+    color:var(--black-color);
+}

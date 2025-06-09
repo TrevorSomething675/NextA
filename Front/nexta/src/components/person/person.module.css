@@ -1,9 +1,7 @@
 .container {
     display: flex;
-}
-
-.personItem{
-    margin: 0.25rem 0 0 0.5rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .personText{

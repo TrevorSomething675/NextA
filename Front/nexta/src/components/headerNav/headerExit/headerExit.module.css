@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exitBtn{
+    display: flex;
+    font-size: 1.2rem;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.exitBtn:hover{
+    transition: .2s;
+}

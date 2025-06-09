@@ -15,6 +15,7 @@ const WarehouseDetails:React.FC<{pageNumber?:number}> = () => {
     const [response, setResponse] = useState<GetWarehouseResponse>({} as GetWarehouseResponse);
     const fetchData = async (pageNumber:number) => {
         const filter:DetailsFilter = {
+            pageSize: 8,
             pageNumber: pageNumber
         }
         const request:GetDetailsRequest = {

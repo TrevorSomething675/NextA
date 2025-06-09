@@ -12,10 +12,10 @@ import { UserDetailStatus } from '../../../models/UserDetail';
 import { useNavigate } from 'react-router-dom';
 
 const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
-    const [count, setCount] = useState(detail?.userDetail[0]?.count ?? 0);
+    const [count, setCount] = useState(detail?.userDetails[0]?.count ?? 0);
     const navigate = useNavigate();
     const statusLabels = {
-        [UserDetailStatus.Unkown]: 'Неизвестный статус',
+        [UserDetailStatus.Unknown]: 'Неизвестный статус',
         [UserDetailStatus.Accepted]: 'Принят',
         [UserDetailStatus.AtWork]: 'В работе',
         [UserDetailStatus.Rejected]: 'Отказ',
@@ -49,20 +49,33 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
         }
     }
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value, 10);
+        
+        if (!isNaN(value) && value >= 1) {
+            setCount(value);
+        } else {
+            setCount(1);
+        }
+    };
+
     const increment = () => {
         setCount(count => count + 1);
     };
-  
+
     const decrement = () => {
-        setCount(count => count - 1);
+        setCount(count => Math.max(1, count - 1));
     };
 
     return <tr className={styles.tr}>
             <td>
-                <button onClick={goToDetailPage} className={styles.button}>{detail.article}</button>
+                <button onClick={goToDetailPage} className={styles.button}>{detail.name}</button>
             </td>
-            <td>{statusLabels[detail?.userDetail[0]?.status]}</td>
-            <td>{detail.userDetail !== undefined && detail?.userDetail[0]?.deliveryDate}</td>
+            <td>
+                {detail.article}
+            </td>
+            <td>{statusLabels[detail?.userDetails[0]?.status]}</td>
+            <td>{detail.userDetails !== undefined && detail?.userDetails[0]?.deliveryDate}</td>
             <td>
                 <button type="button" className={styles.down} onClick={decrement}>◄</button>
                     <input
@@ -73,7 +86,7 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
                         max="10"
                         step="1"
                         className={styles.countInput}
-                        onChange={(e) => setCount(Number(e.target.value))}
+                        onChange={handleInputChange}
                     />
                 <button type="button" className={styles.up} onClick={increment}>►</button>
             </td>

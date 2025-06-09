@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Nexta.Domain.Models.DataModels
 {
@@ -30,6 +31,14 @@ namespace Nexta.Domain.Models.DataModels
 			StatusCode = 400;
 			return this;
 		}
+
+		public Result<T> BadRequest(List<ValidationFailure> messages)
+		{
+			ErrorMessages.AddRange(messages.Select(m => m.ErrorMessage));
+			StatusCode = 400;
+			return this;
+		}
+
 		public Result<T> Invalid(string message = "")
 		{
 			ErrorMessages.Add(message);

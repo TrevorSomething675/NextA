@@ -16,7 +16,7 @@ namespace Nexta.Application.Queries.GetUserBasketDetails
 			_mapper = mapper;
 		}
 
-		public async Task<Result<GetBasketDetailsQueryResponse>> Handle(GetBasketDetailsQueryRequest request, CancellationToken ct)
+		public async Task<Result<GetBasketDetailsQueryResponse>> Handle(GetBasketDetailsQueryRequest request, CancellationToken ct = default)
 		{
 			try
 			{

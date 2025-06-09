@@ -13,20 +13,31 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     const [count, setCount] = useState(1);
     const navigate = useNavigate();
     const statusLabels = {
-        [DetailStatus.Unkown]: 'Неизвестный статус',
+        [DetailStatus.Unknown]: 'Неизвестный статус',
         [DetailStatus.InStock]: 'Есть на складе',
         [DetailStatus.OutOfStock]: 'Нет на складе',
     };
         const goToDetailPage = () => {
         navigate(`/Detail/${detail.id}`);
     }
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value, 10);
+        
+        if (!isNaN(value) && value >= 1) {
+            setCount(value);
+        } else {
+            setCount(1);
+        }
+    };
+
     const getColorForStatus = (status:any) => {
         switch (status) {
             case DetailStatus.InStock:
             return '#1b8700';
             case DetailStatus.OutOfStock:
             return '#ed7e00';
-            case DetailStatus.Unkown:
+            case DetailStatus.Unknown:
             default:
             return 'gray';
         }
@@ -58,11 +69,11 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     }
 
     const increment = () => {
-      setCount(count => count + 1);
+        setCount(count => count + 1);
     };
-  
+
     const decrement = () => {
-      setCount(count => count - 1);
+        setCount(count => Math.max(1, count - 1));
     };
 
     return <tr className={styles.tr}>
@@ -85,12 +96,12 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
                         max="10"
                         step="1"
                         className={styles.countInput}
-                        onChange={(e) => setCount(Number(e.target.value))}
+                        onChange={handleInputChange}
                     />
                 <button type="button" className={styles.up} onClick={increment}>►</button>
             </td>
             <td>
-                <span className={styles.newPrice}>
+                <span className={detail.oldPrice ? styles.newPrice : styles.defaultPrice}>
                     {detail.newPrice * count} руб.
                 </span>
                 {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
@@ -100,9 +111,9 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
                 }
             </td>
             <td>
-            <button className={styles.addBasketBtn} onClick={fetchData}>
-                В корзину
-            </button>
+                <button className={styles.addBasketBtn} onClick={fetchData}>
+                    В корзину
+                </button>
             </td>
         </tr>
 }

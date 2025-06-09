@@ -10,29 +10,26 @@ const SearchItem:React.FC<{detail:Detail}> = ({detail}) =>{
 
     return <div className={styles.container} onClick={goToDetailPage}>
         <div className={styles.detailItem}>
-            <div>
-                {detail.name}
-            </div>
+            {detail.name}
         </div>
         <div className={styles.detailItem}>
-            <div>
-                {detail.article}
-            </div>
+            {detail.article}
+        </div>
+        <div className={styles.detailItemDescription}>
+            {detail.description}
         </div>
         <div className={styles.detailItem}>
-            <div>
-                {detail.description}
-            </div>
+            Кол-во, шт: {detail.count}
         </div>
         <div className={styles.detailItem}>
-            <div>
-                Кол-во, шт: {detail.count}
-            </div>
-        </div>
-        <div className={styles.detailItem}>
-            <div>
+            <span className={detail.oldPrice ? styles.newPrice : styles.defaultPrice}>
                 {detail.newPrice} руб.
-            </div>
+            </span>
+            {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
+                <span className={styles.oldPrice}>
+                    {detail.oldPrice} руб.
+                </span>
+            }
         </div>
     </div>
 }

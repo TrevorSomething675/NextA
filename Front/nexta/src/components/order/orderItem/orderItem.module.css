@@ -1,0 +1,122 @@
+.li{
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    margin: 2rem 0 2rem 0;
+    box-shadow: 0px 0px 0.4rem var(--dark-color);
+    border-radius: 0.5rem;
+}
+
+.tr > th{
+    padding: 1rem 0 1rem 0;
+    font-size: 1.3rem;
+}
+
+.h2{
+    color:var(--light-white-color);
+    font-size: 1.4rem;
+    margin: 0.5rem 0 0.5rem 0;
+    text-shadow: 0rem 0rem 0.8rem var(--dark-color);
+}
+
+.totalSumText{
+    color:var(--black-color);
+}
+
+.totalSum{
+    color:var(--red-color);
+    margin: 0 1rem 0 0.4rem;
+    text-decoration: underline;
+}
+
+.orderStatus{
+    margin: 0 3rem 0 0;
+}
+
+.orderFooter{
+    background-color: var(--light-white-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.orderHeader{
+    background-color: var(--dark-white-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem 1rem 0.2rem 1rem;
+}
+
+.thead{
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background-color: var(--light-white-color);
+    min-height: 4rem;
+}
+
+.tbody{
+    font-size: 1.1rem;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.table{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.tr > td{
+    padding: 0.55rem 0.2rem 0.55rem 0.2rem;
+    white-space: nowrap;
+    max-width: 18rem;
+    margin: 1rem 0 1rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.orderQuestion{
+    margin: 0 0 0 2rem;
+}
+
+.orderBody{
+    padding: 0.2rem 1rem 0.2rem 1rem;
+}
+
+.table{
+    width: 100%;
+}
+
+.oldPrice{
+    margin: 0 0 0 0.35rem;
+    font-size: 0.9rem;
+    text-decoration: line-through;
+}
+
+.newPrice{
+    color: var(--red-color);
+}
+
+.defaultPrice{
+    color: var(--black-color);
+}
+
+.number{
+    color: var(--red-color);
+    text-decoration: underline;
+    margin: 0 0 0 2rem;
+}
+
+.button{
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    transition: .2s;
+    text-decoration: underline;
+}
+
+.button:hover{
+    color:var(--red-color);
+    cursor: pointer;
+    transition: .2s;
+}

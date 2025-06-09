@@ -9,7 +9,7 @@ const DetailHeader: React.FC<Props> = ({ detail }) => {
   return (
     <div className={styles.container}>
       <h2 className={styles.h2}>
-        {detail?.article}
+        Товар {detail?.article}
       </h2>
     </div>
   );

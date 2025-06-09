@@ -10,7 +10,9 @@ namespace Nexta.Web.Extensions
 			services
 				.AddScoped<IUserRepository, UserRepository>()
 				.AddScoped<IDetailRepository, DetailRepository>()
-				.AddScoped<IUserDetailRepository, UserDetailRepository>();
+				.AddScoped<IUserDetailRepository, UserDetailRepository>()
+				.AddScoped<IOrderRepository, OrderRepository>()
+				.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 
 			return services;
 		}

@@ -1,5 +1,14 @@
 .tr > td{
-    padding: 0.55rem 0 0.55rem 0;
+    padding: 0.55rem 0.2rem 0.55rem 0.2rem;
+    white-space: nowrap;
+    max-width: 18rem;
+    margin: 1rem 0 1rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tr > th{
+    padding: 0 1rem 0 1rem;
 }
 
 .addBasketBtn{
@@ -40,6 +49,10 @@
 
 .newPrice{
     color: var(--red-color);
+}
+
+.defaultPrice{
+    color: var(--black-color);
 }
 
 .down{

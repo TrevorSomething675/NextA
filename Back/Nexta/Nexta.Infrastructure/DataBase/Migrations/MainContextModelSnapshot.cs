@@ -63,6 +63,43 @@ namespace Nexta.Infrastructure.DataBase.Migrations
                     b.ToTable("Details");
                 });
 
+            modelBuilder.Entity("Nexta.Domain.Entities.OrderDetailEntity", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DetailId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrderId", "DetailId");
+
+                    b.HasIndex("DetailId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Nexta.Domain.Entities.OrderEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("Nexta.Domain.Entities.UserDetailEntity", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -113,6 +150,9 @@ namespace Nexta.Infrastructure.DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("Phone")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
@@ -121,16 +161,46 @@ namespace Nexta.Infrastructure.DataBase.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Nexta.Domain.Entities.OrderDetailEntity", b =>
+                {
+                    b.HasOne("Nexta.Domain.Entities.DetailEntity", "Detail")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("DetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Nexta.Domain.Entities.OrderEntity", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Detail");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Nexta.Domain.Entities.OrderEntity", b =>
+                {
+                    b.HasOne("Nexta.Domain.Entities.UserEntity", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Nexta.Domain.Entities.UserDetailEntity", b =>
                 {
                     b.HasOne("Nexta.Domain.Entities.DetailEntity", "Detail")
-                        .WithMany("UserDetail")
+                        .WithMany("UserDetails")
                         .HasForeignKey("DetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Nexta.Domain.Entities.UserEntity", "User")
-                        .WithMany("UserDetail")
+                        .WithMany("UserDetails")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -142,12 +212,21 @@ namespace Nexta.Infrastructure.DataBase.Migrations
 
             modelBuilder.Entity("Nexta.Domain.Entities.DetailEntity", b =>
                 {
-                    b.Navigation("UserDetail");
+                    b.Navigation("OrderDetails");
+
+                    b.Navigation("UserDetails");
+                });
+
+            modelBuilder.Entity("Nexta.Domain.Entities.OrderEntity", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("Nexta.Domain.Entities.UserEntity", b =>
                 {
-                    b.Navigation("UserDetail");
+                    b.Navigation("Orders");
+
+                    b.Navigation("UserDetails");
                 });
 #pragma warning restore 612, 618
         }

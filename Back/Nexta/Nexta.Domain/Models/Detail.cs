@@ -17,6 +17,8 @@ namespace Nexta.Domain.Models
 		public int NewPrice { get; set; }
 		public int OldPrice { get; set; }
 
-		public List<UserDetail>? UserDetail { get; set; }
+		public List<UserDetail>? UserDetails { get; set; }
+		public List<OrderDetail>? OrderDetails { get; set; }
+		public List<Order>? Orders { get; set; }
 	}
 }

@@ -13,6 +13,8 @@ namespace Nexta.Infrastructure.DataBase
 		public DbSet<DetailEntity> Details { get; set; }
 		public DbSet<UserEntity> Users { get; set; }
 		public DbSet<UserDetailEntity> UserDetails { get; set; }
+		public DbSet<OrderEntity> Orders { get; set; }
+		public DbSet<OrderDetailEntity> OrderDetails { get; set; }
 
 		public MainContext(IOptions<DataBaseOptions> options)
 		{
@@ -29,6 +31,8 @@ namespace Nexta.Infrastructure.DataBase
 			modelBuilder.ApplyConfiguration(new DetailConfiguration());
 			modelBuilder.ApplyConfiguration(new UserDetailConfiguration());
 			modelBuilder.ApplyConfiguration(new UserConfiguration());
+			modelBuilder.ApplyConfiguration(new OrderConfiguration());
+			//modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
 		}
 	}
 }

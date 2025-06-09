@@ -9,13 +9,12 @@ import GetDetailResponse from "../models/detail/GetDetailResponse";
 class DetailsService{
     static async GetDetails(request:GetDetailsRequest){
         try{
-            const response = await api.post<ApiResponse<GetDetailsResponse>>('Detail/Get', request);
+            const response = await api.post<ApiResponse<GetDetailsResponse>>('Detail/GetAll', request);
             return response.data
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
                 return error.response.data as ApiResponse<GetDetailsResponse>
-            }
-            else{
+            } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
         }

@@ -30,9 +30,10 @@ const BasketBody = observer(() => {
         fetchData();
     }, []);
     return <div className={styles.container}>
-        <table className={styles.table}>
+        {(basket?.details !== undefined) && (basket.details.length > 0) ? (<table className={styles.table}>
             <thead className={styles.thead}>
                 <tr className={styles.tr}>
+                    <th>Название</th>
                     <th>Артикул</th>
                     <th>Статус</th>
                     <th>Доставка в ПВЗ</th>
@@ -46,7 +47,9 @@ const BasketBody = observer(() => {
                     <BasketItem detail={detail} key={detail.id} />
                 )}
             </tbody>
-        </table>
+        </table>) : (<h2 className={styles.h2}>
+            Ваша корзина пуста. 
+        </h2>)}
     </div> 
 });
 

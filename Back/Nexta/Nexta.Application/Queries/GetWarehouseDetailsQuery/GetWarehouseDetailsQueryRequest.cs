@@ -6,6 +6,6 @@ namespace Nexta.Application.Queries.GetWarehouseDetailsQuery
 {
     public class GetWarehouseDetailsQueryRequest : IRequest<Result<GetWarehouseDetailsQueryResponse>>
     {
-        public BaseFilter Filter { get; set; } = null!;
+        public DetailsFilter Filter { get; set; } = null!;
     }
 }

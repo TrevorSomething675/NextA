@@ -21,6 +21,7 @@ class Auth{
             this.user.lastName = localStorage?.getItem('lastName');
             this.user.firstName = localStorage?.getItem('firstName');
             this.user.middleName = localStorage?.getItem('middleName');
+            this.user.phone = Number(localStorage?.getItem('phone'));
         }
     }
     setAuth(isAuth:boolean){
@@ -50,6 +51,7 @@ class Auth{
         localStorage.setItem('lastName', response.value.user.lastName!);
         localStorage.setItem('middleName', response.value.user.middleName!);
         localStorage.setItem('email', response.value.user.email!);
+        localStorage.setItem('phone', response?.value?.user?.phone?.toString());
         localStorage.setItem('id', response.value.user.id!)
         localStorage.setItem('isAuth', 'true');
         this.setAuth(true);
@@ -64,6 +66,7 @@ class Auth{
         localStorage.setItem('lastName', response.value.user.lastName!);
         localStorage.setItem('middleName', response.value.user.middleName!);
         localStorage.setItem('email', response.value.user.email!);
+        localStorage.setItem('phone', response?.value?.user?.phone?.toString());
         localStorage.setItem('id', response.value.user.id!)
         localStorage.setItem('isAuth', 'true');
         this.setAuth(true);
@@ -81,6 +84,7 @@ class Auth{
             localStorage.removeItem('middleName');
             localStorage.removeItem('email');
             localStorage.removeItem('id');
+            localStorage.removeItem('phone');
             localStorage.removeItem('isAuth');
         } catch(error) {
             console.error(error);

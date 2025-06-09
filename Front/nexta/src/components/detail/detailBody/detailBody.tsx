@@ -6,7 +6,7 @@ interface Props{
     detail: Detail;
 }
 const statusLabels = {
-    [DetailStatus.Unkown]: 'Неизвестный статус',
+    [DetailStatus.Unknown]: 'Неизвестный статус',
     [DetailStatus.InStock]: 'Есть на складе',
     [DetailStatus.OutOfStock]: 'Нет на складе',
 };
@@ -15,13 +15,23 @@ const DetailBody:React.FC<Props> = ({detail}) => {
     const [count, setCount] = useState(1);
 
     const increment = () => {
-      setCount(count => count + 1);
+        setCount(count => count + 1);
     };
-  
+
     const decrement = () => {
-      setCount(count => count - 1);
+        setCount(count => Math.max(1, count - 1));
     };
     
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value, 10);
+        
+        if (!isNaN(value) && value >= 1) {
+            setCount(value);
+        } else {
+            setCount(1);
+        }
+    };
+
     return <div className={styles.container}>
         <div className={styles.imageContainer}>
             <img src="/defaultImage.jpg" className={styles.image}/>
@@ -36,6 +46,20 @@ const DetailBody:React.FC<Props> = ({detail}) => {
             <div className={styles.detailFooter}>
                 <div className={styles.priceContainer}>
                     <div className={styles.countContainer}>
+                        <div>
+                            <button type="button" className={styles.down} onClick={decrement}>◄</button>
+                            <input
+                                value={count}
+                                type="number"
+                                name="quantity"
+                                min="1"
+                                max="10"
+                                step="1"
+                                className={styles.countInput}
+                                onChange={handleInputChange}
+                                />
+                            <button type="button" className={styles.up} onClick={increment}>►</button>
+                        </div>
                         <span className={styles.newPrice}>
                             {detail.newPrice * count} руб.
                         </span>
@@ -44,21 +68,9 @@ const DetailBody:React.FC<Props> = ({detail}) => {
                                 {detail.oldPrice * count} руб.
                             </span>
                         }
-                        <button type="button" className={styles.down} onClick={decrement}>◄</button>
-                        <input
-                            value={count}
-                            type="number"
-                            name="quantity"
-                            min="1"
-                            max="10"
-                            step="1"
-                            className={styles.countInput}
-                            onChange={(e) => setCount(Number(e.target.value))}
-                            />
-                        <button type="button" className={styles.up} onClick={increment}>►</button>
                     </div>
                     <button className={styles.buyButton}>
-                        Заказать
+                        В корзину
                     </button>
                 </div>
             </div>

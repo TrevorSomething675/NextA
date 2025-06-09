@@ -1,0 +1,58 @@
+.container {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+}
+
+.notificationContainer {
+    position: relative;
+    background-color: var(--light-white-color);
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 30rem;
+    box-shadow: 0px 0px 0.8rem var(--dark-color);
+    margin: 0.5rem 0 0 0;
+    opacity: 1;
+    transition: all 0.3s ease;
+    transform: translateX(0);
+}
+
+.notificationContainer.leaving {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.closeButton {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--dark-color);
+    padding: 0.2rem 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.closeButton:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.h2 {
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+    padding-right: 1.5rem;
+}
+
+.notificationBody {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

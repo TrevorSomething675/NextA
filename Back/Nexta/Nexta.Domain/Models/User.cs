@@ -10,7 +10,9 @@ namespace Nexta.Domain.Models
 		public string? LastName { get; set; }
 					 
 		public string? Email { get; set; }
+		public int? Phone { get; set; }
+
 		public string? PasswordHash { get; set; }
-		public Role Role { get; set; } = Role.Unkown;
+		public Role Role { get; set; } = Role.Unknown;
 	}
 }

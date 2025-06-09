@@ -5,6 +5,7 @@ using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Nexta.Application.Commands.AddDetailToBasketCommand
 {

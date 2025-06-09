@@ -7,19 +7,18 @@ import DetailItem from '../detailItem/detailItem';
 import styles from './details.module.css';
 import Pagging from '../pagging/pagging';
 
-const Details:React.FC = () => {
-    const handlePageNumberChange = (pageNumber:number = 1) => {
-        fetchData(pageNumber);
+const Details:React.FC<{detailsFilter?:DetailsFilter}> = ({detailsFilter = {pageNumber: 1, pageSize: 16}}) => {
+    const handlePageNumberChange = (newPageNumber:number = 1) => {
+        fetchData(newPageNumber);
     };
     
     const [response, setResponse] = useState<GetDetailsResponse>({} as GetDetailsResponse);
     const fetchData = async (pageNumber:number) => {
-        const filter:DetailsFilter = {
-            pageNumber: pageNumber
-        }
+        detailsFilter.pageNumber = pageNumber;
         const request:GetDetailsRequest = {
-            filter: filter
+            filter: detailsFilter
         }
+        console.log(request);
         const result = await DetailsService.GetDetails(request);
         if(result.statusCode == 200){
             setResponse(result.value)
@@ -27,7 +26,7 @@ const Details:React.FC = () => {
     };
 
     useEffect(() => {
-        fetchData(1);
+        fetchData(detailsFilter.pageNumber);
     }, []);
 
     return <div className={styles.container}>
@@ -41,6 +40,7 @@ const Details:React.FC = () => {
                     <th>Доставка в ПВЗ</th>
                     <th>Кол-во</th>
                     <th>Стоимость</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody className={styles.tbody}>

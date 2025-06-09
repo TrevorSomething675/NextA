@@ -1,15 +1,15 @@
 import styles from './header.module.css';
 
-import AccountHeader from '../accountHeader/accountHeader';
 import Logo2 from '../logo2/logo2';
 import Logo from '../logo/logo';
+import HeaderNav from '../headerNav/headerNav';
 
 const Header:React.FC = () => {
     return <div className={styles.header}>
         <div className={styles.headerItems}>
             <Logo />
             <Logo2 />
-            <AccountHeader /> 
+            <HeaderNav />
         </div>
     </div>
 }

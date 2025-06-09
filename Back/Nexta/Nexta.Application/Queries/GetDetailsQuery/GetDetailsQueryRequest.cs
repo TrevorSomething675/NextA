@@ -6,6 +6,6 @@ namespace Nexta.Application.Queries.GetDetailsQuery
 {
     public class GetDetailsQueryRequest : IRequest<Result<GetDetailsQueryResponse>>
     {
-		public BaseFilter Filter { get; set; } = null!;
+		public DetailsFilter Filter { get; set; } = null!;
 	}
 }

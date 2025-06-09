@@ -46,5 +46,33 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				return userDetailsToDelete.Entity;
 			}
 		}
+
+		public async Task<List<UserDetailEntity>> DeleteRangeAsync(Guid userId, List<Guid> detailIds, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var userDetailsToDelete = await context.UserDetails
+					.Where(ud => ud.UserId == userId && detailIds.Contains(ud.DetailId))
+					.ToListAsync(ct);
+
+				context.RemoveRange(userDetailsToDelete);
+				await context.SaveChangesAsync(ct);
+
+				return userDetailsToDelete;
+			}
+		}
+
+		public async Task<List<UserDetailEntity>?> GetRangeAsync(Guid userId, List<Guid> detailIds, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var userDetails = await context.UserDetails
+					.AsNoTracking()
+					.Where(ud => ud.UserId == userId && detailIds.Contains(ud.DetailId))
+					.ToListAsync(ct);
+
+				return userDetails;
+			}
+		}
 	}
 }

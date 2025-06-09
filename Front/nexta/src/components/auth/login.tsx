@@ -4,6 +4,14 @@ import { useState } from 'react';
 import auth from '../../stores/auth';
 import LoginForm from '../../models/auth/Login';
 import { useNavigate } from 'react-router-dom';
+import BasketDetailsFilter from '../../models/basket/BasketDetailsFilter';
+import GetBasketDetailsRequest from '../../models/basket/GetBasketDetailsRequest';
+import BasketService from '../../services/BasketService';
+import basket from '../../stores/basket';
+import GetOrdersForUserFilter from '../../models/order/GetOrdersForUserFilter';
+import GetOrdersForUserRequest from '../../models/order/GetOrdersForUserRequest';
+import OrderService from '../../services/OrderService';
+import orderStore from '../../stores/orderStore';
 
 const Login:React.FC<{changeFormStatus:any}> = ({changeFormStatus}) => {
     const { register, handleSubmit } = useForm<LoginForm>();
@@ -13,11 +21,44 @@ const Login:React.FC<{changeFormStatus:any}> = ({changeFormStatus}) => {
         changeFormStatus();
     }
 
+    const fetchData = async() => {
+        const filter:BasketDetailsFilter = {
+            pageNumber: 1,
+            userId: auth?.user?.id
+        };
+        const request:GetBasketDetailsRequest = {
+            filter: filter
+        };
+        const basketResult = await BasketService.GetBasketDetails(request);
+        if(basketResult.statusCode == 200 && basketResult.value){
+            basket.setBasketDetails(basketResult.value.details);
+        } else {
+            console.error('Ошибка на странице BasketPage');
+        };
+        
+        const userId = auth?.user?.id;
+        const ordersFilter:GetOrdersForUserFilter = {
+            userId: userId,
+            pageSize: 8,
+            pageNumber: 1
+        }
+        const ordersRequest:GetOrdersForUserRequest = {
+            filter:ordersFilter
+        };
+
+        const result = await OrderService.GetOrdersForUser(ordersRequest);
+        if(result?.statusCode == 200){
+            orderStore.setOrders(result?.value?.orders.items);
+            orderStore.setTotalOrders(result?.value?.totalCount);
+        }
+    }
+
     const navigate = useNavigate();
     const submit: SubmitHandler<LoginForm> = async (data: LoginForm) => {
         const result = await auth.login(data);
         if(result?.statusCode == 200){
             navigate('/');
+            fetchData();
         } else{
             setError(result?.errorMessages.join(', ')!);
         }

@@ -1,5 +1,4 @@
 .thead{
-    padding: 0.5rem 1rem 0.5rem 1rem;
     background-color: var(--light-white-color);
 }
 
@@ -11,6 +10,7 @@
 .table{
     width: 100%;
     text-align: center;
+    border-collapse: collapse;
 }
 
 .tr > th{

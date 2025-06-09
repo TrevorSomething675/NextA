@@ -9,7 +9,7 @@ class BasketStore {
     
 get totalPrice() {
     return this.details.reduce((sum, detail) => {
-        const userDetails = Array.isArray(detail.userDetail) ? detail.userDetail : [];
+        const userDetails = Array.isArray(detail.userDetails) ? detail.userDetails : [];
         const userDetailsSum = userDetails.reduce((innerSum, userDet) => {
             return innerSum + (userDet?.count ?? 0) * (detail?.newPrice ?? 0);
         }, 0);

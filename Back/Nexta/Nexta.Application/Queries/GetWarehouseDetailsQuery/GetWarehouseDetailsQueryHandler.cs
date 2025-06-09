@@ -21,7 +21,7 @@ namespace Nexta.Application.Queries.GetWarehouseDetailsQuery
 		{
 			try
 			{
-				var pagedDetails = _mapper.Map<PagedData<Detail>>(await _detailRepository.GetWarehouseDetailsAsync(request.Filter, ct));
+				var pagedDetails = _mapper.Map<PagedData<Detail>>(await _detailRepository.GetAllAsync(request.Filter, ct));
 
 				return new Result<GetWarehouseDetailsQueryResponse>(new GetWarehouseDetailsQueryResponse(pagedDetails));
 			}

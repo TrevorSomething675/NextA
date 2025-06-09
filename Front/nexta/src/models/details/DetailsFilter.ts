@@ -1,5 +1,7 @@
 interface DetailsFilter{
-    pageNumber:number
+    pageNumber:number,
+    pageSize?:number,
+    searchTerm?:string | null
 }
 
 export default DetailsFilter;

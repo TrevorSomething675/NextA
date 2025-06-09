@@ -1,3 +1,4 @@
+import Order from "./Order";
 import UserDetail from "./UserDetail";
 
 interface Detail{
@@ -11,11 +12,12 @@ interface Detail{
     count:number,
     newPrice:number,
     oldPrice:number,
-    userDetail: UserDetail[]
+    userDetails: UserDetail[],
+    orders:Order[]
 }
 
 enum DetailStatus{
-    Unkown = -1, //Неизвестный статус
+    Unknown = -1, //Неизвестный статус
     InStock = 0, //Есть на складе
     OutOfStock = 1, //Нет на складе
 }

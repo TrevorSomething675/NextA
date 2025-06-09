@@ -22,7 +22,7 @@ ul {
   flex: 1;
   display: flex;
   flex-direction: column;
-  width: 77%;
+  width: 100%;
   margin: 0 auto 0 auto;
   max-width: 1400px;
 }

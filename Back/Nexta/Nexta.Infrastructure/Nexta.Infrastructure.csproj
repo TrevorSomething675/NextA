@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="DataBase\Migrations\" />
     <Folder Include="Minio\" />
     <Folder Include="Minio\" />
   </ItemGroup>

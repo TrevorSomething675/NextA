@@ -3,6 +3,7 @@ using Nexta.Domain.Models.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Entities;
 using Nexta.Domain.Filters;
+using Nexta.Domain.Extensions;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -15,21 +16,30 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			_dbContextFactory = dbContextFactory;
 		}
 
+		public async Task<List<DetailEntity>> GetRangeAsync(List<Guid> detailIds, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var details = await context.Details
+					.AsNoTracking()
+					.Where(d => detailIds.Contains(d.Id))
+					.ToListAsync(ct);
+
+				return details;
+			}
+		}
+
 		public async Task<PagedData<DetailEntity>> SearchDetail(SearchDetailFilter filter, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var searchTerm = filter.SearchTerm.ToLower();
 
-				var details = await context.Details.Where(d =>
-					EF.Functions.Like(d.Article.ToLower(), $"{searchTerm}") ||
-					EF.Functions.Like(d.Article.ToLower(), $"{searchTerm}%") ||
-					EF.Functions.Like(d.Article.ToLower(), $"%{searchTerm}") ||
-					EF.Functions.Like(d.Name.ToLower(), $"{searchTerm}") ||
-					EF.Functions.Like(d.Name.ToLower(), $"{searchTerm}%") ||
-					EF.Functions.Like(d.Name.ToLower(), $"%{searchTerm}"))
+				var details = await context.Details
+					.AsNoTracking()
+					.WithSearchTerm(searchTerm)
 					.Skip((filter.PageNumber - 1) * 8)
-					.Take(filter.PageNumber * 8)
+					.Take(8)
 					.ToListAsync(ct);
 
 				var pageCount = (int)Math.Ceiling((double)details.Count / 8);
@@ -43,29 +53,30 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var detail = await context.Details.AsNoTracking()
-					.Include(d => d.UserDetail)
+					.Include(d => d.UserDetails)
 					.FirstOrDefaultAsync(d => d.Id == id, ct);
 
 				return detail;
 			}
 		}
 
-		public async Task<PagedData<DetailEntity>> GetAllAsync(BaseFilter filter, CancellationToken ct = default)
+		public async Task<PagedData<DetailEntity>> GetAllAsync(DetailsFilter filter, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var details = await context.Details
-					.AsNoTracking()
-					.Skip((filter.PageNumber - 1) * 8)
-					.Take(filter.PageNumber * 8)
+				var searchTerm = filter.SearchTerm.ToLower();
+
+				var query = context.Details
+					.AsNoTracking();
+
+				var details = await query
+					.WithSearchTerm(searchTerm)
+					.Skip((filter.PageNumber - 1) * filter.PageSize)
+					.Take(filter.PageSize)
 					.ToListAsync(ct);
 
-				var countDetails = await context.Details
-					.AsNoTracking()
-					.Select(d => d.Id)
-					.ToListAsync(ct);
-
-				var pageCount = (int)Math.Ceiling((double)countDetails.Count / 8);
+				var countDetails = await query.CountAsync(ct);
+				var pageCount = (int)Math.Ceiling((double)countDetails / filter.PageSize);
 
 				return new PagedData<DetailEntity>(details, details.Count, pageCount);
 			}
@@ -75,21 +86,18 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var details = await context.Details
+				var query = context.Details
 					.AsNoTracking()
-					.Where(d => d.Count > 0)
+					.Where(d => d.Count > 0);
+		
+				var details = await query
 					.Skip((filter.PageNumber - 1) * 8)
-					.Take(filter.PageNumber * 8)
+					.Take(8)
 					.ToListAsync(ct);
-
-				var countDetais = await context.Details
-					.AsNoTracking()
-					.Where(d => d.Count > 0)
-					.Select(d => d.Id)
-					.ToListAsync(ct);
-
-				var pageCount = (int)Math.Ceiling((double)countDetais.Count / 8);
-
+		
+				var countDetais = await query.CountAsync(ct);
+				var pageCount = (int)Math.Ceiling((double)countDetais / 8);
+		
 				return new PagedData<DetailEntity>(details, details.Count, pageCount);
 			}
 		}
@@ -100,14 +108,9 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			{
 				var details = await context.Details
 					.AsNoTracking()
-					.Where(d => d.UserDetail.Any(ud => ud.UserId == filter.UserId))
-					.Include(d => d.UserDetail)
+					.Where(d => d.UserDetails.Any(ud => ud.UserId == filter.UserId))
+					.Include(d => d.UserDetails.Where(ud => ud.UserId == filter.UserId))
 					.ToListAsync(ct);
-
-				foreach (var detail in details)
-				{
-					detail.UserDetail = detail.UserDetail?.Where(ud => ud.UserId == filter.UserId).ToList();
-				}
 
 				return details;
 			}

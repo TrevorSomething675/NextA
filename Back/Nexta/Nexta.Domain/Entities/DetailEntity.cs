@@ -16,6 +16,8 @@ namespace Nexta.Domain.Entities
 		public int NewPrice { get; set; }
 		public int OldPrice { get; set; }
 
-		public List<UserDetailEntity>? UserDetail { get; set; }
+		public List<UserDetailEntity>? UserDetails { get; set; }
+		public List<OrderDetailEntity>? OrderDetails { get; set; }
+		public List<OrderEntity>? Orders { get; set; }
 	}
 }

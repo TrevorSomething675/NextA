@@ -9,11 +9,11 @@ namespace Nexta.Infrastructure.DataBase.Configurations
 		public void Configure(EntityTypeBuilder<UserDetailEntity> builder)
 		{
 			builder.HasOne(ud => ud.User)
-				.WithMany(u => u.UserDetail)
+				.WithMany(u => u.UserDetails)
 				.HasForeignKey(ud => ud.UserId);
 
 			builder.HasOne(ud => ud.Detail)
-				.WithMany(d => d.UserDetail)
+				.WithMany(d => d.UserDetails)
 				.HasForeignKey(ud => ud.DetailId);
 
 			builder.HasKey(ud => new { ud.UserId, ud.DetailId });
