@@ -13,9 +13,11 @@ namespace Nexta.Web.Controllers
 			_mediator = mediator;
 		}
 		[HttpPost("[action]")]
-		public async Task<IActionResult> SearchDetail([FromBody]SearchDetailQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(SearchDetailQueryResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> SearchDetail([FromBody]SearchDetailQueryRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, ct)).ToActionResult();
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
 		}
     }
 }

@@ -18,10 +18,9 @@ const Details:React.FC<{detailsFilter?:DetailsFilter}> = ({detailsFilter = {page
         const request:GetDetailsRequest = {
             filter: detailsFilter
         }
-        console.log(request);
         const result = await DetailsService.GetDetails(request);
-        if(result.statusCode == 200){
-            setResponse(result.value)
+        if(result){
+            setResponse(result);
         }
     };
 

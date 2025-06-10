@@ -40,11 +40,11 @@ const Orders = observer(() => {
     }, []);
     
     const fetchData = async (request:GetOrdersForUserRequest) => {
-        const result = await OrderService.GetOrdersForUser(request);
-        if(result?.statusCode == 200){
-            setResponse(result.value);
-            orderStore.setOrders(result?.value?.orders?.items);
-            orderStore.setTotalOrders(result?.value?.totalCount);
+        const response = await OrderService.GetOrdersForUser(request);
+        if(response){
+            setResponse(response);
+            orderStore.setOrders(response?.orders?.items);
+            orderStore.setTotalOrders(response?.totalCount);
         }
     }
     

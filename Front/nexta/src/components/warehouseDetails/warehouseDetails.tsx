@@ -21,10 +21,8 @@ const WarehouseDetails:React.FC<{pageNumber?:number}> = () => {
         const request:GetDetailsRequest = {
             filter: filter
         }
-        const result = await WarehouseService.GetDetails(request);
-        if(result.statusCode == 200){
-            setResponse(result.value)
-        }
+        const response = await WarehouseService.GetDetails(request);
+        setResponse(response);
     };
 
     useEffect(() => {

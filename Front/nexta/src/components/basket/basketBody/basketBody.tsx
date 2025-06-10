@@ -19,12 +19,8 @@ const BasketBody = observer(() => {
             const request:GetBasketDetailsRequest = {
                 filter: filter
             };
-            const result = await BasketService.GetBasketDetails(request);
-            if(result.statusCode == 200 && result.value){
-                basket.setBasketDetails(result.value.details);
-            } else {
-                console.error('Ошибка на странице BasketBody');
-            };
+            const response = await BasketService.GetBasketDetails(request);
+            basket.setBasketDetails(response.details);
         }
         
         fetchData();

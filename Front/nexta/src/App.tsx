@@ -33,8 +33,8 @@ const App = () => {
             filter: filter
         };
         const basketResult = await BasketService.GetBasketDetails(request);
-        if(basketResult.statusCode == 200 && basketResult.value){
-            basket.setBasketDetails(basketResult.value.details);
+        if(basketResult){
+            basket.setBasketDetails(basketResult.details);
         } else {
             console.error('Ошибка на странице BasketPage');
         };
@@ -49,10 +49,10 @@ const App = () => {
             filter:ordersFilter
         };
 
-        const result = await OrderService.GetOrdersForUser(ordersRequest);
-        if(result?.statusCode == 200){
-            orderStore.setOrders(result?.value?.orders.items);
-            orderStore.setTotalOrders(result?.value?.totalCount);
+        const orderResponse = await OrderService.GetOrdersForUser(ordersRequest);
+        if(orderResponse !== undefined){
+            orderStore.setOrders(orderResponse?.orders?.items);
+            orderStore.setTotalOrders(orderResponse?.totalCount);
         }
     }
     fetchData();

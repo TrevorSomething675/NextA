@@ -17,10 +17,9 @@ const LegacyOrders = () => {
             pageSize: 8,
             pageNumber: pageNumber
         };
-        const request:GetLegacyOrdersForUserRequest ={
+        const request:GetLegacyOrdersForUserRequest = {
             filter:filter
         };
-        
         fetchData(request);
     }
     
@@ -38,10 +37,9 @@ const LegacyOrders = () => {
     }, []);
     
     const fetchData = async (request:GetLegacyOrdersForUserRequest) => {
-        const result = await OrderService.GetLegacyOrdersForUser(request);
-        if(result?.statusCode == 200){
-            console.log(result);
-            setResponse(result.value);
+        const response = await OrderService.GetLegacyOrdersForUser(request);
+        if(response){
+            setResponse(response);
         }
     }
 

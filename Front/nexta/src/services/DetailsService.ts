@@ -1,19 +1,18 @@
 import GetDetailsResponse from "../models/details/GetDetailsResponse";
 import GetDetailsRequest from "../models/details/GetDetailsRequest";
-import ApiResponse from "../models/ApiResponse";
+import GetDetailResponse from "../models/detail/GetDetailResponse";
+import GetDetailRequest from "../models/detail/GetDetailRequest";
 import axios from 'axios';
 import api from "../http";
-import GetDetailRequest from "../models/detail/GetDetailRequest";
-import GetDetailResponse from "../models/detail/GetDetailResponse";
 
 class DetailsService{
     static async GetDetails(request:GetDetailsRequest){
         try{
-            const response = await api.post<ApiResponse<GetDetailsResponse>>('Detail/GetAll', request);
+            const response = await api.post<GetDetailsResponse>('Detail/GetAll', request);
             return response.data
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as ApiResponse<GetDetailsResponse>
+                return error.response.data as GetDetailsResponse
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
@@ -24,11 +23,11 @@ class DetailsService{
             const request:GetDetailRequest = {
                 id: id
             } 
-            const response = await api.post<ApiResponse<GetDetailResponse>>('Detail/Get', request);
+            const response = await api.post<GetDetailResponse>('Detail/Get', request);
             return response.data;
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as ApiResponse<GetDetailResponse>
+                return error.response.data as GetDetailResponse
             }
             else{
                 throw new Error('Сетевая ошибка или ошибка конфигурации');

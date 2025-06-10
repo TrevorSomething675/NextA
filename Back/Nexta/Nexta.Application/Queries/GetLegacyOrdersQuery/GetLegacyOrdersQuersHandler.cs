@@ -6,27 +6,22 @@ using MediatR;
 
 namespace Nexta.Application.Queries.GetLegacyOrdersQuery
 {
-	public class GetLegacyOrdersQuersHandler : IRequestHandler<GetLegacyOrdersQueryRequest, Result<GetLegacyOrdersQueryResponse>>
+	public class GetLegacyOrdersQuersHandler : IRequestHandler<GetLegacyOrdersQueryRequest, GetLegacyOrdersQueryResponse>
 	{
 		private readonly IOrderRepository _orderRepository;
 		private readonly IMapper _mapper;
+
 		public GetLegacyOrdersQuersHandler(IOrderRepository orderRepository, IMapper mapper)
 		{
 			_orderRepository = orderRepository;
 			_mapper = mapper;
 		}
-		public async Task<Result<GetLegacyOrdersQueryResponse>> Handle(GetLegacyOrdersQueryRequest request, CancellationToken ct)
-		{
-			try
-			{
-				var legacyOrders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetLegacyOrdersAsync(request.Filter, ct));
 
-				return new Result<GetLegacyOrdersQueryResponse>(new GetLegacyOrdersQueryResponse(legacyOrders)).Success();
-			}
-			catch (Exception ex)
-			{
-				return new Result<GetLegacyOrdersQueryResponse>().BadRequest(ex.Message);
-			}
+		public async Task<GetLegacyOrdersQueryResponse> Handle(GetLegacyOrdersQueryRequest request, CancellationToken ct)
+		{
+			var legacyOrders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetLegacyOrdersAsync(request.Filter, ct));
+
+			return new GetLegacyOrdersQueryResponse(legacyOrders);
 		}
 	}
 }

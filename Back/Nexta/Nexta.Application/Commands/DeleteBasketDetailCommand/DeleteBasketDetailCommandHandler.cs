@@ -4,10 +4,11 @@ using Nexta.Domain.Entities;
 using MediatR;
 using AutoMapper;
 using Nexta.Domain.Models;
+using Nexta.Domain.Exceptions;
 
 namespace Nexta.Application.Commands.DeleteDetailFromBasket
 {
-	public class DeleteBasketDetailCommandHandler : IRequestHandler<DeleteBasketDetailCommandRequest, Result<DeleteBasketDetailCommandResponse>>
+	public class DeleteBasketDetailCommandHandler : IRequestHandler<DeleteBasketDetailCommandRequest, DeleteBasketDetailCommandResponse>
 	{
 		private readonly IMapper _mapper;
 		private readonly IUserDetailRepository _userDetailRepository;
@@ -16,28 +17,21 @@ namespace Nexta.Application.Commands.DeleteDetailFromBasket
 			_userDetailRepository = userDetailRepository;
 			_mapper = mapper;
 		}
-		public async Task<Result<DeleteBasketDetailCommandResponse>> Handle(DeleteBasketDetailCommandRequest request, CancellationToken ct)
+		public async Task<DeleteBasketDetailCommandResponse> Handle(DeleteBasketDetailCommandRequest request, CancellationToken ct)
 		{
-			try
+			var userDetail = await _userDetailRepository.GetAsync(request.UserId, request.DetailId, ct);
+			if (userDetail == null)
+				throw new NotFoundException("В корзине нет такой детали");
+
+			var userDetailToDelete = new UserDetailEntity
 			{
-				var userDetail = await _userDetailRepository.GetAsync(request.UserId, request.DetailId, ct);
-				if (userDetail == null)
-					return new Result<DeleteBasketDetailCommandResponse>().NotFound();
+				UserId = request.UserId,
+				DetailId = request.DetailId
+			};
 
-				var userDetailToDelete = new UserDetailEntity
-				{
-					UserId = request.UserId,
-					DetailId = request.DetailId
-				};
+			var deletedUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.DeleteAsync(userDetailToDelete, ct));
 
-				var deletedUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.DeleteAsync(userDetailToDelete, ct));
-
-				return new Result<DeleteBasketDetailCommandResponse>(new DeleteBasketDetailCommandResponse(deletedUserDetail)).Success();
-			}
-			catch(Exception ex)
-			{
-				return new Result<DeleteBasketDetailCommandResponse>().BadRequest(ex.Message);
-			}
+			return new DeleteBasketDetailCommandResponse(deletedUserDetail);
 		}
 	}
 }

@@ -1,12 +1,11 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models.DataModels;
 using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;
 
 namespace Nexta.Application.Queries.GetUserBasketDetails
 {
-	public class GetBasketDetailsQueryHandler : IRequestHandler<GetBasketDetailsQueryRequest, Result<GetBasketDetailsQueryResponse>>
+	public class GetBasketDetailsQueryHandler : IRequestHandler<GetBasketDetailsQueryRequest, GetBasketDetailsQueryResponse>
 	{
 		private readonly IDetailRepository _detailRepository;
 		private readonly IMapper _mapper;
@@ -16,18 +15,11 @@ namespace Nexta.Application.Queries.GetUserBasketDetails
 			_mapper = mapper;
 		}
 
-		public async Task<Result<GetBasketDetailsQueryResponse>> Handle(GetBasketDetailsQueryRequest request, CancellationToken ct = default)
+		public async Task<GetBasketDetailsQueryResponse> Handle(GetBasketDetailsQueryRequest request, CancellationToken ct = default)
 		{
-			try
-			{
-				var pagedBasketDetails = _mapper.Map<List<Detail>>(await _detailRepository.GetBasketDetailsAsync(request.Filter, ct));
+			var pagedBasketDetails = _mapper.Map<List<Detail>>(await _detailRepository.GetBasketDetailsAsync(request.Filter, ct));
 
-				return new Result<GetBasketDetailsQueryResponse>(new GetBasketDetailsQueryResponse(pagedBasketDetails)).Success();
-			}
-			catch(Exception ex)
-			{
-				return new Result<GetBasketDetailsQueryResponse>().BadRequest(ex.Message);
-			}
+			return new GetBasketDetailsQueryResponse(pagedBasketDetails);
 		}
 	}
 }

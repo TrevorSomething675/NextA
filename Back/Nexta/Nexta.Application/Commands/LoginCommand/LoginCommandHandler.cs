@@ -1,13 +1,13 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
-using Nexta.Domain.Models.DataModels;
+using Nexta.Domain.Exceptions;
 using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;
 
 namespace Nexta.Application.Commands.LoginCommand
 {
-	public class LoginCommandHandler : IRequestHandler<LoginCommandRequest, Result<LoginCommandResponse>>
+	public class LoginCommandHandler : IRequestHandler<LoginCommandRequest, LoginCommandResponse>
 	{
 		private readonly IPasswordHashService _passwordHashService;
 		private readonly IJwtTokenService _jwtTokenService;
@@ -23,25 +23,18 @@ namespace Nexta.Application.Commands.LoginCommand
 			_mapper = mapper;
 		}
 
-		public async Task<Result<LoginCommandResponse>> Handle(LoginCommandRequest request, CancellationToken ct)
+		public async Task<LoginCommandResponse> Handle(LoginCommandRequest request, CancellationToken ct)
 		{
-			try
-			{
-				var user = _mapper.Map<User>(await _userRepository.GetByEmailAsync(request.Email, ct));
-				if (user == null)
-					return new Result<LoginCommandResponse>().Invalid("Пользователь не зарегистрирован");
+			var user = _mapper.Map<User>(await _userRepository.GetByEmailAsync(request.Email, ct));
+			if (user == null)
+				throw new NotFoundException("Пользователь не зарегистрирован");
 
-				if (!_passwordHashService.Validate(request.Password, user.PasswordHash!))
-					return new Result<LoginCommandResponse>().Invalid("Неверный логин или пароль");
+			if (!_passwordHashService.Validate(request.Password, user.PasswordHash!))
+				throw new UnauthorizedException("Неверный логин или пароль");
 
-				var accessToken = _jwtTokenService.CreateAccessToken(user.Id, user.Role.ToString());
+			var accessToken = _jwtTokenService.CreateAccessToken(user.Id, user.Role.ToString());
 
-				return new Result<LoginCommandResponse>(new LoginCommandResponse(user, accessToken, "RefreshToken"));
-			}
-			catch (Exception ex)
-			{
-				return new Result<LoginCommandResponse>().BadRequest(ex.Message);
-			}
+			return new LoginCommandResponse(user, accessToken, "RefreshToken");
 		}
 	}
 }

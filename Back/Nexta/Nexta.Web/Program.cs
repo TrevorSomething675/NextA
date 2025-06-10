@@ -5,9 +5,10 @@ using Nexta.Domain.Entities;
 using Nexta.Web.Extensions;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
 using FluentValidation;
 using Nexta.Application;
+using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,11 +25,12 @@ services.AddScoped<IJwtTokenService, JwtTokenService>();
 services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(AssemblyMarker))!);
 
 services.AddRouting();
-services.AddControllers()
-	.AddJsonOptions(options =>
-	{
-		options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-	});
+services.AddControllers();
+services.Configure<JsonOptions>(options =>
+{
+	options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 services.AddDbContextFactory<MainContext>();
 
 /*

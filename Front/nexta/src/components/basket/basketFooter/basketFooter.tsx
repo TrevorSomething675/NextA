@@ -23,17 +23,17 @@ const BasketFooter = observer(() => {
             detailIds: basket.details.map((detail) => detail.id)
         }
         const response = await OrderService.CreateNewOrder(request);
-        if(response.statusCode == 200){
+        if(response){
             basket.clear();
             navigate('/Order');
             addNotification({
                 header: 'Заказ сформирован',
-                body: `Ваш заказ [${response.value.order.id}] был успешно сформирован. Скоро с вами свяжется оператор.`
+                body: `Ваш заказ [${response.order.id}] был успешно сформирован. Скоро с вами свяжется оператор.`
             })
-        } 
+        }/* ПЕРЕДЕЛАТЬ НА ПРОМИСЫ
         else {
-            setError(response.errorMessages);
-        } 
+            setError(response);
+        } */
     }   
 
     return (basket?.details !== undefined) && (basket.details.length > 0) && <div className={styles.container}>

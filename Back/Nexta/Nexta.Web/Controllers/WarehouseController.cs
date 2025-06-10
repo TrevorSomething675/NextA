@@ -14,9 +14,11 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Get([FromBody] GetWarehouseDetailsQueryRequest request, CancellationToken ct = default)
-        {
-			return (await _mediator.Send(request, ct)).ToActionResult();
-        }
+		[ProducesResponseType(typeof(GetWarehouseDetailsQueryResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Get([FromBody] GetWarehouseDetailsQueryRequest request, CancellationToken ct = default)
+		{
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
+		}
     }
 }

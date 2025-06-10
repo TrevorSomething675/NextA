@@ -30,8 +30,8 @@ const Login:React.FC<{changeFormStatus:any}> = ({changeFormStatus}) => {
             filter: filter
         };
         const basketResult = await BasketService.GetBasketDetails(request);
-        if(basketResult.statusCode == 200 && basketResult.value){
-            basket.setBasketDetails(basketResult.value.details);
+        if(basketResult){
+            basket.setBasketDetails(basketResult.details);
         } else {
             console.error('Ошибка на странице BasketPage');
         };
@@ -46,21 +46,21 @@ const Login:React.FC<{changeFormStatus:any}> = ({changeFormStatus}) => {
             filter:ordersFilter
         };
 
-        const result = await OrderService.GetOrdersForUser(ordersRequest);
-        if(result?.statusCode == 200){
-            orderStore.setOrders(result?.value?.orders.items);
-            orderStore.setTotalOrders(result?.value?.totalCount);
+        const response = await OrderService.GetOrdersForUser(ordersRequest);
+        if(response?.orders){
+            orderStore.setOrders(response?.orders.items);
+            orderStore.setTotalOrders(response?.totalCount);
         }
     }
 
     const navigate = useNavigate();
     const submit: SubmitHandler<LoginForm> = async (data: LoginForm) => {
         const result = await auth.login(data);
-        if(result?.statusCode == 200){
+        if(result?.user){
             navigate('/');
             fetchData();
         } else{
-            setError(result?.errorMessages.join(', ')!);
+            setError(result.errors ?? '');
         }
     }
     

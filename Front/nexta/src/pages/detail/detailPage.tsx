@@ -13,7 +13,7 @@ const DetailPage = () => {
         const fetch = async() =>{
             if(id !== undefined){
                 const detail = await DetailsService.GetDetail(id);
-                setDetail(detail?.value?.detail);
+                setDetail(detail?.detail);
             }
         }
         fetch();

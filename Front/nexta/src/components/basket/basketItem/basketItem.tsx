@@ -31,22 +31,17 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
             userId: auth?.user?.id,
             detailId: detail.id
         };
-        const result = await BasketService.DeletebasketDetail(request);
-        if(result.statusCode == 200 && result.value){
-            const filter:BasketDetailsFilter = {
-                pageNumber: 1,
-                userId: auth?.user?.id
-            };
-            const getBasketDetailsRequest:GetBasketDetailsRequest = {
-                filter: filter
-            };
-            const result = await BasketService.GetBasketDetails(getBasketDetailsRequest);
-            if(result.statusCode == 200 && result.value){
-                basket.setBasketDetails(result.value.details);
-            } else {
-                console.error('Ошибка на странице Home');
-            };
-        }
+        const response = await BasketService.DeletebasketDetail(request);
+
+        const filter:BasketDetailsFilter = {
+            pageNumber: 1,
+            userId: auth?.user?.id
+        };
+        const getBasketDetailsRequest:GetBasketDetailsRequest = {
+            filter: filter
+        };
+        const result = await BasketService.GetBasketDetails(getBasketDetailsRequest);
+        basket.setBasketDetails(result.details);
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

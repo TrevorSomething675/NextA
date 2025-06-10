@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
-using Nexta.Domain.Models.DataModels;
+using Nexta.Domain.Exceptions;
 using Nexta.Domain.Entities;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Nexta.Application.Commands.RegistrationCommand
 {
-	public class RegistrationCommandHandler : IRequestHandler<RegistrationCommandRequest, Result<RegistrationCommandResponse>>
+	public class RegistrationCommandHandler : IRequestHandler<RegistrationCommandRequest, RegistrationCommandResponse>
 	{
 		private readonly IMapper _mapper;
 		private readonly IUserRepository _userRepository;
@@ -23,30 +23,23 @@ namespace Nexta.Application.Commands.RegistrationCommand
 			_userRepository = userRepository;
 			_mapper = mapper;
 		}
-		public async Task<Result<RegistrationCommandResponse>> Handle(RegistrationCommandRequest request, CancellationToken ct)
+		public async Task<RegistrationCommandResponse> Handle(RegistrationCommandRequest request, CancellationToken ct)
 		{
-			try
-			{
-				var user = await _userRepository.GetByEmailAsync(request.Email, ct);
-				if (user != null)
-					return new Result<RegistrationCommandResponse>().Invalid("Такой пользователь уже существует");
+			var user = await _userRepository.GetByEmailAsync(request.Email, ct);
+			if (user != null)
+				throw new ConflictException("Такой пользователь уже существует");
 
-				var passwordHash = _passwordHashService.Generate(request.Password);
+			var passwordHash = _passwordHashService.Generate(request.Password);
 
-				var userToCreate = _mapper.Map<UserEntity>(request);
-					userToCreate.PasswordHash = passwordHash!;
-					userToCreate.Role = Role.User;
+			var userToCreate = _mapper.Map<UserEntity>(request);
+				userToCreate.PasswordHash = passwordHash!;
+				userToCreate.Role = Role.User;
 
-				var createdUser = _mapper.Map<User>(await _userRepository.AddAsync(userToCreate, ct));
+			var createdUser = _mapper.Map<User>(await _userRepository.AddAsync(userToCreate, ct));
 
-				var accessToken = _jwtTokenService.CreateAccessToken(createdUser.Id, userToCreate.Role.ToString());
+			var accessToken = _jwtTokenService.CreateAccessToken(createdUser.Id, userToCreate.Role.ToString());
 
-				return new Result<RegistrationCommandResponse>(new RegistrationCommandResponse(createdUser, accessToken, "refreshToken")).Success();
-			}
-			catch(Exception ex)
-			{
-				return new Result<RegistrationCommandResponse>().Invalid(ex.Message);
-			}
+			return new RegistrationCommandResponse(createdUser, accessToken, "refreshToken");
 		}
 	}
 }

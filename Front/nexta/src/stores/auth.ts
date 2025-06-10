@@ -43,34 +43,35 @@ class Auth{
     async login(data:LoginForm)
     {
         const response = await AuthService.login(data);
-        if(response.statusCode != 200){
+        if(response.errors){
             return response;
         }
-        localStorage.setItem('accessToken', response.value.accessToken!);
-        localStorage.setItem('firstName', response.value.user.firstName!);
-        localStorage.setItem('lastName', response.value.user.lastName!);
-        localStorage.setItem('middleName', response.value.user.middleName!);
-        localStorage.setItem('email', response.value.user.email!);
-        localStorage.setItem('phone', response?.value?.user?.phone?.toString());
-        localStorage.setItem('id', response.value.user.id!)
+
+        localStorage.setItem('accessToken', response.accessToken!);
+        localStorage.setItem('firstName', response?.user?.firstName!);
+        localStorage.setItem('lastName', response?.user?.lastName!);
+        localStorage.setItem('middleName', response.user?.middleName!);
+        localStorage.setItem('email', response?.user?.email!);
+        localStorage.setItem('phone', response?.user?.phone?.toString() ?? '');
+        localStorage.setItem('id', response?.user?.id!)
         localStorage.setItem('isAuth', 'true');
         this.setAuth(true);
-        this.setUser(response.value.user);
+        this.setUser(response?.user ?? {} as User);
         return response;
     }
 
     async register(registerData:RegisterForm){
         const response = await AuthService.register(registerData);
-        localStorage.setItem('accessToken', response.value.accessToken!);
-        localStorage.setItem('firstName', response.value.user.firstName!);
-        localStorage.setItem('lastName', response.value.user.lastName!);
-        localStorage.setItem('middleName', response.value.user.middleName!);
-        localStorage.setItem('email', response.value.user.email!);
-        localStorage.setItem('phone', response?.value?.user?.phone?.toString());
-        localStorage.setItem('id', response.value.user.id!)
+        localStorage.setItem('accessToken', response.accessToken!);
+        localStorage.setItem('firstName', response?.user?.firstName!);
+        localStorage.setItem('lastName', response?.user?.lastName!);
+        localStorage.setItem('middleName', response?.user?.middleName!);
+        localStorage.setItem('email', response?.user?.email!);
+        localStorage.setItem('phone', response?.user?.phone?.toString() ?? '');
+        localStorage.setItem('id', response?.user?.id!)
         localStorage.setItem('isAuth', 'true');
         this.setAuth(true);
-        this.setUser(response.value.user);
+        this.setUser(response.user ?? {} as User);
         return response;
     }
 

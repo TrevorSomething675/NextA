@@ -1,9 +1,8 @@
-﻿using Nexta.Domain.Models.DataModels;
-using MediatR;
+﻿using MediatR;
 
 namespace Nexta.Application.Commands.AddDetailToBasketCommand
 {
-    public class AddBasketDetailQueryRequest : IRequest<Result<AddBasketDetailQueryResponse>>
+    public class AddBasketDetailQueryRequest : IRequest<AddBasketDetailQueryResponse>
     {
         public Guid UserId { get; set; }
         public Guid DetailId { get; set; }

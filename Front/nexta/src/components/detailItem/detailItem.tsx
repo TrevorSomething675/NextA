@@ -49,8 +49,9 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
             detailId: detail.id,
             countToPay: count
         };
-        const result = await BasketService.AddBasketDetail(request);
-        if(result.statusCode == 200 && result.value){
+        const response = await BasketService.AddBasketDetail(request);
+        if(response)
+        {
             const filter:BasketDetailsFilter = {
                 pageNumber: 1,
                 userId: auth?.user?.id
@@ -59,13 +60,8 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
                 filter: filter
             };
             const result = await BasketService.GetBasketDetails(getBasketDetailsRequest);
-            if(result.statusCode == 200 && result.value){
-                basket.setBasketDetails(result.value.details);
-            } else {
-                console.error('Ошибка на странице Home');
-            };
+            basket.setBasketDetails(result.details);
         }
-        console.log(basket.totalPrice);
     }
 
     const increment = () => {

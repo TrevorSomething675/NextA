@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.GetWarehouseDetailsQuery
 {
-	public class GetWarehouseDetailsQueryHandler : IRequestHandler<GetWarehouseDetailsQueryRequest, Result<GetWarehouseDetailsQueryResponse>>
+	public class GetWarehouseDetailsQueryHandler : IRequestHandler<GetWarehouseDetailsQueryRequest, GetWarehouseDetailsQueryResponse>
 	{
 		private readonly IDetailRepository _detailRepository;
 		private readonly IMapper _mapper;
@@ -17,18 +17,11 @@ namespace Nexta.Application.Queries.GetWarehouseDetailsQuery
 			_mapper = mapper;
 		}
 
-		public async Task<Result<GetWarehouseDetailsQueryResponse>> Handle(GetWarehouseDetailsQueryRequest request, CancellationToken ct)
+		public async Task<GetWarehouseDetailsQueryResponse> Handle(GetWarehouseDetailsQueryRequest request, CancellationToken ct)
 		{
-			try
-			{
-				var pagedDetails = _mapper.Map<PagedData<Detail>>(await _detailRepository.GetAllAsync(request.Filter, ct));
+			var pagedDetails = _mapper.Map<PagedData<Detail>>(await _detailRepository.GetAllAsync(request.Filter, ct));
 
-				return new Result<GetWarehouseDetailsQueryResponse>(new GetWarehouseDetailsQueryResponse(pagedDetails));
-			}
-			catch(Exception ex)
-			{
-				return new Result<GetWarehouseDetailsQueryResponse>().BadRequest(ex.Message);
-			}
+			return new GetWarehouseDetailsQueryResponse(pagedDetails);
 		}
 	}
 }

@@ -1,30 +1,30 @@
 import RegisterForm from "../models/auth/Register";
 import AuthModel from "../models/auth/AuthModel";
-import ApiResponse from "../models/ApiResponse";
 import LoginForm from "../models/auth/Login";
 import axios from "axios";
 import api from "../http";
 
 class AuthService {
-    static async login(data: LoginForm): Promise<ApiResponse<AuthModel>> {
+    static async login(data: LoginForm): Promise<AuthModel> {
         const formData = new FormData();
 
         formData.append('Email', data.email);
         formData.append('Password', data.password);
 
         try {
-            const response = await api.post<ApiResponse<AuthModel>>('Auth/login', formData, {
+            const response = await api.post<AuthModel>('Auth/login', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            localStorage.setItem('AccessToken', response.data.value.accessToken);
-            localStorage.setItem('RefreshToken', response.data.value.refreshToken);
+            localStorage.setItem('AccessToken', response.data.accessToken ?? '');
+            localStorage.setItem('RefreshToken', response.data.refreshToken ?? '');
 
             return response.data;
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                return error.response.data as ApiResponse<AuthModel>;
+                const authModel:AuthModel = {errors: error.message.toString()};
+                return authModel;
             } 
             else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
@@ -32,7 +32,7 @@ class AuthService {
         }
     }
 
-    static async register(registerData:RegisterForm): Promise<ApiResponse<AuthModel>>{
+    static async register(registerData:RegisterForm): Promise<AuthModel>{
         const formData = new FormData();
         
         formData.append('Email', registerData.email);
@@ -43,16 +43,16 @@ class AuthService {
         formData.append('ConfirmPassword', registerData.confirmPassword);
 
         try{
-            const response = await api.post<ApiResponse<AuthModel>>('Auth/Register', formData, {headers:{
+            const response = await api.post<AuthModel>('Auth/Register', formData, {headers:{
                 'Content-Type': 'multipart/form-data'
             }});
-            localStorage.setItem('AccessToken', response.data.value.accessToken);
-            localStorage.setItem('RefreshToken', response.data.value.refreshToken);
+            localStorage.setItem('AccessToken', response?.data?.accessToken ?? '');
+            localStorage.setItem('RefreshToken', response?.data?.refreshToken ?? '');
 
             return response.data;
         } catch(error) {
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as ApiResponse<AuthModel>;
+                return error.response.data as AuthModel;
             } 
             else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');

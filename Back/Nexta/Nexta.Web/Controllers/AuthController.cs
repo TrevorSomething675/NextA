@@ -15,15 +15,19 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Login(LoginCommandRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(LoginCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Login(LoginCommandRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, ct)).ToActionResult();
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Register(RegistrationCommandRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(RegistrationCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Register(RegistrationCommandRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, ct)).ToActionResult();
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
 		}
 	}
 }

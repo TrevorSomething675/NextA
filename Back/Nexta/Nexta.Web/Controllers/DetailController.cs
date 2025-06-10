@@ -15,15 +15,19 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Get([FromBody] GetDetailByIdQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(GetDetailByIdQueryResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Get([FromBody] GetDetailByIdQueryRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, ct)).ToActionResult();
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> GetAll([FromBody] GetDetailsQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(GetDetailsQueryResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> GetAll([FromBody] GetDetailsQueryRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, ct)).ToActionResult();
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
 		}
 	}
 }

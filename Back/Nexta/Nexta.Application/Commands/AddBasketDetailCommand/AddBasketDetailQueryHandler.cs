@@ -1,15 +1,14 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models.DataModels;
+using Nexta.Domain.Exceptions;
 using Nexta.Domain.Entities;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Nexta.Application.Commands.AddDetailToBasketCommand
 {
-	public class AddBasketDetailQueryHandler : IRequestHandler<AddBasketDetailQueryRequest, Result<AddBasketDetailQueryResponse>>
+	public class AddBasketDetailQueryHandler : IRequestHandler<AddBasketDetailQueryRequest, AddBasketDetailQueryResponse>
 	{
 		private readonly IUserDetailRepository _userDetailRepository;
 		private readonly IDetailRepository _detailRepository;
@@ -21,37 +20,30 @@ namespace Nexta.Application.Commands.AddDetailToBasketCommand
 			_detailRepository = detailRepository;
 			_mapper = mapper;
 		}
-		public async Task<Result<AddBasketDetailQueryResponse>> Handle(AddBasketDetailQueryRequest request, CancellationToken ct)
+		public async Task<AddBasketDetailQueryResponse> Handle(AddBasketDetailQueryRequest request, CancellationToken ct)
 		{
-			try
-			{
-				var userDetail = await _userDetailRepository.GetAsync(request.UserId, request.DetailId, ct);
+			var userDetail = await _userDetailRepository.GetAsync(request.UserId, request.DetailId, ct);
 
-				if (userDetail != null)
-					return new Result<AddBasketDetailQueryResponse>().BadRequest("Деталь уже в корзине");
+			if (userDetail != null)
+				throw new ConflictException("Деталь уже в корзине");
 
-				var userDetailToCreate = new UserDetailEntity
-				{ 
-					UserId = request.UserId,
-					DetailId = request.DetailId,
-					Count = request.CountToPay,
-					Status = UserDetailStatus.AtWork,
-					DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2))
-				};
+			var userDetailToCreate = new UserDetailEntity
+			{ 
+				UserId = request.UserId,
+				DetailId = request.DetailId,
+				Count = request.CountToPay,
+				Status = UserDetailStatus.AtWork,
+				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2))
+			};
 
-				var createdUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.AddAsync(userDetailToCreate, ct));
+			var createdUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.AddAsync(userDetailToCreate, ct));
 
-				if (createdUserDetail == null)
-					return new Result<AddBasketDetailQueryResponse>().BadRequest("Деталь не получилось добавить");
+			if (createdUserDetail == null)
+				throw new BadRequestException("Деталь не получилось добавить");
 
-				var createdDetail = _mapper.Map<Detail>(await _detailRepository.GetAsync(createdUserDetail.DetailId, ct));
+			var createdDetail = _mapper.Map<Detail>(await _detailRepository.GetAsync(createdUserDetail.DetailId, ct));
 
-				return new Result<AddBasketDetailQueryResponse>(new AddBasketDetailQueryResponse(createdDetail)).Success();
-			}
-			catch (Exception ex)
-			{
-				return new Result<AddBasketDetailQueryResponse>().Invalid(ex.Message);
-			}
+			return new AddBasketDetailQueryResponse(createdDetail);
 		}
 	}
 }

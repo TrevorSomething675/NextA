@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.SearchDetailQuery
 {
-	public class SearchDetailQueryHandler : IRequestHandler<SearchDetailQueryRequest, Result<SearchDetailQueryResponse>>
+	public class SearchDetailQueryHandler : IRequestHandler<SearchDetailQueryRequest, SearchDetailQueryResponse>
 	{
 		private readonly IMapper _mapper;
 		private readonly IDetailRepository _detailRepository;
@@ -17,11 +17,11 @@ namespace Nexta.Application.Queries.SearchDetailQuery
 			_mapper = mapper;
 		}
 
-		public async Task<Result<SearchDetailQueryResponse>> Handle(SearchDetailQueryRequest request, CancellationToken ct = default)
+		public async Task<SearchDetailQueryResponse> Handle(SearchDetailQueryRequest request, CancellationToken ct = default)
 		{
 			var details = _mapper.Map<PagedData<Detail>>(await _detailRepository.SearchDetail(request.Filter, ct));
 
-			return new Result<SearchDetailQueryResponse>(new SearchDetailQueryResponse(details));
+			return new SearchDetailQueryResponse(details);
 		}
 	}
 }

@@ -1,9 +1,8 @@
-﻿using Nexta.Domain.Models.DataModels;
-using MediatR;
+﻿using MediatR;
 
 namespace Nexta.Application.Commands.RegistrationCommand
 {
-    public class RegistrationCommandRequest : IRequest<Result<RegistrationCommandResponse>>
+    public class RegistrationCommandRequest : IRequest<RegistrationCommandResponse>
     {
 		public string Email { get; set; } = null!;
 

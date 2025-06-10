@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.GetOrdersQuery
 {
-	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQueryRequest, Result<GetOrdersForUserQueryResponse>>
+	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQueryRequest, GetOrdersForUserQueryResponse>
 	{
 		private readonly IOrderRepository _orderRepository;
 		private readonly IMapper _mapper;
@@ -17,19 +17,12 @@ namespace Nexta.Application.Queries.GetOrdersQuery
 			_mapper = mapper;
 		}
 
-		public async Task<Result<GetOrdersForUserQueryResponse>> Handle(GetOrdersForUserQueryRequest request, CancellationToken ct)
+		public async Task<GetOrdersForUserQueryResponse> Handle(GetOrdersForUserQueryRequest request, CancellationToken ct)
 		{
-			try
-			{
-				var orders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(request.Filter, ct));
-				var totalCount = await _orderRepository.CountOrdersAsync(request.Filter.UserId, ct);
+			var orders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(request.Filter, ct));
+			var totalCount = await _orderRepository.CountOrdersAsync(request.Filter.UserId, ct);
 
-				return new Result<GetOrdersForUserQueryResponse>(new GetOrdersForUserQueryResponse(orders, totalCount)).Success();
-			}
-			catch (Exception ex)
-			{
-				return new Result<GetOrdersForUserQueryResponse>().BadRequest(ex.Message);
-			}
+			return new GetOrdersForUserQueryResponse(orders, totalCount);
 		}
 	}
 }

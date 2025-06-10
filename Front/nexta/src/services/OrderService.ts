@@ -1,6 +1,5 @@
 import GetOrdersForUserResponse from "../models/order/GetOrdersForUserResponse";
 import GetOrdersForUserRequest from "../models/order/GetOrdersForUserRequest";
-import ApiResponse from "../models/ApiResponse";
 import api from "../http";
 import axios from 'axios';
 import CreateNewOrderRequest from "../models/order/createNewOrder/CreateNewOrderRequest";
@@ -10,11 +9,11 @@ import GetLegacyOrdersForUserRequest from "../models/order/getLegacyOrders/GetLe
 class OrderService{
     static async GetOrdersForUser(request:GetOrdersForUserRequest){
         try{
-            const response = await api.post<ApiResponse<GetOrdersForUserResponse>>('Order/GetOrdersForUser', request);
+            const response = await api.post<GetOrdersForUserResponse>('Order/GetOrdersForUser', request);
             return response.data;
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as ApiResponse<GetOrdersForUserResponse>
+                return error.response.data as GetOrdersForUserResponse
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
@@ -22,11 +21,11 @@ class OrderService{
     }
     static async GetLegacyOrdersForUser(request:GetLegacyOrdersForUserRequest){
         try{
-            const response = await api.post<ApiResponse<GetOrdersForUserResponse>>('Order/GetLegacyOrdersForUser', request);
+            const response = await api.post<GetOrdersForUserResponse>('Order/GetLegacyOrdersForUser', request);
             return response.data;
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as ApiResponse<GetOrdersForUserResponse>
+                return error.response.data as GetOrdersForUserResponse
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
@@ -35,11 +34,11 @@ class OrderService{
 
     static async CreateNewOrder(request:CreateNewOrderRequest){
         try{
-            const response = await api.post<ApiResponse<CreateNewOrderResponse>>('Order/CreateNewOrder', request);
+            const response = await api.post<CreateNewOrderResponse>('Order/CreateNewOrder', request);
             return response.data;
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as ApiResponse<CreateNewOrderResponse>
+                return error.response.data as CreateNewOrderResponse
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }

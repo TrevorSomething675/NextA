@@ -1,6 +1,7 @@
 ﻿using Nexta.Application.Commands.AddDetailToBasketCommand;
 using Nexta.Application.Commands.DeleteDetailFromBasket;
 using Nexta.Application.Queries.GetUserBasketDetails;
+using Nexta.Application.Commands.LoginCommand;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
@@ -18,21 +19,27 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Get([FromBody] GetBasketDetailsQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(LoginCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Get([FromBody] GetBasketDetailsQueryRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, ct)).ToActionResult();
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Add([FromBody] AddBasketDetailQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(LoginCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Add([FromBody] AddBasketDetailQueryRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, ct)).ToActionResult();
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
 		}
 
 		[HttpPost("[action]")]
-		public async Task<IActionResult> Delete([FromBody] DeleteBasketDetailCommandRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(LoginCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Delete([FromBody] DeleteBasketDetailCommandRequest request, CancellationToken ct = default)
 		{
-			return (await _mediator.Send(request, ct)).ToActionResult();
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
 		}
 	}
 }
