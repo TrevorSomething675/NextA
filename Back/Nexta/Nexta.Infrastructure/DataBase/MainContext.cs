@@ -15,6 +15,8 @@ namespace Nexta.Infrastructure.DataBase
 		public DbSet<UserDetailEntity> UserDetails { get; set; }
 		public DbSet<OrderEntity> Orders { get; set; }
 		public DbSet<OrderDetailEntity> OrderDetails { get; set; }
+		public DbSet<ImageEntity> Images { get; set; }
+		public DbSet<NewsEntity> News { get; set; }
 
 		public MainContext(IOptions<DataBaseOptions> options)
 		{
@@ -32,7 +34,7 @@ namespace Nexta.Infrastructure.DataBase
 			modelBuilder.ApplyConfiguration(new UserDetailConfiguration());
 			modelBuilder.ApplyConfiguration(new UserConfiguration());
 			modelBuilder.ApplyConfiguration(new OrderConfiguration());
-			//modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+			modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
 		}
 	}
 }

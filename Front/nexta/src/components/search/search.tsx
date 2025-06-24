@@ -49,8 +49,8 @@ const Search = () => {
       const request:SearchDetailRequest = {
         filter: filter
       }
-      const details = await SearchService.SearchDetail(request);
-      setResponse(details.value);
+      const response = await SearchService.SearchDetail(request);
+      setResponse(response);
     }
     setLoading(false);
   };

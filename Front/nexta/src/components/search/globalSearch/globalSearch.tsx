@@ -38,8 +38,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ onResponseChange }) => {
       filter
     };
     try {
-      const details = await DetailsService.GetDetails(request);
-      const newResponse = details.value;
+      const response = await DetailsService.GetDetails(request);
+      const newResponse = response;
       setResponse(newResponse);
       onResponseChange(newResponse);
     } catch (error) {

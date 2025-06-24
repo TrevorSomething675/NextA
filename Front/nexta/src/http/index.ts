@@ -1,4 +1,5 @@
 import axios from 'axios';
+import auth from '../stores/auth';
 
 export const API_URL = 'https://localhost:7268';
 
@@ -13,5 +14,16 @@ api.interceptors.request.use((config) => {
         return config;
     }
 });
+
+ api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if(error.response?.status === 401){
+            auth.logout();
+            window.location.href = '/auth';
+        }
+        return Promise.reject(error);
+    }
+)
 
 export default api;

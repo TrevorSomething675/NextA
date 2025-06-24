@@ -1,7 +1,7 @@
-﻿using Nexta.Application.Commands.RegistrationCommand;
-using Nexta.Domain.Entities;
+﻿using Nexta.Domain.Entities;
 using AutoMapper;
 using Nexta.Domain.Models;
+using Nexta.Application.Commands.AuthCommands.RegistrationCommand;
 
 namespace Nexta.Application.Mappings
 {

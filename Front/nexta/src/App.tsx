@@ -21,9 +21,11 @@ import orderStore from './stores/orderStore'
 import GetOrdersForUserFilter from './models/order/GetOrdersForUserFilter'
 import GetOrdersForUserRequest from './models/order/GetOrdersForUserRequest'
 import { NotificationsProvider } from './components/notifications/notifications'
+import AdminOrdersPage from './pages/admin/orders/adminOrdersPage'
 
 const App = () => {
   useEffect(() => {
+    auth.checkAuth()
     const fetchData = async() => {
         const filter:BasketDetailsFilter = {
             pageNumber: 1,
@@ -54,9 +56,12 @@ const App = () => {
             orderStore.setOrders(orderResponse?.orders?.items);
             orderStore.setTotalOrders(orderResponse?.totalCount);
         }
-    }
-    fetchData();
-    }, []); 
+      }
+      if(auth.isAuth){
+        fetchData();
+      }
+    }, []);
+
   return <div className='page-container'>
       <NotificationsProvider>
         <BrowserRouter>
@@ -70,6 +75,7 @@ const App = () => {
               <Route path="Detail/:id" element={<DetailPage />} />
               <Route path="Account" element={<AccountPage />} />
               <Route path="Order" element={<OrderPage />} />
+              <Route path="Admin/Orders" element={<AdminOrdersPage />} />
             </Routes>
           </div>
           <Footer />

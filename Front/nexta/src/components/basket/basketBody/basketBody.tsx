@@ -19,8 +19,12 @@ const BasketBody = observer(() => {
             const request:GetBasketDetailsRequest = {
                 filter: filter
             };
-            const response = await BasketService.GetBasketDetails(request);
-            basket.setBasketDetails(response.details);
+            try{
+                const response = await BasketService.GetBasketDetails(request);
+                basket.setBasketDetails(response.details);
+            } catch(error){
+                console.error(error);
+            }
         }
         
         fetchData();

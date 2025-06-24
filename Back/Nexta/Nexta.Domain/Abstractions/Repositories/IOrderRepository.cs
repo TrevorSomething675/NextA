@@ -6,10 +6,9 @@ namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface IOrderRepository
     {
-        Task<PagedData<OrderEntity>> GetOrdersAsync(OrdersFilter filter, CancellationToken ct = default);
-        Task<PagedData<OrderEntity>> GetLegacyOrdersAsync(OrdersFilter filter, CancellationToken ct = default);
-
         Task<OrderEntity> GetOrderAsync(Guid orderId, CancellationToken ct = default);
+        Task<PagedData<OrderEntity>> GetOrdersAsync(GetOrdersFilter filter, CancellationToken ct = default);
+        Task<PagedData<OrderEntity>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default);
 
         Task<OrderEntity> AddAsync(OrderEntity orderToAdd, CancellationToken ct = default);
 

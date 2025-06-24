@@ -26,3 +26,11 @@
     height: 100%;
     width: 100%;
 }
+
+.loading{
+    padding: 5rem;
+    box-shadow: 0 0.125rem 0.5rem 0 rgba(2, 2, 2, 0.555), 0 0.125rem 2rem 0 rgba(0, 0, 0, 0.034);
+    border-radius: 0.7rem;
+    height: auto;
+    width: auto;
+}

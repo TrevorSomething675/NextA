@@ -1,7 +1,6 @@
 using Nexta.Domain.Abstractions.Services;
 using Nexta.Infrastructure.DataBase;
 using Nexta.Application.Services;
-using Nexta.Domain.Entities;
 using Nexta.Web.Extensions;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
@@ -9,18 +8,26 @@ using FluentValidation;
 using Nexta.Application;
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
+using Nexta.Web.Middlewares;
+using Nexta.Domain.Entities;
+using Nexta.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 
-services.AddAppOptions();
+services.AddAppOptions(builder.Configuration);
 services.AddAppMapper();
+await services.AddAppMinio(builder.Configuration);
 services.AddAppRepositories();
-services.AddAppAuth();
+services.AddAppAuth(builder.Configuration);
 services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(AssemblyMarker))!));
-services.AddScoped<IPasswordHashService, PasswordHashService>();
+services.AddScoped<IHashService, PasswordHashService>();
 services.AddScoped<IJwtTokenService, JwtTokenService>();
+services.AddScoped<IEmailService, EmailService>();
+services.AddScoped<IVerificationCodeGenerator, VerificationCodeGenerator>();
+services.AddScoped<IVerificationCodeService, VerificationCodeService>();
+services.AddMemoryCache();
 
 services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(AssemblyMarker))!);
 
@@ -241,11 +248,77 @@ using(var context = services.BuildServiceProvider().GetRequiredService<MainConte
 
 	context.OrderDetails.Add(orderDetail1);
 	context.SaveChanges();
+
+	var images = new List<ImageEntity>
+	{
+		new ImageEntity
+		{
+			Name = "news1.jpg",
+			Bucket = "news"
+		},
+		new ImageEntity
+		{
+			Name = "news2.jpg",
+			Bucket = "news"
+		},
+		new ImageEntity
+		{
+			Name = "news3.jpg",
+			Bucket = "news"
+		},
+		new ImageEntity
+		{
+			Name = "hWL_1j5KS8U.jpg",
+			Bucket = "test"
+		}
+	};
+	context.Images.AddRange(images);
+	context.SaveChanges();
+
+	var newsImages = context.Images.Where(i => i.Bucket == "news");
+
+	var news = new List<NewsEntity>
+	{
+		new NewsEntity
+		{
+			Header = "news1",
+			Description = "Description1",
+			Image = images[0],
+		},
+		new NewsEntity
+		{
+			Header = "news2",
+			Description = "Description2",
+			Image = images[1],
+		},
+		new NewsEntity
+		{
+			Header = "news3",
+			Description = "Description3",
+			Image = images[2],
+		},
+		new NewsEntity
+		{
+			Header = "test",
+			Description = "desc",
+			Image = images[3],
+		}
+	};
+	context.News.AddRange(news);
+	context.SaveChanges();
+
+	var detail = context.Details.FirstOrDefault();
+	var image = context.Images.FirstOrDefault();
+
+	detail.Image = image;
+	context.Details.Update(detail);
+	context.SaveChanges();
 }
 */
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(builder =>
 {
 	builder.WithOrigins("http://localhost:5173")
@@ -255,6 +328,13 @@ app.UseCors(builder =>
 });
 app.UseRouting();
 app.UseAppAuth();
-app.MapControllers();
+
+app.MapControllerRoute(
+	name: "admin",
+	pattern: "{area:exists}/{controller}/{action}");
+
+app.MapControllerRoute(
+	name: "default",
+	pattern: "{controller}/{action}");
 
 app.Run();

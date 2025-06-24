@@ -12,7 +12,7 @@ const BasketFooter = observer(() => {
     const navigate = useNavigate();
     const {addNotification} = useNotifications();
 
-    const [error, setError] = useState({} as string[]);
+    const [isLoading, setLoading] = useState(false);
 
     const handleCreateOrder = () =>{
         fetchData();
@@ -22,6 +22,7 @@ const BasketFooter = observer(() => {
             userId: auth?.user?.id,
             detailIds: basket.details.map((detail) => detail.id)
         }
+        setLoading(true);
         const response = await OrderService.CreateNewOrder(request);
         if(response){
             basket.clear();
@@ -30,15 +31,21 @@ const BasketFooter = observer(() => {
                 header: 'Заказ сформирован',
                 body: `Ваш заказ [${response.order.id}] был успешно сформирован. Скоро с вами свяжется оператор.`
             })
-        }/* ПЕРЕДЕЛАТЬ НА ПРОМИСЫ
-        else {
-            setError(response);
-        } */
+        }
+        setLoading(false);
     }   
 
     return (basket?.details !== undefined) && (basket.details.length > 0) && <div className={styles.container}>
         <div className={styles.footerItem}>
-            <button className={styles.button} onClick={handleCreateOrder}>Оформить заказ</button>
+            <button className={styles.button} onClick={handleCreateOrder}>
+                {isLoading ? 
+                    (<img src="/loading2.gif" className={styles.loading}/>)
+                    : 
+                    (<p className={styles.p}>
+                        Оформить заказ
+                    </p>)
+                }
+            </button>
         </div>
         <div className={styles.footerPrice}>
             <div className={styles.priceContainer}>Итого: {basket.totalPrice} руб.</div>

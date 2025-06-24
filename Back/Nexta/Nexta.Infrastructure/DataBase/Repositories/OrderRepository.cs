@@ -3,6 +3,7 @@ using Nexta.Domain.Models.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Entities;
 using Nexta.Domain.Filters;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -38,30 +39,6 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<PagedData<OrderEntity>> GetLegacyOrdersAsync(OrdersFilter filter, CancellationToken ct = default)
-		{
-			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
-			{
-				var query = context.Orders
-					.Where(o => o.UserId == filter.UserId)
-					.Where(o => 
-						o.Status == Domain.Enums.OrderStatus.Canceled || 
-						o.Status == Domain.Enums.OrderStatus.Complete)
-					.AsNoTracking();
-
-				var orders = await query
-					.Include(o => o.OrderDetails)!.ThenInclude(od => od.Detail)
-					.Skip((filter.PageNumber - 1) * filter.PageSize)
-					.Take(filter.PageSize)
-					.ToListAsync(ct);
-
-				var ordersCount = await query.CountAsync(ct);
-				var pageCount = (int)Math.Ceiling((double)ordersCount / filter.PageSize);
-
-				return new PagedData<OrderEntity>(orders, orders.Count, pageCount);
-			}
-		}
-
 		public async Task<OrderEntity> GetOrderAsync(Guid orderId, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
@@ -76,15 +53,33 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<PagedData<OrderEntity>> GetOrdersAsync(OrdersFilter filter, CancellationToken ct = default)
+		public async Task<PagedData<OrderEntity>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default)
+		{
+			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var query = context.Orders
+					.AsNoTracking()
+					.Where(o => filter.Statuses.Contains(o.Status));
+
+				var orders = await query
+					.Skip((filter.PageNumber - 1) * filter.PageSize)
+					.Take(filter.PageSize)
+					.ToListAsync(ct);
+
+				var ordersCount = await query.CountAsync(ct);
+				var pageCount = (int)Math.Ceiling((double)ordersCount / filter.PageSize);
+
+				return new PagedData<OrderEntity>(orders, ordersCount, pageCount);
+			}
+		}
+
+		public async Task<PagedData<OrderEntity>> GetOrdersAsync(GetOrdersFilter filter, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var query = context.Orders
 					.Where(o => o.UserId == filter.UserId)
-					.Where(o =>
-						o.Status != Domain.Enums.OrderStatus.Canceled &&
-						o.Status != Domain.Enums.OrderStatus.Complete)
+					.Where(o => filter.Statuses.Contains(o.Status))
 					.AsNoTracking();
 
 				var orders = await query

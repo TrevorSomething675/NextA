@@ -44,3 +44,13 @@
 .footerPrice{
     width: 26%;
 }
+
+.p{
+    margin: 0 0 0 0;
+}
+
+.loading{
+    max-height: 1rem;
+    margin: 0.2rem 0 0 0;
+    background-color: var(--red-color);
+}

@@ -5,6 +5,6 @@ namespace Nexta.Application.Queries.GetWarehouseDetailsQuery
 {
     public class GetWarehouseDetailsQueryRequest : IRequest<GetWarehouseDetailsQueryResponse>
     {
-        public DetailsFilter Filter { get; set; } = null!;
+        public GetDetailsFilter Filter { get; set; } = null!;
     }
 }

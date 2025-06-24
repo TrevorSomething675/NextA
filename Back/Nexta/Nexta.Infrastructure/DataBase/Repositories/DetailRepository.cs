@@ -53,6 +53,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var detail = await context.Details.AsNoTracking()
+					.Include(d => d.Image)
 					.Include(d => d.UserDetails)
 					.FirstOrDefaultAsync(d => d.Id == id, ct);
 
@@ -60,7 +61,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<PagedData<DetailEntity>> GetAllAsync(DetailsFilter filter, CancellationToken ct = default)
+		public async Task<PagedData<DetailEntity>> GetAllAsync(GetDetailsFilter filter, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
@@ -102,7 +103,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<List<DetailEntity>> GetBasketDetailsAsync(BasketDetailsFilter filter, CancellationToken ct = default)
+		public async Task<List<DetailEntity>> GetBasketDetailsAsync(GetBasketDetailsFilter filter, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
@@ -114,21 +115,6 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 
 				return details;
 			}
-		}
-
-		public Task<DetailEntity> AddAsync(DetailEntity detailToAdd, CancellationToken ct = default)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<DetailEntity> DeleteAsync(Guid id, CancellationToken ct = default)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<DetailEntity> UpdateAsync(DetailEntity detailToUpdate, CancellationToken ct = default)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

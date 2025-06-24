@@ -1,3 +1,4 @@
+import Image from "./image/Image";
 import Order from "./Order";
 import UserDetail from "./UserDetail";
 
@@ -13,7 +14,8 @@ interface Detail{
     newPrice:number,
     oldPrice:number,
     userDetails: UserDetail[],
-    orders:Order[]
+    orders:Order[],
+    image:Image
 }
 
 enum DetailStatus{

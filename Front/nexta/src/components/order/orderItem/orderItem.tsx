@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const OrderItem:React.FC<{order:Order}> = ({order}) => {
     const navigate = useNavigate();
-
     const statusLabel = {
         [OrderStatus.Unknown]: 'Неизвестный статус',
         [OrderStatus.Accepted]: 'Принят',
@@ -97,7 +96,7 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
         </div>
         <div className={styles.orderFooter}>
             <div>
-                <span className={styles.orderQuestion}>Есть впросы по заказу?</span>
+                <span className={styles.orderQuestion}>Есть вопросы по заказу?</span>
                 <span className={styles.number}>+7 915-562-95-13</span>
             </div>
             <div className={styles.orderStatus}>

@@ -5,6 +5,6 @@ namespace Nexta.Application.Queries.GetLegacyOrdersQuery
 {
     public class GetLegacyOrdersQueryRequest : IRequest<GetLegacyOrdersQueryResponse>
     {
-		public OrdersFilter Filter { get; set; }
+		public GetOrdersFilter Filter { get; set; }
 	}
 }

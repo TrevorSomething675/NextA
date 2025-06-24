@@ -2,17 +2,17 @@
 
 namespace Nexta.Application.Services
 {
-	public class PasswordHashService : IPasswordHashService
+	public class PasswordHashService : IHashService
 	{
-		public string? Generate(string password)
+		public string? Generate(string data)
 		{
-			var hashedPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(password);
-			return hashedPassword;
+			var hashedData = BCrypt.Net.BCrypt.EnhancedHashPassword(data);
+			return hashedData;
 		}
 
-		public bool Validate(string password, string hashedPassword)
+		public bool Validate(string data, string hashedData)
 		{
-			return BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
+			return BCrypt.Net.BCrypt.EnhancedVerify(data, hashedData);
 		}
 	}
 }

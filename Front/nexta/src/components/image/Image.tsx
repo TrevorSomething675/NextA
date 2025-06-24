@@ -2,19 +2,28 @@ import styles from './image.module.css';
 
 interface Props{
     isBase64Image?:boolean,
-    srcImage:string,
+    srcImage?:string,
     base64String?:string,
-    className?:string
+    className?:string,
+    isLoading?:boolean
 }
 
-const Image:React.FC<Props> = ({isBase64Image, srcImage, base64String, className}) =>{
+const Image: React.FC<Props> = ({ isBase64Image, srcImage, base64String, className, isLoading }) => {
     const combinedClassName = `${styles.image} ${className || ''}`.trim();
 
-    {if(isBase64Image){
-        return <img src={`data:image/jpeg;base64,${base64String}`} className={combinedClassName}/>
-    } else {
-        return <img src={srcImage} className={combinedClassName}/>
-    }}
-}
+    if (isLoading) {
+        return <img src="/loading.gif" className={combinedClassName} />;
+    }
+
+    if (isBase64Image) {
+        return base64String ? (
+            <img src={`data:image/jpeg;base64,${base64String}`} className={combinedClassName} />
+        ) : (
+            <img src="/defaultImage.jpg" className={combinedClassName} />
+        );
+    }
+
+    return <img src={srcImage} className={combinedClassName} />;
+};
 
 export default Image;

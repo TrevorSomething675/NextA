@@ -8,7 +8,11 @@ const Account = observer(() => {
         <h2 className={styles.h2}>Личный кабинет</h2>
         <div className={styles.accountHeader}>
             <ul>
-                <li className={styles.li}>ФИО: {auth?.user?.firstName} {auth?.user?.lastName} {auth?.user?.middleName}</li>
+                <li className={styles.li}>
+                    <h2>
+                        {auth?.user?.firstName} {auth?.user?.lastName} {auth?.user?.middleName}
+                    </h2>
+                </li>
                 <li className={styles.li}>
                     Номер телефона: 
                     <span className={`${!auth?.user?.phone && styles.numberIsNull}`}>

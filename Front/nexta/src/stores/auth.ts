@@ -5,91 +5,111 @@ import AuthService from '../services/AuthService';
 import RegisterForm from '../models/auth/Register';
 
 class Auth{
-    user = {
-        id: localStorage?.getItem('id'),
-        email: localStorage?.getItem('firstName'),
-        lastName: localStorage?.getItem('lastName'),
-        middleName: localStorage?.getItem('MiddleName'),
-    } as User;
+    user = {} as User;
     isAuth = false;
 
     constructor(){
         makeAutoObservable(this);
-        if(typeof window !== 'undefined')
-        {
-            this.user.email = localStorage?.getItem('email');
-            this.user.lastName = localStorage?.getItem('lastName');
-            this.user.firstName = localStorage?.getItem('firstName');
-            this.user.middleName = localStorage?.getItem('middleName');
-            this.user.phone = Number(localStorage?.getItem('phone'));
-        }
+        this.initializeFromStorage();
     }
+    
     setAuth(isAuth:boolean){
+        localStorage.setItem('isAuth', 'true');
         this.isAuth = isAuth;
     }
-    setUser(user:User){
-        this.user = user;
-    }
-
+    
     async checkAuth(){
         const isAuth = Boolean(localStorage?.getItem('isAuth'));
         if(isAuth){
-            this.setAuth(true);
-        } else{
-            this.setAuth(false);
+            try{
+                const userId = localStorage?.getItem('id');
+                const role = localStorage?.getItem('role');
+                if(userId != null && role != null){
+                    const response = await AuthService.checkAuth(userId, role);
+                    if(response.user){
+                        this.setUserData(response.user);
+                    }
+                }
+                this.initializeFromStorage();
+            }
+            catch {
+                this.cleanUserData();
+            }
+        } else {
+            this.cleanUserData();
         }
     }
-
+    
     async login(data:LoginForm)
     {
-        const response = await AuthService.login(data);
-        if(response.errors){
+        try{
+            const response = await AuthService.login(data);
+            if(response.user){
+                this.setUserData(response.user);
+            }
             return response;
         }
-
-        localStorage.setItem('accessToken', response.accessToken!);
-        localStorage.setItem('firstName', response?.user?.firstName!);
-        localStorage.setItem('lastName', response?.user?.lastName!);
-        localStorage.setItem('middleName', response.user?.middleName!);
-        localStorage.setItem('email', response?.user?.email!);
-        localStorage.setItem('phone', response?.user?.phone?.toString() ?? '');
-        localStorage.setItem('id', response?.user?.id!)
-        localStorage.setItem('isAuth', 'true');
-        this.setAuth(true);
-        this.setUser(response?.user ?? {} as User);
-        return response;
+        catch(error){
+            throw error;
+        }
+    }
+    
+    async setUserDatainStorage(user:User){
+        this.setUserData(user)
     }
 
-    async register(registerData:RegisterForm){
-        const response = await AuthService.register(registerData);
-        localStorage.setItem('accessToken', response.accessToken!);
-        localStorage.setItem('firstName', response?.user?.firstName!);
-        localStorage.setItem('lastName', response?.user?.lastName!);
-        localStorage.setItem('middleName', response?.user?.middleName!);
-        localStorage.setItem('email', response?.user?.email!);
-        localStorage.setItem('phone', response?.user?.phone?.toString() ?? '');
-        localStorage.setItem('id', response?.user?.id!)
-        localStorage.setItem('isAuth', 'true');
-        this.setAuth(true);
-        this.setUser(response.user ?? {} as User);
-        return response;
+    async register(data:RegisterForm){
+        try{
+            const response = await AuthService.register(data);
+            if(response.user){
+                this.setUserData(response.user);
+            }
+            return response;
+        }
+        catch(error){
+            throw error;
+        }
     }
-
+    
     async logout(){
         try{
-            this.setAuth(false);
-            this.setUser({} as User);
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('firstName');
-            localStorage.removeItem('lastName');
-            localStorage.removeItem('middleName');
-            localStorage.removeItem('email');
-            localStorage.removeItem('id');
-            localStorage.removeItem('phone');
-            localStorage.removeItem('isAuth');
+            this.cleanUserData();
         } catch(error) {
-            console.error(error);
+            throw error;
         }
+    }
+    
+    private initializeFromStorage(): void {
+        if(window === undefined) return;
+        this.user = {
+            id: localStorage.getItem('id') ?? '',
+            email: localStorage.getItem('email') ?? '',
+            firstName: localStorage.getItem('firstName') ?? '',
+            lastName: localStorage.getItem('lastName') ?? '',
+            middleName: localStorage.getItem('middleName') ?? '',
+            role: localStorage.getItem('role') ?? '',
+        }
+        this.isAuth = localStorage.getItem('isAuth') === 'true';
+    }
+
+    private setUserData(user:User): void {
+        if(window === undefined) return;
+
+        Object.entries(user).forEach(([key, value]) => {
+            if(value !== undefined) {
+                localStorage.setItem(key, String(value));
+            }
+        });
+        this.user = user;
+    }
+
+    private cleanUserData(): void {
+        ['id', 'email', 'firstName', 'lastName', 'middleName', 'phone', 'isAuth'].forEach((key) => {
+            localStorage.removeItem(key);
+        })
+        this.user = {} as User;
+        this.isAuth = false;
+        AuthService.logout();
     }
 }
 

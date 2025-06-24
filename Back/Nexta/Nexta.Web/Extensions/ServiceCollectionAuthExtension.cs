@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Options;
 using Nexta.Domain.Options;
 using System.Text;
 
@@ -8,9 +7,9 @@ namespace Nexta.Web.Extensions
 {
 	public static class ServiceCollectionAuthExtension
 	{
-		public static void AddAppAuth(this IServiceCollection services)
+		public static void AddAppAuth(this IServiceCollection services, IConfiguration configuration)
 		{
-			var authOptions = services.BuildServiceProvider().GetRequiredService<IOptions<JwtAuthOptions>>().Value;
+			var authOptions = configuration.GetSection(JwtAuthOptions.Section).Get<JwtAuthOptions>();
 
 			services.AddAuthentication(options =>
 			{

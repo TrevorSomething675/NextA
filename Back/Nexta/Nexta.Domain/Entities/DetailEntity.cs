@@ -19,5 +19,8 @@ namespace Nexta.Domain.Entities
 		public List<UserDetailEntity>? UserDetails { get; set; }
 		public List<OrderDetailEntity>? OrderDetails { get; set; }
 		public List<OrderEntity>? Orders { get; set; }
+
+		public Guid? ImageId { get; set; }
+		public ImageEntity? Image { get; set; }
 	}
 }

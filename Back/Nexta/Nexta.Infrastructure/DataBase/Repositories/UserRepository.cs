@@ -50,15 +50,5 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				return createdUser;
 			}
 		}
-
-		public Task<UserEntity> DeleteAsync(Guid id, CancellationToken ct = default)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<UserEntity> UpdateAsync(UserEntity userToUpdate, CancellationToken ct = default)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

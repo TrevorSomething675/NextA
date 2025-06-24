@@ -9,7 +9,5 @@ namespace Nexta.Domain.Abstractions.Repositories
 		Task<List<UserEntity>> GetAllAsync(CancellationToken ct);
 
 		Task<UserEntity> AddAsync(UserEntity userToAdd, CancellationToken ct);
-		Task<UserEntity> UpdateAsync(UserEntity userToUpdate, CancellationToken ct);
-		Task<UserEntity> DeleteAsync(Guid id, CancellationToken ct);
 	}
 }

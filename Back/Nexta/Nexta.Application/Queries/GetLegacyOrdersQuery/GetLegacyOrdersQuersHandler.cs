@@ -3,6 +3,7 @@ using Nexta.Domain.Models.DataModels;
 using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;
+using Nexta.Domain.Enums;
 
 namespace Nexta.Application.Queries.GetLegacyOrdersQuery
 {
@@ -19,9 +20,21 @@ namespace Nexta.Application.Queries.GetLegacyOrdersQuery
 
 		public async Task<GetLegacyOrdersQueryResponse> Handle(GetLegacyOrdersQueryRequest request, CancellationToken ct)
 		{
-			var legacyOrders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetLegacyOrdersAsync(request.Filter, ct));
+			request.Filter.Statuses = GetOrderStatuses();
+
+			var legacyOrders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(request.Filter, ct));
 
 			return new GetLegacyOrdersQueryResponse(legacyOrders);
+		}
+		private List<OrderStatus> GetOrderStatuses()
+		{
+			var statuses = new List<OrderStatus>
+			{
+				OrderStatus.Canceled,
+				OrderStatus.Complete
+			};
+
+			return statuses;
 		}
 	}
 }

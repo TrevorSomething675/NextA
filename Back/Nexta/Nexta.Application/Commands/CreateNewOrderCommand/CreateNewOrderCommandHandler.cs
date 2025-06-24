@@ -1,5 +1,4 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models.DataModels;
 using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;

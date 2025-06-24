@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Detail, { DetailStatus } from '../../../models/Detail';
 import styles from './detailBody.module.css';
+import Image from '../../image/Image';
 
 interface Props{
     detail: Detail;
@@ -34,7 +35,7 @@ const DetailBody:React.FC<Props> = ({detail}) => {
 
     return <div className={styles.container}>
         <div className={styles.imageContainer}>
-            <img src="/defaultImage.jpg" className={styles.image}/>
+            <Image isBase64Image={true} base64String={detail.image.base64String} className={styles.image} />
         </div>
         <div className={styles.detailContainer}>
             <ul className={styles.ul}>

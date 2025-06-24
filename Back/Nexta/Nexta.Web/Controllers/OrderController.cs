@@ -19,6 +19,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
+		[ProducesResponseType(typeof(GetOrdersForUserQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> GetOrdersForUser([FromBody] GetOrdersForUserQueryRequest request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
@@ -26,6 +27,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
+		[ProducesResponseType(typeof(GetLegacyOrdersQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> GetLegacyOrdersForUser([FromBody] GetLegacyOrdersQueryRequest request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
@@ -33,6 +35,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
+		[ProducesResponseType(typeof(CreateNewOrderCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> CreateNewOrder([FromBody] CreateNewOrderCommandRequest request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
