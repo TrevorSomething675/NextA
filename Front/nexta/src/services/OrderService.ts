@@ -1,6 +1,6 @@
 import GetOrdersForUserResponse from "../models/order/GetOrdersForUserResponse";
 import GetOrdersForUserRequest from "../models/order/GetOrdersForUserRequest";
-import api from "../http";
+import api from "../http/api";
 import axios from 'axios';
 import CreateNewOrderRequest from "../models/order/createNewOrder/CreateNewOrderRequest";
 import CreateNewOrderResponse from "../models/order/createNewOrder/CreateNewOrderResponse";

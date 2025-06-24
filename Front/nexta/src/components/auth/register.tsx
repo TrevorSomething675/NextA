@@ -4,7 +4,7 @@ import RegisterForm from '../../models/auth/Register';
 import { useState } from 'react';
 import ErrorResponseModel from '../../models/ErrorResponseModel';
 import CodeService from '../../services/CodeService';
-import AuthService from '../../services/AuthService';
+import AuthService from '../../services/LegacyAuthService';
 
 const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus:any}> = ({ changeFormStatus, changeCodeVerifyStatus }) => {
     const { register, handleSubmit, watch, formState: {errors} } = useForm<RegisterForm>();
@@ -77,8 +77,8 @@ const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus:any}> = 
 
                 <label className={styles.label} htmlFor='MiddleName'>Отчество: </label>
                 <input 
-                    id='MiddleName' 
-                    type='text' 
+                    id='MiddleName'
+                    type='text'
                     className={styles.input} {...register('middleName', {
                         pattern: {
                             value: /^[A-Za-zА-Яа-яЁё\s]+$/,

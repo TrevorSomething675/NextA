@@ -1,4 +1,4 @@
-import api from "../http";
+import api from "../http/api";
 import GetAllOrdersRequest from "../models/admin/GetAllOrders/GetAllOrdersRequest";
 import GetAllOrdersResponse from "../models/admin/GetAllOrders/GetAllOrdersResponse";
 

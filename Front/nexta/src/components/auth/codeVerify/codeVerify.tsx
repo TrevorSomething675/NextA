@@ -5,7 +5,7 @@ import CodeService from '../../../services/CodeService';
 import VerifyCodeRequest from '../../../models/code/verifyCode/VerifyCodeRequest';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../../stores/auth';
-import AuthService from '../../../services/AuthService';
+import AuthService from '../../../services/LegacyAuthService';
 import ErrorResponseModel from '../../../models/ErrorResponseModel';
 
 const CODE_LENGTH = 6;

@@ -1,11 +1,11 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models.DataModels;
 using Nexta.Domain.Models;
+using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Enums;
 
-namespace Nexta.Application.Queries.Order.GetLegacyOrdersQuery
+namespace Nexta.Application.Queries.Orders.GetLegacyOrdersQuery
 {
 	public class GetLegacyOrdersQuersHandler : IRequestHandler<GetLegacyOrdersQueryRequest, GetLegacyOrdersQueryResponse>
 	{

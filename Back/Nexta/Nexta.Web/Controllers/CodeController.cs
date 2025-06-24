@@ -1,7 +1,7 @@
-﻿using Nexta.Application.Queries.CodeQueries.SendVerificationCodeQuery;
+﻿using Nexta.Application.Queries.Auth.SendVerificationCodeQuery;
+using Nexta.Application.Queries.Auth.VerifyCodeQuery;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Nexta.Application.Queries.CodeQueries.VerifyCodeQuery;
 
 namespace Nexta.Web.Controllers
 {

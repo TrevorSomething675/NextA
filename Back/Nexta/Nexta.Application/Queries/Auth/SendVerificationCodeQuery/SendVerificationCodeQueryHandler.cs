@@ -3,7 +3,7 @@ using Nexta.Domain.Exceptions;
 using MediatR;
 using FluentValidation;
 
-namespace Nexta.Application.Queries.CodeQueries.SendVerificationCodeQuery
+namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
 {
     public class SendVerificationCodeQueryHandler : IRequestHandler<SendVerificationCodeQueryRequest, SendVerificationCodeQueryResponse>
     {

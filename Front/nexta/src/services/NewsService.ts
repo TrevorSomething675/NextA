@@ -1,4 +1,4 @@
-import api from "../http";
+import api from "../http/api";
 import NewsResponse from "../models/news/newsResponse";
 
 class NewsService{

@@ -1,10 +1,10 @@
-﻿using Nexta.Application.Commands.AuthCommands.RegistrationCommand;
-using Nexta.Application.Commands.AuthCommands.LoginCommand;
-using Nexta.Application.Queries.AuthQueries.CheckAuthQuery;
+﻿using Nexta.Application.Commands.Auth.RegistrationCommand;
+using Nexta.Application.Queries.Auth.IsAuthenticatedQuery;
+using Nexta.Application.Queries.Auth.IsRegisteredQuery;
+using Nexta.Application.Commands.Auth.LoginCommand;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Nexta.Application.Queries.AuthQueries.CheckRegisterUserQuery;
 
 namespace Nexta.Web.Controllers
 {
@@ -34,8 +34,8 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(CheckRegisterUserQueryResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> CheckRegisterUser([FromBody] CheckRegisterUserQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(IsRegisteredQueryResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> IsRegisterUser([FromBody] IsRegisteredQueryRequest request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);
@@ -43,8 +43,8 @@ namespace Nexta.Web.Controllers
 
 		[Authorize]
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(CheckAuthQueryResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> CheckAuth([FromBody] CheckAuthQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(IsAuthenticatedQueryResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> IsAuth([FromBody] IsAuthenticatedQueryRequest request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);

@@ -3,7 +3,7 @@ import GetBasketDetailsRequest from "../models/basket/GetBasketDetailsRequest";
 import AddBasketDetailRequest from "../models/basket/AddBasketDetailRequest";
 import Detail from "../models/Detail";
 import axios from "axios";
-import api from "../http";
+import api from "../http/api";
 import GetBasketDetailsResponse from "../models/basket/GetBasketDetailsResponse";
 
 class BasketService{

@@ -1,4 +1,4 @@
-import api from "../http";
+import api from "../http/api";
 import axios from 'axios';
 import SendVerificationCodeRequest from "../models/code/sendVerificationCode/SendVerificationCodeRequest";
 import SendVerificationCodeResponse from "../models/code/sendVerificationCode/SendVerificationCodeResponse";

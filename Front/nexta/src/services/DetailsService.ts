@@ -3,7 +3,7 @@ import GetDetailsRequest from "../models/details/GetDetailsRequest";
 import GetDetailResponse from "../models/detail/GetDetailResponse";
 import GetDetailRequest from "../models/detail/GetDetailRequest";
 import axios from 'axios';
-import api from "../http";
+import api from "../http/api";
 
 class DetailsService{
     static async GetDetails(request:GetDetailsRequest){

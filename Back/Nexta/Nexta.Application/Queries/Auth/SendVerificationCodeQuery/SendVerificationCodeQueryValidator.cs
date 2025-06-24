@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Nexta.Application.Queries.CodeQueries.SendVerificationCodeQuery
+namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
 {
     public class SendVerificationCodeQueryValidator : AbstractValidator<SendVerificationCodeQueryRequest>
     {

@@ -4,9 +4,9 @@ using Nexta.Domain.Exceptions;
 using Nexta.Domain.Entities;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
+using FluentValidation;
 using AutoMapper;
 using MediatR;
-using FluentValidation;
 
 namespace Nexta.Application.Commands.Auth.RegistrationCommand
 {

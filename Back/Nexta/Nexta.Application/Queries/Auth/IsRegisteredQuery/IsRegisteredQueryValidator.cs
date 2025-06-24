@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Nexta.Application.Queries.AuthQueries.CheckRegisterUserQuery
+namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
 {
-    public class CheckRegisterUserQueryValidator : AbstractValidator<CheckRegisterUserQueryRequest>
+    public class IsRegisteredQueryValidator : AbstractValidator<IsRegisteredQueryRequest>
     {
-        public CheckRegisterUserQueryValidator() 
+        public IsRegisteredQueryValidator() 
         {
             RuleFor(r => r.Email)
                 .NotEmpty().NotNull()

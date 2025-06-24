@@ -25,6 +25,7 @@ namespace Nexta.Web.Middlewares
 				await HandleExceptionAsync(context, ex);
 			}
 		}
+
 		private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
 		{
 			var (statusCode, message) = ex switch

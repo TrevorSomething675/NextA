@@ -1,6 +1,6 @@
 import GetDetailsRequest from "../models/details/GetDetailsRequest";
 import axios from 'axios';
-import api from "../http";
+import api from "../http/api";
 import GetWarehouseResponse from "../models/warehouse/GetWarehouseResponse";
 
 class WarehouseService{

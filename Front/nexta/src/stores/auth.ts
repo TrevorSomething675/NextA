@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import User from '../models/account/User';
 import LoginForm from '../models/auth/Login';
-import AuthService from '../services/AuthService';
+import AuthService from '../services/LegacyAuthService';
 import RegisterForm from '../models/auth/Register';
 
 class Auth{

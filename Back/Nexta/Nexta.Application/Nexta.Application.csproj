@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Nexta.Domain\Nexta.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\Admin\" />
-  </ItemGroup>
-
 </Project>
