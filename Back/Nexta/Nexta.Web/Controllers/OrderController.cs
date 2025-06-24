@@ -1,9 +1,9 @@
-﻿using Nexta.Application.Commands.CreateNewOrderCommand;
-using Nexta.Application.Queries.GetLegacyOrdersQuery;
-using Nexta.Application.Queries.GetOrdersQuery;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Nexta.Application.Queries.Orders.GetLegacyOrdersQuery;
+using Nexta.Application.Queries.Orders.GetOrdersForUserQuery;
+using Nexta.Application.Commands.Orders.CreateNewOrderCommand;
 
 namespace Nexta.Web.Controllers
 {

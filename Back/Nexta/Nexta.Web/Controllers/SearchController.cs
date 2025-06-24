@@ -1,6 +1,6 @@
-﻿using Nexta.Application.Queries.SearchDetailQuery;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Nexta.Application.Queries.Details.SearchDetailQuery;
 
 namespace Nexta.Web.Controllers
 {

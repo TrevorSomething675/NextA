@@ -1,6 +1,6 @@
-﻿using Nexta.Application.Queries.GetWarehouseDetailsQuery;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Nexta.Application.Queries.Details.GetWarehouseDetailsQuery;
 
 namespace Nexta.Web.Controllers
 {

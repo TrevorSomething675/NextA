@@ -1,9 +1,9 @@
-﻿using Nexta.Application.Commands.AddDetailToBasketCommand;
-using Nexta.Application.Commands.DeleteDetailFromBasket;
-using Nexta.Application.Queries.GetUserBasketDetails;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Nexta.Application.Queries.Basket.GetBasketDetailsQuery;
+using Nexta.Application.Commands.Basket.DeleteBasketDetailCommand;
+using Nexta.Application.Commands.Basket.AddBasketDetailCommand;
 
 namespace Nexta.Web.Controllers
 {

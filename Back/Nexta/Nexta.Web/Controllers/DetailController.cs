@@ -1,7 +1,7 @@
-﻿using Nexta.Application.Queries.GetDetailByIdQuery;
-using Nexta.Application.Queries.GetDetailsQuery;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Nexta.Application.Queries.Details.GetDetailsQuery;
+using Nexta.Application.Queries.Details.GetDetailByIdQuery;
 
 namespace Nexta.Web.Controllers
 {
