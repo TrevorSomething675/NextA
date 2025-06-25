@@ -4,30 +4,29 @@ import "./globals.css"
 import "./colors.css"
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useEffect } from 'react'
-import BasketDetailsFilter from './models/basket/BasketDetailsFilter'
-import GetBasketDetailsRequest from './models/basket/GetBasketDetailsRequest'
 import auth from './stores/auth'
-import BasketService from './services/BasketService'
 import basket from './stores/basket'
 import DetailPage from './pages/detail/detailPage'
 import SearchPage from './pages/search/searchPage'
 import HomePage from './pages/home/homePage'
-import OrderPage from './pages/order/orderPage'
 import OrderService from './services/OrderService'
 import orderStore from './stores/orderStore'
-import GetOrdersForUserFilter from './models/order/GetOrdersForUserFilter'
-import GetOrdersForUserRequest from './models/order/GetOrdersForUserRequest'
 import { NotificationsProvider } from './components/notifications/notifications'
-import AdminOrdersPage from './pages/admin/orders/adminOrdersPage'
-import AccountPage from './pages/account/accountPage'
-import BasketPage from './pages/basket/basketPage'
-import AuthPage from './pages/auth/authPage'
+import { GetBasketDetailsFilter, GetBasketDetailsRequest } from './features/basket/models/GetBasketDetails'
+import { BasketService } from './features/basket/services/BasketService'
+import { GetOrdersForUserFilter, GetOrdersForUserRequest } from './features/order/models/GetOrdersForUserFilter'
+import AccountPage from './pages/account/AccountPage'
+import AdminOrdersPage from './pages/admin/orders/AdminOrdersPage'
+import { BasketPage } from './features/basket/pages/BasketPage'
+import { AuthPage } from './features/auth/pages/AuthPage'
+import OrderPage from './features/order/pages/OrdersPage'
+
 
 const App = () => {
   useEffect(() => {
     auth.checkAuth()
     const fetchData = async() => {
-        const filter:BasketDetailsFilter = {
+        const filter:GetBasketDetailsFilter = {
             pageNumber: 1,
             userId: auth?.user?.id
         };

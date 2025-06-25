@@ -2,7 +2,7 @@
 
 namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
 {
-    public class SendVerificationCodeQueryRequest : IRequest<SendVerificationCodeQueryResponse>
+    public class SendVerificationCodeQueryRequest : IRequest<Unit>
     {
         public string Email { get; set; }
     }

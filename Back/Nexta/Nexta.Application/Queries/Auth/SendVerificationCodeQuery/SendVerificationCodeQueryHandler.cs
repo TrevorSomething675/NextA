@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
 {
-    public class SendVerificationCodeQueryHandler : IRequestHandler<SendVerificationCodeQueryRequest, SendVerificationCodeQueryResponse>
+    public class SendVerificationCodeQueryHandler : IRequestHandler<SendVerificationCodeQueryRequest, Unit>
     {
         private readonly IVerificationCodeService _verificationService;
         private readonly IEmailService _emailService;
@@ -18,7 +18,7 @@ namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
             _validator = validator;
         }
 
-		public async Task<SendVerificationCodeQueryResponse> Handle(SendVerificationCodeQueryRequest request, CancellationToken ct = default)
+		public async Task<Unit> Handle(SendVerificationCodeQueryRequest request, CancellationToken ct = default)
 		{
             var validationResult = await _validator.ValidateAsync(request, ct);
             if (!validationResult.IsValid)
@@ -29,10 +29,7 @@ namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
 
 			await _emailService.SendEmailAsync(request.Email, "", subject, "", ct);
 
-            //if (!result)
-            //    throw new BadRequestException("Не удалось отправить код");
-
-            return new SendVerificationCodeQueryResponse(true);
+            return Unit.Value;
 		}
 
         private string CreateSubject(string code)

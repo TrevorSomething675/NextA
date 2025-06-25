@@ -2,10 +2,9 @@
 
 namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
 {
-    public class VerifyCodeQueryRequest : IRequest<VerifyCodeQueryResponse>
+    public class VerifyCodeQueryRequest : IRequest<Unit>
     {
         public string Email { get; set; }
-        public Guid UserId { get; set; }
         public string Role { get; set; }
         public string Code { get; set; }
     }

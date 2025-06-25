@@ -14,10 +14,6 @@ namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
                 .NotEmpty().NotNull()
                 .EmailAddress()
                 .WithMessage("Неверный Email");
-
-            RuleFor(r => r.UserId)
-                .NotEmpty().NotNull()
-                .WithMessage("Пустой пользователь");
 		}
     }
 }

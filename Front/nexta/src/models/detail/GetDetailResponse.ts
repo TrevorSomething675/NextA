@@ -1,4 +1,4 @@
-import Detail from "../Detail";
+import { Detail } from "../../features/details/models/Detail";
 
 interface GetDetailResponse {
     detail:Detail;

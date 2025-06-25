@@ -16,10 +16,10 @@ namespace Nexta.Application.Services
 			_options = options.Value;
 		}
 
-		public string CreateAccessToken(Guid id, string role)
+		public string CreateAccessToken(string email, string role)
 		{
 			var claims = new List<Claim> {
-				new Claim("Id", id.ToString()),
+				new Claim("Email", email),
 				new Claim(ClaimTypes.Role, role),
 				};
 

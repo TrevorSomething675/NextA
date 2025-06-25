@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import User from '../models/account/User';
-import LoginForm from '../models/auth/Login';
-import AuthService from '../services/LegacyAuthService';
-import RegisterForm from '../models/auth/Register';
+import { AuthService } from '../features/auth/services/AuthService';
+import { LoginRequest } from '../features/auth/models/login';
+import { RegistrationRequest } from '../features/auth/models/registration';
 
 class Auth{
     user = {} as User;
@@ -25,7 +25,7 @@ class Auth{
                 const userId = localStorage?.getItem('id');
                 const role = localStorage?.getItem('role');
                 if(userId != null && role != null){
-                    const response = await AuthService.checkAuth(userId, role);
+                    const response = await AuthService.isAuth({userId, role});
                     if(response.user){
                         this.setUserData(response.user);
                     }
@@ -40,7 +40,7 @@ class Auth{
         }
     }
     
-    async login(data:LoginForm)
+    async login(data:LoginRequest)
     {
         try{
             const response = await AuthService.login(data);
@@ -58,7 +58,7 @@ class Auth{
         this.setUserData(user)
     }
 
-    async register(data:RegisterForm){
+    async register(data:RegistrationRequest){
         try{
             const response = await AuthService.register(data);
             if(response.user){
@@ -104,12 +104,11 @@ class Auth{
     }
 
     private cleanUserData(): void {
-        ['id', 'email', 'firstName', 'lastName', 'middleName', 'phone', 'isAuth'].forEach((key) => {
+        ['id', 'email', 'firstName', 'lastName', 'middleName', 'phone', 'isAuth', 'accessToken'].forEach((key) => {
             localStorage.removeItem(key);
         })
         this.user = {} as User;
         this.isAuth = false;
-        AuthService.logout();
     }
 }
 

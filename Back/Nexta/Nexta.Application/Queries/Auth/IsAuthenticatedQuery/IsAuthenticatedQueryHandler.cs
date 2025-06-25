@@ -30,12 +30,12 @@ namespace Nexta.Application.Queries.Auth.IsAuthenticatedQuery
 			if(!validationResult.IsValid)
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var user = _mapper.Map<User>(await _userRepository.GetAsync(request.UserId, ct));
+			var user = _mapper.Map<User>(await _userRepository.GetByEmailAsync(request.Email, ct));
 
 			if(user == null)
 				throw new NotFoundException("Пользователь не найден");
 
-			var accessToken = _jwtTokenService.CreateAccessToken(request.UserId, user.Role.ToString());
+			var accessToken = _jwtTokenService.CreateAccessToken(request.Email, user.Role.ToString());
 
 			return new IsAuthenticatedQueryResponse(user, accessToken);
 		}

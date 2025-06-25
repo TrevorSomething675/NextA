@@ -5,20 +5,18 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
 {
-    public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQueryRequest, VerifyCodeQueryResponse>
+    public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQueryRequest, Unit>
     {
         private readonly IVerificationCodeService _verificationCodeService;
-		private readonly IJwtTokenService _jwtTokenService;
         private readonly IValidator<VerifyCodeQueryRequest> _validator;
-		public VerifyCodeQueryHandler(IVerificationCodeService verificationCodeService, IJwtTokenService jwtTokenService,
+		public VerifyCodeQueryHandler(IVerificationCodeService verificationCodeService,
 			IValidator<VerifyCodeQueryRequest> validator) 
         {
             _verificationCodeService = verificationCodeService;
-            _jwtTokenService = jwtTokenService;
             _validator = validator;
         }
 
-		public async Task<VerifyCodeQueryResponse> Handle(VerifyCodeQueryRequest request, CancellationToken ct = default)
+		public async Task<Unit> Handle(VerifyCodeQueryRequest request, CancellationToken ct = default)
 		{
             var validationResult = await _validator.ValidateAsync(request, ct);
             if (!validationResult.IsValid)
@@ -28,11 +26,7 @@ namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
             if (!verifyResult)
                 throw new BadRequestException("Неверный код");
 
-            var accessToken = _jwtTokenService.CreateAccessToken(request.UserId, request.Role);
-            if (accessToken == null)
-                throw new BadRequestException("Не удалось авторизоваться");
-
-            return new VerifyCodeQueryResponse(accessToken);
+            return Unit.Value;
         }
 	}
 }

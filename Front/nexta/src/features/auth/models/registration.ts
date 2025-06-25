@@ -6,9 +6,11 @@ export interface RegistrationRequest {
     middleName:string,
     lastName:string,
     password:string,
-    confirmPassword:string
+    confirmPassword:string,
+    type: 'registration'
 }
 
 export interface RegistrationResponse {
-    user:User
+    user:User,
+    accessToken:string
 }

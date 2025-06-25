@@ -2,7 +2,7 @@
 {
     public interface IJwtTokenService
     {
-		string CreateAccessToken(Guid id, string role);
+		string CreateAccessToken(string email, string role);
 		string CreateRefreshToken();
 	}
 }

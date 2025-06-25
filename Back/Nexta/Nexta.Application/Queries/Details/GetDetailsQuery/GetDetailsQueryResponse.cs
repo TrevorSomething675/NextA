@@ -3,8 +3,8 @@ using Nexta.Domain.Models;
 
 namespace Nexta.Application.Queries.Details.GetDetailsQuery
 {
-    public class GetDetailsQueryResponse(PagedData<Detail> pagedDetails)
+    public class GetDetailsQueryResponse(PagedData<Detail> details)
     {
-        public PagedData<Detail> PagedDetails { get; set; } = pagedDetails;
+        public PagedData<Detail> Details { get; set; } = details;
     }
 }

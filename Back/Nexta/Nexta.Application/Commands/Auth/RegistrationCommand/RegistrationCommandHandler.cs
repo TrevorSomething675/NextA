@@ -15,11 +15,13 @@ namespace Nexta.Application.Commands.Auth.RegistrationCommand
 		private readonly IMapper _mapper;
 		private readonly IUserRepository _userRepository;
 		private readonly IHashService _passwordHashService;
+		private readonly IJwtTokenService _jwtTokenService;
 		private readonly IValidator<RegistrationCommandRequest> _validator;
-		public RegistrationCommandHandler(IUserRepository userRepository, 
+		public RegistrationCommandHandler(IUserRepository userRepository, IJwtTokenService jwtTokenService,
 			IMapper mapper, IHashService passwordHashService, IValidator<RegistrationCommandRequest> validator)
 		{
 			_passwordHashService = passwordHashService;
+			_jwtTokenService = jwtTokenService;
 			_userRepository = userRepository;
 			_validator = validator;
 			_mapper = mapper;
@@ -43,7 +45,9 @@ namespace Nexta.Application.Commands.Auth.RegistrationCommand
 
 			var createdUser = _mapper.Map<User>(await _userRepository.AddAsync(userToCreate, ct));
 
-			return new RegistrationCommandResponse(createdUser);
+			var accessToken = _jwtTokenService.CreateAccessToken(createdUser.Email!, createdUser.Role.ToString());
+
+			return new RegistrationCommandResponse(createdUser, accessToken);
 		}
 	}
 }

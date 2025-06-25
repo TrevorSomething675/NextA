@@ -3,19 +3,16 @@ import api from "../../../http/api";
 import axios from 'axios';
 import ErrorResponseModel from "../../../models/ErrorResponseModel";
 import { RegistrationRequest, RegistrationResponse } from "../models/registration";
-import { IsRegisteredUserRequest, IsRegisteredUserResponse } from "../models/isRegister";
+import { IsRegisteredUserResponse } from "../models/isRegister";
 import { IsAuthRequest, IsAuthResponse } from "../models/isAuth";
-import { SendVerificationCodeRequest } from "../models/sendVerificationCode";
-import SendVerificationCodeResponse from "../../../models/code/sendVerificationCode/SendVerificationCodeResponse";
-import VerifyCodeRequest from "../../../models/code/verifyCode/VerifyCodeRequest";
-import VerifyCodeResponse from "../../../models/code/verifyCode/VerifyCodeResponse";
+import { VerifyCodeRequest } from "../models/verifyCode";
 
 export class AuthService{
     private static readonly AUTH_ENPOINTS = {
         LOGIN: 'Auth/login',
         REGISTER: 'Auth/Register',
-        CHECKAUTH: 'Auth/CheckAuth',
-        CHECKREGISTER: 'Auth/CheckRegisterUser',
+        CHECKAUTH: 'Auth/IsAuth',
+        CHECKREGISTER: 'Auth/IsRegisterUser',
         SENDVERIFICATIONCODE: 'Code/SendVerificationCode',
         VERIFYCODE: 'Code/VerifyCode'
     }
@@ -32,6 +29,17 @@ export class AuthService{
             });
 
             const response = await api.post<RegistrationResponse>(this.AUTH_ENPOINTS.REGISTER, formData);
+            
+            if(response.status === 200){
+                localStorage.setItem('userId', response.data.user.id ?? '');
+                localStorage.setItem('email', response.data.user.email ?? '');
+                localStorage.setItem('firstName', response.data.user.firstName ?? '');
+                localStorage.setItem('middleName', response.data.user.middleName ?? '');
+                localStorage.setItem('lastName', response.data.user.lastName ?? '');
+                localStorage.setItem('phone', response.data.user.phone?.toString() ?? '');
+                localStorage.setItem('accessToken', response.data.accessToken);
+            }
+
             return response.data;
         }
         catch(error){
@@ -47,6 +55,17 @@ export class AuthService{
             });
 
             const response = await api.post<LoginResponse>(this.AUTH_ENPOINTS.LOGIN, formData);
+
+            if(response.status === 200){
+                localStorage.setItem('userId', response.data.user.id ?? '');
+                localStorage.setItem('email', response.data.user.email ?? '');
+                localStorage.setItem('firstName', response.data.user.firstName ?? '');
+                localStorage.setItem('middleName', response.data.user.middleName ?? '');
+                localStorage.setItem('lastName', response.data.user.lastName ?? '');
+                localStorage.setItem('phone', response.data.user.phone?.toString() ?? '');
+                localStorage.setItem('accessToken', response.data.accessToken);
+            }
+
             return response.data;
         }
         catch(error){
@@ -56,10 +75,10 @@ export class AuthService{
 
     static async verifyCode(request:VerifyCodeRequest){
         try{
-            const response = await api.post<VerifyCodeResponse>(this.AUTH_ENPOINTS.VERIFYCODE, request);
-            this.setAcessToken(response.data.accessToken);
-            
-            return response.data;
+            const response = await api.post(this.AUTH_ENPOINTS.VERIFYCODE, request);
+            this.setAccessToken(response.data.accessToken);
+
+            return response;
         }
         catch(error){
             this.handleError(error);
@@ -68,10 +87,7 @@ export class AuthService{
 
     static async sendVerificationCode(email:string){
         try{
-            const request:SendVerificationCodeRequest ={
-                email:email
-            }
-            const response = await api.post<SendVerificationCodeResponse>(this.AUTH_ENPOINTS.SENDVERIFICATIONCODE, request);
+            const response = await api.post(this.AUTH_ENPOINTS.SENDVERIFICATIONCODE, {email});
             return response.data;
         }
         catch(error){
@@ -91,10 +107,7 @@ export class AuthService{
 
     static async isRegisterUser(email:string) : Promise<IsRegisteredUserResponse>{
         try{
-            const request:IsRegisteredUserRequest = {
-                email: email
-            };
-            const response = await api.post<IsRegisteredUserResponse>(this.AUTH_ENPOINTS.CHECKREGISTER, request);
+            const response = await api.post<IsRegisteredUserResponse>(this.AUTH_ENPOINTS.CHECKREGISTER, {email});
             return response.data;
         }
         catch(error){
@@ -102,8 +115,8 @@ export class AuthService{
         }
     }
 
-    private static setAcessToken(accessToken:string){
-        localStorage.setItem('AccessToken', accessToken);
+    private static setAccessToken(accessToken:string){
+        localStorage.setItem('accessToken', accessToken);
     }
 
     private static handleError(error:unknown): never {

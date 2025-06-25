@@ -6,9 +6,10 @@ namespace Nexta.Application.Queries.Auth.IsAuthenticatedQuery
     {
         public IsAuthenticatedQueryValidator()
         {
-            RuleFor(r => r.UserId)
+            RuleFor(r => r.Email)
                 .NotEmpty().NotNull()
-                .WithMessage("Пустой пользователь");
+                .EmailAddress()
+                .WithMessage("Неверный Email");
         }
     }
 }
