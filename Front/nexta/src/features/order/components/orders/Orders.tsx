@@ -1,18 +1,18 @@
 import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
-import auth from '../../../../stores/auth';
 import OrderService from '../../../../services/OrderService';
 import orderStore from '../../../../stores/orderStore';
 import { toJS } from 'mobx';
 import { GetOrdersForUserFilter, GetOrdersForUserRequest, GetOrdersForUserResponse } from '../../models/GetOrdersForUserFilter';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
 import OrderItem from '../orderItem/OrderItem';
+import authStore from '../../../../stores/AuthStore/authStore';
 
 
 const Orders = observer(() => {
     const [response, setResponse] = useState<GetOrdersForUserResponse>({} as GetOrdersForUserResponse);
     const handlePageNumberChange = (pageNumber:number) => {
-        const userId = auth?.user?.id;
+        const userId = authStore?.user?.id ?? '';
         const filter:GetOrdersForUserFilter = {
             userId: userId,
             pageSize: 8,
@@ -26,7 +26,7 @@ const Orders = observer(() => {
     }
     
     useEffect(() => {
-        const userId = auth?.user?.id;
+        const userId = authStore?.user?.id ?? '';
         const filter:GetOrdersForUserFilter = {
             userId: userId,
             pageSize: 8,

@@ -11,16 +11,14 @@ namespace Nexta.Application.Commands.Auth.LoginCommand
 	public class LoginCommandHandler : IRequestHandler<LoginCommandRequest, LoginCommandResponse>
 	{
 		private readonly IValidator<LoginCommandRequest> _validator;
-		private readonly IJwtTokenService _jwtTokenService;
 		private readonly IHashService _passwordHashService;
 		private readonly IUserRepository _userRepository;
 		private readonly IMapper _mapper;
 
 		public LoginCommandHandler(IHashService passwordHashService, IUserRepository userRepository,
-			IMapper mapper, IValidator<LoginCommandRequest> validator, IJwtTokenService jwtTokenService)
+			IMapper mapper, IValidator<LoginCommandRequest> validator)
 		{
 			_passwordHashService = passwordHashService;
-			_jwtTokenService = jwtTokenService;
 			_userRepository = userRepository;
 			_validator = validator;
 			_mapper = mapper;
@@ -40,9 +38,7 @@ namespace Nexta.Application.Commands.Auth.LoginCommand
 			if (!_passwordHashService.Validate(request.Password, user.PasswordHash!))
 				throw new UnauthorizedException("Неверный логин или пароль");
 
-			var accessToken = _jwtTokenService.CreateAccessToken(user.Email!, user.Role.ToString());
-
-			return new LoginCommandResponse(user, accessToken);
+			return new LoginCommandResponse(user);
 		}
 	}
 }

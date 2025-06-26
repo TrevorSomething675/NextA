@@ -1,5 +1,6 @@
 import axios from 'axios';
-import auth from '../stores/auth';
+import authStore from '../stores/AuthStore/authStore';
+import { AuthService } from '../features/auth/services/AuthService';
 
 export const API_URL = 'https://localhost:7268';
 
@@ -15,11 +16,14 @@ api.interceptors.request.use((config) => {
     }
 });
 
- api.interceptors.response.use(
+api.interceptors.response.use(
     (response) => response,
     (error) => {
         if(error.response?.status === 401){
-            auth.logout();
+
+            authStore.logout();
+            AuthService.logout();
+            
             window.location.href = '/auth';
         }
         return Promise.reject(error);

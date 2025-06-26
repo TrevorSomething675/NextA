@@ -4,8 +4,10 @@ import { RegistrationRequest } from "../../models/registration";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AuthService } from "../../services/AuthService";
 import { ErrorResponseModel } from "../../../../shared/models/ErrorResponseModel";
+import authStore from "../../../../stores/AuthStore/authStore";
+import { AuthUser } from "../../../../stores/AuthStore/models/AuthUser";
 
-const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus: (data: RegistrationRequest) => void}> = ({ changeFormStatus, changeCodeVerifyStatus }) => {
+const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus: (data: AuthUser) => void}> = ({ changeFormStatus, changeCodeVerifyStatus }) => {
     const { register, handleSubmit, watch, formState: {errors} } = useForm<RegistrationRequest>();
     const [hasError, setError] = useState('');
 
@@ -18,14 +20,11 @@ const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus: (data: 
             if(data.password !== data.confirmPassword){
                 setError('Пароли не совпадают');
             }
-            const response = await AuthService.isRegisterUser(data.email);
-            if(!response.isRegistered){
-                data.type = 'registration';
+            const response = await AuthService.register(data);
+            if(!response.user){
                 AuthService.sendVerificationCode(data.email);
-                changeCodeVerifyStatus(data);
-            }
-            else {
-                setError('Пользователь уже зарегистрирован');
+                changeCodeVerifyStatus(response.user);
+                authStore.firstStepAuthenticate(response.user);
             }
         } catch (error){
             const errorResponse = error as ErrorResponseModel;

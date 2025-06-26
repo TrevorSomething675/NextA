@@ -3,12 +3,12 @@ import styles from './BasketItem.module.css';
 import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
 import { DeleteBasketDetail } from '../../models/DeleteBasketDetail';
-import auth from '../../../../stores/auth';
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../models/GetBasketDetails';
 import basket from '../../../../stores/basket';
 import { UserDetailStatus } from '../../../../shared/entities/UserDetails';
 import { Detail } from '../../../../shared/entities/Detail';
 import BasketService from '../../services/BasketService';
+import authStore from '../../../../stores/AuthStore/authStore';
 
 const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
     const [count, setCount] = useState(detail?.userDetails[0]?.count ?? 0);
@@ -27,14 +27,14 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
 
     const fetchData = async() =>{
         const request:DeleteBasketDetail = {
-            userId: auth?.user?.id,
+            userId: authStore?.user?.id ?? '',
             detailId: detail.id
         };
         await BasketService.DeletebasketDetail(request);
 
         const filter:GetBasketDetailsFilter = {
             pageNumber: 1,
-            userId: auth?.user?.id
+            userId: authStore?.user?.id ?? ''
         };
         const getBasketDetailsRequest:GetBasketDetailsRequest = {
             filter: filter

@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import auth from "../../../../../stores/auth";
 import basket from "../../../../../stores/basket";
 import styles from './HeaderExit.module.css';
+import authStore from "../../../../../stores/AuthStore/authStore";
+import { AuthService } from "../../../../../features/auth/services/AuthService";
 
 export const HeaderExit = () => {
     const navigate = useNavigate();
 
     const logout = () => {
-        auth.logout();
-        auth.setAuth(false);
+        authStore.logout();
+        AuthService.logout();
         basket.clear();
         navigate('/')
     }

@@ -1,12 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LoginRequest } from '../../models/login';
-import { RegistrationRequest } from '../../models/registration';
 import styles from './CodeVerify.module.css';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from '../../services/AuthService';
 import { VerifyCodeRequest } from '../../models/verifyCode';
 import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
+import authStore from '../../../../stores/AuthStore/authStore';
+import { AuthUser } from '../../../../stores/AuthStore/models/AuthUser';
 
 const CODE_LENGTH = 6;
 
@@ -14,7 +14,7 @@ type CodeInputs = {
   code: string[];
 };
 
-const CodeVerify: React.FC<{ firstStepAuthType: LoginRequest | RegistrationRequest }> = ({ firstStepAuthType }) => {
+const CodeVerify: React.FC<{ firstStepUser: AuthUser}> = ({ firstStepUser }) => {
     const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<CodeInputs>({
         defaultValues: {
             code: Array(CODE_LENGTH).fill('')
@@ -68,7 +68,7 @@ const CodeVerify: React.FC<{ firstStepAuthType: LoginRequest | RegistrationReque
 
         setIsDisabled(true);
         setCountdown(30);
-        AuthService.sendVerificationCode(firstStepAuthType.email);
+        AuthService.sendVerificationCode(firstStepUser.email!);
     }
 
     const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -101,20 +101,17 @@ const CodeVerify: React.FC<{ firstStepAuthType: LoginRequest | RegistrationReque
         const code = data.code.join('');
 
         const request: VerifyCodeRequest = {
-            email: firstStepAuthType.email,
+            email: firstStepUser.email!,
             code: code,
             role: 'User'
         };
         setLoading(true);
         try {
             const response = await AuthService.verifyCode(request);
-            if(firstStepAuthType.type === 'registration' && response.status === 200){
-                await AuthService.register(firstStepAuthType);
-            } 
-            if(firstStepAuthType.type === 'login' && response.status === 200){
-                await AuthService.login(firstStepAuthType);
+            if(response && authStore.readyToAuth){
+                await authStore.secondStepAuthenticate(firstStepUser);
+                navigate('/');
             }
-            navigate('/');
         }
         catch (error) {
             const errorResponse = error as ErrorResponseModel;

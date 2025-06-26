@@ -37,7 +37,7 @@ export class AuthService{
                 localStorage.setItem('middleName', response.data.user.middleName ?? '');
                 localStorage.setItem('lastName', response.data.user.lastName ?? '');
                 localStorage.setItem('phone', response.data.user.phone?.toString() ?? '');
-                localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('isAuth', 'true');
             }
 
             return response.data;
@@ -45,6 +45,17 @@ export class AuthService{
         catch(error){
             this.handleError(error);
         }
+    }
+
+    static logout = () => {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('email');
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('middleName');
+        localStorage.removeItem('lastName');
+        localStorage.removeItem('phone');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('isAuth');
     }
 
     static async login(data: LoginRequest) : Promise<LoginResponse>{
@@ -63,7 +74,6 @@ export class AuthService{
                 localStorage.setItem('middleName', response.data.user.middleName ?? '');
                 localStorage.setItem('lastName', response.data.user.lastName ?? '');
                 localStorage.setItem('phone', response.data.user.phone?.toString() ?? '');
-                localStorage.setItem('accessToken', response.data.accessToken);
             }
 
             return response.data;
@@ -76,6 +86,7 @@ export class AuthService{
     static async verifyCode(request:VerifyCodeRequest){
         try{
             const response = await api.post(this.AUTH_ENPOINTS.VERIFYCODE, request);
+            console.warn(response.data);
             this.setAccessToken(response.data.accessToken);
 
             return response;
@@ -95,9 +106,26 @@ export class AuthService{
         }
     }
 
-    static async isAuth(request:IsAuthRequest){
+    static async isAuth(){
         try{
+            const request: IsAuthRequest = {
+                userId: localStorage.getItem('userId') ?? '',
+                role: 'User'
+            }
+
             const response = await api.post<IsAuthResponse>(this.AUTH_ENPOINTS.CHECKAUTH, request);
+
+            if(response.status === 200){
+                localStorage.setItem('userId', response.data.user.id ?? '');
+                localStorage.setItem('email', response.data.user.email ?? '');
+                localStorage.setItem('firstName', response.data.user.firstName ?? '');
+                localStorage.setItem('middleName', response.data.user.middleName ?? '');
+                localStorage.setItem('lastName', response.data.user.lastName ?? '');
+                localStorage.setItem('phone', response.data.user.phone?.toString() ?? '');
+                localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('isAuth', 'true');
+            }
+
             return response.data;
         }
         catch(error){
@@ -117,6 +145,7 @@ export class AuthService{
 
     private static setAccessToken(accessToken:string){
         localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('isAuth', "true");
     }
 
     private static handleError(error:unknown): never {

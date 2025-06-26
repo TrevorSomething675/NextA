@@ -1,21 +1,20 @@
 import { useState } from "react";
-import { LoginRequest } from "../models/login";
-import { RegistrationRequest } from "../models/registration";
 import Login from "../components/login/Login";
 import Register from "../components/register/Register";
 import CodeVerify from "../components/codeVerify/CodeVerify";
+import { AuthUser } from "../../../stores/AuthStore/models/AuthUser";
 
 const AuthPage = () => {
     const [isLogin, changeAuth] = useState(true);
     const [isVerifyCode, setVerifyCodeAuth] = useState(false);
-    const [authRequest, setAuthRequest] = useState<LoginRequest | RegistrationRequest | null>(null);
+    const [authRequest, setAuthRequest] = useState<AuthUser | null>(null);
 
     const changeLoginStatusHandler = () => {
         changeAuth(!isLogin);
     }
 
-    const changeCodeVerifyHandler = (request:LoginRequest | RegistrationRequest) => {
-        setAuthRequest(request);
+    const changeCodeVerifyHandler = (user: AuthUser) => {
+        setAuthRequest(user);
         setVerifyCodeAuth(!isVerifyCode);
     }
 
@@ -32,7 +31,7 @@ const AuthPage = () => {
                     changeFormStatus={changeLoginStatusHandler} 
                 />)}
             </>}
-            {isVerifyCode && <CodeVerify firstStepAuthType={authRequest!} />}
+            {isVerifyCode && <CodeVerify firstStepUser={authRequest!} />}
         </div>
 }
 

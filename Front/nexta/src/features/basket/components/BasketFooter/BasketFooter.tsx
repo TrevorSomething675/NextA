@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import OrderService from "../../../../services/OrderService";
 import basket from "../../../../stores/basket";
-import auth from "../../../../stores/auth";
 import styles from './BasketFooter.module.css';
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
 import { CreateNewOrderRequest } from "../../../order/models/CreateNewOrderRequest";
+import authStore from "../../../../stores/AuthStore/authStore";
 
 const BasketFooter = observer(() => {
     const navigate = useNavigate();
@@ -19,7 +19,7 @@ const BasketFooter = observer(() => {
     }
     const fetchData = async() => {
         const request:CreateNewOrderRequest = {
-            userId: auth?.user?.id,
+            userId: authStore?.user?.id ?? '',
             detailIds: basket.details.map((detail) => detail.id)
         }
         setLoading(true);

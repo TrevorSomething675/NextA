@@ -2,7 +2,6 @@ import "./globals.css"
 import "./colors.css"
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useEffect } from 'react'
-import auth from './stores/auth'
 import basket from './stores/basket'
 import OrderService from './services/OrderService'
 import orderStore from './stores/orderStore'
@@ -14,21 +13,21 @@ import AuthPage from "./features/auth/pages/AuthPage"
 import BasketPage from "./features/basket/pages/BasketPage"
 import SearchPage from "./features/details/pages/SearchPage/SearchPage"
 import DetailPage from "./features/detail/pages/DetailPage"
-import AccountPage from "./pages/account/AccountPage"
 import OrderPage from "./features/order/pages/OrdersPage"
 import AdminOrdersPage from "./pages/admin/orders/AdminOrdersPage"
 import BasketService from "./features/basket/services/BasketService"
 import Header from "./shared/components/Header/Header"
 import Footer from "./shared/components/Footer/Footer"
-
+import AccountPage from "./features/account/pages/AccountPage"
+import AuthStore from "./stores/AuthStore/authStore"
+import authStore from "./stores/AuthStore/authStore"
 
 const App = () => {
   useEffect(() => {
-    auth.checkAuth()
     const fetchData = async() => {
         const filter:GetBasketDetailsFilter = {
             pageNumber: 1,
-            userId: auth?.user?.id
+            userId: AuthStore.user.id ?? ''
         };
         const request:GetBasketDetailsRequest = {
             filter: filter
@@ -40,9 +39,8 @@ const App = () => {
             console.error('Ошибка на странице BasketPage');
         };
         
-        const userId = auth?.user?.id;
         const ordersFilter:GetOrdersForUserFilter = {
-            userId: userId,
+            userId: AuthStore.user.id ?? '',
             pageSize: 8,
             pageNumber: 1
         }
@@ -56,7 +54,7 @@ const App = () => {
             orderStore.setTotalOrders(orderResponse?.totalCount);
         }
       }
-      if(auth.isAuth){
+      if(authStore.isAuthenticated){
         fetchData();
       }
     }, []);
@@ -64,6 +62,7 @@ const App = () => {
   return <div className='page-container'>
       <NotificationsProvider>
         <BrowserRouter>
+          <Header />
           <div className='page-body'>
             <Routes>
               <Route path="*" element={<HomePage />} />

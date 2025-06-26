@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { GetOrdersForUserFilter, GetOrdersForUserResponse } from "../../models/GetOrdersForUserFilter";
-import auth from "../../../../stores/auth";
 import { GetLegacyOrdersForUserRequest } from "../../models/GetLegacyOrders";
 import OrderService from "../../../../services/OrderService";
 import Pagging from "../../../../shared/components/Pagging/Pagging";
 import OrderItem from "../orderItem/OrderItem";
+import authStore from "../../../../stores/AuthStore/authStore";
 
 const LegacyOrders = () => {
     const [response, setResponse] = useState<GetOrdersForUserResponse>({} as GetOrdersForUserResponse);
     const handlePageNumberChange = (pageNumber:number) => {
-        const userId = auth?.user?.id;
+        const userId = authStore?.user?.id ?? '';
         const filter:GetOrdersForUserFilter = {
             userId: userId,
             pageSize: 8,
@@ -22,7 +22,7 @@ const LegacyOrders = () => {
     }
     
     useEffect(() => {
-        const userId = auth?.user?.id;
+        const userId = authStore?.user?.id ?? '';
         const filter:GetOrdersForUserFilter = {
             userId: userId,
             pageSize: 8,

@@ -4,14 +4,33 @@
     justify-content: center;
 }
 
-.headerItem{
-    margin: 0 0 0 0.25rem;
+.authBtn {
+    margin-left: 0.125rem;
+    font-size: 1.2rem;
+    background: none;
+    border: none;
+    position: relative; 
+    font-family: 'Roboto', sans-serif;
+    font-weight: 520;
 }
 
-.headerText{
-    color: var(--dark-white-color);
+.authBtn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0; 
+    height: 2px; 
+    width: 100%; 
+    background-color: black; 
+    transform: scaleX(0); 
+    transition: .2s;
 }
 
-.headerCount{
-    color:var(--black-color);
+.authBtn:hover::after {
+    transform: scaleX(1);
+}
+
+.authBtn:hover {
+    cursor: pointer; 
+    transition: .2s; 
 }

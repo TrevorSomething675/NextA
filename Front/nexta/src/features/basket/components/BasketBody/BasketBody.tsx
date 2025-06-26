@@ -4,18 +4,18 @@ import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../models/Ge
 import { observer } from 'mobx-react';
 import basket from '../../../../stores/basket';
 import { toJS } from 'mobx';
-import auth from '../../../../stores/auth';
 import BasketItem from '../BasketItem/BasketItem';
 import BasketService from '../../services/BasketService';
+import authStore from '../../../../stores/AuthStore/authStore';
 
 const BasketBody = observer(() => {
     
     useEffect(() => {
-        if(auth.user.id !== undefined){
+        if(authStore.user.id !== undefined){
             const fetchData = async() => {
                 const filter:GetBasketDetailsFilter = {
                 pageNumber: 1,
-                userId: auth?.user?.id
+                userId: authStore?.user?.id ?? ''
             };
             const request:GetBasketDetailsRequest = {
                 filter: filter
@@ -51,7 +51,7 @@ const BasketBody = observer(() => {
                 )}
             </tbody>
         </table>) : (<h2 className={styles.h2}>
-            Ваша корзина пуста. 
+            Ваша корзина пуста
         </h2>)}
     </div> 
 });

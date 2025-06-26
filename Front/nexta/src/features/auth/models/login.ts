@@ -1,12 +1,10 @@
-import { User } from "../../../shared/entities/User"
+import { AuthUser } from "../../../stores/AuthStore/models/AuthUser"
 
 export interface LoginRequest{
     password:string,
-    email:string,
-    type: 'login'
+    email:string
 };
 
 export interface LoginResponse{
-    user:User,
-    accessToken:string
+    user: AuthUser,
 }

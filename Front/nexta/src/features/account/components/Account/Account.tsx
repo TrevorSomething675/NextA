@@ -1,7 +1,7 @@
-import styles from './account.module.css';
-import auth from '../../stores/auth';
-import { observer } from 'mobx-react';
-import LegacyOrders from '../../features/order/components/legacyOrders/LegacyOrders';
+import { observer } from "mobx-react";
+import styles from './Account.module.css';
+import LegacyOrders from "../../../order/components/legacyOrders/LegacyOrders";
+import authStore from "../../../../stores/AuthStore/authStore";
 
 const Account = observer(() => {
     return <div className={styles.container}>
@@ -10,16 +10,16 @@ const Account = observer(() => {
             <ul>
                 <li className={styles.li}>
                     <h2>
-                        {auth?.user?.firstName} {auth?.user?.lastName} {auth?.user?.middleName}
+                        {authStore?.user?.firstName} {authStore?.user?.lastName} {authStore?.user?.middleName}
                     </h2>
                 </li>
                 <li className={styles.li}>
                     Номер телефона:
-                    <span className={`${!auth?.user?.phone && styles.numberIsNull}`}>
-                        {auth?.user?.phone ? auth?.user?.phone : 'Отсутствует'}
+                    <span className={`${!authStore?.user?.phone && styles.numberIsNull}`}>
+                        {authStore?.user?.phone ? authStore?.user?.phone : 'Отсутствует'}
                     </span>
                     </li>
-                <li className={styles.li}>Почта: {auth.user.email}</li>
+                <li className={styles.li}>Почта: {authStore.user.email}</li>
                 <button className={styles.changePassButton}>Изменить пароль</button>
             </ul>
         </div>

@@ -1,4 +1,4 @@
-import auth from '../../../../../stores/auth';
+import authStore from '../../../../../stores/AuthStore/authStore';
 import styles from './HeaderAccount.module.css';
 
 export const HeaderAccount = () => {
@@ -12,7 +12,7 @@ export const HeaderAccount = () => {
                 Личный кабинет
             </div>
             <div className={styles.accountCount}>
-                {auth.user.lastName} {`${auth?.user?.firstName![0]}.`} {`${auth?.user?.middleName![0]}.`}
+                {authStore.user !== undefined && authStore?.user?.lastName} {`${authStore?.user?.firstName![0]}.`} {`${authStore?.user?.middleName![0]}.`}
              </div>   
         </div>
     </div>

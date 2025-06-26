@@ -4,22 +4,13 @@ import { HeaderOrder } from "./HeaderOrder/HeaderOrder";
 import { HeaderExit } from "./HeaderExit/HeaderExit";
 import { HeaderAuth } from "./HeaderAuth/HeaderAuth";
 import styles from './HeaderNav.module.css';
-import auth from "../../../../stores/auth";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react";
-import { useEffect } from "react";
+import authStore from "../../../../stores/AuthStore/authStore";
 
 export const HeaderNav = observer(() => {
-    useEffect(() => {
-        const checkAuth = async () => {
-            await auth.checkAuth();
-            auth.setAuth(auth.isAuth);
-        };
-        checkAuth();
-    }, []);
-    
     return <div className={styles.container}>
-        {auth.isAuth ? <>
+        {authStore.isAuthenticated ? <>
             <div className={styles.accountItem}>
                 <Link to='/Order'>
                     <HeaderOrder />

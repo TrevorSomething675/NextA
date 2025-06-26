@@ -4,8 +4,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { LoginRequest } from '../../models/login';
 import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
 import { AuthService } from '../../services/AuthService';
+import authStore from '../../../../stores/AuthStore/authStore';
+import { AuthUser } from '../../../../stores/AuthStore/models/AuthUser';
 
-const Login:React.FC<{changeCodeVerifyStatus:any, changeAuthStatus:any}> = ({changeCodeVerifyStatus, changeAuthStatus}) => {
+const Login:React.FC<{changeAuthStatus:any, changeCodeVerifyStatus: (data: AuthUser) => void}> = ({changeCodeVerifyStatus, changeAuthStatus}) => {
     const { register, handleSubmit, formState: {errors} } = useForm<LoginRequest>();
     const [hasError, setError] = useState('');
     const [isLoading, setLoading] = useState(false);
@@ -17,12 +19,12 @@ const Login:React.FC<{changeCodeVerifyStatus:any, changeAuthStatus:any}> = ({cha
     const submit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
         try{
             setLoading(true);
-            const response = await AuthService.isRegisterUser(data.email);
-            if(response.isRegistered){
-                data.type = 'login';
+            const response = await AuthService.login(data);
+            if(response.user){
                 await AuthService.sendVerificationCode(data.email);
-                changeCodeVerifyStatus(data);
-        }
+                changeCodeVerifyStatus(response.user);
+                authStore.firstStepAuthenticate(response.user);
+            }
         } catch(error){
             const errorResponse = error as ErrorResponseModel;
             setError(errorResponse.message ?? '');

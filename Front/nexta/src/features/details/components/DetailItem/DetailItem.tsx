@@ -3,10 +3,10 @@ import { Detail, DetailStatus } from '../../../../shared/entities/Detail';
 import styles from './DetailItem.module.css';
 import { useNavigate } from 'react-router-dom';
 import { AddBasketDetailRequest } from '../../../basket/models/AddBasketDetail';
-import auth from '../../../../stores/auth';
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket/models/GetBasketDetails';
 import basket from '../../../../stores/basket';
 import BasketService from '../../../basket/services/BasketService';
+import authStore from '../../../../stores/AuthStore/authStore';
 
 const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     const [count, setCount] = useState(1);
@@ -44,7 +44,7 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
 
     const fetchData = async() =>{
         const request:AddBasketDetailRequest = {
-            userId: auth?.user?.id,
+            userId: authStore?.user?.id ?? '',
             detailId: detail.id,
             countToPay: count
         };
@@ -53,7 +53,7 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
         {
             const filter:GetBasketDetailsFilter = {
                 pageNumber: 1,
-                userId: auth?.user?.id
+                userId: authStore?.user?.id ?? ''
             };
             const getBasketDetailsRequest:GetBasketDetailsRequest = {
                 filter: filter
