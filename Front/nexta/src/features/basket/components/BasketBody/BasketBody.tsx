@@ -5,10 +5,11 @@ import { observer } from 'mobx-react';
 import basket from '../../../../stores/basket';
 import { toJS } from 'mobx';
 import auth from '../../../../stores/auth';
-import { BasketItem } from '../BasketItem/BasketItem';
-import { BasketService } from '../../services/BasketService';
+import BasketItem from '../BasketItem/BasketItem';
+import BasketService from '../../services/BasketService';
 
-export const BasketBody = observer(() => {
+const BasketBody = observer(() => {
+    
     useEffect(() => {
         if(auth.user.id !== undefined){
             const fetchData = async() => {
@@ -30,6 +31,7 @@ export const BasketBody = observer(() => {
         fetchData();
     }
     }, []);
+    
     return <div className={styles.container}>
         {(basket?.details !== undefined) && (basket.details.length > 0) ? (<table className={styles.table}>
             <thead className={styles.thead}>
@@ -53,3 +55,5 @@ export const BasketBody = observer(() => {
         </h2>)}
     </div> 
 });
+
+export default BasketBody;

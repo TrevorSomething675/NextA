@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from '../../services/AuthService';
 import { VerifyCodeRequest } from '../../models/verifyCode';
-import ErrorResponseModel from '../../../../models/ErrorResponseModel';
+import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
 
 const CODE_LENGTH = 6;
 
@@ -14,7 +14,7 @@ type CodeInputs = {
   code: string[];
 };
 
-export const CodeVerify: React.FC<{ firstStepAuthType: LoginRequest | RegistrationRequest }> = ({ firstStepAuthType }) => {
+const CodeVerify: React.FC<{ firstStepAuthType: LoginRequest | RegistrationRequest }> = ({ firstStepAuthType }) => {
     const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<CodeInputs>({
         defaultValues: {
             code: Array(CODE_LENGTH).fill('')
@@ -41,7 +41,7 @@ export const CodeVerify: React.FC<{ firstStepAuthType: LoginRequest | Registrati
         
         return () => clearTimeout(timer);
     }, [isDisabled, countdown]);
-
+    
     const handleInput = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         
@@ -109,10 +109,10 @@ export const CodeVerify: React.FC<{ firstStepAuthType: LoginRequest | Registrati
         try {
             const response = await AuthService.verifyCode(request);
             if(firstStepAuthType.type === 'registration' && response.status === 200){
-                const registerResponse = await AuthService.register(firstStepAuthType);
+                await AuthService.register(firstStepAuthType);
             } 
             if(firstStepAuthType.type === 'login' && response.status === 200){
-                const response = await AuthService.login(firstStepAuthType);
+                await AuthService.login(firstStepAuthType);
             }
             navigate('/');
         }
@@ -176,3 +176,5 @@ export const CodeVerify: React.FC<{ firstStepAuthType: LoginRequest | Registrati
         </div>
     )
 }
+
+export default CodeVerify;

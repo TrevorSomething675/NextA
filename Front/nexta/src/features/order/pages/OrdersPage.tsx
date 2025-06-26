@@ -1,4 +1,4 @@
-import { Orders } from "../components/orders/Orders";
+import Orders from "../components/orders/Orders";
 import styles from './OrdersPage.module.css';
 
 const OrderPage = () => {

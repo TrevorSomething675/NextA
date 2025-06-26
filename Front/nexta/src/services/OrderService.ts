@@ -1,10 +1,9 @@
-import GetOrdersForUserResponse from "../models/order/GetOrdersForUserResponse";
-import GetOrdersForUserRequest from "../models/order/GetOrdersForUserRequest";
+import { CreateNewOrderRequest, CreateNewOrderResponse } from "../features/order/models/CreateNewOrderRequest";
+import { GetLegacyOrdersForUserRequest } from "../features/order/models/GetLegacyOrders";
+import { GetOrdersForUserRequest, GetOrdersForUserResponse } from "../features/order/models/GetOrdersForUserFilter";
 import api from "../http/api";
 import axios from 'axios';
-import CreateNewOrderRequest from "../models/order/createNewOrder/CreateNewOrderRequest";
-import CreateNewOrderResponse from "../models/order/createNewOrder/CreateNewOrderResponse";
-import GetLegacyOrdersForUserRequest from "../models/order/getLegacyOrders/GetLegacyOrdersForUserRequest";
+
 
 class OrderService{
     static async GetOrdersForUser(request:GetOrdersForUserRequest){

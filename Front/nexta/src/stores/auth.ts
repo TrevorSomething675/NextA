@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
-import User from '../models/account/User';
 import { AuthService } from '../features/auth/services/AuthService';
 import { LoginRequest } from '../features/auth/models/login';
 import { RegistrationRequest } from '../features/auth/models/registration';
+import { User } from '../shared/entities/User';
 
 class Auth{
     user = {} as User;

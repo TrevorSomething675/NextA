@@ -2,15 +2,15 @@ import { useState } from 'react';
 import styles from './BasketItem.module.css';
 import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
-import Detail from '../../../../models/Detail';
-import { UserDetailStatus } from '../../../../models/UserDetail';
 import { DeleteBasketDetail } from '../../models/DeleteBasketDetail';
 import auth from '../../../../stores/auth';
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../models/GetBasketDetails';
 import basket from '../../../../stores/basket';
-import { BasketService } from '../../services/BasketService';
+import { UserDetailStatus } from '../../../../shared/entities/UserDetails';
+import { Detail } from '../../../../shared/entities/Detail';
+import BasketService from '../../services/BasketService';
 
-export const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
+const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
     const [count, setCount] = useState(detail?.userDetails[0]?.count ?? 0);
     const navigate = useNavigate();
     const statusLabels = {
@@ -30,7 +30,7 @@ export const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
             userId: auth?.user?.id,
             detailId: detail.id
         };
-        const response = await BasketService.DeletebasketDetail(request);
+        await BasketService.DeletebasketDetail(request);
 
         const filter:GetBasketDetailsFilter = {
             pageNumber: 1,
@@ -104,3 +104,5 @@ export const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
         </td>
     </tr>
 });
+
+export default BasketItem;

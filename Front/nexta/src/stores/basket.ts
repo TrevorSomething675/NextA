@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import Detail from "../models/Detail";
+import { Detail } from "../shared/entities/Detail";
 
 class BasketStore {
     details: Detail[] = [];

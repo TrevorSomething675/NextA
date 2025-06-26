@@ -6,10 +6,10 @@ import orderStore from '../../../../stores/orderStore';
 import { toJS } from 'mobx';
 import { GetOrdersForUserFilter, GetOrdersForUserRequest, GetOrdersForUserResponse } from '../../models/GetOrdersForUserFilter';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
-import { OrderItem } from '../orderItem/OrderItem';
+import OrderItem from '../orderItem/OrderItem';
 
 
-export const Orders = observer(() => {
+const Orders = observer(() => {
     const [response, setResponse] = useState<GetOrdersForUserResponse>({} as GetOrdersForUserResponse);
     const handlePageNumberChange = (pageNumber:number) => {
         const userId = auth?.user?.id;
@@ -37,7 +37,7 @@ export const Orders = observer(() => {
         };
         fetchData(request);
     }, []);
-    
+
     const fetchData = async (request:GetOrdersForUserRequest) => {
         const response = await OrderService.GetOrdersForUser(request);
         if(response){
@@ -56,3 +56,5 @@ export const Orders = observer(() => {
         {response?.orders !== undefined && <Pagging pageCount={response.orders.pageCount} onPageNumberChange={handlePageNumberChange}/>}
     </div>
 });
+
+export default Orders;

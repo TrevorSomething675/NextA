@@ -2,55 +2,16 @@ import { useState } from 'react';
 import styles from './Login.module.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LoginRequest } from '../../models/login';
-import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket/models/GetBasketDetails';
-import auth from '../../../../stores/auth';
-import { BasketService } from '../../../basket/services/BasketService';
-import basket from '../../../../stores/basket';
-import { GetOrdersForUserFilter, GetOrdersForUserRequest } from '../../../order/models/GetOrdersForUserFilter';
-import OrderService from '../../../../services/OrderService';
-import orderStore from '../../../../stores/orderStore';
+import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
 import { AuthService } from '../../services/AuthService';
-import ErrorResponseModel from '../../../../models/ErrorResponseModel';
 
-export const Login:React.FC<{changeCodeVerifyStatus:any, changeAuthStatus:any}> = ({changeCodeVerifyStatus, changeAuthStatus}) => {
+const Login:React.FC<{changeCodeVerifyStatus:any, changeAuthStatus:any}> = ({changeCodeVerifyStatus, changeAuthStatus}) => {
     const { register, handleSubmit, formState: {errors} } = useForm<LoginRequest>();
     const [hasError, setError] = useState('');
     const [isLoading, setLoading] = useState(false);
 
     const handlerChangeFormStatus = () => {
         changeAuthStatus();
-    }
-
-    const fetchData = async() => {
-        const filter:GetBasketDetailsFilter = {
-            pageNumber: 1,
-            userId: auth?.user?.id
-        };
-        const request:GetBasketDetailsRequest = {
-            filter: filter
-        };
-        const basketResult = await BasketService.GetBasketDetails(request);
-        if(basketResult){
-            basket.setBasketDetails(basketResult.details);
-        } else {
-            console.error('Ошибка на странице BasketPage');
-        };
-        
-        const userId = auth?.user?.id;
-        const ordersFilter:GetOrdersForUserFilter = {
-            userId: userId,
-            pageSize: 8,
-            pageNumber: 1
-        }
-        const ordersRequest:GetOrdersForUserRequest = {
-            filter:ordersFilter
-        };
-
-        const response = await OrderService.GetOrdersForUser(ordersRequest);
-        if(response?.orders){
-            orderStore.setOrders(response?.orders.items);
-            orderStore.setTotalOrders(response?.totalCount);
-        }
     }
 
     const submit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
@@ -110,3 +71,5 @@ export const Login:React.FC<{changeCodeVerifyStatus:any, changeAuthStatus:any}> 
         </form>
     </div>
 }
+
+export default Login;

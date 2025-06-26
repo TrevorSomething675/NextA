@@ -3,9 +3,9 @@ import styles from './Register.module.css';
 import { RegistrationRequest } from "../../models/registration";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AuthService } from "../../services/AuthService";
-import ErrorResponseModel from "../../../../models/ErrorResponseModel";
+import { ErrorResponseModel } from "../../../../shared/models/ErrorResponseModel";
 
-export const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus: (data: RegistrationRequest) => void}> = ({ changeFormStatus, changeCodeVerifyStatus }) => {
+const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus: (data: RegistrationRequest) => void}> = ({ changeFormStatus, changeCodeVerifyStatus }) => {
     const { register, handleSubmit, watch, formState: {errors} } = useForm<RegistrationRequest>();
     const [hasError, setError] = useState('');
 
@@ -121,3 +121,5 @@ export const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus: 
         </div>
     );
 }
+
+export default Register;

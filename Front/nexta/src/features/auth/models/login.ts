@@ -1,4 +1,4 @@
-import User from "../../../models/account/User"
+import { User } from "../../../shared/entities/User"
 
 export interface LoginRequest{
     password:string,

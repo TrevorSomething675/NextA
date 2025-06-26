@@ -1,5 +1,5 @@
-import PagedData from "../../../models/PagedData"
-import { Detail } from "./Detail"
+import { Detail } from "../../../shared/entities/Detail"
+import { PagedData } from "../../../shared/models/PagedDataT"
 
 export interface GetDetailsRequest{
     filter: GetDetailsFilter

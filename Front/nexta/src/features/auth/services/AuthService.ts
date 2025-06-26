@@ -1,7 +1,7 @@
 import { LoginRequest, LoginResponse } from "../models/login";
 import api from "../../../http/api";
 import axios from 'axios';
-import ErrorResponseModel from "../../../models/ErrorResponseModel";
+import { ErrorResponseModel } from "../../../shared/models/ErrorResponseModel";
 import { RegistrationRequest, RegistrationResponse } from "../models/registration";
 import { IsRegisteredUserResponse } from "../models/isRegister";
 import { IsAuthRequest, IsAuthResponse } from "../models/isAuth";

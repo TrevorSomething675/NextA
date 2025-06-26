@@ -1,11 +1,11 @@
 import { GetBasketDetailsRequest, GetBasketDetailsResponse } from "../models/GetBasketDetails";
 import { AddBasketDetailRequest } from "../models/AddBasketDetail";
 import { DeleteBasketDetail } from "../models/DeleteBasketDetail";
-import Detail from "../../../models/Detail";
 import api from "../../../http/api";
 import axios from 'axios';
+import { Detail } from "../../../shared/entities/Detail";
 
-export class BasketService{
+class BasketService{
     static async GetBasketDetails(data:GetBasketDetailsRequest){
         try {
             const response = await api.post<GetBasketDetailsResponse>('Basket/Get', data)
@@ -46,3 +46,5 @@ export class BasketService{
         }
     }
 }
+
+export default BasketService;

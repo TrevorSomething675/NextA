@@ -1,7 +1,7 @@
 import styles from './account.module.css';
 import auth from '../../stores/auth';
 import { observer } from 'mobx-react';
-import LegacyOrders from '../order/legacyOrders';
+import LegacyOrders from '../../features/order/components/legacyOrders/LegacyOrders';
 
 const Account = observer(() => {
     return <div className={styles.container}>
@@ -14,7 +14,7 @@ const Account = observer(() => {
                     </h2>
                 </li>
                 <li className={styles.li}>
-                    Номер телефона: 
+                    Номер телефона:
                     <span className={`${!auth?.user?.phone && styles.numberIsNull}`}>
                         {auth?.user?.phone ? auth?.user?.phone : 'Отсутствует'}
                     </span>

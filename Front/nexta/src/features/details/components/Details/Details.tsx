@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './Details.module.css';
 import DetailsService from '../../../../services/DetailsService';
 import { GetDetailsFilter, GetDetailsRequest, GetDetailsResponse } from '../../models/GetDetails';
-import { DetailItem } from '../DetailItem/DetailItem';
+import DetailItem from '../DetailItem/DetailItem';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
 
 const Details:React.FC<{detailsFilter?:GetDetailsFilter}> = ({detailsFilter = {pageNumber: 1, pageSize: 16}}) => {
@@ -22,9 +22,11 @@ const Details:React.FC<{detailsFilter?:GetDetailsFilter}> = ({detailsFilter = {p
         }
     };
 
+    
     useEffect(() => {
         fetchData(detailsFilter.pageNumber);
     }, []);
+    
 
     return <div className={styles.container}>
         <table className={styles.table}>

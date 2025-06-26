@@ -4,9 +4,9 @@ import auth from "../../../../stores/auth";
 import { GetLegacyOrdersForUserRequest } from "../../models/GetLegacyOrders";
 import OrderService from "../../../../services/OrderService";
 import Pagging from "../../../../shared/components/Pagging/Pagging";
-import { OrderItem } from "../orderItem/OrderItem";
+import OrderItem from "../orderItem/OrderItem";
 
-export const LegacyOrders = () => {
+const LegacyOrders = () => {
     const [response, setResponse] = useState<GetOrdersForUserResponse>({} as GetOrdersForUserResponse);
     const handlePageNumberChange = (pageNumber:number) => {
         const userId = auth?.user?.id;
@@ -50,3 +50,5 @@ export const LegacyOrders = () => {
         {response?.orders !== undefined && <Pagging pageCount={response.orders.pageCount} onPageNumberChange={handlePageNumberChange}/>}
     </div>
 }
+
+export default LegacyOrders;

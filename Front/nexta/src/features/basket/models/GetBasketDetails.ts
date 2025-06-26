@@ -1,4 +1,4 @@
-import Detail from "../../../models/Detail"
+import { Detail } from "../../../shared/entities/Detail"
 
 export interface GetBasketDetailsRequest{
     filter: GetBasketDetailsFilter

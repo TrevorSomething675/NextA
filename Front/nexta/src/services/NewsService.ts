@@ -1,5 +1,5 @@
 import api from "../http/api";
-import NewsResponse from "../models/news/newsResponse";
+import { NewsResponse } from "../shared/entities/News";
 
 class NewsService{
     static async GetNews(){

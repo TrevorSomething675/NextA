@@ -1,25 +1,25 @@
-import Header from './components/header/header'
-import Footer from './components/footer/footer'
 import "./globals.css"
 import "./colors.css"
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useEffect } from 'react'
 import auth from './stores/auth'
 import basket from './stores/basket'
-import DetailPage from './pages/detail/detailPage'
-import SearchPage from './pages/search/searchPage'
-import HomePage from './pages/home/homePage'
 import OrderService from './services/OrderService'
 import orderStore from './stores/orderStore'
-import { NotificationsProvider } from './components/notifications/notifications'
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from './features/basket/models/GetBasketDetails'
-import { BasketService } from './features/basket/services/BasketService'
 import { GetOrdersForUserFilter, GetOrdersForUserRequest } from './features/order/models/GetOrdersForUserFilter'
-import AccountPage from './pages/account/AccountPage'
-import AdminOrdersPage from './pages/admin/orders/AdminOrdersPage'
-import { BasketPage } from './features/basket/pages/BasketPage'
-import { AuthPage } from './features/auth/pages/AuthPage'
-import OrderPage from './features/order/pages/OrdersPage'
+import { NotificationsProvider } from "./shared/components/Notifications/Notifications"
+import HomePage from "./features/home/pages/HomePage"
+import AuthPage from "./features/auth/pages/AuthPage"
+import BasketPage from "./features/basket/pages/BasketPage"
+import SearchPage from "./features/details/pages/SearchPage/SearchPage"
+import DetailPage from "./features/detail/pages/DetailPage"
+import AccountPage from "./pages/account/AccountPage"
+import OrderPage from "./features/order/pages/OrdersPage"
+import AdminOrdersPage from "./pages/admin/orders/AdminOrdersPage"
+import BasketService from "./features/basket/services/BasketService"
+import Header from "./shared/components/Header/Header"
+import Footer from "./shared/components/Footer/Footer"
 
 
 const App = () => {
@@ -64,7 +64,6 @@ const App = () => {
   return <div className='page-container'>
       <NotificationsProvider>
         <BrowserRouter>
-          <Header />
           <div className='page-body'>
             <Routes>
               <Route path="*" element={<HomePage />} />
@@ -83,4 +82,4 @@ const App = () => {
   </div>
 }
 
-export default App
+export default App;

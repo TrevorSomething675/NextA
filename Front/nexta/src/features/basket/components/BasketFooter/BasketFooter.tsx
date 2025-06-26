@@ -1,14 +1,14 @@
 import { observer } from "mobx-react";
 import { useNavigate } from "react-router-dom";
-import { useNotifications } from "../../../../components/notifications/notifications";
 import { useState } from "react";
-import CreateNewOrderRequest from "../../../../models/order/createNewOrder/CreateNewOrderRequest";
 import OrderService from "../../../../services/OrderService";
 import basket from "../../../../stores/basket";
 import auth from "../../../../stores/auth";
 import styles from './BasketFooter.module.css';
+import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
+import { CreateNewOrderRequest } from "../../../order/models/CreateNewOrderRequest";
 
-export const BasketFooter = observer(() => {
+const BasketFooter = observer(() => {
     const navigate = useNavigate();
     const {addNotification} = useNotifications();
 
@@ -52,3 +52,5 @@ export const BasketFooter = observer(() => {
         </div>
     </div>
 });
+
+export default BasketFooter;

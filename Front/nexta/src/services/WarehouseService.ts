@@ -1,10 +1,9 @@
-import GetDetailsRequest from "../models/details/GetDetailsRequest";
 import axios from 'axios';
 import api from "../http/api";
-import GetWarehouseResponse from "../models/warehouse/GetWarehouseResponse";
+import { GetWarehouseRequest, GetWarehouseResponse } from '../features/details/models/GetWarehouse';
 
 class WarehouseService{
-    static async GetDetails(request:GetDetailsRequest){
+    static async GetDetails(request:GetWarehouseRequest){
         try {
             const response = await api.post<GetWarehouseResponse>('Warehouse/Get', request);
             return response.data

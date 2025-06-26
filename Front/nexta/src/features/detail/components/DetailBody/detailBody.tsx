@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Detail, DetailStatus } from "../../../details/models/Detail";
-import styles from './detailBody.module.css';
+import { Detail, DetailStatus } from "../../../../shared/entities/Detail";
+import styles from './DetailBody.module.css';
 import Image from "../../../../shared/components/Image/Image";
 
 const statusLabels = {

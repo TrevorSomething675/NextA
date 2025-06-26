@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { Detail, DetailStatus } from '../../models/Detail';
+import { Detail, DetailStatus } from '../../../../shared/entities/Detail';
 import styles from './DetailItem.module.css';
 import { useNavigate } from 'react-router-dom';
 import { AddBasketDetailRequest } from '../../../basket/models/AddBasketDetail';
 import auth from '../../../../stores/auth';
-import { BasketService } from '../../../basket/services/BasketService';
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket/models/GetBasketDetails';
 import basket from '../../../../stores/basket';
+import BasketService from '../../../basket/services/BasketService';
 
-export const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
+const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     const [count, setCount] = useState(1);
     const navigate = useNavigate();
     const statusLabels = {
@@ -112,3 +112,5 @@ export const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
             </td>
         </tr>
 }
+
+export default DetailItem;

@@ -1,5 +1,5 @@
-import { Detail } from "../../../details/models/Detail";
-import styles from './detailFooter.module.css';
+import { Detail } from "../../../../shared/entities/Detail";
+import styles from './DetailFooter.module.css';
 
 const DetailFooter:React.FC<{detail:Detail}> = () => {
     return <div className={styles.container}>
