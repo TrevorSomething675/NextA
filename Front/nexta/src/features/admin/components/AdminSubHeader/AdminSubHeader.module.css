@@ -1,0 +1,45 @@
+.container{
+    min-height: 2.4rem;
+    background-color: var(--pink-color);
+    box-shadow: 0px 0.1px 5px var(--dark-color);
+    display: flex;
+    justify-content: center;
+}
+
+.subHeaderItems{
+    display: flex;
+    justify-content: start;
+    max-width: 1800px;
+    min-width: 1280px;
+    min-height: 2rem;
+}
+
+.subHeaderItem {
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+}
+
+.link{
+    position: relative;
+}
+
+.link:hover{
+    cursor: pointer;
+    transition: .2s;
+}
+
+.link::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0; 
+    height: 2px;
+    bottom: -4px;
+    width: 100%; 
+    background-color: black; 
+    transform: scaleX(0); 
+    transition: .2s;
+}
+
+.link:hover::after {
+    transform: scaleX(1);
+}

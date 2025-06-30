@@ -1,9 +1,9 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Application.DTO;
 
 namespace Nexta.Application.Queries.News.GetNewsQuery
 {
-    public class GetNewsQueryResponse(List<Image> images)
+    public class GetNewsQueryResponse(List<ImageResponse> images)
     {
-        public List<Image> Images { get; set; } = images;
+        public List<ImageResponse> Images { get; init; } = images;
     }
 }

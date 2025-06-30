@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nexta.Infrastructure.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Entities;
 
 namespace Nexta.Infrastructure.DataBase.Configurations
 {

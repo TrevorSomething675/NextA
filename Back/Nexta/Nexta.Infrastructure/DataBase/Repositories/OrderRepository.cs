@@ -1,27 +1,33 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models.DataModels;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Entities;
 using Nexta.Domain.Filters;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Nexta.Domain.Models;
+using AutoMapper;
+using Nexta.Infrastructure.DataBase.Entities;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
 	public class OrderRepository : IOrderRepository
 	{
 		private readonly IDbContextFactory<MainContext> _dbContextFactory;
+		private readonly IMapper _mapper;
 
-		public OrderRepository(IDbContextFactory<MainContext> dbContextFactory)
+		public OrderRepository(IDbContextFactory<MainContext> dbContextFactory, IMapper mapper)
 		{
 			_dbContextFactory = dbContextFactory;
+			_mapper = mapper;
 		}
 
-		public async Task<OrderEntity> AddAsync(OrderEntity orderToAdd, CancellationToken ct = default)
+		public async Task<Order> AddAsync(Order orderToAdd, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var createdOrder = (await context.Orders.AddAsync(orderToAdd, ct)).Entity;
+				var orderEntity = _mapper.Map<OrderEntity>(orderToAdd);
+				var createdOrderEntity = (await context.Orders.AddAsync(orderEntity, ct)).Entity;
 				await context.SaveChangesAsync();
+
+				var createdOrder = _mapper.Map<Order>(createdOrderEntity);
 
 				return createdOrder;
 			}
@@ -39,29 +45,33 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<OrderEntity> GetOrderAsync(Guid orderId, CancellationToken ct = default)
+		public async Task<Order> GetOrderAsync(Guid orderId, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var order = await context.Orders
+				var orderEntity = await context.Orders
 					.AsNoTracking()
 					.Include(o => o.OrderDetails)
 					.Include(o => o.Details)
 					.FirstOrDefaultAsync(ct);
 
+				var order = _mapper.Map<Order>(orderEntity);
+
 				return order;
 			}
 		}
 
-		public async Task<PagedData<OrderEntity>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default)
+		public async Task<PagedData<Order>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default)
 		{
 			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var query = context.Orders
 					.AsNoTracking()
+					.Include(o => o.User)
 					.Where(o => filter.Statuses.Contains(o.Status));
 
 				var orders = await query
+					.Include(o => o.OrderDetails)!.ThenInclude(od => od.Detail)
 					.Skip((filter.PageNumber - 1) * filter.PageSize)
 					.Take(filter.PageSize)
 					.ToListAsync(ct);
@@ -69,15 +79,20 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				var ordersCount = await query.CountAsync(ct);
 				var pageCount = (int)Math.Ceiling((double)ordersCount / filter.PageSize);
 
-				return new PagedData<OrderEntity>(orders, ordersCount, pageCount);
+				var pagedOrderEntities = new PagedData<OrderEntity>(orders, ordersCount, pageCount);
+
+				var pagedOrders = _mapper.Map<PagedData<Order>>(pagedOrderEntities);
+
+				return pagedOrders;
 			}
 		}
 
-		public async Task<PagedData<OrderEntity>> GetOrdersAsync(GetOrdersFilter filter, CancellationToken ct = default)
+		public async Task<PagedData<Order>> GetOrdersAsync(GetOrdersFilter filter, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var query = context.Orders
+					.AsNoTracking()
 					.Where(o => o.UserId == filter.UserId)
 					.Where(o => filter.Statuses.Contains(o.Status))
 					.AsNoTracking();
@@ -91,7 +106,11 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				var ordersCount = await query.CountAsync(ct);
 				var pageCount = (int)Math.Ceiling((double)ordersCount / filter.PageSize);
 
-				return new PagedData<OrderEntity>(orders, orders.Count, pageCount);
+				var pagedOrderEntities = new PagedData<OrderEntity>(orders, orders.Count, pageCount);
+				
+				var pagedOrders = _mapper.Map<PagedData<Order>>(pagedOrderEntities);
+
+				return pagedOrders;
 			}
 		}
 	}

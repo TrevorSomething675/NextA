@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Detail, DetailStatus } from "../../../../shared/entities/Detail";
+import { DetailStatus } from "../../../../shared/entities/Detail";
 import styles from './DetailBody.module.css';
 import Image from "../../../../shared/components/Image/Image";
+import { GetDetailResponse } from "../../models/GetDetail";
 
 const statusLabels = {
     [DetailStatus.Unknown]: 'Неизвестный статус',
@@ -9,7 +10,7 @@ const statusLabels = {
     [DetailStatus.OutOfStock]: 'Нет на складе',
 };
 
-const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
+const DetailBody:React.FC<{detail:GetDetailResponse}> = ({detail}) => {
     const [count, setCount] = useState(1);
 
     const increment = () => {
@@ -32,7 +33,7 @@ const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
 
     return <div className={styles.container}>
         <div className={styles.imageContainer}>
-            <Image isBase64Image={true} base64String={detail.image.base64String} className={styles.image} />
+            <Image isBase64Image={true} base64String={detail?.image?.base64String} className={styles.image} />
         </div>
         <div className={styles.detailContainer}>
             <ul className={styles.ul}>

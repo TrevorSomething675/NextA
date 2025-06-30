@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models;
+using Nexta.Application.DTO;
 using AutoMapper;
 using MediatR;
 
@@ -17,7 +17,7 @@ namespace Nexta.Application.Queries.Details.GetDetailByIdQuery
 
 		public async Task<GetDetailByIdQueryResponse> Handle(GetDetailByIdQueryRequest request, CancellationToken ct)
 		{
-			var detail = _mapper.Map<Detail>(await _detailRepository.GetAsync(request.Id, ct));
+			var detail = _mapper.Map<DetailResponse>(await _detailRepository.GetAsync(request.Id, ct));
 
 			return new GetDetailByIdQueryResponse(detail);
 		}

@@ -1,9 +1,9 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Application.DTO;
 
 namespace Nexta.Application.Commands.Basket.AddBasketDetailCommand
 {
-    public class AddBasketDetailQueryResponse(Detail detail)
+    public class AddBasketDetailQueryResponse(UserDetailResponse userDetail)
     {
-        public Detail Detail { get; set; } = detail;
-    }
+        public UserDetailResponse UserDetail { get; set; } = userDetail;
+	}
 }

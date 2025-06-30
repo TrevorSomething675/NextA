@@ -86,11 +86,11 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
         </td>
         <td>
             <span className={styles.newPrice}>
-                {detail.newPrice} руб.
+                {detail.newPrice} x {detail.userDetails[0].count} руб.
             </span>
             {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
                 <span className={styles.oldPrice}>
-                    {detail.oldPrice} руб.
+                    {detail.oldPrice} x {detail.userDetails[0].count} руб.
                 </span>
             }
         </td>

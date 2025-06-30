@@ -1,7 +1,7 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
 using Nexta.Domain.Exceptions;
-using Nexta.Domain.Entities;
+using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using FluentValidation;
@@ -24,6 +24,7 @@ namespace Nexta.Application.Commands.Auth.RegistrationCommand
 			_validator = validator;
 			_mapper = mapper;
 		}
+
 		public async Task<RegistrationCommandResponse> Handle(RegistrationCommandRequest request, CancellationToken ct)
 		{
 			var validationResult = await _validator.ValidateAsync(request, ct);
@@ -31,19 +32,34 @@ namespace Nexta.Application.Commands.Auth.RegistrationCommand
 			if (!validationResult.IsValid)
 				throw new BadRequestException(string.Join(", ", validationResult.Errors));
 
-			var user = await _userRepository.GetByEmailAsync(request.Email, ct);
-			if (user != null)
+			var dbUser = await _userRepository.GetByEmailAsync(request.Email, ct);
+			if (dbUser != null)
 				throw new ConflictException("Такой пользователь уже существует");
 
 			var passwordHash = _passwordHashService.Generate(request.Password);
+			var user = _mapper.Map<User>(request);
 
-			var userToCreate = _mapper.Map<UserEntity>(request);
-				userToCreate.PasswordHash = passwordHash!;
-				userToCreate.Role = Role.User;
+			var userToCreate = CreateUserToRegister(user, passwordHash!);
 
-			var createdUser = _mapper.Map<User>(await _userRepository.AddAsync(userToCreate, ct));
+			var response = _mapper.Map<UserResponse>(await _userRepository.AddAsync(userToCreate, ct));
 
-			return new RegistrationCommandResponse(createdUser);
+			return new RegistrationCommandResponse(response);
+		}
+
+		private User CreateUserToRegister(User user, string passwordHash)
+		{
+			var userToCreate = new User
+			{
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				MiddleName = user.MiddleName,
+				Email = user.Email,
+				Phone = user.Phone,
+				PasswordHash = passwordHash,
+				Role = Role.User
+			};
+
+			return userToCreate;
 		}
 	}
 }

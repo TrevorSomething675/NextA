@@ -5,6 +5,6 @@ namespace Nexta.Application.Queries.Details.SearchDetailQuery
 {
     public class SearchDetailQueryRequest : IRequest<SearchDetailQueryResponse>
     {
-        public SearchDetailFilter Filter { get; set; } = null!;
+        public SearchDetailFilter Filter { get; init; } = null!;
     }
 }

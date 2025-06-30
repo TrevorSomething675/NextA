@@ -4,6 +4,6 @@ namespace Nexta.Application.Queries.Details.GetDetailByIdQuery
 {
     public class GetDetailByIdQueryRequest : IRequest<GetDetailByIdQueryResponse>
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
     }
 }

@@ -6,6 +6,7 @@ class AuthStore {
     isAuthenticated:boolean = false
     error:string = ''
     readyToAuth:boolean = false
+    isAdmin = true
 
     constructor(){
         makeAutoObservable(this);

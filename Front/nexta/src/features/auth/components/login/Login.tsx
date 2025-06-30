@@ -7,7 +7,7 @@ import { AuthService } from '../../services/AuthService';
 import authStore from '../../../../stores/AuthStore/authStore';
 import { AuthUser } from '../../../../stores/AuthStore/models/AuthUser';
 
-const Login:React.FC<{changeAuthStatus:any, changeCodeVerifyStatus: (data: AuthUser) => void}> = ({changeCodeVerifyStatus, changeAuthStatus}) => {
+const Login:React.FC<{changeAuthStatus:any, changeCodeVerifyStatus: (data: AuthUser) => void}> = ({changeAuthStatus, changeCodeVerifyStatus}) => {
     const { register, handleSubmit, formState: {errors} } = useForm<LoginRequest>();
     const [hasError, setError] = useState('');
     const [isLoading, setLoading] = useState(false);
@@ -20,10 +20,20 @@ const Login:React.FC<{changeAuthStatus:any, changeCodeVerifyStatus: (data: AuthU
         try{
             setLoading(true);
             const response = await AuthService.login(data);
-            if(response.user){
+            if(response){
                 await AuthService.sendVerificationCode(data.email);
-                changeCodeVerifyStatus(response.user);
-                authStore.firstStepAuthenticate(response.user);
+                const authUser:AuthUser = {
+                    id: response.user.id,
+                    email: response.user.email,
+                    firstName: response.user.firstName,
+                    lastName: response.user.lastName,
+                    middleName: response.user.middleName,
+                    role: response.user.role,
+                    phone: response.user.phone,
+                    accessToken: null
+                };
+                changeCodeVerifyStatus(authUser);
+                authStore.firstStepAuthenticate(authUser);
             }
         } catch(error){
             const errorResponse = error as ErrorResponseModel;

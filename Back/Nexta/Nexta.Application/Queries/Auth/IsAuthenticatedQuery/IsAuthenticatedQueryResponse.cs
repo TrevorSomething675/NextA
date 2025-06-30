@@ -1,10 +1,10 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Application.DTO;
 
 namespace Nexta.Application.Queries.Auth.IsAuthenticatedQuery
 {
-    public class IsAuthenticatedQueryResponse(User user, string accessToken)
+    public class IsAuthenticatedQueryResponse(UserResponse user, string accessToken)
     {
-        public User User { get; set; } = user;
-        public string AccessToken { get; set; } = accessToken;
+        public UserResponse? User { get; init; } = user;
+        public string? AccessToken { get; init; } = accessToken;
     }
 }

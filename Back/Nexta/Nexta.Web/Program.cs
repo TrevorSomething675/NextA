@@ -9,7 +9,6 @@ using Nexta.Application;
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Nexta.Web.Middlewares;
-using Nexta.Domain.Entities;
 using Nexta.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);

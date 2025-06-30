@@ -1,7 +1,7 @@
 ﻿using Nexta.Infrastructure.DataBase.Configurations;
+using Nexta.Infrastructure.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Nexta.Domain.Entities;
 using Nexta.Domain.Options;
 
 namespace Nexta.Infrastructure.DataBase

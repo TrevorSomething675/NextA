@@ -1,10 +1,11 @@
 ﻿using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Models;
+using Nexta.Application.Common;
+using Nexta.Application.DTO;
 
 namespace Nexta.Application.Queries.Orders.GetLegacyOrdersQuery
 {
-    public class GetLegacyOrdersQueryResponse(PagedData<Order> orders)
-    {
-		public PagedData<Order> Orders { get; set; } = orders;
+	public class GetLegacyOrdersQueryResponse : BasePagedResponse<OrderResponse>
+	{
+		public GetLegacyOrdersQueryResponse(PagedData<OrderResponse> data) : base(data) { }
 	}
 }

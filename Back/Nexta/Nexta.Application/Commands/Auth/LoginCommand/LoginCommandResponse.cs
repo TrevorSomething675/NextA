@@ -1,9 +1,9 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Application.DTO;
 
 namespace Nexta.Application.Commands.Auth.LoginCommand
 {
-    public class LoginCommandResponse(User user)
+    public class LoginCommandResponse(UserResponse user)
     {
-        public User User { get; set; } = user;
-    }
+		public UserResponse User { get; init; } = user;
+	}
 }

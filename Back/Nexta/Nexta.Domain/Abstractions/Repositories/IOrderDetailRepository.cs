@@ -1,10 +1,10 @@
-﻿using Nexta.Domain.Entities;
+﻿using Nexta.Domain.Models;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface IOrderDetailRepository
     {
-        Task<List<OrderDetailEntity>> CreateOrderDetailAsync(Guid userId, List<Guid> detailIds, CancellationToken ct = default);
-        Task<List<OrderDetailEntity>> AddRangeAsync(List<OrderDetailEntity> orderDetailsToAdd, CancellationToken ct = default);
+        Task<Guid> CreateOrderDetailAsync(Guid userId, List<Guid> detailIds, CancellationToken ct = default);
+        Task AddRangeAsync(List<OrderDetail> orderDetailsToAdd, CancellationToken ct = default);
     }
 }

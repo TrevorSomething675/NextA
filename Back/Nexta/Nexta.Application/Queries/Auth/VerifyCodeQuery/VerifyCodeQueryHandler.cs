@@ -1,10 +1,10 @@
-﻿using Nexta.Domain.Abstractions.Services;
+﻿using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Domain.Abstractions.Services;
 using Nexta.Domain.Exceptions;
+using Nexta.Application.DTO;
 using FluentValidation;
-using MediatR;
-using Nexta.Domain.Abstractions.Repositories;
 using AutoMapper;
-using Nexta.Domain.Models;
+using MediatR;
 
 namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
 {
@@ -35,7 +35,7 @@ namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
             if (!verifyResult)
                 throw new BadRequestException("Неверный код");
 
-            var user = _mapper.Map<User>(await _userRepository.GetByEmailAsync(request.Email, ct));
+            var user = _mapper.Map<UserResponse>(await _userRepository.GetByEmailAsync(request.Email, ct));
             if (user == null)
                 throw new BadRequestException("Неверный пользователь");
 

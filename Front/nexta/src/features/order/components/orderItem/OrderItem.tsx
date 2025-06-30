@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Order, OrderStatus } from "../../../../shared/entities/Order";
 import styles from './OrderItem.module.css';
+import { toJS } from "mobx";
 
 const OrderItem:React.FC<{order:Order}> = ({order}) => {
     const navigate = useNavigate();
@@ -57,12 +58,15 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
                         Стоимость, ₽
                     </th>
                     <th>
+                        
+                    </th>
+                    <th>
                         Кол-во, шт
                     </th>
                 </tr>
             </thead>
             <tbody>
-                {order.orderDetails.map((orderDetail) => 
+                {order.orderDetails !== undefined && order.orderDetails.map((orderDetail) => 
                     <tr className={styles.tr} key={orderDetail.detail.id}>
                         <td>
                             <button onClick={() => goToDetailPage(orderDetail.detail.id)} className={styles.button}>
@@ -84,6 +88,9 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
                                     {orderDetail.detail.oldPrice * orderDetail.count} руб.
                                 </span>
                             }
+                        </td>
+                        <td>
+                            x
                         </td>
                         <td>
                             {orderDetail.count}

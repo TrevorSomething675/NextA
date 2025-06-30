@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Models;
+using Nexta.Application.DTO;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
@@ -20,13 +20,14 @@ namespace Nexta.Application.Queries.Orders.GetLegacyOrdersQuery
 
 		public async Task<GetLegacyOrdersQueryResponse> Handle(GetLegacyOrdersQueryRequest request, CancellationToken ct)
 		{
-			request.Filter.Statuses = GetOrderStatuses();
+			request.Filter.Statuses = GetLegacyOrderStatuses();
 
-			var legacyOrders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(request.Filter, ct));
+			var legacyOrders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetOrdersAsync(request.Filter, ct));
 
 			return new GetLegacyOrdersQueryResponse(legacyOrders);
 		}
-		private List<OrderStatus> GetOrderStatuses()
+
+		private List<OrderStatus> GetLegacyOrderStatuses()
 		{
 			var statuses = new List<OrderStatus>
 			{

@@ -1,9 +1,8 @@
-﻿using Nexta.Domain.Models;
-
-namespace Nexta.Application.Commands.Basket.DeleteBasketDetailCommand
+﻿namespace Nexta.Application.Commands.Basket.DeleteBasketDetailCommand
 {
-    public class DeleteBasketDetailCommandResponse(UserDetail userDetail)
+    public class DeleteBasketDetailCommandResponse(Guid userId, Guid detailId)
     {
-		public UserDetail UserDetail { get; set; } = userDetail;
+		public Guid UserId { get; set; } = userId;
+		public Guid DetailId { get; set; } = detailId;
 	}
 }

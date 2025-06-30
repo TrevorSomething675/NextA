@@ -14,13 +14,15 @@ import BasketPage from "./features/basket/pages/BasketPage"
 import SearchPage from "./features/details/pages/SearchPage/SearchPage"
 import DetailPage from "./features/detail/pages/DetailPage"
 import OrderPage from "./features/order/pages/OrdersPage"
-import AdminOrdersPage from "./pages/admin/orders/AdminOrdersPage"
 import BasketService from "./features/basket/services/BasketService"
 import Header from "./shared/components/Header/Header"
 import Footer from "./shared/components/Footer/Footer"
 import AccountPage from "./features/account/pages/AccountPage"
 import AuthStore from "./stores/AuthStore/authStore"
 import authStore from "./stores/AuthStore/authStore"
+import AdminOrdersPage from "./features/admin/pages/orders/AdminOrdersPage"
+import AdminDetailsPage from "./features/admin/pages/details/AdminDetailsPage"
+import AdminNewsPage from "./features/admin/pages/news/AdminNews"
 
 const App = () => {
   useEffect(() => {
@@ -73,6 +75,8 @@ const App = () => {
               <Route path="Account" element={<AccountPage />} />
               <Route path="Order" element={<OrderPage />} />
               <Route path="Admin/Orders" element={<AdminOrdersPage />} />
+              <Route path="Admin/Details" element={<AdminDetailsPage />} />
+              <Route path="Admin/News" element={<AdminNewsPage />} />
             </Routes>
           </div>
           <Footer />

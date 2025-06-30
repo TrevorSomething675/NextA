@@ -1,7 +1,7 @@
-import { Detail } from "../../../../shared/entities/Detail";
+import { GetDetailResponse } from "../../models/GetDetail";
 import styles from './DetailFooter.module.css';
 
-const DetailFooter:React.FC<{detail:Detail}> = () => {
+const DetailFooter:React.FC<{detail:GetDetailResponse}> = () => {
     return <div className={styles.container}>
         <button>
             Вернуться

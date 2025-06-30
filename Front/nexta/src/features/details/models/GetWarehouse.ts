@@ -7,5 +7,5 @@ export interface GetWarehouseRequest{
 }
 
 export interface GetWarehouseResponse{
-    details: PagedData<Detail>
+    data: PagedData<Detail>
 }

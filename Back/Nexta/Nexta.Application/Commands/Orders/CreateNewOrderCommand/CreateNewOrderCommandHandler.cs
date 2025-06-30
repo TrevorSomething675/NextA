@@ -1,9 +1,8 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models;
+using FluentValidation;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Entities;
-using FluentValidation;
 
 namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 {
@@ -32,21 +31,21 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 			if (!validationResult.IsValid)
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var userDetails = _mapper.Map<List<UserDetail>>(await _userDetailRepository.GetRangeAsync(request.UserId, request.DetailIds, ct));
-			var order = _mapper.Map<Order>(await _orderRepository.AddAsync(new OrderEntity{UserId = request.UserId}));
-			var orderDetails = new List<OrderDetailEntity>();
+			var userDetails = await _userDetailRepository.GetRangeAsync(request.UserId, request.DetailIds, ct);
+			var order = await _orderRepository.AddAsync(new Order { UserId = request.UserId });
+
+			var orderDetails = new List<OrderDetail>();
 
 			foreach (var detail in userDetails)
 			{
-				orderDetails.Add(new OrderDetailEntity { OrderId = order.Id, DetailId = detail.DetailId, Count = detail.Count });
+				orderDetails.Add(new OrderDetail { OrderId = order.Id, DetailId = detail.DetailId, Count = detail.Count });
 			}
 
-			var createdOrderDetails = _mapper.Map<List<OrderDetail>>(await _orderDetailRepository.AddRangeAsync(orderDetails, ct));
-			var deletedUserDetails = _mapper.Map<List<UserDetail>>(await _userDetailRepository.DeleteRangeAsync(request.UserId, request.DetailIds, ct));
+			await _orderDetailRepository.AddRangeAsync(orderDetails, ct);
+			await _userDetailRepository.DeleteRangeAsync(request.UserId, request.DetailIds, ct);
 
-			var createdOrder = _mapper.Map<Order>(await _orderRepository.GetOrderAsync(order.Id, ct));
-
-			return new CreateNewOrderCommandResponse(createdOrder);
+			var response = _mapper.Map<CreateNewOrderCommandResponse>(order);
+			return response;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models;
+using Nexta.Application.DTO;
 using AutoMapper;
 using MediatR;
 
@@ -17,9 +17,9 @@ namespace Nexta.Application.Queries.Basket.GetBasketDetailsQuery
 
 		public async Task<GetBasketDetailsQueryResponse> Handle(GetBasketDetailsQueryRequest request, CancellationToken ct = default)
 		{
-			var pagedBasketDetails = _mapper.Map<List<Detail>>(await _detailRepository.GetBasketDetailsAsync(request.Filter, ct));
+			var details = _mapper.Map<List<DetailResponse>>(await _detailRepository.GetBasketDetailsAsync(request.Filter, ct));
 
-			return new GetBasketDetailsQueryResponse(pagedBasketDetails);
+			return new GetBasketDetailsQueryResponse(details);
 		}
 	}
 }

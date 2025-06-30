@@ -1,30 +1,33 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Infrastructure.DataBase.Entities;
+using Nexta.Domain.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Entities;
+using Nexta.Domain.Models;
+using AutoMapper;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
 	public class OrderDetailRepository : IOrderDetailRepository
 	{
 		private readonly IDbContextFactory<MainContext> _dbContextFactory;
+		private readonly IMapper _mapper;
 
-		public OrderDetailRepository(IDbContextFactory<MainContext> dbContextFactory)
+		public OrderDetailRepository(IDbContextFactory<MainContext> dbContextFactory, IMapper mapper)
 		{
 			_dbContextFactory = dbContextFactory;
+			_mapper = mapper;
 		}
 
-		public async Task<List<OrderDetailEntity>> AddRangeAsync(List<OrderDetailEntity> orderDetailsToAdd, CancellationToken ct = default)
+		public async Task AddRangeAsync(List<OrderDetail> orderDetailsToAdd, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				await context.OrderDetails.AddRangeAsync(orderDetailsToAdd, ct);
+				var ordeDetailEntities = _mapper.Map<List<OrderDetailEntity>>(orderDetailsToAdd);
+				await context.OrderDetails.AddRangeAsync(ordeDetailEntities, ct);
 				await context.SaveChangesAsync(ct);
-
-				return orderDetailsToAdd;
 			}
 		}
 
-		public async Task<List<OrderDetailEntity>> CreateOrderDetailAsync(Guid orderId, List<Guid> detailIds, CancellationToken ct = default)
+		public async Task<Guid> CreateOrderDetailAsync(Guid orderId, List<Guid> detailIds, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
@@ -47,7 +50,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 					.Include(od => od.Detail)
 					.ToListAsync();
 
-				return createdOrderDetails;
+				return orderId;
 			}
 		}
 	}

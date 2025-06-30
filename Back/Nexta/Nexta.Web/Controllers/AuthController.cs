@@ -32,9 +32,9 @@ namespace Nexta.Web.Controllers
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);
 		}
-
+		
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(IsRegisteredQueryResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
 		public async Task<IResult> IsRegisterUser([FromBody] IsRegisteredQueryRequest request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);

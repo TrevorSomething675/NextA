@@ -1,17 +1,15 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Entities;
-using MediatR;
-using AutoMapper;
-using Nexta.Domain.Models;
 using Nexta.Domain.Exceptions;
+using Nexta.Domain.Models;
+using AutoMapper;
+using MediatR;
 
 namespace Nexta.Application.Commands.Basket.DeleteBasketDetailCommand
 {
 	public class DeleteBasketDetailCommandHandler : IRequestHandler<DeleteBasketDetailCommandRequest, DeleteBasketDetailCommandResponse>
 	{
-		private readonly IMapper _mapper;
 		private readonly IUserDetailRepository _userDetailRepository;
+		private readonly IMapper _mapper;
 		public DeleteBasketDetailCommandHandler(IUserDetailRepository userDetailRepository, IMapper mapper)
 		{
 			_userDetailRepository = userDetailRepository;
@@ -23,15 +21,9 @@ namespace Nexta.Application.Commands.Basket.DeleteBasketDetailCommand
 			if (userDetail == null)
 				throw new NotFoundException("В корзине нет такой детали");
 
-			var userDetailToDelete = new UserDetailEntity
-			{
-				UserId = request.UserId,
-				DetailId = request.DetailId
-			};
+			var deletedUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.DeleteAsync(userDetail, ct));
 
-			var deletedUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.DeleteAsync(userDetailToDelete, ct));
-
-			return new DeleteBasketDetailCommandResponse(deletedUserDetail);
+			return new DeleteBasketDetailCommandResponse(deletedUserDetail.UserId, deletedUserDetail.DetailId);
 		}
 	}
 }

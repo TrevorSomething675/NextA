@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Models;
+using Nexta.Application.DTO;
 using AutoMapper;
 using MediatR;
 
@@ -19,7 +19,7 @@ namespace Nexta.Application.Queries.Details.SearchDetailQuery
 
 		public async Task<SearchDetailQueryResponse> Handle(SearchDetailQueryRequest request, CancellationToken ct = default)
 		{
-			var details = _mapper.Map<PagedData<Detail>>(await _detailRepository.SearchDetail(request.Filter, ct));
+			var details = _mapper.Map<PagedData<DetailResponse>>(await _detailRepository.SearchDetail(request.Filter, ct));
 
 			return new SearchDetailQueryResponse(details);
 		}

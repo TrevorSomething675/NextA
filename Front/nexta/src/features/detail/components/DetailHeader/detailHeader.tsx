@@ -1,7 +1,7 @@
-import { Detail } from "../../../../shared/entities/Detail";
+import { GetDetailResponse } from "../../models/GetDetail";
 import styles from './DetailHeader.module.css'
 
-const DetailHeader: React.FC<{detail:Detail}> = ({ detail }) => {
+const DetailHeader: React.FC<{detail:GetDetailResponse}> = ({ detail }) => {
   return (
     <div className={styles.container}>
       <h2 className={styles.h2}>

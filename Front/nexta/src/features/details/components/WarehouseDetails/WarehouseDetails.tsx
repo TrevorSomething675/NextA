@@ -43,12 +43,12 @@ const WarehouseDetails:React.FC<{pageNumber?:number}> = () => {
                 </tr>
             </thead>
             <tbody className={styles.tbody}>
-                {(response?.details?.items !== undefined) && (response.details.items.map((detail) =>
+                {(response?.data?.items !== undefined) && (response.data.items.map((detail) =>
                     <DetailItem key={detail.id} detail={detail} />
                 ))}
             </tbody>
         </table>
-        {(response?.details?.items !== undefined) && <Pagging pageCount={response?.details.pageCount} onPageNumberChange={handlePageNumberChange} />}
+        {(response?.data?.items !== undefined) && <Pagging pageCount={response?.data.pageCount} onPageNumberChange={handlePageNumberChange} />}
     </div>
 }
 

@@ -20,5 +20,6 @@ namespace Nexta.Domain.Models
 		public List<UserDetail>? UserDetails { get; set; }
 		public List<OrderDetail>? OrderDetails { get; set; }
 		public List<Order>? Orders { get; set; }
+		public Image? Image { get; set; }
 	}
 }

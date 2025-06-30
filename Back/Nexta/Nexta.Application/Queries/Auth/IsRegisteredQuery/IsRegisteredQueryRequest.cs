@@ -2,8 +2,8 @@
 
 namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
 {
-    public class IsRegisteredQueryRequest : IRequest<IsRegisteredQueryResponse>
+    public class IsRegisteredQueryRequest : IRequest<Unit>
     {
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
     }
 }

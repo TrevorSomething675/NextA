@@ -1,8 +1,6 @@
 import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
 import OrderService from '../../../../services/OrderService';
-import orderStore from '../../../../stores/orderStore';
-import { toJS } from 'mobx';
 import { GetOrdersForUserFilter, GetOrdersForUserRequest, GetOrdersForUserResponse } from '../../models/GetOrdersForUserFilter';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
 import OrderItem from '../orderItem/OrderItem';
@@ -42,18 +40,19 @@ const Orders = observer(() => {
         const response = await OrderService.GetOrdersForUser(request);
         if(response){
             setResponse(response);
-            orderStore.setOrders(response?.orders?.items);
-            orderStore.setTotalOrders(response?.totalCount);
         }
     }
     
     return <div>
-        {(toJS(orderStore?.orders) !== undefined) && (toJS(orderStore?.orders).length > 0) &&
+        {(response?.data?.items !== undefined) ?(
+
             <ul>
-                {orderStore?.orders?.map((order) => <OrderItem key={order.id} order={order} />)}
+                {response?.data?.items.map((order) => <OrderItem key={order.id} order={order} />)}
             </ul>
-        }
-        {response?.orders !== undefined && <Pagging pageCount={response.orders.pageCount} onPageNumberChange={handlePageNumberChange}/>}
+            ) : (
+                <h2>Заказов нет</h2>
+            )}
+        {response?.data !== undefined && <Pagging pageCount={response.data.pageCount} onPageNumberChange={handlePageNumberChange}/>}
     </div>
 });
 

@@ -12,6 +12,6 @@ export interface GetOrdersForUserRequest{
 }
 
 export interface GetOrdersForUserResponse {
-    orders:PagedData<Order>
+    data:PagedData<Order>
     totalCount:number
 }

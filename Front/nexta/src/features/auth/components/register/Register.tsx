@@ -21,10 +21,20 @@ const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus: (data: 
                 setError('Пароли не совпадают');
             }
             const response = await AuthService.register(data);
-            if(!response.user){
-                AuthService.sendVerificationCode(data.email);
-                changeCodeVerifyStatus(response.user);
-                authStore.firstStepAuthenticate(response.user);
+            if(response){
+                AuthService.sendVerificationCode(response.user.email!);
+                const authUser:AuthUser = {
+                    id: response.user.id,
+                    email: response.user.email,
+                    firstName: response.user.firstName,
+                    lastName: response.user.lastName,
+                    middleName: response.user.middleName,
+                    role: response.user.role,
+                    phone: response.user.phone,
+                    accessToken: null
+                };
+                changeCodeVerifyStatus(authUser);
+                authStore.firstStepAuthenticate(authUser);
             }
         } catch (error){
             const errorResponse = error as ErrorResponseModel;

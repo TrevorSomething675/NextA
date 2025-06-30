@@ -1,9 +1,10 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Domain.Exceptions;
 using MediatR;
 
 namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
 {
-	public class IsRegisteredQueryHandler : IRequestHandler<IsRegisteredQueryRequest, IsRegisteredQueryResponse>
+	public class IsRegisteredQueryHandler : IRequestHandler<IsRegisteredQueryRequest, Unit>
 	{
 		private readonly IUserRepository _userRepository;
 
@@ -12,14 +13,13 @@ namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
 			_userRepository = userRepository;
 		}
 
-		public async Task<IsRegisteredQueryResponse> Handle(IsRegisteredQueryRequest request, CancellationToken ct = default)
+		public async Task<Unit> Handle(IsRegisteredQueryRequest request, CancellationToken ct = default)
 		{
 			var user = await _userRepository.GetByEmailAsync(request.Email, ct);
+			if (user == null)
+				throw new NotFoundException("Пользователь не найден");
 
-			if (user != null)
-				return new IsRegisteredQueryResponse(user != null);
-			else
-				return new IsRegisteredQueryResponse(false);
+			return Unit.Value;
 		}
 	}
 }

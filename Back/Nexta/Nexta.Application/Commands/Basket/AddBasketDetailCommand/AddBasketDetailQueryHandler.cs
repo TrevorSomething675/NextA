@@ -1,23 +1,21 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Exceptions;
-using Nexta.Domain.Entities;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO;
 
 namespace Nexta.Application.Commands.Basket.AddBasketDetailCommand
 {
 	public class AddBasketDetailQueryHandler : IRequestHandler<AddBasketDetailQueryRequest, AddBasketDetailQueryResponse>
 	{
 		private readonly IUserDetailRepository _userDetailRepository;
-		private readonly IDetailRepository _detailRepository;
 		private readonly IMapper _mapper;
 
-		public AddBasketDetailQueryHandler(IUserDetailRepository userDetailRepository, IMapper mapper, IDetailRepository detailRepository)
+		public AddBasketDetailQueryHandler(IUserDetailRepository userDetailRepository, IMapper mapper)
 		{
 			_userDetailRepository = userDetailRepository;
-			_detailRepository = detailRepository;
 			_mapper = mapper;
 		}
 		public async Task<AddBasketDetailQueryResponse> Handle(AddBasketDetailQueryRequest request, CancellationToken ct)
@@ -27,7 +25,7 @@ namespace Nexta.Application.Commands.Basket.AddBasketDetailCommand
 			if (userDetail != null)
 				throw new ConflictException("Деталь уже в корзине");
 
-			var userDetailToCreate = new UserDetailEntity
+			var userDetailToCreate = new UserDetail
 			{ 
 				UserId = request.UserId,
 				DetailId = request.DetailId,
@@ -36,14 +34,12 @@ namespace Nexta.Application.Commands.Basket.AddBasketDetailCommand
 				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2))
 			};
 
-			var createdUserDetail = _mapper.Map<UserDetail>(await _userDetailRepository.AddAsync(userDetailToCreate, ct));
+			var userDetailResponse = _mapper.Map<UserDetailResponse>(await _userDetailRepository.AddAsync(userDetailToCreate, ct));
 
-			if (createdUserDetail == null)
+			if (userDetailResponse == null)
 				throw new BadRequestException("Деталь не получилось добавить");
 
-			var createdDetail = _mapper.Map<Detail>(await _detailRepository.GetAsync(createdUserDetail.DetailId, ct));
-
-			return new AddBasketDetailQueryResponse(createdDetail);
+			return new AddBasketDetailQueryResponse(userDetailResponse);
 		}
 	}
 }

@@ -51,6 +51,7 @@ const NotificationContext = createContext<{
                     className={styles.closeButton}
                     onClick={() => removeNotification(notification.id!)}
                     aria-label="Закрыть уведомление">
+                    x
                 </button>
                 <h2 className={styles.h2}>{notification.header}</h2>
                 <div className={styles.notificationBody}>

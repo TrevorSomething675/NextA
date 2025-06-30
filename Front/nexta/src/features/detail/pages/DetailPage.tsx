@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DetailsService from "../../../services/DetailsService";
-import { Detail } from "../../../shared/entities/Detail";
 import styles from './DetailPage.module.css';
-import DetailHeader from "../components/DetailHeader/DetailHeader";
-import DetailBody from "../components/DetailBody/DetailBody";
-import DetailFooter from "../components/DetailFooter/DetailFooter";
+import DetailHeader from "../components/DetailHeader/detailHeader";
+import DetailBody from "../components/DetailBody/detailBody";
+import DetailFooter from "../components/DetailFooter/detailFooter";
+import { GetDetailResponse } from "../models/GetDetail";
 
 const DetailPage = () => {
     const {id} = useParams();
-    const [detail, setDetail] = useState({} as Detail)
+    const [response, setDetail] = useState({} as GetDetailResponse)
     
     useEffect(() => {
         const fetch = async() =>{
             if(id !== undefined){
-                const detail = await DetailsService.GetDetail(id);
-                setDetail(detail?.detail);
+                const response = await DetailsService.GetDetail(id);
+                setDetail(response);
             }
         }
         fetch();
@@ -24,9 +24,9 @@ const DetailPage = () => {
     
     return <div className={styles.container}>
         <div className={styles.detailContainer}>
-            <DetailHeader detail={detail} />
-            <DetailBody detail={detail} />
-            <DetailFooter detail={detail} />
+            <DetailHeader detail={response} />
+            <DetailBody detail={response} />
+            <DetailFooter detail={response} />
         </div>
     </div>
 }

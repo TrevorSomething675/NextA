@@ -1,12 +1,14 @@
 import { Detail } from "./Detail";
 import { OrderDetail } from "./OrderDetail";
+import { User } from "./User";
 
 export interface Order{
 	id:string,
     userId:string,
+	user:User,
     orderDetails:OrderDetail[],
 	details:Detail[],
-	status:OrderStatus
+	status:OrderStatus,
 }
 
 export enum OrderStatus{

@@ -1,7 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Services;
-using Nexta.Domain.Exceptions;
-using MediatR;
 using FluentValidation;
+using MediatR;
 
 namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
 {

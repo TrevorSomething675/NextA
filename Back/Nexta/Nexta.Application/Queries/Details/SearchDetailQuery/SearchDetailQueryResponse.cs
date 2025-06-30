@@ -1,10 +1,11 @@
 ﻿using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Models;
+using Nexta.Application.Common;
+using Nexta.Application.DTO;
 
 namespace Nexta.Application.Queries.Details.SearchDetailQuery
 {
-    public class SearchDetailQueryResponse(PagedData<Detail> details)
-    {
-        public PagedData<Detail> Details { get; set; } = details;
-    }
+	public class SearchDetailQueryResponse : BasePagedResponse<DetailResponse>
+	{
+		public SearchDetailQueryResponse(PagedData<DetailResponse> data) : base(data) { }
+	}
 }

@@ -1,17 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Entities;
+﻿using Nexta.Domain.Abstractions.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Nexta.Domain.Models;
+using AutoMapper;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
 	public class ImageRepository : IImageRepository
 	{
 		private readonly IDbContextFactory<MainContext> _dbContextFactory;
-		public ImageRepository(IDbContextFactory<MainContext> dbContextFactory) 
+		private readonly IMapper _mapper;
+		public ImageRepository(IDbContextFactory<MainContext> dbContextFactory, IMapper mapper) 
 		{
 			_dbContextFactory = dbContextFactory;
+			_mapper = mapper;
 		}
-		public async Task<List<ImageEntity>> GetAllAsync(bool isNewsBucketImages = false, CancellationToken ct = default)
+		public async Task<List<Image>> GetAllAsync(bool isNewsBucketImages = false, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
@@ -21,9 +24,11 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				if (isNewsBucketImages)
 					query = query.Where(i => i.Bucket == "news");
 
-				var images = await query
+				var imageEntities = await query
 					.AsNoTracking()
 					.ToListAsync(ct);
+
+				var images = _mapper.Map<List<Image>>(imageEntities);
 
 				return images;
 			}

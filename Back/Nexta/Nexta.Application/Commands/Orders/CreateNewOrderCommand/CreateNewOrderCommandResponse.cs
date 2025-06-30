@@ -1,9 +1,7 @@
-﻿using Nexta.Domain.Models;
-
-namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
+﻿namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 {
-    public class CreateNewOrderCommandResponse(Order order)
+    public class CreateNewOrderCommandResponse
     {
-        public Order Order { get; set; } = order;
-    }
+		public Guid Id { get; set; }
+	}
 }

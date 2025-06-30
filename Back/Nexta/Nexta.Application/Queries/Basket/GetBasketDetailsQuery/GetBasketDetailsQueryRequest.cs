@@ -5,6 +5,6 @@ namespace Nexta.Application.Queries.Basket.GetBasketDetailsQuery
 {
     public class GetBasketDetailsQueryRequest : IRequest<GetBasketDetailsQueryResponse>
     {
-		public GetBasketDetailsFilter Filter { get; set; } = null!;
+		public GetBasketDetailsFilter Filter { get; init; } = null!;
     }
 }

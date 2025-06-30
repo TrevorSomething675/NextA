@@ -1,8 +1,8 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;
+using Nexta.Domain.Models.DataModels;
+using Nexta.Application.DTO;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {
@@ -19,9 +19,9 @@ namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 
 		public async Task<GetAllOrdersQueryResponse> Handle(GetAllOrdersQueryRequest request, CancellationToken ct = default)
 		{
-			var response = _mapper.Map<PagedData<Order>>(await _orderRepository.GetAllOrdersAsync(request.Filter, ct));
+			var pagedOrders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetAllOrdersAsync(request.Filter, ct));
 
-			return new GetAllOrdersQueryResponse(response);
+			return new GetAllOrdersQueryResponse(pagedOrders);
 		}
 	}
 }

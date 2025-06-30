@@ -1,10 +1,10 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Application.DTO;
 
 namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
 {
-    public class VerifyCodeQueryResponse(User user, string accessToken)
+    public class VerifyCodeQueryResponse(UserResponse user, string accessToken)
     {
-        public User User { get; set; } = user;
-        public string AccessToken { get; set; } = accessToken;
+        public UserResponse User { get; init; } = user;
+        public string AccessToken { get; init; } = accessToken;
     }
 }

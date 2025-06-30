@@ -7,6 +7,12 @@ import { VerifyCodeRequest } from '../../models/verifyCode';
 import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
 import authStore from '../../../../stores/AuthStore/authStore';
 import { AuthUser } from '../../../../stores/AuthStore/models/AuthUser';
+import orderStore from '../../../../stores/orderStore';
+import basket from '../../../../stores/basket';
+import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket/models/GetBasketDetails';
+import { GetOrdersForUserFilter, GetOrdersForUserRequest } from '../../../order/models/GetOrdersForUserFilter';
+import BasketService from '../../../basket/services/BasketService';
+import OrderService from '../../../../services/OrderService';
 
 const CODE_LENGTH = 6;
 
@@ -109,7 +115,35 @@ const CodeVerify: React.FC<{ firstStepUser: AuthUser}> = ({ firstStepUser }) => 
         try {
             const response = await AuthService.verifyCode(request);
             if(response && authStore.readyToAuth){
-                await authStore.secondStepAuthenticate(firstStepUser);
+            await authStore.secondStepAuthenticate(firstStepUser);
+                const filter:GetBasketDetailsFilter = {
+                    pageNumber: 1,
+                    userId: authStore.user.id ?? ''
+                };
+                const request:GetBasketDetailsRequest = {
+                    filter: filter
+                };
+                const basketResult = await BasketService.GetBasketDetails(request);
+                if(basketResult){
+                    basket.setBasketDetails(basketResult.details);
+                } else {
+                    console.error('Ошибка на странице BasketPage');
+                };
+                
+                const ordersFilter:GetOrdersForUserFilter = {
+                    userId: authStore.user.id ?? '',
+                    pageSize: 8,
+                    pageNumber: 1
+                }
+                const ordersRequest:GetOrdersForUserRequest = {
+                    filter:ordersFilter
+                };
+
+                const orderResponse = await OrderService.GetOrdersForUser(ordersRequest);
+                if(orderResponse !== undefined){
+                    orderStore.setOrders(orderResponse?.orders?.items);
+                    orderStore.setTotalOrders(orderResponse?.totalCount);
+                }
                 navigate('/');
             }
         }

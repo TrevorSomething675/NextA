@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Models;
+using Nexta.Application.DTO;
 using AutoMapper;
 using MediatR;
 
@@ -19,9 +19,9 @@ namespace Nexta.Application.Queries.Details.GetWarehouseDetailsQuery
 
 		public async Task<GetWarehouseDetailsQueryResponse> Handle(GetWarehouseDetailsQueryRequest request, CancellationToken ct)
 		{
-			var pagedDetails = _mapper.Map<PagedData<Detail>>(await _detailRepository.GetAllAsync(request.Filter, ct));
+			var details = _mapper.Map<PagedData<DetailResponse>>(await _detailRepository.GetAllAsync(request.Filter, ct));
 
-			return new GetWarehouseDetailsQueryResponse(pagedDetails);
+			return new GetWarehouseDetailsQueryResponse(details);
 		}
 	}
 }

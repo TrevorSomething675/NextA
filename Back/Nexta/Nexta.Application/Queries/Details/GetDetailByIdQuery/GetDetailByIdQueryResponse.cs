@@ -1,9 +1,9 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Application.DTO;
 
 namespace Nexta.Application.Queries.Details.GetDetailByIdQuery
 {
-    public class GetDetailByIdQueryResponse(Detail detail)
+    public class GetDetailByIdQueryResponse(DetailResponse detail)
     {
-        public Detail Detail { get; set; } = detail;
-    }
+		public DetailResponse User { get; init; } = detail;
+	}
 }

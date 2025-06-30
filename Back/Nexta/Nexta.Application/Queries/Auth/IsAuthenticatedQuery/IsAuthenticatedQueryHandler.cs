@@ -1,7 +1,7 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
 using Nexta.Domain.Exceptions;
-using Nexta.Domain.Models;
+using Nexta.Application.DTO;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
@@ -30,14 +30,16 @@ namespace Nexta.Application.Queries.Auth.IsAuthenticatedQuery
 			if(!validationResult.IsValid)
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var user = _mapper.Map<User>(await _userRepository.GetByEmailAsync(request.Email, ct));
+			var user = await _userRepository.GetByEmailAsync(request.Email, ct);
 
 			if(user == null)
 				throw new NotFoundException("Пользователь не найден");
 
 			var accessToken = _jwtTokenService.CreateAccessToken(request.Email, user.Role.ToString());
 
-			return new IsAuthenticatedQueryResponse(user, accessToken);
+			var userResponse = _mapper.Map<UserResponse>(user);
+
+			return new IsAuthenticatedQueryResponse(userResponse, accessToken);
 		}
 	}
 }

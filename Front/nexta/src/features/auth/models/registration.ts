@@ -1,4 +1,4 @@
-import { AuthUser } from "../../../stores/AuthStore/models/AuthUser";
+import { User } from "../../../shared/entities/User"
 
 export interface RegistrationRequest {
     email:string,
@@ -10,5 +10,5 @@ export interface RegistrationRequest {
 }
 
 export interface RegistrationResponse {
-    user:AuthUser,
+    user:User
 }
