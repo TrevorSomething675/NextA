@@ -3,13 +3,13 @@ using Nexta.Infrastructure.DataBase;
 using Nexta.Application.Services;
 using Nexta.Web.Extensions;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using Nexta.Application;
 using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
 using Nexta.Web.Middlewares;
 using Nexta.Infrastructure.Services;
+using Nexta.Infrastructure.DataBase.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,7 +63,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 1,
-			NewPrice = 12091
+			NewPrice = 12091,
+			IsVisible = true
 		};
 		var detail2 = new DetailEntity
 		{
@@ -74,7 +75,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 3,
-			NewPrice = 12264
+			NewPrice = 12264,
+			IsVisible = true
 		};
 		var detail3 = new DetailEntity
 		{
@@ -85,7 +87,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 1,
-			NewPrice = 81296
+			NewPrice = 81296,
+			IsVisible = true
 		};
 		var detail4 = new DetailEntity
 		{
@@ -97,7 +100,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 5,
 			NewPrice = 218,
-			OldPrice = 320
+			OldPrice = 320,
+			IsVisible = true
 		};
 		var detail5 = new DetailEntity
 		{
@@ -108,7 +112,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 2,
-			NewPrice = 507
+			NewPrice = 507,
+			IsVisible = true
 		};
 		var detail6 = new DetailEntity
 		{
@@ -119,7 +124,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 1,
-			NewPrice = 359
+			NewPrice = 359,
+			IsVisible = true
 		};
 		var detail7 = new DetailEntity
 		{
@@ -130,7 +136,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 1,
-			NewPrice = 718
+			NewPrice = 718,
+			IsVisible = true
 		};
 		var detail8 = new DetailEntity
 		{
@@ -142,7 +149,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 2,
 			NewPrice = 24053,
-			OldPrice = 28700
+			OldPrice = 28700,
+			IsVisible = true
 		};
 		var detail9 = new DetailEntity
 		{
@@ -165,7 +173,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 2,
 			NewPrice = 9924,
-			OldPrice = 11098
+			OldPrice = 11098,
+			IsVisible = false
 		};
 		var detail11 = new DetailEntity
 		{
@@ -176,7 +185,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 4,
-			NewPrice = 9276
+			NewPrice = 9276,
+			IsVisible = true
 		};
 		var detail12 = new DetailEntity
 		{
@@ -187,7 +197,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 7,
-			NewPrice = 3113
+			NewPrice = 3113,
+			IsVisible = true
 		};
 		var detail13 = new DetailEntity
 		{
@@ -200,7 +211,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 			Count = 2,
-			NewPrice = 216
+			NewPrice = 216,
+			IsVisible = true
 		};
 		if (context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru") == null)
 		{

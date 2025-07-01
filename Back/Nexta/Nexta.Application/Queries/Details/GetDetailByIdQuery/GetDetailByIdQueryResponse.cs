@@ -4,6 +4,6 @@ namespace Nexta.Application.Queries.Details.GetDetailByIdQuery
 {
     public class GetDetailByIdQueryResponse(DetailResponse detail)
     {
-		public DetailResponse User { get; init; } = detail;
+		public DetailResponse Detail { get; init; } = detail;
 	}
 }

@@ -6,22 +6,22 @@ using Nexta.Application.DTO;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {
-	public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQueryRequest, GetAllOrdersQueryResponse>
+	public class GetAdminOrdersQueryHandler : IRequestHandler<GetAdminOrdersQueryRequest, GetAdminOrdersQueryResponse>
 	{
 		private readonly IOrderRepository _orderRepository;
 		private readonly IMapper _mapper;
 
-		public GetAllOrdersQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+		public GetAdminOrdersQueryHandler(IOrderRepository orderRepository, IMapper mapper)
 		{
 			_orderRepository = orderRepository;
 			_mapper = mapper;
 		}
 
-		public async Task<GetAllOrdersQueryResponse> Handle(GetAllOrdersQueryRequest request, CancellationToken ct = default)
+		public async Task<GetAdminOrdersQueryResponse> Handle(GetAdminOrdersQueryRequest request, CancellationToken ct = default)
 		{
 			var pagedOrders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetAllOrdersAsync(request.Filter, ct));
 
-			return new GetAllOrdersQueryResponse(pagedOrders);
+			return new GetAdminOrdersQueryResponse(pagedOrders);
 		}
 	}
 }

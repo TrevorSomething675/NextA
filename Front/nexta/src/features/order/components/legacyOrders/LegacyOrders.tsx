@@ -42,12 +42,12 @@ const LegacyOrders = () => {
     }
 
     return <div>
-        {response.orders !== undefined && response.orders.items.length > 0 &&
+        {response.data.items !== undefined && response.data.items.length > 0 &&
             <ul>
-                {response.orders.items.map((order) => <OrderItem key={order.id} order={order} />)}
+                {response.data.items.map((order) => <OrderItem key={order.id} order={order} />)}
             </ul>
         }
-        {response?.orders !== undefined && <Pagging pageCount={response.orders.pageCount} onPageNumberChange={handlePageNumberChange}/>}
+        {response?.data !== undefined && <Pagging pageCount={response.data.pageCount} onPageNumberChange={handlePageNumberChange}/>}
     </div>
 }
 

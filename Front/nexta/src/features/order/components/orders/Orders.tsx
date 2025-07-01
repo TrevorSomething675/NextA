@@ -44,8 +44,7 @@ const Orders = observer(() => {
     }
     
     return <div>
-        {(response?.data?.items !== undefined) ?(
-
+        {(response?.data?.items !== undefined) ? (
             <ul>
                 {response?.data?.items.map((order) => <OrderItem key={order.id} order={order} />)}
             </ul>

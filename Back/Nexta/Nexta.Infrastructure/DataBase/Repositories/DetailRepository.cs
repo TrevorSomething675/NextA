@@ -79,6 +79,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				var searchTerm = filter.SearchTerm.ToLower();
 
 				var query = context.Details
+					.Where(d => d.IsVisible && !filter.WithHidden)
 					.AsNoTracking();
 
 				var detailEntities = await query

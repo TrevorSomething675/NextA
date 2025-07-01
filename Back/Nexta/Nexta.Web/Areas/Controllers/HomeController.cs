@@ -16,8 +16,8 @@ namespace Nexta.Web.Areas.Controllers
 		}
 
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(GetAllOrdersQueryResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> GetAllOrders(GetAllOrdersQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(GetAdminOrdersQueryResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> GetAllOrders(GetAdminOrdersQueryRequest request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);

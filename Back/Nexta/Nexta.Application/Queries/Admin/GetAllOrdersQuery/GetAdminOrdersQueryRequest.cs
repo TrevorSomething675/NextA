@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {
-    public class GetAllOrdersQueryRequest : IRequest<GetAllOrdersQueryResponse>
+    public class GetAdminOrdersQueryRequest : IRequest<GetAdminOrdersQueryResponse>
     {
         public GetAllOrdersFilter Filter { get; set; }
     }

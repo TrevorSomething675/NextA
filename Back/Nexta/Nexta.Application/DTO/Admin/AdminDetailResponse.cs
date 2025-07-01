@@ -1,8 +1,8 @@
 ﻿using Nexta.Domain.Enums;
 
-namespace Nexta.Application.DTO
+namespace Nexta.Application.DTO.Admin
 {
-    public class DetailResponse
+    public class AdminDetailResponse
     {
 		public Guid Id { get; init; }
 		public string Name { get; init; } = null!;
@@ -19,7 +19,5 @@ namespace Nexta.Application.DTO
 		public bool isVisible { get; init; }
 
 		public ImageResponse? Image { get; init; }
-
-		public List<UserDetailResponse>? UserDetails { get; set; }
 	}
 }
