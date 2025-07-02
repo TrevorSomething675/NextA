@@ -6,12 +6,12 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Admin.GetDetailsQuery
 {
-	public class GetAdminDetailsHandler : IRequestHandler<GetAdminDetailsQueryRequest, GetAdminDetailsQueryResponse>
+	public class GetAdminDetailsQueryHandler : IRequestHandler<GetAdminDetailsQueryRequest, GetAdminDetailsQueryResponse>
 	{
 		private readonly IDetailRepository _detailRepository;
 		private readonly IMapper _mapper;
 
-		public GetAdminDetailsHandler(IDetailRepository detailRepository, IMapper mapper)
+		public GetAdminDetailsQueryHandler(IDetailRepository detailRepository, IMapper mapper)
 		{
 			_detailRepository = detailRepository;
 			_mapper = mapper;

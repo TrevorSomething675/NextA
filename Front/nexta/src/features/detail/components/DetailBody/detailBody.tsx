@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { DetailStatus } from "../../../../shared/entities/Detail";
+import { Detail, DetailStatus } from "../../../../shared/entities/Detail";
 import styles from './DetailBody.module.css';
 import Image from "../../../../shared/components/Image/Image";
-import { GetDetailResponse } from "../../models/GetDetail";
 
 const statusLabels = {
     [DetailStatus.Unknown]: 'Неизвестный статус',
@@ -10,7 +9,7 @@ const statusLabels = {
     [DetailStatus.OutOfStock]: 'Нет на складе',
 };
 
-const DetailBody:React.FC<{detail:GetDetailResponse}> = ({detail}) => {
+const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
     const [count, setCount] = useState(1);
 
     const increment = () => {

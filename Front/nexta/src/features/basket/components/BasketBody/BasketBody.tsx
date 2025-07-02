@@ -41,6 +41,7 @@ const BasketBody = observer(() => {
                     <th>Статус</th>
                     <th>Доставка в ПВЗ</th>
                     <th>Кол-во, шт</th>
+                    <th></th>
                     <th>Стоимость, ₽</th>
                     <th></th>
                 </tr>

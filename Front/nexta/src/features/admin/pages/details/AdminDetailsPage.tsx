@@ -1,21 +1,21 @@
 import { useState } from 'react';
-import { GlobalSearch } from '../../../details/components/Search/GlobalSearch/GlobalSearch';
 import styles from './AdminDetailsPage.module.css';
 import { GetAdminDetailsResponse } from '../../models/GetAdminDetails';
 import AdminDetailItem from '../../components/AdminDetailItem/AdminDetailItem';
+import AdminGlobalSearch from '../../components/GlobalSearch/AdminSearch';
 
 const AdminDetailsPage = () => {
-
     const [detailsResponse, setDetailsResponse] = useState({} as GetAdminDetailsResponse);
 
     const handleResponseChange = (response:GetAdminDetailsResponse) => {
+        console.warn(response);
         setDetailsResponse(response);
     }
 
     return <div className={styles.container}>
         <h2 className={styles.h2}>Глобальный поиск</h2>
         <div className={styles.header}>
-            <GlobalSearch onResponseChange={handleResponseChange}/>
+            <AdminGlobalSearch onResponseChange={handleResponseChange}/>
         </div>
         <table className={styles.table}>
             <thead className={styles.thead}>
@@ -31,7 +31,7 @@ const AdminDetailsPage = () => {
                 </tr>
             </thead>
             <tbody className={styles.tbody}>
-            {(detailsResponse?.details?.items !== undefined) && (detailsResponse.details.items.map((detail) =>
+            {(detailsResponse?.data?.items !== undefined) && (detailsResponse.data.items.map((detail) =>
                 <AdminDetailItem key={detail.id} detail={detail} />
             ))}
             </tbody>

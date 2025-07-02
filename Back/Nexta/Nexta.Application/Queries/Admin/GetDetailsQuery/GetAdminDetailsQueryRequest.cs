@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Nexta.Domain.Filters;
+﻿using Nexta.Domain.Filters;
+using MediatR;
 
 namespace Nexta.Application.Queries.Admin.GetDetailsQuery
 {

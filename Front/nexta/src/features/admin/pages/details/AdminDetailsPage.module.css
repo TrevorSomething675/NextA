@@ -1,0 +1,41 @@
+.container {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    max-width: 90rem;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0rem 0rem 4rem 0rem;
+}
+
+.h2{
+    margin: 3rem 0 0 0;
+    font-size: 2rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
+.thead{
+    background-color: var(--light-white-color);
+}
+
+.tbody{
+    font-size: 1.1rem;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.table{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.tr > th{
+    padding: 1rem 1rem 1rem 1rem;
+    font-size: 1.3rem;
+}

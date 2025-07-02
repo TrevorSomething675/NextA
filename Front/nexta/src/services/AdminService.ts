@@ -18,7 +18,7 @@ class AdminService{
     static async GetAdminDetail(id:string){
         try{
             const GetAdminDetailRequest:GetAdminDetailRequest = {
-                id: id
+                detailId: id
             };
             const response = await api.post<GetAdminDetailResponse>('Admin/Detail/Get', GetAdminDetailRequest)
             return response.data;
@@ -29,7 +29,7 @@ class AdminService{
 
     static async GetAdminDetails(request:GetAdminDetailsRequest){
         try{
-            const response = await api.post<GetAdminDetailsResponse>('Detail/GetAll', request);
+            const response = await api.post<GetAdminDetailsResponse>('Admin/Detail/GetAll', request);
             return response.data
         } catch(error){
             if(axios.isAxiosError(error) && error.response){

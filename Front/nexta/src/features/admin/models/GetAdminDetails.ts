@@ -6,12 +6,12 @@ export interface GetAdminDetailsRequest{
 }
 
 export interface GetAdminDetailsResponse{
-    details:PagedData<Detail>
+    data:PagedData<Detail>
 }
 
 export interface GetAdminDetailsFilter{
     pageNumber:number,
     pageSize?:number,
     searchTerm?:string | null,
-    withHidden:boolean
+    withHidden?:boolean
 }

@@ -5,17 +5,17 @@ import styles from './DetailPage.module.css';
 import DetailHeader from "../components/DetailHeader/detailHeader";
 import DetailBody from "../components/DetailBody/detailBody";
 import DetailFooter from "../components/DetailFooter/detailFooter";
-import { GetDetailResponse } from "../models/GetDetail";
+import { Detail } from "../../../shared/entities/Detail";
 
 const DetailPage = () => {
     const {id} = useParams();
-    const [response, setDetail] = useState({} as GetDetailResponse)
+    const [detail, setDetail] = useState({} as Detail)
     
     useEffect(() => {
         const fetch = async() =>{
             if(id !== undefined){
                 const response = await DetailsService.GetDetail(id);
-                setDetail(response);
+                setDetail(response.detail);
             }
         }
         fetch();
@@ -24,9 +24,9 @@ const DetailPage = () => {
     
     return <div className={styles.container}>
         <div className={styles.detailContainer}>
-            <DetailHeader detail={response} />
-            <DetailBody detail={response} />
-            <DetailFooter detail={response} />
+            <DetailHeader detail={detail} />
+            <DetailBody detail={detail} />
+            <DetailFooter detail={detail} />
         </div>
     </div>
 }

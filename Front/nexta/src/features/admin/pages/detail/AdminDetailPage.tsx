@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from './AdminDetail.module.css';
-import { GetAdminDetailResponse } from "../../models/GetAdminDetail";
 import AdminDetailHeader from "../../components/AdminDetail/AdminDetailHeader/AdminDetailHeader";
 import AdminDetailBody from "../../components/AdminDetail/AdminDetailBody/AdminDetailBody";
 import AdminDetailFooter from "../../components/AdminDetail/AdminDetailFooter/AdminDetailFooter";
 import AdminService from "../../../../services/AdminService";
+import { AdminDetail } from "../../models/AdminDetail";
+import styles from './AdminDetailPage.module.css';
 
-const AdminDetail = () => {
+const AdminDetailPage = () => {
     const {id} = useParams();
-    const [response, setDetail] = useState({} as GetAdminDetailResponse)
+    const [detail, setDetail] = useState({} as AdminDetail)
     
     useEffect(() => {
         const fetch = async() =>{
             if(id !== undefined){
                 const response = await AdminService.GetAdminDetail(id);
-                setDetail(response);
+                console.warn(response);
+                setDetail(response.detail);
             } 
         }
         fetch();
@@ -24,11 +25,11 @@ const AdminDetail = () => {
     
     return <div className={styles.container}>
         <div className={styles.detailContainer}>
-            <AdminDetailHeader detail={response} />
-            <AdminDetailBody detail={response} />
-            <AdminDetailFooter detail={response} />
+            <AdminDetailHeader detail={detail} />
+            <AdminDetailBody detail={detail} />
+            <AdminDetailFooter detail={detail} />
         </div>
     </div>
 }
 
-export default AdminDetail;
+export default AdminDetailPage;

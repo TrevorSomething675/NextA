@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import styles from './AdminDetailItem.module.css';
 
 const AdminDetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
+
     const [count, setCount] = useState(1);
     const navigate = useNavigate();
     const statusLabels = {
@@ -17,7 +18,7 @@ const AdminDetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
         [DetailStatus.OutOfStock]: 'Нет на складе',
     };
         const goToDetailPage = () => {
-        navigate(`/Detail/${detail.id}`);
+        navigate(`/Admin/Detail/${detail.id}`);
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

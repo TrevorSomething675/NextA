@@ -23,6 +23,7 @@ import authStore from "./stores/AuthStore/authStore"
 import AdminOrdersPage from "./features/admin/pages/orders/AdminOrdersPage"
 import AdminDetailsPage from "./features/admin/pages/details/AdminDetailsPage"
 import AdminNewsPage from "./features/admin/pages/news/AdminNews"
+import AdminDetailPage from "./features/admin/pages/detail/AdminDetailPage"
 
 const App = () => {
   useEffect(() => {
@@ -52,7 +53,7 @@ const App = () => {
 
         const orderResponse = await OrderService.GetOrdersForUser(ordersRequest);
         if(orderResponse !== undefined){
-            orderStore.setOrders(orderResponse?.orders?.items);
+            orderStore.setOrders(orderResponse?.data?.items);
             orderStore.setTotalOrders(orderResponse?.totalCount);
         }
       }
@@ -77,6 +78,7 @@ const App = () => {
               <Route path="Admin/Orders" element={<AdminOrdersPage />} />
               <Route path="Admin/Details" element={<AdminDetailsPage />} />
               <Route path="Admin/News" element={<AdminNewsPage />} />
+              <Route path="Admin/Detail/:id" element={<AdminDetailPage />} />
             </Routes>
           </div>
           <Footer />

@@ -85,12 +85,15 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
             <button type="button" className={styles.up} onClick={increment}>►</button>
         </td>
         <td>
+            x
+        </td>
+        <td>
             <span className={styles.newPrice}>
-                {detail.newPrice} x {detail.userDetails[0].count} руб.
+                {detail.newPrice} руб.
             </span>
             {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
                 <span className={styles.oldPrice}>
-                    {detail.oldPrice} x {detail.userDetails[0].count} руб.
+                    {detail.oldPrice} руб.
                 </span>
             }
         </td>

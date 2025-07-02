@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { DetailStatus } from "../../../../../shared/entities/Detail";
-import { GetAdminDetailResponse } from "../../../models/GetAdminDetail";
 import Image from "../../../../../shared/components/Image/Image";
 import styles from './AdminDetailBody.module.css';
+import { AdminDetail } from "../../../models/AdminDetail";
 
 const statusLabels = {
     [DetailStatus.Unknown]: 'Неизвестный статус',
@@ -10,7 +10,7 @@ const statusLabels = {
     [DetailStatus.OutOfStock]: 'Нет на складе',
 };
 
-const AdminDetailBody:React.FC<{detail:GetAdminDetailResponse}> = ({detail}) => {
+const AdminDetailBody:React.FC<{detail:AdminDetail}> = ({detail}) => {
     const [count, setCount] = useState(1);
 
     const increment = () => {
