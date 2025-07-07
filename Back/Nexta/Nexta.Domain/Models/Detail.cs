@@ -10,16 +10,20 @@ namespace Nexta.Domain.Models
 		public string Description { get; set; } = null!;
 		public DetailStatus Status { get; set; }
 
-		public string OrderDate { get; set; } = string.Empty;
-		public string DeliveryDate { get; set; } = string.Empty;
+		public string? OrderDate { get; set; }
+		public string? DeliveryDate { get; set; }
 
 		public int Count { get; set; } 
 		public int NewPrice { get; set; }
-		public int OldPrice { get; set; }
+		public int? OldPrice { get; set; }
+
+		public bool IsVisible { get; set; }
 
 		public List<UserDetail>? UserDetails { get; set; }
 		public List<OrderDetail>? OrderDetails { get; set; }
 		public List<Order>? Orders { get; set; }
+
+		public Guid ImageId { get; set; }
 		public Image? Image { get; set; }
 	}
 }

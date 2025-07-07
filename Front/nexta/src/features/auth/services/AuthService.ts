@@ -86,7 +86,6 @@ export class AuthService{
     static async verifyCode(request:VerifyCodeRequest){
         try{
             const response = await api.post(this.AUTH_ENPOINTS.VERIFYCODE, request);
-            console.warn(response.data);
             this.setAccessToken(response.data.accessToken);
 
             return response;

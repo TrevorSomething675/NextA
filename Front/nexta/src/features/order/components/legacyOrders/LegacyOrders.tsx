@@ -9,6 +9,7 @@ import authStore from "../../../../stores/AuthStore/authStore";
 const LegacyOrders = () => {
     const [response, setResponse] = useState<GetOrdersForUserResponse>({} as GetOrdersForUserResponse);
     const handlePageNumberChange = (pageNumber:number) => {
+        console.warn(response);
         const userId = authStore?.user?.id ?? '';
         const filter:GetOrdersForUserFilter = {
             userId: userId,
@@ -42,7 +43,7 @@ const LegacyOrders = () => {
     }
 
     return <div>
-        {response.data.items !== undefined && response.data.items.length > 0 &&
+        {response.data !== undefined && response.data.items.length > 0 &&
             <ul>
                 {response.data.items.map((order) => <OrderItem key={order.id} order={order} />)}
             </ul>

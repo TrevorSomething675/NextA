@@ -39,7 +39,6 @@ class AuthStore {
     }
 
     secondStepAuthenticate = async (user: AuthUser) => {
-        console.warn(toJS(this.user));
         try{
             this.user = user;
             this.isAuthenticated = true;

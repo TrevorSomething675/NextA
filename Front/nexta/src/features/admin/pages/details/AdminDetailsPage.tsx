@@ -8,7 +8,6 @@ const AdminDetailsPage = () => {
     const [detailsResponse, setDetailsResponse] = useState({} as GetAdminDetailsResponse);
 
     const handleResponseChange = (response:GetAdminDetailsResponse) => {
-        console.warn(response);
         setDetailsResponse(response);
     }
 

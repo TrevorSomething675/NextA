@@ -1,9 +1,10 @@
 ﻿using Nexta.Domain.Abstractions.Services;
+using Microsoft.Extensions.Logging;
 using Minio.DataModel.Args;
 using Nexta.Domain.Models;
-using Minio;
 using Minio.Exceptions;
-using Microsoft.Extensions.Logging;
+using Minio;
+using Nexta.Infrastructure.Exceptions;
 
 namespace Nexta.Infrastructure.Minio
 {
@@ -15,6 +16,34 @@ namespace Nexta.Infrastructure.Minio
 		{
 			_minioClient = minioClient;
 			_logger = logger;
+		}
+
+		public async Task<Image> AddFileAsync(string base64String, string fileName, string bucket, CancellationToken ct = default)
+		{
+			try
+			{
+				var bytes = Convert.FromBase64String(base64String);
+
+				using(var stream = new MemoryStream(bytes))
+				{
+					var result = await _minioClient.PutObjectAsync(
+						new PutObjectArgs()
+						.WithBucket(bucket)
+						.WithObject(fileName)
+						.WithStreamData(stream)
+						.WithObjectSize(bytes.Length));
+
+					return new Image
+					{
+						Bucket = bucket,
+						Name = fileName,
+					};
+				}
+			}
+			catch(Exception ex)
+			{
+				throw new MinioFileCreationException(ex.Message);
+			}
 		}
 
 		public async Task<List<Image>> GetFilesAsync(string bucket, CancellationToken ct = default, params string[] fileNames)
@@ -42,7 +71,8 @@ namespace Nexta.Infrastructure.Minio
 						images.Add(new Image
 						{
 							Name = name,
-							Base64String = base64string
+							Base64String = base64string,
+							Bucket = bucket
 						});
 					}
 				}

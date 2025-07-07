@@ -1,5 +1,4 @@
 ﻿using Nexta.Domain.Enums;
-using System.Runtime.CompilerServices;
 
 namespace Nexta.Infrastructure.DataBase.Entities
 {
@@ -13,9 +12,9 @@ namespace Nexta.Infrastructure.DataBase.Entities
 		public DateOnly OrderDate { get; set; }
 		public DateOnly DeliveryDate { get; set; }
 
-		public int Count { get; set; }
+		public int Count { get; set; } = 0;
 		public int NewPrice { get; set; }
-		public int OldPrice { get; set; }
+		public int? OldPrice { get; set; }
 
 		public List<UserDetailEntity>? UserDetails { get; set; }
 		public List<OrderDetailEntity>? OrderDetails { get; set; }

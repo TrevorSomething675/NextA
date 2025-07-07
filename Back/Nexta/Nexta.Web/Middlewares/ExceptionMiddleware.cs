@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Nexta.Domain.Exceptions;
+using Nexta.Infrastructure.Exceptions;
 using Nexta.Web.Models;
 using System.Text.Json;
 
@@ -35,6 +36,7 @@ namespace Nexta.Web.Middlewares
 				BadRequestException => (StatusCodes.Status400BadRequest, ex.Message),
 				NotFoundException => (StatusCodes.Status404NotFound, ex.Message),
 				ValidationException => (StatusCodes.Status422UnprocessableEntity, ex.Message),
+				MinioFileCreationException => (StatusCodes.Status400BadRequest, ex.Message),
 				_ => (StatusCodes.Status502BadGateway, ex.Message)
 			};
 

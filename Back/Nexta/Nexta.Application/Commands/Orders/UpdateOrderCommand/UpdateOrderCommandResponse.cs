@@ -1,9 +1,9 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Application.DTO;
 
 namespace Nexta.Application.Commands.Orders.UpdateOrderCommand
 {
-    public class UpdateOrderCommandResponse(User user)
+    public class UpdateOrderCommandResponse(OrderResponse order)
     {
-        public User User { get; set; } = user;
+        public OrderResponse Order { get; set; } = order;
     }
 }

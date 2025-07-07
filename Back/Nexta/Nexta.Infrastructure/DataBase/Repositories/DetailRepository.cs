@@ -6,6 +6,7 @@ using Nexta.Domain.Models;
 using AutoMapper;
 using Nexta.Infrastructure.Extensions;
 using Nexta.Infrastructure.DataBase.Entities;
+using Nexta.Domain.Exceptions;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -135,6 +136,38 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				var details = _mapper.Map<List<Detail>>(detailEntities);
 
 				return details;
+			}
+		}
+
+		public async Task<Detail> UpdateAsync(Detail detail, CancellationToken ct = default) // Решил просто обновлять поля явно, использование Patch или маппера будет лишним
+		{
+			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var detailEntity = await context.Details.FirstOrDefaultAsync(d => d.Id == detail.Id, ct);
+
+				if (detailEntity == null) throw new NotFoundException("Деталь не найдена");
+
+				if (detail.Name != null) detailEntity.Name = detail.Name;
+				if (detail.Article != null) detailEntity.Article = detail.Article;
+				if (detail.Description != null) detailEntity.Description = detail.Description;
+				if (detail.Status != detailEntity.Status)detailEntity.Status = detail.Status;
+
+				if (!string.IsNullOrEmpty(detail.OrderDate)) detailEntity.OrderDate = DateOnly.Parse(detail.OrderDate);
+				if (!string.IsNullOrEmpty(detail.DeliveryDate)) detailEntity.DeliveryDate = DateOnly.Parse(detail.DeliveryDate);
+
+				if(detail.Count != detailEntity.Count) detailEntity.Count = detail.Count;
+
+				detailEntity.NewPrice = detail.NewPrice;
+				if(detail.OldPrice != null) detailEntity.OldPrice = detail.OldPrice;
+
+				detailEntity.IsVisible = detail.IsVisible;
+
+				if(detail.ImageId != Guid.Empty) detailEntity.ImageId = detail.ImageId;
+
+				await context.SaveChangesAsync(ct);
+
+				var updatedDetail = _mapper.Map<Detail>(detailEntity);
+				return updatedDetail;
 			}
 		}
 	}

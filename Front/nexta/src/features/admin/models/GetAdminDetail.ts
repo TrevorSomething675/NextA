@@ -1,7 +1,8 @@
 import { AdminDetail } from "./AdminDetail"
 
 export interface GetAdminDetailRequest{
-    detailId:string
+    detailId:string,
+    withImage:boolean
 }
 
 export interface GetAdminDetailResponse{

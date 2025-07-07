@@ -1,14 +1,15 @@
-﻿using Nexta.Domain.Enums;
+﻿using Nexta.Application.DTO.RequestModels;
+using MediatR;
 
-namespace Nexta.Application.DTO.Admin
+namespace Nexta.Application.Commands.Admin.UpdateDetailCommand
 {
-    public class AdminDetailResponse
+    public class UpdateAdminDetailCommandRequest : IRequest<UpdateAdminDetailCommandResponse>
     {
 		public Guid Id { get; init; }
 		public string Name { get; init; } = null!;
 		public string Article { get; init; } = null!;
 		public string Description { get; init; } = null!;
-		public DetailStatus Status { get; init; }
+		public int Status { get; init; }
 
 		public string OrderDate { get; init; } = string.Empty;
 		public string DeliveryDate { get; init; } = string.Empty;
@@ -16,9 +17,10 @@ namespace Nexta.Application.DTO.Admin
 		public int Count { get; init; }
 		public int NewPrice { get; init; }
 		public int OldPrice { get; init; }
-		public bool isVisible { get; init; }
+
+		public bool IsVisible { get; init; }
 
 		public Guid ImageId { get; init; }
-		public ImageResponse? Image { get; set; }
+		public ImageRequest? Image { get; init; }
 	}
 }

@@ -12,5 +12,7 @@ namespace Nexta.Domain.Abstractions.Repositories
         Task<PagedData<Detail>> GetAllAsync(GetDetailsFilter filter, CancellationToken ct = default);
         Task<List<Detail>> GetBasketDetailsAsync(GetBasketDetailsFilter filter, CancellationToken ct = default);
         Task<List<Detail>> GetRangeAsync(List<Guid> detailIds, CancellationToken ct = default);
+
+        Task<Detail> UpdateAsync(Detail detail, CancellationToken ct = default);
     }
 }

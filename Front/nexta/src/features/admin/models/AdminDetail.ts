@@ -12,6 +12,6 @@ export interface AdminDetail {
     count:number,
     newPrice:number,
     oldPrice:number,
-    image:Image
+    image:Image | null
     isVisible:boolean
 }

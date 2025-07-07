@@ -39,7 +39,6 @@ export const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({ onResponseChang
         try {
             const response = await AdminService.GetAdminDetails(request);
             const newResponse = response;
-            console.warn(newResponse);
             setResponse(newResponse);
             onResponseChange(newResponse);
         } catch (error) {
