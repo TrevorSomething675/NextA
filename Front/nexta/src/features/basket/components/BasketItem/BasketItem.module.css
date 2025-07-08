@@ -2,19 +2,6 @@
     padding: 0.55rem 0 0.55rem 0;
 }
 
-.removeBasketBtn{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: none;
-    border: none;
-    text-decoration: underline;
-    color:var(--red-color);
-    font-size: 1.2rem;
-    transition: .2s;
-}
-
 .button{
     font-size: 1.2rem;
     font-weight: 600;
@@ -39,6 +26,19 @@
 .trash{
     height: 1.5rem;
     width: 1.5rem;
+}
+
+.removeBasketBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 1.2rem;
+    transition: .2s;
+    color:var(--red-color);
 }
 
 .removeBasketBtn:hover{

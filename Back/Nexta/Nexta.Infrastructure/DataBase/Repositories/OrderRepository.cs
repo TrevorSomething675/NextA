@@ -5,6 +5,7 @@ using Nexta.Domain.Filters;
 using Nexta.Domain.Models;
 using AutoMapper;
 using Nexta.Infrastructure.DataBase.Entities;
+using Nexta.Domain.Exceptions;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -111,6 +112,38 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				var pagedOrders = _mapper.Map<PagedData<Order>>(pagedOrderEntities);
 
 				return pagedOrders;
+			}
+		}
+
+		public async Task<Guid> UpdateAsync(Order order, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var orderEntity = await context.Orders
+					.FirstOrDefaultAsync(o => o.Id == order.Id, ct);
+
+				if (orderEntity == null) throw new NotFoundException("Заказ не найден");
+
+				orderEntity.Status = order.Status;
+
+				await context.SaveChangesAsync(ct);
+
+				return orderEntity.Id;
+			}
+		}
+
+		public async Task<Guid> DeleteAsync(Guid orderId, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync())
+			{
+				var order = await context.Orders.FindAsync(orderId, ct);
+				if (order == null)
+					throw new NotFoundException("Заказ не найден");
+
+				var deletedEntity = context.Orders.Remove(order);
+				await context.SaveChangesAsync(ct);
+
+				return deletedEntity.Entity.Id;
 			}
 		}
 	}

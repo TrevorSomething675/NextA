@@ -43,6 +43,23 @@ class OrderService{
             }
         }
     }
+
+    static async Delete(orderId:string){
+        try{
+            const request = {
+                orderId: orderId
+            }
+            const response = await api.post<string>('Order/Delete', request)
+            return response.data;
+        }
+        catch(error){
+            if(axios.isAxiosError(error) && error.response){
+                return error.response.data as CreateNewOrderResponse
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
 }
 
 export default OrderService;

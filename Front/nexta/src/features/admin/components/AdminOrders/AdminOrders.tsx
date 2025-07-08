@@ -18,7 +18,7 @@ const AdminOrders = () => {
             filter:filter
         }
         fetchData(request)
-    });
+    }, []);
 
     const fetchData = async(request:GetAllOrdersRequest) =>{
         const response = await AdminService.GetAllOrders(request);

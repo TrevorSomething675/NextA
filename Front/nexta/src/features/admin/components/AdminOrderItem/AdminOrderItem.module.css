@@ -37,7 +37,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 0.4rem;
 }
 
 .orderSubHeader{
@@ -127,7 +127,7 @@
 }
 
 .userItem{
-    margin: 0 4rem 0 4rem;
+    white-space: nowrap;
 }
 
 .saveBtn{
@@ -153,6 +153,23 @@
     color: var(--black-color);
 }
 
+.deleteOrderBtn{
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 1.2rem;
+    transition: .2s;
+    color:var(--red-color);
+}
+
+.deleteOrderBtn:hover{
+    color: var(--black-color);
+    transition: .2s;
+}
+
 .rejectChangesbtn{
     margin: 0 0.5rem 0 0.5rem;
     padding: 0 0.5rem 0 0.5rem;
@@ -171,18 +188,46 @@
     text-shadow: 1px 1px 2px var(--black-color);
 }
 
-.unActive{
-    color: var(--dark-white-color);
-    background-color: var(--dark-color);
-}
-
-.unActive:hover{
-    color: var(--dark-white-color)!important;
-    background-color: var(--dark-color)!important;
-    cursor: not-allowed;
-}
-
 .rejectChangesbtn:hover{
     transition: 0.2s;
     color: var(--black-color);
+}
+
+.trashContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trash{
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.select{
+    font-size: 1.4rem;
+}
+
+.removeBasketBtn{
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 1.2rem;
+    transition: .2s;
+    color:var(--red-color);
+}
+
+.removeBasketBtn:hover{
+    color: var(--black-color);
+    transition: .2s;
+}
+
+.trashContainer{
+    margin: 0!important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -9,7 +9,6 @@ namespace Nexta.Domain.Models
 		public User User { get; set; } = null!;
 
 		public List<OrderDetail>? OrderDetails { get; set; }
-		public List<Detail>? Details { get; set; }
 
 		public OrderStatus Status { get; set; }
 	}

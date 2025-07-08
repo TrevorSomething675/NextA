@@ -11,7 +11,8 @@ namespace Nexta.Domain.Abstractions.Repositories
         Task<PagedData<Order>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default);
 
         Task<Order> AddAsync(Order orderToAdd, CancellationToken ct = default);
-
+        Task<Guid> UpdateAsync(Order order, CancellationToken ct = default);
+        Task<Guid> DeleteAsync(Guid orderId, CancellationToken ct = default);
         Task<int> CountOrdersAsync(Guid userId, CancellationToken ct = default);
 	}
 }

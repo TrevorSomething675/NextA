@@ -8,6 +8,7 @@ namespace Nexta.Infrastructure.DataBase.Entities
 		public UserEntity User { get; set; } = null!;
 
 		public List<OrderDetailEntity>? OrderDetails { get; set; }
+
 		public List<DetailEntity>? Details { get; set; }
 
 		public OrderStatus Status { get; set; }

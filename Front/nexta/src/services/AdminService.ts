@@ -57,7 +57,7 @@ class AdminService{
             }
         }
     }
-        static async UpdateAdminDetail(request: UpdateAdminDetailRequest){
+    static async UpdateAdminDetail(request: UpdateAdminDetailRequest){
         try{
             const response = await api.post<UpdateAdminDetailResponse>('Admin/Detail/Update', request);
             console.warn(response);

@@ -2,6 +2,7 @@
 using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using AutoMapper;
+using Nexta.Application.Commands.Admin.UpdateOrderCommand;
 
 namespace Nexta.Application.Profiles
 {
@@ -11,6 +12,7 @@ namespace Nexta.Application.Profiles
         {
             CreateMap<Order, OrderResponse>();
             CreateMap<PagedData<Order>, PagedData<OrderResponse>>();
+            CreateMap<UpdateAdminOrderCommandRequest, Order>();
         }
     }
 }

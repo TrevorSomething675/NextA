@@ -1,0 +1,35 @@
+﻿using Nexta.Application.Commands.Admin.DeleteDetailFromOrderCommand;
+using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using Nexta.Application.Commands.Admin.UpdateOrderCommand;
+
+namespace Nexta.Web.Areas.Controllers
+{
+	[Area("Admin")]
+	[Route("admin/[controller]")]
+	[ApiController]
+	public class OrderController : ControllerBase
+    {
+		private readonly IMediator _mediator;
+		public OrderController(IMediator mediator)
+		{
+			_mediator = mediator;
+		}
+
+		[HttpPost("[action]")]
+		[ProducesResponseType(typeof(DeleteDetailFromOrderCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Delete([FromBody] DeleteDetailFromOrderCommandRequest request, CancellationToken ct = default)
+		{
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
+		}
+
+		[HttpPost("[action]")]
+		[ProducesResponseType(typeof(UpdateAdminOrderCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Update([FromBody] UpdateAdminOrderCommandRequest request, CancellationToken ct = default)
+		{
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
+		}
+	}
+}

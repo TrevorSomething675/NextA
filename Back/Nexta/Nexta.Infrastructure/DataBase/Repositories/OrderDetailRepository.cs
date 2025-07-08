@@ -1,8 +1,12 @@
 ﻿using Nexta.Infrastructure.DataBase.Entities;
 using Nexta.Domain.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Nexta.Domain.Exceptions;
 using Nexta.Domain.Models;
 using AutoMapper;
+using Microsoft.VisualBasic;
+using System.Runtime.InteropServices.Marshalling;
+using System.Net.Mime;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -51,6 +55,66 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 					.ToListAsync();
 
 				return orderId;
+			}
+		}
+
+		public async Task<OrderDetail> DeleteAsync(Guid orderId, Guid detailId, CancellationToken ct = default)
+		{
+			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var orderDetailToDelete = await context.OrderDetails.FindAsync(orderId, detailId, ct);
+				if (orderDetailToDelete == null) 
+					throw new NotFoundException("Деталь не найдена в заказе");
+
+				var deletedOrderDetailEntity = context.OrderDetails.Remove(orderDetailToDelete);
+				await context.SaveChangesAsync(ct);
+				var deletedOrderDetail = _mapper.Map<OrderDetail>(deletedOrderDetailEntity.Entity);
+
+				return deletedOrderDetail;
+			}
+		}
+
+		public async Task DeleteRangeAsync(List<OrderDetail> orderDetailsToDelete, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var orderDetailEntitiesToDelete = _mapper.Map<List<OrderDetailEntity>>(orderDetailsToDelete);
+
+				context.OrderDetails.RemoveRange(orderDetailEntitiesToDelete);
+				await context.SaveChangesAsync(ct);
+			}
+		}
+
+		public async Task ReplaceOrderDetailAsync(Guid orderId, List<OrderDetail> orderDetails, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var orderDetailEntities = await context.OrderDetails
+					.Where(od => od.OrderId == orderId).ToArrayAsync(ct);
+
+				context.OrderDetails.RemoveRange(orderDetailEntities);
+				await context.SaveChangesAsync(ct);
+
+				var orderDetailEntitiesToAdd = _mapper.Map<List<OrderDetailEntity>>(orderDetails);
+				context.OrderDetails.AddRange(orderDetailEntitiesToAdd);
+				await context.SaveChangesAsync(ct);
+			}
+		}
+
+		public async Task<OrderDetail> UpdateAsync(OrderDetail orderDetailToUpdate, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var orderDetailEntity = await context.OrderDetails.FindAsync(orderDetailToUpdate.OrderId, orderDetailToUpdate.DetailId, ct);
+				if (orderDetailEntity == null)
+					throw new NotFoundException("Деталь не была найдена в заказе");
+
+				orderDetailEntity.DetailId = orderDetailToUpdate.DetailId;
+				orderDetailEntity.OrderId = orderDetailToUpdate.OrderId;
+				orderDetailEntity.Count = orderDetailToUpdate.Count;
+
+				await context.SaveChangesAsync(ct);
+				return orderDetailToUpdate;
 			}
 		}
 	}

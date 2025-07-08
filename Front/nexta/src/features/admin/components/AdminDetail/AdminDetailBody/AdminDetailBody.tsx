@@ -52,7 +52,6 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
     }
 
     const submit: SubmitHandler<UpdateAdminDetailRequest> = async (data:UpdateAdminDetailRequest) => {
-        console.error(data);
         try{
             data.id = detail.id;
             if(data.imageBase64string !== undefined){
@@ -134,8 +133,6 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
 
     const handleRemoveImage = () => {
         setPreviewImage(null);
-        //unregister('imageBase64string');
-        //unregister('imageId');
     }
 
     return <div className={styles.container}>

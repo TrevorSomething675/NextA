@@ -1,4 +1,5 @@
-﻿using Nexta.Domain.Enums;
+﻿using Nexta.Domain.Models;
+using Nexta.Domain.Enums;
 
 namespace Nexta.Application.DTO
 {
