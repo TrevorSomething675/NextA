@@ -4,6 +4,7 @@ using MediatR;
 using Nexta.Application.Queries.Basket.GetBasketDetailsQuery;
 using Nexta.Application.Commands.Basket.DeleteBasketDetailCommand;
 using Nexta.Application.Commands.Basket.AddBasketDetailCommand;
+using Nexta.Application.Commands.Basket.UpdateBasketDetailCommand;
 
 namespace Nexta.Web.Controllers
 {
@@ -36,6 +37,14 @@ namespace Nexta.Web.Controllers
 		[HttpPost("[action]")]
 		[ProducesResponseType(typeof(DeleteBasketDetailCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Delete([FromBody] DeleteBasketDetailCommandRequest request, CancellationToken ct = default)
+		{
+			var response = await _mediator.Send(request, ct);
+			return Results.Ok(response);
+		}
+
+		[HttpPost("[action]")]
+		[ProducesResponseType(typeof(UpdateBasketDetailCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Update([FromBody] UpdateBasketDetailCommandRequest request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);

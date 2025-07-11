@@ -67,9 +67,7 @@ const AdminOrderItem:React.FC<{order:Order}> = ({order: initialOrder}) => {
                 orderDetails: order?.orderDetails,
                 status: order.status
             };
-            console.log(request);
             const response = await AdminOrderService.UpdateOrder(request);
-            console.warn(response);
             if (response) {
                 setOriginalOrder({...order});
             }

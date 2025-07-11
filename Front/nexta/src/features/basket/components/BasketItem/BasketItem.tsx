@@ -9,10 +9,17 @@ import { UserDetailStatus } from '../../../../shared/entities/UserDetails';
 import { Detail } from '../../../../shared/entities/Detail';
 import BasketService from '../../services/BasketService';
 import authStore from '../../../../stores/AuthStore/authStore';
+import CheckSvg from '../../../../shared/svgs/CheckSvg/CheckSvg';
+import TrashSvg from '../../../../shared/svgs/TrashSvg/TrashSvg';
+import { UpdateBasketDetailRequest } from '../../models/UpdateBasketDetail';
+import { useNotifications } from '../../../../shared/components/Notifications/Notifications';
 
 const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
     const [count, setCount] = useState(detail?.userDetails[0]?.count ?? 0);
+    const [legacyCount, setLegacyCount] = useState(detail?.userDetails[0]?.count);
     const navigate = useNavigate();
+    const {addNotification} = useNotifications();
+
     const statusLabels = {
         [UserDetailStatus.Unknown]: 'Неизвестный статус',
         [UserDetailStatus.Accepted]: 'Принят',
@@ -30,7 +37,7 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
             userId: authStore?.user?.id ?? '',
             detailId: detail.id
         };
-        await BasketService.DeletebasketDetail(request);
+        await BasketService.DeleteBasketDetail(request);
 
         const filter:GetBasketDetailsFilter = {
             pageNumber: 1,
@@ -43,13 +50,31 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
         basket.setBasketDetails(result.details);
     };
 
+    const handleUpdateDetail = async(detailId:string, count:number) => {
+        const request: UpdateBasketDetailRequest = {
+            userId: authStore?.user?.id,
+            detailId: detailId,
+            count: count
+        }
+        const response = await BasketService.UpdateBasketDetail(request);
+        if(response){
+            setLegacyCount(response.count);
+            addNotification({
+                header: 'Корзина обновлена',
+                body: `Деталь: ${detail.name}. Изменения успешно внесены.`
+            })
+        }
+    }
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
         
         if (!isNaN(value) && value >= 1) {
             setCount(value);
+            detail.userDetails[0].count = value;
         } else {
             setCount(1);
+            detail.userDetails[0].count = value;
         }
     };
 
@@ -97,12 +122,16 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
                 </span>
             }
         </td>
-        <td className={styles.trashContainer}>
-            <button className={styles.removeBasketBtn} onClick={fetchData}>
-                <svg xmlns="http://www.w3.org/2000/svg" className={styles.trash} fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                </svg>
+        <td className={styles.buttonsContainer}>
+            {(count != legacyCount) &&
+                <button className={styles.updateBasketBtn}
+                data-tooltip='Подтвердить изменения' 
+                onClick={() => handleUpdateDetail(detail.id, count)}>
+                    <CheckSvg />
+                </button>
+            }
+            <button className={styles.removeBasketBtn} data-tooltip='Удалить из корзины' onClick={fetchData}>
+                <TrashSvg />
             </button>
         </td>
     </tr>

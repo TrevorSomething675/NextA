@@ -145,7 +145,8 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			{
 				var detailEntity = await context.Details.FirstOrDefaultAsync(d => d.Id == detail.Id, ct);
 
-				if (detailEntity == null) throw new NotFoundException("Деталь не найдена");
+				if (detailEntity == null) 
+					throw new NotFoundException("Деталь не найдена");
 
 				if (detail.Name != null) detailEntity.Name = detail.Name;
 				if (detail.Article != null) detailEntity.Article = detail.Article;

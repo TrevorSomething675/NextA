@@ -90,5 +90,31 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				return userDetails;
 			}
 		}
+
+		public async Task<UserDetail> UpdateAsync(UserDetail userDetailtoUpdate, CancellationToken ct = default)
+		{
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var userDetailEntity = await context.UserDetails
+					.FirstOrDefaultAsync(ud => ud.DetailId == userDetailtoUpdate.DetailId && ud.UserId == userDetailtoUpdate.UserId, ct);
+
+				if (userDetailEntity == null)
+					throw new DirectoryNotFoundException(string.Format("Связи между пользователем {0} и деталью {1} не существует", userDetailtoUpdate?.UserId, userDetailtoUpdate?.DetailId));
+
+				if (userDetailtoUpdate.Count != null)
+					userDetailEntity.Count = userDetailtoUpdate.Count.Value;
+
+				if (userDetailtoUpdate.Status != null)
+					userDetailEntity.Status = userDetailtoUpdate.Status.Value;
+
+				if (userDetailtoUpdate.DeliveryDate != null)
+					userDetailEntity.DeliveryDate = userDetailtoUpdate.DeliveryDate.Value;
+
+				await context.SaveChangesAsync(ct);
+				var userDetail = _mapper.Map<UserDetail>(userDetailEntity);
+
+				return userDetail;
+			}
+		}
 	}
 }

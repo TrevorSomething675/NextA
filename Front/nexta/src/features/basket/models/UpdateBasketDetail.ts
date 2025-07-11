@@ -1,5 +1,5 @@
 export interface UpdateBasketDetailRequest{
-    userId:string,
+    userId:string | null,
     detailId:string,
-    countToPay:number
+    count:number
 }

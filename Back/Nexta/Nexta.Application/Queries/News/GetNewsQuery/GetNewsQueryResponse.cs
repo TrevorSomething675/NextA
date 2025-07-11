@@ -2,8 +2,8 @@
 
 namespace Nexta.Application.Queries.News.GetNewsQuery
 {
-    public class GetNewsQueryResponse(List<ImageResponse> images)
+    public class GetNewsQueryResponse(List<NewsResponse> news)
     {
-        public List<ImageResponse> Images { get; init; } = images;
+        public List<NewsResponse> News { get; init; } = news;
     }
 }

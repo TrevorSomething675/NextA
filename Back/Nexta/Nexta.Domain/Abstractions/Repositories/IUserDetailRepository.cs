@@ -9,5 +9,6 @@ namespace Nexta.Domain.Abstractions.Repositories
         Task<UserDetail> AddAsync(UserDetail userDetailToAdd, CancellationToken ct = default);
         Task<UserDetail> DeleteAsync(UserDetail userDetailToAdd, CancellationToken ct = default);
         Task<List<UserDetail>> DeleteRangeAsync(Guid userId, List<Guid> detailIds, CancellationToken ct = default);
+        Task<UserDetail> UpdateAsync(UserDetail userDetailtoUpdate, CancellationToken ct = default);
 	}
 }

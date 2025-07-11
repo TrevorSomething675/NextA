@@ -31,18 +31,18 @@ const News = () => {
                             />
                         </li>
                       ))
-                    : newsResponse.images?.map((image) => (
-                        <li className={styles.newsItem} key={image.base64String}>
+                    : newsResponse.news?.map((news) => (
+                        <li className={styles.newsItem} key={news?.image?.base64String}>
                             <Image
                                 isBase64Image={true}
-                                base64String={image.base64String}
+                                base64String={news?.image?.base64String}
                                 className={styles.img}
                                 isLoading={false}
                             />
                         </li>
-                ))}
-            </ul>
-        </div>
+                    ))}
+                </ul>
+            </div>
 }
 
 export default News;

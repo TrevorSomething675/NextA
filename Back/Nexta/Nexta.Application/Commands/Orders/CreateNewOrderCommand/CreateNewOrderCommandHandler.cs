@@ -38,7 +38,7 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 
 			foreach (var detail in userDetails)
 			{
-				orderDetails.Add(new OrderDetail { OrderId = order.Id, DetailId = detail.DetailId, Count = detail.Count });
+				orderDetails.Add(new OrderDetail { OrderId = order.Id, DetailId = detail.DetailId, Count = detail.Count.Value });
 			}
 
 			await _orderDetailRepository.AddRangeAsync(orderDetails, ct);

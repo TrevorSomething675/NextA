@@ -1,5 +1,11 @@
-import { Image } from "./Image";
+import { Image } from "./Image"
 
 export interface NewsResponse{
-    images:Image[]
+    news: News[]
+}
+
+export interface News{
+    header?:string,
+    description?:string,
+    image?:Image
 }

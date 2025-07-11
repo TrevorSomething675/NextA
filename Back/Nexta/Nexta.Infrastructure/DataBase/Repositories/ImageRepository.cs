@@ -17,15 +17,17 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			_mapper = mapper;
 		}
 
-		public async Task<Guid> AddAsync(Image image, CancellationToken ct = default)
+		public async Task<Image> AddAsync(Image image, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
 				var imageEntity = _mapper.Map<ImageEntity>(image);
-				var addedImageId = await context.AddAsync(imageEntity, ct);
+				var createImageEntity = await context.AddAsync(imageEntity, ct);
 				await context.SaveChangesAsync(ct);
+				
+				var result = _mapper.Map<Image>(createImageEntity);
 
-				return addedImageId.Entity.Id;
+				return result;
 			}
 		}
 
