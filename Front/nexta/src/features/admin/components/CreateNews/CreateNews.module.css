@@ -1,0 +1,49 @@
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+.form{
+    background: var(--light-white-color);
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    font-size: 1.4rem;
+}
+
+.imageContainer{
+    max-width: 20rem;
+}
+
+.newsItems{
+    padding: 1rem;
+}
+
+.newsItem{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.textAreaItem{
+    margin: 1rem 0 0 0;
+    display: flex;
+    justify-content: start;
+}
+
+.imageInput{
+    display: flex;
+}
+
+.input{
+    margin: 0 0 0 0.5rem;
+    height: 2rem;
+    font-size: 1.4rem;
+}
+
+.textArea{
+    margin: 0 0 0 0.5rem;
+    height: 7rem;
+    width: 100%;
+    font-size: 1.4rem;
+}

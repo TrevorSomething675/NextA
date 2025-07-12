@@ -1,10 +1,10 @@
+import { GetNewsResponse } from "../features/news/models/NewsResponse";
 import api from "../http/api";
-import { NewsResponse } from "../shared/entities/News";
 
 class NewsService{
     static async GetNews(){
         try{
-            const response = await api.post<NewsResponse>('News/GetAll');
+            const response = await api.post<GetNewsResponse>('News/GetAll');
             return response.data
         } catch(error){
             throw new Error('Сетевая ошибка или ошибка конфигурации');
@@ -12,7 +12,7 @@ class NewsService{
     }
     static async Update(){
         try{
-            const response = await api.post<NewsResponse>('News/GetAll');
+            const response = await api.post<GetNewsResponse>('News/GetAll');
             return response.data
         } catch(error){
             throw new Error('Сетевая ошибка или ошибка конфигурации');
@@ -20,7 +20,7 @@ class NewsService{
     }
     static async Add(){
         try{
-            const response = await api.post<NewsResponse>('News/GetAll');
+            const response = await api.post<GetNewsResponse>('News/GetAll');
             return response.data
         } catch(error){
             throw new Error('Сетевая ошибка или ошибка конфигурации');

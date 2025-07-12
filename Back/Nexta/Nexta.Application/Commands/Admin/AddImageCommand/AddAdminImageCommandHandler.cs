@@ -24,10 +24,9 @@ namespace Nexta.Application.Commands.Admin.AddImageCommand
 			var image = _mapper.Map<Image>(request);
 
 			var minioResult = await _minioService.AddFileAsync(image.Base64String, image.Name, image.Bucket, ct);
+			var createImage = await _imageRepository.AddAsync(minioResult, ct);
 
-			var imageId = await _imageRepository.AddAsync(minioResult, ct);
-
-			return new AddAdminImageCommandResponse(imageId);
+			return new AddAdminImageCommandResponse(createImage.Id);
 		}
 	}
 }

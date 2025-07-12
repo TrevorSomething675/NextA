@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import NewsService from "../../../../services/NewsService";
-import styles from './News.module.css';
+import { GetNewsResponse } from "../../../news/models/NewsResponse";
 import Image from "../../../../shared/components/Image/Image";
-import { GetNewsResponse } from "../../models/NewsResponse";
+import styles from './AdminNews.module.css';
 
-const News = () => {
+const AdminNews = () => {
     
     const [newsResponse, setNewsResponse] = useState({} as GetNewsResponse);
     const [isLoading, setIsLoading] = useState(true);
@@ -39,10 +39,13 @@ const News = () => {
                                 className={styles.img}
                                 isLoading={false}
                             />
+                            <button className={styles.deleteBtn}>
+                                Удалить
+                            </button>
                         </li>
                     ))}
                 </ul>
             </div>
 }
 
-export default News;
+export default AdminNews;

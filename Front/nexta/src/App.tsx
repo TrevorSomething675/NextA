@@ -22,7 +22,7 @@ import AuthStore from "./stores/AuthStore/authStore"
 import authStore from "./stores/AuthStore/authStore"
 import AdminOrdersPage from "./features/admin/pages/orders/AdminOrdersPage"
 import AdminDetailsPage from "./features/admin/pages/details/AdminDetailsPage"
-import AdminNewsPage from "./features/admin/pages/news/AdminNews"
+import AdminNewsPage from "./features/admin/pages/news/AdminNewsPage"
 import AdminDetailPage from "./features/admin/pages/detail/AdminDetailPage"
 
 const App = () => {
