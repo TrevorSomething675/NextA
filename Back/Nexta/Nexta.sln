@@ -5,11 +5,11 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexta.Web", "Nexta.Web\Nexta.Web.csproj", "{D35DA379-1D8E-4D33-B77F-7C425A2B6062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexta.Application", "Nexta.Application\Nexta.Application.csproj", "{B06FDBAB-1F7D-41E1-A56F-152669C0E4AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexta.Domain", "Nexta.Domain\Nexta.Domain.csproj", "{D5106103-A78E-4A35-8BB0-166FED36DE47}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexta.Infrastructure", "Nexta.Infrastructure\Nexta.Infrastructure.csproj", "{B9DCFB8B-4DAE-4784-956E-4DBDE4A852AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexta.Domain", "Nexta.Domain\Nexta.Domain.csproj", "{68C19102-E282-9BBA-FE67-942BDBAE45CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexta.Application", "Nexta.Application\Nexta.Application.csproj", "{6B244CDD-1C7E-31E3-3426-C7AD7FC25BA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,18 @@ Global
 		{D35DA379-1D8E-4D33-B77F-7C425A2B6062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D35DA379-1D8E-4D33-B77F-7C425A2B6062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D35DA379-1D8E-4D33-B77F-7C425A2B6062}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B06FDBAB-1F7D-41E1-A56F-152669C0E4AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B06FDBAB-1F7D-41E1-A56F-152669C0E4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B06FDBAB-1F7D-41E1-A56F-152669C0E4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B06FDBAB-1F7D-41E1-A56F-152669C0E4AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5106103-A78E-4A35-8BB0-166FED36DE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5106103-A78E-4A35-8BB0-166FED36DE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5106103-A78E-4A35-8BB0-166FED36DE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5106103-A78E-4A35-8BB0-166FED36DE47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9DCFB8B-4DAE-4784-956E-4DBDE4A852AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9DCFB8B-4DAE-4784-956E-4DBDE4A852AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9DCFB8B-4DAE-4784-956E-4DBDE4A852AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9DCFB8B-4DAE-4784-956E-4DBDE4A852AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68C19102-E282-9BBA-FE67-942BDBAE45CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68C19102-E282-9BBA-FE67-942BDBAE45CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68C19102-E282-9BBA-FE67-942BDBAE45CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68C19102-E282-9BBA-FE67-942BDBAE45CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B244CDD-1C7E-31E3-3426-C7AD7FC25BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B244CDD-1C7E-31E3-3426-C7AD7FC25BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B244CDD-1C7E-31E3-3426-C7AD7FC25BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B244CDD-1C7E-31E3-3426-C7AD7FC25BA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
