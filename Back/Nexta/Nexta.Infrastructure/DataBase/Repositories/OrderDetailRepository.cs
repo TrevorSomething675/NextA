@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Exceptions;
 using Nexta.Domain.Models;
 using AutoMapper;
-using Microsoft.VisualBasic;
-using System.Runtime.InteropServices.Marshalling;
-using System.Net.Mime;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -31,30 +28,17 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<Guid> CreateOrderDetailAsync(Guid orderId, List<Guid> detailIds, CancellationToken ct = default)
+		public async Task<OrderDetail> AddAsync(OrderDetail orderDetail, CancellationToken ct = default)
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var orderDetails = new List<OrderDetailEntity>();
-				foreach (var detailId in detailIds)
-				{
-					var order = new OrderDetailEntity
-					{
-						OrderId = orderId,
-						DetailId = detailId
-					};
-					orderDetails.Add(order);
-				}
-				context.OrderDetails.AddRange(orderDetails);
+				var orderDetailEntity = _mapper.Map<OrderDetailEntity>(orderDetail);
+				var createdOrderDetail = context.OrderDetails.Add(orderDetailEntity);
 				await context.SaveChangesAsync(ct);
 
-				var createdOrderDetails = await context.OrderDetails
-					.AsNoTracking()
-					.Where(od => od.OrderId == orderId && detailIds.Contains(od.DetailId))
-					.Include(od => od.Detail)
-					.ToListAsync();
+				var result = _mapper.Map<OrderDetail>(createdOrderDetail);
 
-				return orderId;
+				return result;
 			}
 		}
 

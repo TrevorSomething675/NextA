@@ -1,4 +1,5 @@
 ﻿using Nexta.Infrastructure.DataBase.Entities;
+using Nexta.Domain.Models.Images;
 using Nexta.Domain.Models;
 using AutoMapper;
 
@@ -9,6 +10,8 @@ namespace Nexta.Infrastructure.Profiles
         public NewsProfile() 
         {
             CreateMap<News, NewsEntity>().ReverseMap();
+
+            CreateMap<NewsImage, NewsImageEntity>().ReverseMap();
         }
     }
 }

@@ -3,15 +3,34 @@ import NewsService from "../../../../services/NewsService";
 import { GetNewsResponse } from "../../../news/models/NewsResponse";
 import Image from "../../../../shared/components/Image/Image";
 import styles from './AdminNews.module.css';
+import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
+import { DeleteNewsRequest } from "../../models/DeleteNews/DeleteNewsRequest";
 
 const AdminNews = () => {
     
     const [newsResponse, setNewsResponse] = useState({} as GetNewsResponse);
     const [isLoading, setIsLoading] = useState(true);
+    const { addNotification } = useNotifications();
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleDelete = (id:string) => {
+        const request:DeleteNewsRequest = {
+            id:id
+        };
+
+        const news = NewsService.Delete(request)
+        .then(response => {
+            addNotification({
+                'header': 'Новость успешно удалена'
+            })
+        }).catch(error =>{
+            
+        })
+        
+    }
 
     const fetchData = async () =>{
         const news = await NewsService.GetNews();
@@ -31,7 +50,7 @@ const AdminNews = () => {
                             />
                         </li>
                       ))
-                    : newsResponse.news?.map((news) => (
+                    : newsResponse.news.map((news) => (
                         <li className={styles.newsItem} key={news?.image?.base64String}>
                             <Image
                                 isBase64Image={true}
@@ -39,7 +58,7 @@ const AdminNews = () => {
                                 className={styles.img}
                                 isLoading={false}
                             />
-                            <button className={styles.deleteBtn}>
+                            <button className={styles.deleteBtn} onClick={() => handleDelete(news.id)}>
                                 Удалить
                             </button>
                         </li>

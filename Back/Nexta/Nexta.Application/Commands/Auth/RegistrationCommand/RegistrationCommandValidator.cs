@@ -7,7 +7,7 @@ namespace Nexta.Application.Commands.Auth.RegistrationCommand
         public RegistrationCommandValidator()
         {
             RuleFor(r => r.Email)
-                .NotNull().NotEmpty()
+                .NotEmpty()
                 .WithMessage("Email не должен быть пустым");
 
             RuleFor(r => r.Password)

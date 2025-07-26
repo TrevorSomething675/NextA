@@ -5,7 +5,7 @@ import GetAllOrdersRequest from "../../../../models/admin/GetAllOrders/GetAllOrd
 import AdminOrderItem from "../AdminOrderItem/AdminOrderItem";
 import GetAllOrdersResponse from "../../../../models/admin/GetAllOrders/GetAllOrdersResponse";
 
-const AdminOrders = () => {
+const AdminOrders = ({ onAddDetailClick }: { onAddDetailClick: (orderId: string) => void }) => {
     const [response, setResponse] = useState({} as GetAllOrdersResponse);
 
     useEffect(() => {
@@ -26,8 +26,11 @@ const AdminOrders = () => {
     }
     return <div>
         {response.data?.items?.map((order) => 
-            <ul>
-                <AdminOrderItem order={order} key={order.id}/>
+            <ul key={order.id}>
+                <AdminOrderItem 
+                    order={order} 
+                    key={order.id}
+                    onAddDetailClick={() => onAddDetailClick(order.id)} />
             </ul>
         )}
     </div>

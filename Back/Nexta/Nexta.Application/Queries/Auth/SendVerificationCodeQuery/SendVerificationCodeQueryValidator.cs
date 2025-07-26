@@ -7,7 +7,8 @@ namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
         public SendVerificationCodeQueryValidator() 
         {
             RuleFor(r => r.Email)
-                .NotEmpty().NotNull()
+                .NotEmpty()
+                .WithMessage("Почта не должна быть пустой")
                 .EmailAddress()
                 .WithMessage("Неверный Email");
         }

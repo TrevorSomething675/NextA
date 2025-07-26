@@ -7,11 +7,11 @@ namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
         public VerifyCodeQueryValidator() 
         {
             RuleFor(r => r.Code)
-                .NotEmpty().NotNull()
+                .NotEmpty()
                 .WithMessage("Пустой код");
 
             RuleFor(r => r.Email)
-                .NotEmpty().NotNull()
+                .NotEmpty()
                 .EmailAddress()
                 .WithMessage("Неверный Email");
 		}

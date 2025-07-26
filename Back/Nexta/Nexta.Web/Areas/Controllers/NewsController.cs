@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Nexta.Application.Commands.Admin.DeleteNewsCommand;
+using Nexta.Application.Commands.Admin.AddNewsCommand;
+using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
 namespace Nexta.Web.Areas.Controllers
 {
+    [Area("Admin")]
+    [Route("admin/[controller]")]
+    [ApiController]
     public class NewsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -12,14 +17,20 @@ namespace Nexta.Web.Areas.Controllers
             _mediator = mediator;
         }
 
-		//public async Task<IResult> Update()
-        //{
-        //
-        //}
-        //
-		//public async Task<IResult> Add()
-		//{
-        //
-		//}
-	}
+        [HttpPost("[action]")]
+        [ProducesResponseType(typeof(AddNewsCommandResponse), StatusCodes.Status200OK)]
+        public async Task<IResult> Add([FromBody] AddNewsCommandRequest request, CancellationToken ct = default)
+		{
+            var response = await _mediator.Send(request, ct);
+            return Results.Ok(response);
+		}
+
+        [HttpPost("[action]")]
+        [ProducesResponseType(typeof(DeleteNewsCommandResponse), StatusCodes.Status200OK)]
+        public async Task<IResult> Delete([FromBody] DeleteNewsCommandRequest request, CancellationToken ct = default)
+        {
+            var response = await _mediator.Send(request, ct);
+            return Results.Ok(response);
+        }
+    }
 }

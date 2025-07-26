@@ -2,7 +2,7 @@ import { Detail } from "../../../shared/entities/Detail";
 import { PagedData } from "../../../shared/models/PagedDataT";
 
 export interface SearchDetailsResponse{
-    details:PagedData<Detail>
+    data:PagedData<Detail>
 }
 
 export interface SearchDetailsRequest {

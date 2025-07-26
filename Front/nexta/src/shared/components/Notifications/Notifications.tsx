@@ -3,7 +3,7 @@ import styles from './Notifications.module.css';
 
 interface WebNotification {
     header:string,
-    body:string,
+    body?:string,
     id?:string,
     duration?:number
 }

@@ -141,7 +141,7 @@ const CodeVerify: React.FC<{ firstStepUser: AuthUser}> = ({ firstStepUser }) => 
 
                 const orderResponse = await OrderService.GetOrdersForUser(ordersRequest);
                 if(orderResponse !== undefined){
-                    orderStore.setOrders(orderResponse?.orders?.items);
+                    orderStore.setOrders(orderResponse?.data.items);
                     orderStore.setTotalOrders(orderResponse?.totalCount);
                 }
                 navigate('/');

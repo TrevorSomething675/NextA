@@ -80,7 +80,7 @@ const Search = () => {
             />
         {inFocus &&
             <div className={styles.autoCompleteSearch}>
-                {response?.details?.items?.map((detail) => 
+                {response?.data?.items?.map((detail) => 
                     <SearchItem key={detail.id} detail={detail}/>
                 )}
                 <hr className={styles.hr}/>
@@ -88,7 +88,7 @@ const Search = () => {
                 <button className={styles.globalSearchBtn} onClick={goToSearchPage}>
                     Расширенный поиск 
                 </button>
-                {(response?.details?.items?.length == 0) && 
+                {(response?.data?.items?.length == 0) && 
                 <div className={styles.redColor}>
                     Ничего не найдено
                 </div>

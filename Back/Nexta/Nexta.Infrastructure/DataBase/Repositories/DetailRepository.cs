@@ -80,11 +80,11 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				var searchTerm = filter.SearchTerm.ToLower();
 
 				var query = context.Details
+					.WithSearchTerm(searchTerm)
 					.Where(d => d.IsVisible || filter.WithHidden)
 					.AsNoTracking();
 
 				var detailEntities = await query
-					.WithSearchTerm(searchTerm)
 					.Skip((filter.PageNumber - 1) * filter.PageSize)
 					.Take(filter.PageSize)
 					.ToListAsync(ct);
@@ -151,7 +151,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				if (detail.Name != null) detailEntity.Name = detail.Name;
 				if (detail.Article != null) detailEntity.Article = detail.Article;
 				if (detail.Description != null) detailEntity.Description = detail.Description;
-				if (detail.Status != detailEntity.Status)detailEntity.Status = detail.Status;
+				if (detail.Status != detailEntity.Status) detailEntity.Status = detail.Status;
 
 				if (!string.IsNullOrEmpty(detail.OrderDate)) detailEntity.OrderDate = DateOnly.Parse(detail.OrderDate);
 				if (!string.IsNullOrEmpty(detail.DeliveryDate)) detailEntity.DeliveryDate = DateOnly.Parse(detail.DeliveryDate);
@@ -163,7 +163,15 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 
 				detailEntity.IsVisible = detail.IsVisible;
 
-				if(detail.ImageId != Guid.Empty) detailEntity.ImageId = detail.ImageId;
+				if (detail.ImageId != Guid.Empty)
+				{
+					detailEntity.ImageId = detail.ImageId;
+				} 
+				else if(detail.Image != null)
+				{
+					var newImage = _mapper.Map<DetailImageEntity>(detail.Image);
+					detailEntity.Image = newImage;
+				}
 
 				await context.SaveChangesAsync(ct);
 

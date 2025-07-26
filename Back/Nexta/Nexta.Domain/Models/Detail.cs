@@ -1,4 +1,5 @@
-﻿using Nexta.Domain.Enums;
+﻿using Nexta.Domain.Models.Images;
+using Nexta.Domain.Enums;
 
 namespace Nexta.Domain.Models
 {
@@ -24,6 +25,6 @@ namespace Nexta.Domain.Models
 		public List<Order>? Orders { get; set; }
 
 		public Guid ImageId { get; set; }
-		public Image? Image { get; set; }
+		public DetailImage? Image { get; set; }
 	}
 }

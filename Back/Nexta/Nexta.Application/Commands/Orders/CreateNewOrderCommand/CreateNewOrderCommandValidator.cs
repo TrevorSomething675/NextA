@@ -7,12 +7,10 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
         public CreateNewOrderCommandValidator() 
         {
             RuleFor(r => r.DetailIds)
-                .NotNull()
                 .NotEmpty()
                 .WithMessage("В корзине нет позиций");
 
 			RuleFor(r => r.UserId)
-                .NotNull()
                 .NotEmpty()
                 .WithMessage("В корзине нет позиций");
         }

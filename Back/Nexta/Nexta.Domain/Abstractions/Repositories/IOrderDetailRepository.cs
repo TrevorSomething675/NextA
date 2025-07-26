@@ -4,7 +4,7 @@ namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface IOrderDetailRepository
     {
-        Task<Guid> CreateOrderDetailAsync(Guid userId, List<Guid> detailIds, CancellationToken ct = default);
+        Task<OrderDetail> AddAsync(OrderDetail orderDetail, CancellationToken ct = default);
         Task AddRangeAsync(List<OrderDetail> orderDetailsToAdd, CancellationToken ct = default);
 
         Task<OrderDetail> UpdateAsync(OrderDetail orderDetailToUpdate, CancellationToken ct = default);

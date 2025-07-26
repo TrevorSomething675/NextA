@@ -30,7 +30,7 @@ const SearchPage = () => {
                 </tr>
             </thead>
             <tbody className={styles.tbody}>
-            {(detailsResponse?.details?.items !== undefined) && (detailsResponse.details.items.map((detail) =>
+            {(detailsResponse?.data?.items !== undefined) && (detailsResponse.data.items.map((detail) =>
                 <DetailItem key={detail.id} detail={detail} />
             ))}
             </tbody>

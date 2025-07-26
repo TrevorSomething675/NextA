@@ -5,10 +5,16 @@ import SearchSvg from "../../../details/svgs/SearchSvg/SearchSvg";
 import styles from './AdminSearch.module.css';
 
 interface GlobalSearchProps {
-    onResponseChange: (response: GetAdminDetailsResponse) => void;
+    onResponseChange: (response: GetAdminDetailsResponse, searchTerm:string) => void;
+    className?:string;
+    onFetchReady?: (fetchData: (query:string, page:number) => void) => void;
 }
 
-export const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({ onResponseChange }) => {
+const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({ 
+        onResponseChange,
+        className,
+        onFetchReady
+    }) => {
     const [isLoading, setLoading] = useState(false);
     const debounceTimeout = useRef<null | number>(null);
     const [response, setResponse] = useState<GetAdminDetailsResponse>({} as GetAdminDetailsResponse);
@@ -26,10 +32,10 @@ export const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({ onResponseChang
         }, 1000);
     };
 
-    const fetchData = async (query: string) => {
+    const fetchData = async (query: string, page: number = 1) => {
         const filter: GetAdminDetailsFilter = {
-            pageNumber: 1,
-            pageSize: 16,
+            pageNumber: page,
+            pageSize: 8,
             searchTerm: query,
             withHidden: true
         };
@@ -40,21 +46,25 @@ export const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({ onResponseChang
             const response = await AdminService.GetAdminDetails(request);
             const newResponse = response;
             setResponse(newResponse);
-            onResponseChange(newResponse);
+            onResponseChange(newResponse, query);
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
         }
         setLoading(false);
     };
 
-    
+    useEffect(() => {
+        if(onFetchReady){
+            onFetchReady(fetchData);
+        }
+    }, []);
+
     useEffect(() => {
         fetchData('');
     }, []);
-    
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${className || ''}`}>
             <button className={styles.searchButton}>
                 <SearchSvg />
             </button>

@@ -6,7 +6,7 @@ export interface GetDetailsRequest{
 }
 
 export interface GetDetailsResponse{
-    details:PagedData<Detail>
+    data:PagedData<Detail>
 }
 
 export interface GetDetailsFilter{

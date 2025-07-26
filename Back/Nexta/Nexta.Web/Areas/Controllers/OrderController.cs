@@ -1,7 +1,8 @@
 ﻿using Nexta.Application.Commands.Admin.DeleteDetailFromOrderCommand;
+using Nexta.Application.Commands.Admin.AddAdminDetailToOrderCommand;
+using Nexta.Application.Commands.Admin.UpdateOrderCommand;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Nexta.Application.Commands.Admin.UpdateOrderCommand;
 
 namespace Nexta.Web.Areas.Controllers
 {
@@ -31,5 +32,13 @@ namespace Nexta.Web.Areas.Controllers
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);
 		}
-	}
+
+        [HttpPost("[action]")]
+        [ProducesResponseType(typeof(AddAdminDetailToOrderCommandResponse), StatusCodes.Status200OK)]
+        public async Task<IResult> Add([FromBody] AddAdminDetailToOrderCommandRequest request, CancellationToken ct = default)
+        {
+            var response = await _mediator.Send(request, ct);
+            return Results.Ok(response);
+        }
+    }
 }

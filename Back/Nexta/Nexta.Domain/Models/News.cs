@@ -1,4 +1,6 @@
-﻿namespace Nexta.Domain.Models
+﻿using Nexta.Domain.Models.Images;
+
+namespace Nexta.Domain.Models
 {
     public class News
     {
@@ -7,6 +9,6 @@
         public string? Description { get; set; }
 
         public Guid? ImageId { get; set; }
-        public Image? Image { get; set; }
+        public NewsImage? Image { get; set; }
     }
 }

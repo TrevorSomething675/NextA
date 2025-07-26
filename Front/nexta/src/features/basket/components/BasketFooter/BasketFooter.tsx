@@ -7,6 +7,7 @@ import styles from './BasketFooter.module.css';
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
 import { CreateNewOrderRequest } from "../../../order/models/CreateNewOrderRequest";
 import authStore from "../../../../stores/AuthStore/authStore";
+import Button from "../../../../shared/components/Button/Button";
 
 const BasketFooter = observer(() => {
     const navigate = useNavigate();
@@ -37,15 +38,7 @@ const BasketFooter = observer(() => {
 
     return (basket?.details !== undefined) && (basket.details.length > 0) && <div className={styles.container}>
         <div className={styles.footerItem}>
-            <button className={styles.button} onClick={handleCreateOrder}>
-                {isLoading ? 
-                    (<img src="/loading2.gif" className={styles.loading}/>)
-                    : 
-                    (<p className={styles.p}>
-                        Оформить заказ
-                    </p>)
-                }
-            </button>
+            <Button content='Оформить заказ' className={styles.button} onClick={handleCreateOrder} isLoading={isLoading} />
         </div>
         <div className={styles.footerPrice}>
             <div className={styles.priceContainer}>Итого: {basket.totalPrice} руб.</div>

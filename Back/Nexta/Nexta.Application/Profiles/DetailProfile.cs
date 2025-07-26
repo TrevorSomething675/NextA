@@ -6,6 +6,7 @@ using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
+using Nexta.Domain.Models.Images;
 
 namespace Nexta.Application.Profiles
 {
@@ -20,6 +21,9 @@ namespace Nexta.Application.Profiles
             CreateMap<UpdateAdminDetailCommandRequest, Detail>()
                 .ForMember(src => src.Status, opt => opt.MapFrom(x => (DetailStatus)x.Status));
             CreateMap<DetailRequest, Detail>();
+            CreateMap<DetailImageRequest, DetailImage>();
+            CreateMap<DetailImage, DetailImageResponse>();
+            CreateMap<DetailImage, AdminDetailImageResponse>();
         }
     }
 }

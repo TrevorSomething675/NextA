@@ -7,6 +7,6 @@ namespace Nexta.Application.Commands.Admin.AddNewsCommand
     {
 		public string? Header { get; set; }
 		public string? Description { get; set; }
-        public ImageRequest? Image { get; init; }
+        public NewsImageRequest? Image { get; init; }
     }
 }

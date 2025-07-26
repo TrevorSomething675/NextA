@@ -9,9 +9,11 @@ namespace Nexta.Web.Middlewares
 	public class ExceptionMiddleware
 	{
 		private readonly RequestDelegate _next;
+		private readonly ILogger<ExceptionMiddleware> _logger;
 	
-		public ExceptionMiddleware(RequestDelegate next)
+		public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
 		{
+			_logger = logger;
 			_next = next;
 		}
 		
@@ -23,6 +25,7 @@ namespace Nexta.Web.Middlewares
 			}
 			catch(Exception ex)
 			{
+				_logger.LogError(ex, "Глобальная ошибка");
 				await HandleExceptionAsync(context, ex);
 			}
 		}

@@ -66,18 +66,19 @@ namespace Nexta.Infrastructure.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ImageId");
+                    b.HasIndex("ImageId")
+                        .IsUnique();
 
                     b.ToTable("Details");
                 });
 
-            modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.ImageEntity", b =>
+            modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.DetailImageEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Bucket")
+                    b.Property<string>("Base64String")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -87,7 +88,7 @@ namespace Nexta.Infrastructure.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Images");
+                    b.ToTable("DetailImages");
                 });
 
             modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.NewsEntity", b =>
@@ -97,11 +98,9 @@ namespace Nexta.Infrastructure.DataBase.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Header")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("ImageId")
@@ -109,9 +108,21 @@ namespace Nexta.Infrastructure.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ImageId");
-
                     b.ToTable("News");
+                });
+
+            modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.NewsImageEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Base64String")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NewsImages");
                 });
 
             modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.OrderDetailEntity", b =>
@@ -214,22 +225,22 @@ namespace Nexta.Infrastructure.DataBase.Migrations
 
             modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.DetailEntity", b =>
                 {
-                    b.HasOne("Nexta.Infrastructure.DataBase.Entities.ImageEntity", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
+                    b.HasOne("Nexta.Infrastructure.DataBase.Entities.DetailImageEntity", "Image")
+                        .WithOne("Detail")
+                        .HasForeignKey("Nexta.Infrastructure.DataBase.Entities.DetailEntity", "ImageId");
 
                     b.Navigation("Image");
                 });
 
-            modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.NewsEntity", b =>
+            modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.NewsImageEntity", b =>
                 {
-                    b.HasOne("Nexta.Infrastructure.DataBase.Entities.ImageEntity", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
+                    b.HasOne("Nexta.Infrastructure.DataBase.Entities.NewsEntity", "News")
+                        .WithOne("Image")
+                        .HasForeignKey("Nexta.Infrastructure.DataBase.Entities.NewsImageEntity", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Image");
+                    b.Navigation("News");
                 });
 
             modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.OrderDetailEntity", b =>
@@ -286,6 +297,18 @@ namespace Nexta.Infrastructure.DataBase.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("UserDetails");
+                });
+
+            modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.DetailImageEntity", b =>
+                {
+                    b.Navigation("Detail")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.NewsEntity", b =>
+                {
+                    b.Navigation("Image")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Nexta.Infrastructure.DataBase.Entities.OrderEntity", b =>

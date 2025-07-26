@@ -7,11 +7,11 @@ namespace Nexta.Application.Commands.Auth.LoginCommand
         public LoginCommandValidator()
         {
             RuleFor(r => r.Email)
-                .NotNull().NotEmpty()
+                .NotEmpty()
                 .WithMessage("Неверная почта");
 
             RuleFor(r => r.Password)
-                .NotNull().NotEmpty()
+                .NotEmpty()
                 .WithMessage("Неверный пароль");
         }
     }

@@ -18,7 +18,7 @@ namespace Nexta.Application.DTO
 		public int OldPrice { get; init; }
 		public bool isVisible { get; init; }
 
-		public ImageResponse? Image { get; init; }
+		public DetailImageResponse? Image { get; init; }
 
 		public List<UserDetailResponse>? UserDetails { get; set; }
 	}

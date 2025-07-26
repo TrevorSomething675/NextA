@@ -5,8 +5,8 @@ import { AdminDetail } from "../../../models/AdminDetail";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UpdateAdminDetailRequest } from "../../../models/UpdateAdminDetailRequest";
 import AdminService from "../../../../../services/AdminService";
-import { AddAdminImageRequest } from "../../../models/AddAdminImageRequest";
 import Image from "../../../../../shared/components/Image/Image";
+import Button from "../../../../../shared/components/Button/Button";
 
 const statusLabels = {
     [DetailStatus.Unknown]: 'Неизвестный статус',
@@ -15,73 +15,77 @@ const statusLabels = {
 };
 
 const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void>}> = ({detail, onUpdate}) => {
-    console.warn(detail);
     const [count, setCount] = useState(1);
     const [isEdit, setIsEdit] = useState(false);
+    const [isVisible, setVisible] = useState<boolean>();
     const { register, handleSubmit, setValue } = useForm<UpdateAdminDetailRequest>();
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     const [detailCount, setdetailCount] = useState<number>(detail.count);
     const [oldPrice, setOldPrice] = useState<number>(detail?.oldPrice || 0);
     const [price, setPrice] = useState<number>(detail.newPrice);
+    const [image, setImage] = useState<string>('');
+    const [initialValues, setInitialValues] = useState({
+        count: detail.count,
+        oldPrice: detail.oldPrice || 0,
+        price: detail.newPrice,
+        image: detail.image?.base64String || '',
+        isVisible: detail.isVisible,
+        name: detail.name,
+        article: detail.article,
+        description: detail.description,
+        status: detail.status
+    });
 
     useEffect(() => {
-        return () => {
-            if (previewImage) {
-                URL.revokeObjectURL(previewImage);
-            }
-        };
-    }, [previewImage]);
+        if(detail){
+            setVisible(detail.isVisible);
+            setInitialValues({
+            count: detail.count,
+            oldPrice: detail.oldPrice || 0,
+            price: detail.newPrice,
+            image: detail.image?.base64String || '',
+            isVisible: detail.isVisible,
+            name: detail.name,
+            article: detail.article,
+            description: detail.description,
+            status: detail.status
+            });
+        }
+        setImage(detail.image?.base64String || '');
+
+    }, [detail, setValue]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if(!file) return;
 
-        setValue('imageName', detail.article);
-        const previewUrl = URL.createObjectURL(file);
-        setPreviewImage(previewUrl);
-
         const reader = new FileReader();
         reader.onload = (event) => {
             if(event.target?.result) {
                 const base64string = event.target.result.toString().split(',')[1];
-                setValue('imageBase64string', base64string);
+                setValue('image.name', file.name);
+                setValue('image.base64string', base64string);
+                setImage(base64string);
             }
         };
         reader.readAsDataURL(file);
     }
-
+    
     const submit: SubmitHandler<UpdateAdminDetailRequest> = async (data:UpdateAdminDetailRequest) => {
         try{
             data.id = detail.id;
-            if(data.imageBase64string !== undefined){
-                const imageRequest:AddAdminImageRequest = {
-                    name: data.article,
-                    bucket: 'details',
-                    base64string: data.imageBase64string
-                }
+            data.isVisible = isVisible ?? false;
 
-                const response = await AdminService.AddImageForDetail(imageRequest);
-                if(response?.imageId){
-                    setValue('imageId', response.imageId);
-                    const updateDetailResponse = await AdminService.UpdateAdminDetail(data);
-                    if(updateDetailResponse.detail){
-                        onUpdate();
-                        setIsEdit(false);
-                    } else {
-                        console.error('Ошибка при изменении детали');
-                    }
-                } else{
-                    console.error('Не удалось добавить деталь');
-                }
+            if (!image) {
+                data.image = undefined;
+            }
+            
+            const updateDetailResponse = await AdminService.UpdateAdminDetail(data);
+            if(updateDetailResponse.detail){
+                onUpdate();
+                setIsEdit(false);
             } else {
-                const updateDetailResponse = await AdminService.UpdateAdminDetail(data);
-                if(updateDetailResponse.detail){
-                    onUpdate();
-                    setIsEdit(false);
-                } else {
-                    console.error('Ошибка при изменении детали');
-                }
+                console.error('Ошибка при изменении детали');
             }
         } catch(error){
             console.warn(error);
@@ -104,6 +108,25 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
     }
 
     const handleRejectBtn = () => {
+        setdetailCount(initialValues.count);
+        setOldPrice(initialValues.oldPrice);
+        setPrice(initialValues.price);
+        setImage(initialValues.image ?? '');
+        setVisible(initialValues.isVisible);
+
+        setValue('name', initialValues.name);
+        setValue('article', initialValues.article);
+        setValue('description', initialValues.description);
+        setValue('status', initialValues.status);
+        setValue('count', initialValues.count);
+        setValue('newPrice', initialValues.price);
+        setValue('oldPrice', initialValues.oldPrice);
+        
+        const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+        if (fileInput) {
+            fileInput.value = '';
+        }
+        
         setIsEdit(false);
     }
 
@@ -132,7 +155,14 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
     }
 
     const handleRemoveImage = () => {
-        setPreviewImage(null);
+        setImage('');
+        setValue('image.name', '');
+        setValue('image.base64string', '');
+
+        const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+        if (fileInput) {
+            fileInput.value = '';
+        }
     }
 
     return <div className={styles.container}>
@@ -141,16 +171,16 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
             <div className={styles.detailPage}>
                 <div className={styles.imageContainer}>
                     <Image
-                        isBase64Image={true} 
-                        base64String={detail?.image?.base64String} 
-                        className={styles.image} 
+                        base64String={image}
+                        isBase64Image={true}
+                        className={styles.image}
                     />
                     <div className={styles.changeImageContainer}>
                         <input 
                             type="file" 
                             onChange={handleFileChange}
                             accept="image/*"
-                            />
+                        />
                         <button className={styles.removeImageBtn} type='button' onClick={handleRemoveImage}>
                             Удалить картинку
                         </button>
@@ -163,7 +193,13 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
                             Название: <input defaultValue={detail.name} className={styles.input} {...register('name')}/>
                         </span>
                         <span className={styles.headerDetailItem}>
-                            Видимый товар? <input type="checkbox" className={styles.checkBox} defaultChecked={detail.isVisible} onChange={() => setValue('isVisible', !detail.isVisible)}/>
+                            Видимый товар? 
+                            <input 
+                                type="checkbox" 
+                                className={styles.checkBox} 
+                                checked={isVisible}
+                                onChange={() => setVisible(!isVisible)} 
+                            />
                         </span>
                     </li>
                     <li>
@@ -240,17 +276,17 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
                 <div className={styles.imageContainer}>
                     <Image
                         isBase64Image={true} 
-                        base64String={detail?.image?.base64String} 
+                        base64String={image} 
                         className={styles.image} 
                     />
                 </div>
-            <div className={styles.detailContainer}>
-                <ul className={styles.ul}>
-                    <li> - {detail.name}</li>
-                    <li> - {detail.description}</li>
-                    <li> - {statusLabels[detail.status]}</li>
-                    <li> - Осталось на складе: {detail.count}</li>
-                </ul>
+                <div className={styles.detailContainer}>
+                    <ul className={styles.ul}>
+                        <li> - {detail.name}</li>
+                        <li> - {detail.description}</li>
+                        <li> - {statusLabels[detail.status]}</li>
+                        <li> - Осталось на складе: {detail.count}</li>
+                    </ul>
                 <div className={styles.detailFooter}>
                     <div className={styles.priceContainer}>
                         <div className={styles.countContainer}>
@@ -267,35 +303,29 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
                                     onChange={handleInputChange}
                                     />
                                 <button type="button" className={styles.up} onClick={increment}>►</button>
-                            </div>
-                            <span className={styles.newPrice}>
-                                {detail.newPrice * count} руб.
-                            </span>
-                            {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
-                                <span className={styles.oldPrice}>
-                                    {detail.oldPrice * count} руб.
+                                </div>
+                                <span className={styles.newPrice}>
+                                    {detail.newPrice * count} руб.
                                 </span>
-                            }
+                                {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
+                                    <span className={styles.oldPrice}>
+                                        {detail.oldPrice * count} руб.
+                                    </span>
+                                }
+                            </div>
+                            <button className={styles.buyButton}>
+                                В корзину
+                            </button>
                         </div>
-                        <button className={styles.buyButton}>
-                            В корзину
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
             )}
             <div className={styles.btnContainer}>
-                <button className={styles.editBtn} type="button" onClick={handleChangeEditStatus}>
-                    Редактировать
-                </button>
+                <Button content='Редактировать' onClick={handleChangeEditStatus} className={styles.editBtn}/>
                 {isEdit && <>
-                    <button className={styles.saveBtn} type="submit" >
-                        Сохранить
-                    </button>
-                    <button className={styles.rejectBtn} type="button" onClick={handleRejectBtn}>
-                        Отменить изменения
-                    </button>
+                    <Button content='Сохранить' className={styles.saveBtn} type='submit' />
+                    <Button content='Отменить изменения' className={styles.rejectBtn} onClick={handleRejectBtn} type='button' />
                 </>}
             </div>
         </form>

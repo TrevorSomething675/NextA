@@ -1,15 +1,20 @@
-using Nexta.Domain.Abstractions.Services;
-using Nexta.Infrastructure.DataBase;
-using Nexta.Application.Services;
-using Nexta.Web.Extensions;
 using System.Reflection;
-using FluentValidation;
-using Nexta.Application;
-using Microsoft.AspNetCore.Http.Json;
 using System.Text.Json.Serialization;
-using Nexta.Web.Middlewares;
-using Nexta.Infrastructure.Services;
+using FluentValidation;
+using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Nexta.Application;
+using Nexta.Application.Services;
+using Nexta.Domain.Abstractions.Services;
+using Nexta.Domain.Options;
+using Nexta.Infrastructure.DataBase;
 using Nexta.Infrastructure.DataBase.Entities;
+using Nexta.Infrastructure.Services;
+using Nexta.Web.Extensions;
+using Nexta.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +22,7 @@ var services = builder.Services;
 
 services.AddAppOptions(builder.Configuration);
 services.AddAppMapper();
-await services.AddAppMinio(builder.Configuration);
+//await services.AddAppMinio(builder.Configuration);
 services.AddAppRepositories();
 services.AddAppAuth(builder.Configuration);
 services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(AssemblyMarker))!));
@@ -37,7 +42,24 @@ services.Configure<JsonOptions>(options =>
 	options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-services.AddDbContextFactory<MainContext>();
+services.AddDbContextFactory<MainContext>((serviceProvider, optionsBuilder) =>
+{
+    var dbOptions = serviceProvider.GetRequiredService<IOptions<DataBaseOptions>>().Value;
+
+    optionsBuilder.UseNpgsql(dbOptions.ConnectionString)
+        .EnableSensitiveDataLogging()
+        .EnableDetailedErrors()
+        .LogTo(
+            Console.WriteLine,
+            new[] {
+                DbLoggerCategory.Database.Command.Name,
+                DbLoggerCategory.Database.Transaction.Name,
+                DbLoggerCategory.Update.Name
+            },
+            LogLevel.Error,
+            DbContextLoggerOptions.DefaultWithLocalTime |
+            DbContextLoggerOptions.SingleLine);
+});
 
 /*
 using (var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
@@ -258,71 +280,6 @@ using(var context = services.BuildServiceProvider().GetRequiredService<MainConte
 	};
 
 	context.OrderDetails.Add(orderDetail1);
-	context.SaveChanges();
-
-	var images = new List<ImageEntity>
-	{
-		new ImageEntity
-		{
-			Name = "news1.jpg",
-			Bucket = "news"
-		},
-		new ImageEntity
-		{
-			Name = "news2.jpg",
-			Bucket = "news"
-		},
-		new ImageEntity
-		{
-			Name = "news3.jpg",
-			Bucket = "news"
-		},
-		new ImageEntity
-		{
-			Name = "hWL_1j5KS8U.jpg",
-			Bucket = "test"
-		}
-	};
-	context.Images.AddRange(images);
-	context.SaveChanges();
-
-	var newsImages = context.Images.Where(i => i.Bucket == "news");
-
-	var news = new List<NewsEntity>
-	{
-		new NewsEntity
-		{
-			Header = "news1",
-			Description = "Description1",
-			Image = images[0],
-		},
-		new NewsEntity
-		{
-			Header = "news2",
-			Description = "Description2",
-			Image = images[1],
-		},
-		new NewsEntity
-		{
-			Header = "news3",
-			Description = "Description3",
-			Image = images[2],
-		},
-		new NewsEntity
-		{
-			Header = "test",
-			Description = "desc",
-			Image = images[3],
-		}
-	};
-	context.News.AddRange(news);
-	context.SaveChanges();
-
-	var detail = context.Details.FirstOrDefault();
-	var image = context.Images.FirstOrDefault();
-
-	detail.Image = image;
-	context.Details.Update(detail);
 	context.SaveChanges();
 }
 */

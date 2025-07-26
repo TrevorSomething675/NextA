@@ -6,11 +6,16 @@ export interface UpdateAdminDetailRequest{
     article:string,
     description:string,
     status:DetailStatus,
-    count:number,
+    count?:number,
     newPrice:number,
     oldPrice?:number,
-    imageId:string,
-    imageName:string,
-    imageBase64string:string,
-    isVisible:boolean
+    isVisible:boolean,
+    imageId?:string,
+    image?: UpdateAdminDetailImageRequest
+}
+
+
+export interface UpdateAdminDetailImageRequest{
+    name:string,
+    base64string:string
 }

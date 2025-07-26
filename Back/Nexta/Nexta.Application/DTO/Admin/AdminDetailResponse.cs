@@ -19,6 +19,6 @@ namespace Nexta.Application.DTO.Admin
 		public bool isVisible { get; init; }
 
 		public Guid ImageId { get; init; }
-		public ImageResponse? Image { get; set; }
+		public AdminDetailImageResponse? Image { get; set; }
 	}
 }

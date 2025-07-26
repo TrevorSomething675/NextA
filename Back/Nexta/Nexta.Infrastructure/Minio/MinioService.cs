@@ -1,15 +1,16 @@
 ﻿using Nexta.Domain.Abstractions.Services;
 using Microsoft.Extensions.Logging;
 using Minio.DataModel.Args;
-using Nexta.Domain.Models;
 using Minio.Exceptions;
 using Minio;
 using Nexta.Infrastructure.Exceptions;
+using Nexta.Domain.Models.BaseModels;
 
 namespace Nexta.Infrastructure.Minio
 {
 	public class MinioService : IMinioService
 	{
+	/*
 		private readonly IMinioClient _minioClient;
 		private readonly ILogger<MinioService> _logger;
 		public MinioService(IMinioClient minioClient, ILogger<MinioService> logger)
@@ -18,7 +19,7 @@ namespace Nexta.Infrastructure.Minio
 			_logger = logger;
 		}
 
-		public async Task<Image> AddFileAsync(string base64String, string fileName, string bucket, CancellationToken ct = default)
+		public async Task<BaseImage> AddFileAsync(string base64String, string fileName, string bucket, CancellationToken ct = default)
 		{
 			try
 			{
@@ -33,9 +34,8 @@ namespace Nexta.Infrastructure.Minio
 						.WithStreamData(stream)
 						.WithObjectSize(bytes.Length));
 
-					return new Image
+					return new BaseImage
 					{
-						Bucket = bucket,
 						Name = fileName,
 					};
 				}
@@ -46,9 +46,9 @@ namespace Nexta.Infrastructure.Minio
 			}
 		}
 
-		public async Task<List<Image>> GetFilesAsync(string bucket, CancellationToken ct = default, params string[] fileNames)
+		public async Task<List<BaseImage>> GetFilesAsync(string bucket, CancellationToken ct = default, params string[] fileNames)
 		{
-			var images = new List<Image>();
+			var images = new List<BaseImage>();
 
 			foreach (var name in fileNames)
 			{
@@ -68,11 +68,10 @@ namespace Nexta.Infrastructure.Minio
 
 						var base64string = Convert.ToBase64String(memoryStream.ToArray());
 
-						images.Add(new Image
+						images.Add(new BaseImage
 						{
 							Name = name,
-							Base64String = base64string,
-							Bucket = bucket
+							Base64String = base64string
 						});
 					}
 				}
@@ -87,5 +86,6 @@ namespace Nexta.Infrastructure.Minio
 			}
 			return images;
 		}
+	*/
 	}
 }
