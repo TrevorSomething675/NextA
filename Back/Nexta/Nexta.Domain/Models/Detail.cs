@@ -24,7 +24,7 @@ namespace Nexta.Domain.Models
 		public List<OrderDetail>? OrderDetails { get; set; }
 		public List<Order>? Orders { get; set; }
 
-		public Guid ImageId { get; set; }
+		public Guid? ImageId { get; set; }
 		public DetailImage? Image { get; set; }
 	}
 }

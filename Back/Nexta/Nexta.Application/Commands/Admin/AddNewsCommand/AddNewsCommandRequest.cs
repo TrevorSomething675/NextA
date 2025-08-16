@@ -1,5 +1,5 @@
-﻿using Nexta.Application.DTO.RequestModels;
-using MediatR;
+﻿using MediatR;
+using Nexta.Application.DTO.Request;
 
 namespace Nexta.Application.Commands.Admin.AddNewsCommand
 {

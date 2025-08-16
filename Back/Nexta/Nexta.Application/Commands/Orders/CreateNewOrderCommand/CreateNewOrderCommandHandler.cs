@@ -44,8 +44,7 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 			await _orderDetailRepository.AddRangeAsync(orderDetails, ct);
 			await _userDetailRepository.DeleteRangeAsync(request.UserId, request.DetailIds, ct);
 
-			var response = _mapper.Map<CreateNewOrderCommandResponse>(order);
-			return response;
+			return new CreateNewOrderCommandResponse(order.Id);
 		}
 	}
 }

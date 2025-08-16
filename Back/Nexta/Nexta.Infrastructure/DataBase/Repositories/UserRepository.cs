@@ -1,8 +1,9 @@
-﻿using Nexta.Infrastructure.DataBase.Entities;
-using Nexta.Domain.Abstractions.Repositories;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Domain.Exceptions;
 using Nexta.Domain.Models;
-using AutoMapper;
+using Nexta.Infrastructure.DataBase.Entities;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -62,5 +63,30 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				return createdUser;
 			}
 		}
-	}
+
+        public async Task<User> UpdateAsync(User user, CancellationToken ct = default)
+        {
+			await using (var context = await _contextFactory.CreateDbContextAsync(ct))
+			{
+				var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Id == user.Id, ct);
+
+				if (userEntity == null)
+					throw new NotFoundException("Пользователь не найден");
+				   
+				if (user.FirstName != null) userEntity.FirstName = user.FirstName;
+				if (user.MiddleName != null) userEntity.MiddleName = user.MiddleName;
+				if (user.LastName != null) userEntity.LastName = user.LastName;
+
+				if (user.Email != null) userEntity.Email = user.Email;
+				if (user.Phone != null) userEntity.Phone = user.Phone;
+
+				if (user.PasswordHash != null) userEntity.PasswordHash = user.PasswordHash;
+
+				context.Users.Update(userEntity);
+				await context.SaveChangesAsync(ct);
+
+				return user;
+            }
+        }
+    }
 }

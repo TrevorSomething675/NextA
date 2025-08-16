@@ -1,11 +1,12 @@
-﻿using Nexta.Application.Commands.Admin.UpdateDetailCommand;
-using Nexta.Application.DTO.RequestModels;
-using Nexta.Domain.Models.DataModels;
+﻿using AutoMapper;
+using Nexta.Application.Commands.Admin.CreateAdminDetailCommand;
+using Nexta.Application.Commands.Admin.UpdateDetailCommand;
 using Nexta.Application.DTO.Admin;
-using Nexta.Application.DTO;
-using Nexta.Domain.Models;
+using Nexta.Application.DTO.Request;
+using Nexta.Application.DTO.Response;
 using Nexta.Domain.Enums;
-using AutoMapper;
+using Nexta.Domain.Models;
+using Nexta.Domain.Models.DataModels;
 using Nexta.Domain.Models.Images;
 
 namespace Nexta.Application.Profiles
@@ -24,6 +25,7 @@ namespace Nexta.Application.Profiles
             CreateMap<DetailImageRequest, DetailImage>();
             CreateMap<DetailImage, DetailImageResponse>();
             CreateMap<DetailImage, AdminDetailImageResponse>();
+            CreateMap<CreateAdminDetailCommandRequest, Detail>();
         }
     }
 }

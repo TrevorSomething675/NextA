@@ -1,11 +1,11 @@
 import { User } from "../../../shared/entities/User"
 
 export interface IsAuthRequest{
-    userId:string,
+    email:string
     role:string
 }
 
 export interface IsAuthResponse{
-    user:User,
+    user:User
     accessToken:string
 }

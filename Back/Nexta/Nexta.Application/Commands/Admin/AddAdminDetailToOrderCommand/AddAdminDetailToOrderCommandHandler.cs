@@ -1,10 +1,10 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Exceptions;
-using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Commands.Admin.AddAdminDetailToOrderCommand
 {

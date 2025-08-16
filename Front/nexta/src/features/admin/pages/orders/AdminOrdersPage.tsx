@@ -1,36 +1,20 @@
 import { useState } from 'react';
-import { AdminAddDetailToOrderRightBar } from '../../components/AdminAddDetailToOrderRightBar/AdminAddDetailToOrderRightBar';
 import AdminOrders from '../../components/AdminOrders/AdminOrders';
+import { AdminOrderSearch } from '../../components/AdminOrderSearch/AdminOrderSearch';
 import styles from './AdminOrdersPage.module.css';
-import { Detail } from '../../../../shared/entities/Detail';
+import GetAllOrdersResponse from '../../../../models/admin/GetAllOrders/GetAllOrdersResponse';
 
 const AdminOrdersPage = () => {
-    const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
-    const [showDetailPanel, setShowDetailPanel] = useState(false);
+    const [ordersResponse, setOrdersResponse] = useState({} as GetAllOrdersResponse);
 
-    const handleOnAddToOrder = (detail:Detail, count:number) => {
-        
-        detail.count = count;
-        console.warn(detail);
-        console.error(selectedOrderId);
+    const handleOrdersResponse = (ordersResponse:GetAllOrdersResponse) => {
+        setOrdersResponse(ordersResponse);
     }
 
     return (
         <div className={styles.container}>
-            <AdminOrders 
-                    onAddDetailClick={(orderId) => {
-                    setSelectedOrderId(orderId);
-                    setShowDetailPanel(true);
-                }}/>
-            {showDetailPanel && selectedOrderId && (
-                <div className={styles.details}>
-                    <AdminAddDetailToOrderRightBar
-                        orderId={selectedOrderId}
-                        onClose={() => setShowDetailPanel(false)}
-                        onAddToOrder={handleOnAddToOrder}
-                    />
-                </div>
-            )}
+            <AdminOrderSearch onResponseChange={handleOrdersResponse} />
+            <AdminOrders response={ordersResponse} />
         </div>
     );
 }

@@ -9,19 +9,19 @@ import { Detail } from '../../../../shared/entities/Detail';
 
 interface AdminAddDetailToOrderRightBarProps {
     orderId: string;
-    onClose: () => void;
-    onAddToOrder: (detail: Detail, count: number) => void;
+    onClose?: () => void;
+    onAddDetail: (detail: Detail, count: number) => void;
 }
 
-export const AdminAddDetailToOrderRightBar: React.FC<AdminAddDetailToOrderRightBarProps> = ({ orderId, onClose, onAddToOrder }) => {
+export const AdminAddDetailToOrderRightBar: React.FC<AdminAddDetailToOrderRightBarProps> = ({ orderId, onClose, onAddDetail }) => {
 
     const [detailsResponse, setDetailsResponse] = useState({} as GetAdminDetailsResponse);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [fetchData, setFetchData] = useState<(query: string, page: number) => void>();
 
-    const handleAddPrevDetail = (detail:Detail, count:number) =>{
-        onAddToOrder(detail, count);
+    const handleAddPrevDetail = (detail:Detail, count:number) => {
+        onAddDetail(detail, count);
     }
 
     const handleResponseChange = (response: GetAdminDetailsResponse, term: string) => {

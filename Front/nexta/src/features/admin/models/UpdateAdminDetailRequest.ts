@@ -16,6 +16,7 @@ export interface UpdateAdminDetailRequest{
 
 
 export interface UpdateAdminDetailImageRequest{
+    id:string,
     name:string,
     base64string:string
 }

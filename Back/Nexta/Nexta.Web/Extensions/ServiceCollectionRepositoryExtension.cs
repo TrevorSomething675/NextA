@@ -14,7 +14,8 @@ namespace Nexta.Web.Extensions
 				.AddScoped<IOrderRepository, OrderRepository>()
 				.AddScoped<IOrderDetailRepository, OrderDetailRepository>()
 				.AddScoped<INewsImageRepository, NewsImageRepository>()
-				.AddScoped<INewsRepository, NewsRepository>();
+				.AddScoped<INewsRepository, NewsRepository>()
+				.AddScoped<IDetailImageRepository, DetailImageRepository>();
 
 			return services;
 		}

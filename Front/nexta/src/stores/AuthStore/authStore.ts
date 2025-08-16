@@ -1,12 +1,12 @@
 import { AuthUser } from "./models/AuthUser";
-import { makeAutoObservable, toJS } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 class AuthStore {
     user:AuthUser = {} as AuthUser
     isAuthenticated:boolean = false
     error:string = ''
     readyToAuth:boolean = false
-    isAdmin = true
+    isAdmin = false
 
     constructor(){
         makeAutoObservable(this);
@@ -16,8 +16,12 @@ class AuthStore {
     logout = () => {
         this.isAuthenticated = false;
         this.user = {} as AuthUser;
+        this.isAdmin = false;
     }
 
+    setAdminStatus = (isAdmin:boolean) => {
+        this.isAdmin = isAdmin;
+    }
     firstStepAuthenticate = (user: AuthUser) => {
         try{
             this.user = user;
@@ -43,6 +47,9 @@ class AuthStore {
             this.user = user;
             this.isAuthenticated = true;
             this.readyToAuth = false;
+            this.user.role = user.role
+            this.setRole(user.role ?? 'User');
+            this.isAdmin = user.role === 'Admin';
         }
         catch(error){
             if(error instanceof Error){
@@ -54,6 +61,10 @@ class AuthStore {
         }
     }
 
+    private setRole = (role:string) => {
+        localStorage.setItem('role', role);
+    }
+
     private initialize = () => {
         const user = {
             id: localStorage.getItem('userId'),
@@ -62,10 +73,12 @@ class AuthStore {
             lastName: localStorage.getItem('lastName'),
             middleName: localStorage.getItem('middleName'),
             phone: localStorage.getItem('phone'),
-            accessToken: localStorage.getItem('accessToken')
+            accessToken: localStorage.getItem('accessToken'),
+            role: localStorage.getItem('role')
         } as AuthUser
 
         this.isAuthenticated = localStorage.getItem('isAuth')?.toLowerCase() === "true" ? true : false
+        this.isAdmin = localStorage.getItem('role') === 'Admin';
         this.user = user;
     }
 

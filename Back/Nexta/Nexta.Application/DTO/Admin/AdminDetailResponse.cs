@@ -18,7 +18,7 @@ namespace Nexta.Application.DTO.Admin
 		public int OldPrice { get; init; }
 		public bool isVisible { get; init; }
 
-		public Guid ImageId { get; init; }
+		public Guid? ImageId { get; init; }
 		public AdminDetailImageResponse? Image { get; set; }
 	}
 }

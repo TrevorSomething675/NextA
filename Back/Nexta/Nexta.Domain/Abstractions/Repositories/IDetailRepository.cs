@@ -14,5 +14,6 @@ namespace Nexta.Domain.Abstractions.Repositories
         Task<List<Detail>> GetRangeAsync(List<Guid> detailIds, CancellationToken ct = default);
 
         Task<Detail> UpdateAsync(Detail detail, CancellationToken ct = default);
+        Task<Guid> CreateAsync(Detail detail, CancellationToken ct = default);
     }
 }

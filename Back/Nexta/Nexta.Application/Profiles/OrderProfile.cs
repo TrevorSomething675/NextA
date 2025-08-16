@@ -1,8 +1,8 @@
 ﻿using Nexta.Domain.Models.DataModels;
-using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using AutoMapper;
 using Nexta.Application.Commands.Admin.UpdateOrderCommand;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Profiles
 {

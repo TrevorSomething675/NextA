@@ -1,7 +1,7 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.News.GetNewsQuery
 {

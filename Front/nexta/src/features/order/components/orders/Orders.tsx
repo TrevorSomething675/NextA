@@ -5,7 +5,7 @@ import { GetOrdersForUserFilter, GetOrdersForUserRequest, GetOrdersForUserRespon
 import Pagging from '../../../../shared/components/Pagging/Pagging';
 import OrderItem from '../orderItem/OrderItem';
 import authStore from '../../../../stores/AuthStore/authStore';
-
+import styles from './Orders.module.css';
 
 const Orders = observer(() => {
     const [response, setResponse] = useState<GetOrdersForUserResponse>({} as GetOrdersForUserResponse);
@@ -44,12 +44,14 @@ const Orders = observer(() => {
     }
     
     return <div>
-        {(response?.data?.items !== undefined) ? (
+        {(response?.data?.items !== undefined && response?.data?.items.length > 0) ? (
             <ul>
                 {response?.data?.items.map((order) => <OrderItem key={order.id} order={order} />)}
             </ul>
             ) : (
-                <h2>Заказов нет</h2>
+                <div className={styles.noOrders}>
+                    У вас пока нет заказов. 
+                </div>
             )}
         {response?.data !== undefined && <Pagging pageCount={response.data.pageCount} onPageNumberChange={handlePageNumberChange}/>}
     </div>

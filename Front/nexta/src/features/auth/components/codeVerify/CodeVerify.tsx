@@ -105,11 +105,12 @@ const CodeVerify: React.FC<{ firstStepUser: AuthUser}> = ({ firstStepUser }) => 
 
     const submit: SubmitHandler<CodeInputs> = async (data) => {
         const code = data.code.join('');
+        const existRole = localStorage.getItem('role');
 
         const request: VerifyCodeRequest = {
             email: firstStepUser.email!,
             code: code,
-            role: 'User'
+            role: existRole ?? 'User'
         };
         setLoading(true);
         try {

@@ -1,11 +1,11 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
-using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;
 using FluentValidation;
 using Nexta.Domain.Exceptions;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Commands.Admin.AddNewsCommand
 {

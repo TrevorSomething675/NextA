@@ -24,10 +24,15 @@ import AdminOrdersPage from "./features/admin/pages/orders/AdminOrdersPage"
 import AdminDetailsPage from "./features/admin/pages/details/AdminDetailsPage"
 import AdminNewsPage from "./features/admin/pages/news/AdminNewsPage"
 import AdminDetailPage from "./features/admin/pages/detail/AdminDetailPage"
+import { ErrorPage } from "./features/error/pages/ErrorPage"
+import { ProtectedAdminRoute } from "./http/ProtectedAdminRoute"
+import { AuthService } from "./features/auth/services/AuthService"
 
 const App = () => {
   useEffect(() => {
     const fetchData = async() => {
+        await AuthService.isAuth();
+
         const filter:GetBasketDetailsFilter = {
             pageNumber: 1,
             userId: AuthStore.user.id ?? ''
@@ -68,6 +73,7 @@ const App = () => {
           <Header />
           <div className='page-body'>
             <Routes>
+              <Route path="/Error" element={<ErrorPage />} />
               <Route path="*" element={<HomePage />} />
               <Route path="Auth" element={<AuthPage />} />
               <Route path="Basket" element={<BasketPage />} />
@@ -75,10 +81,26 @@ const App = () => {
               <Route path="Detail/:id" element={<DetailPage />} />
               <Route path="Account" element={<AccountPage />} />
               <Route path="Order" element={<OrderPage />} />
-              <Route path="Admin/Orders" element={<AdminOrdersPage />} />
-              <Route path="Admin/Details" element={<AdminDetailsPage />} />
-              <Route path="Admin/News" element={<AdminNewsPage />} />
-              <Route path="Admin/Detail/:id" element={<AdminDetailPage />} />
+              <Route path="Admin/Orders" element={
+                <ProtectedAdminRoute>
+                  <AdminOrdersPage />
+                </ProtectedAdminRoute>
+              } />
+              <Route path="Admin/Details" element={
+                <ProtectedAdminRoute>
+                  <AdminDetailsPage />
+                </ProtectedAdminRoute>
+              } />
+              <Route path="Admin/News" element={
+                <ProtectedAdminRoute>
+                  <AdminNewsPage />
+                </ProtectedAdminRoute>
+              } />
+              <Route path="Admin/Detail/:id" element={
+                <ProtectedAdminRoute>
+                  <AdminDetailPage />
+                </ProtectedAdminRoute>
+              } />
             </Routes>
           </div>
           <Footer />

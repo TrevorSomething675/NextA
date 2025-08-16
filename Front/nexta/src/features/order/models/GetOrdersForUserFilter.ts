@@ -3,8 +3,8 @@ import { PagedData } from "../../../shared/models/PagedDataT"
 
 export interface GetOrdersForUserFilter{
     userId:string,
-    pageSize:number,
-    pageNumber:number
+    pageSize?:number,
+    pageNumber?:number
 }
 
 export interface GetOrdersForUserRequest{

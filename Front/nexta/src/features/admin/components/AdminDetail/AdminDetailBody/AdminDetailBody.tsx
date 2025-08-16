@@ -75,6 +75,7 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
         try{
             data.id = detail.id;
             data.isVisible = isVisible ?? false;
+            data.imageId = detail.image?.id;
 
             if (!image) {
                 data.image = undefined;

@@ -1,16 +1,36 @@
+import { useEffect, useState } from 'react';
+import NewsService from '../../../../services/NewsService';
 import AdminNews from '../../components/AdminNews/AdminNews';
 import CreateNews from '../../components/CreateNews/CreateNews';
 import styles from './AdminNewsPage.module.css';
+import { GetNewsResponse } from '../../../news/models/NewsResponse';
 
 const AdminNewsPage = () => {
-    return <div className={styles.container}>
-        <h2 className={styles.h2}>Новости</h2>
-        <div className={styles.newsSlider}>
-            <AdminNews />
-        </div>
+    const [newsResponse, setNewsResponse] = useState({} as GetNewsResponse);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const fetchData = async () => {
+        const news = await NewsService.GetNews();
+        setNewsResponse(news);
+        setIsLoading(false);
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    return <div>
         <h2 className={styles.h2}>Создать новость</h2>
-        <div className={styles.createNewsContainer}>
-            <CreateNews />
+        <div>
+            <CreateNews fetchData={fetchData} />
+        </div>
+        <h2 className={styles.h2}>Новости</h2>
+        <div>
+            <AdminNews
+                newsResponse={newsResponse}
+                isLoading={isLoading}
+                fetchData={fetchData}
+            />
         </div>
     </div>
 }

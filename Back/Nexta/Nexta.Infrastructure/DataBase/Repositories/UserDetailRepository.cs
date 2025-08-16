@@ -53,7 +53,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				var userDetailToDelete = context.UserDetails.Remove(userDetailEntity);
 				await context.SaveChangesAsync(ct);
 
-				var userDetail = _mapper.Map<UserDetail>(userDetailToDelete);
+				var userDetail = _mapper.Map<UserDetail>(userDetailToDelete.Entity);
 
 				return userDetail;
 			}

@@ -2,7 +2,7 @@
 using AutoMapper;
 using MediatR;
 using Nexta.Domain.Models.DataModels;
-using Nexta.Application.DTO;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {

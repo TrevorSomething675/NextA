@@ -1,12 +1,12 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
 using Nexta.Domain.Exceptions;
-using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Commands.Auth.RegistrationCommand
 {
@@ -56,7 +56,7 @@ namespace Nexta.Application.Commands.Auth.RegistrationCommand
 				Email = user.Email,
 				Phone = user.Phone,
 				PasswordHash = passwordHash,
-				Role = Role.User
+				Role = "User"
 			};
 
 			return userToCreate;

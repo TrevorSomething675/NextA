@@ -9,18 +9,20 @@ import Button from "../../../../shared/components/Button/Button";
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
 import RightArrowSvg from "../../../../shared/svgs/RightArrowSvg/RightArrowSvg";
 import { Detail } from "../../../../shared/entities/Detail";
+import { AdminAddDetailToOrderRightBar } from "../AdminAddDetailToOrderRightBar/AdminAddDetailToOrderRightBar";
 
-const AdminOrderItem: React.FC<{ order: Order, onAddDetailClick: () => void }> = ({ order: initialOrder, onAddDetailClick }) => {
+const AdminOrderItem: React.FC<{ order: Order}> = ({ order: initialOrder}) => {
     const [order, setOrder] = useState<Order>(initialOrder);
     const [originalOrder, setOriginalOrder] = useState<Order>(initialOrder);
     const [isDeleted, setIsDeleted] = useState(false);
     const { addNotification } = useNotifications();
     const navigate = useNavigate();
+    const [isActiveRightBar, setActiveRightBar] = useState(false);
 
     const getColorForStatus = (status: any) => {
         switch (status) {
             case OrderStatus.Accepted:
-                return '#1e7309';
+                return '#1c6cb8';
             case OrderStatus.InProgress:
                 return '#ed7e00';
             case OrderStatus.Canceled:
@@ -35,11 +37,58 @@ const AdminOrderItem: React.FC<{ order: Order, onAddDetailClick: () => void }> =
         }
     }
 
+    const handleAddNewDetail = (detail: Detail, count: number) => {
+    if (!detail || count < 1) return;
+    
+    setOrder(prevOrder => {
+        const currentDetails = prevOrder.details || [];
+        const currentOrderDetails = prevOrder.orderDetails || [];
+        
+        const existingDetailIndex = currentDetails.findIndex(d => d.id === detail.id);
+        
+        if (existingDetailIndex >= 0) {
+            const updatedOrderDetails = currentOrderDetails.map(od => 
+                od.detailId === detail.id 
+                    ? { ...od, count: (od.count || 0) + count } 
+                    : od
+            );
+            
+            return {
+                ...prevOrder,
+                orderDetails: updatedOrderDetails,
+                details: currentDetails.map(d => 
+                    d.id === detail.id 
+                        ? { ...d, count: (d.count || 0) + count } 
+                        : d
+                )
+            };
+        } else {
+            const newOrderDetail = {
+                detailId: detail.id,
+                count: count,
+                order: prevOrder,
+                orderId: prevOrder.id,
+                detail: { ...detail, count: count }
+            };
+            
+            return {
+                ...prevOrder,
+                orderDetails: [...currentOrderDetails, newOrderDetail],
+                details: [...currentDetails, { ...detail, count: count }]
+            };
+        }
+    });
+};
+
     const handleChangeSelectStatus = (status: number) => {
         setOrder(prevOrder => ({
             ...prevOrder,
             status: status
         }));
+    }
+
+    const handleCloseRightBar = () =>{
+        setActiveRightBar(false);
     }
 
     const handleDeleteOrder = async () => {
@@ -52,8 +101,8 @@ const AdminOrderItem: React.FC<{ order: Order, onAddDetailClick: () => void }> =
     const handleDeleteDetailFromOrder = async (detailId: string) => {
         setOrder(prevOrder => ({
             ...prevOrder,
-            orderDetails: prevOrder.orderDetails.filter(d => d.detailId !== detailId),
-            details: prevOrder.details.filter(d => d.id !== detailId)
+            orderDetails: prevOrder?.orderDetails?.filter(d => d?.detailId !== detailId),
+            details: prevOrder?.details?.filter(d => d.id !== detailId) ?? []
         }));
     }
 
@@ -63,7 +112,7 @@ const AdminOrderItem: React.FC<{ order: Order, onAddDetailClick: () => void }> =
         setOrder(prevOrder => ({
             ...prevOrder,
             orderDetails: prevOrder.orderDetails.map(od => 
-                od.detailId === detailId 
+                od.detailId === detailId
                     ? { ...od, count: newCount } 
                     : od
             )
@@ -91,7 +140,6 @@ const AdminOrderItem: React.FC<{ order: Order, onAddDetailClick: () => void }> =
                 })),
                 status: order.status
             };
-            console.warn(request);
             const response = await AdminOrderService.UpdateOrder(request);
             if (response) {
                 setOriginalOrder({ ...order });
@@ -110,6 +158,11 @@ const AdminOrderItem: React.FC<{ order: Order, onAddDetailClick: () => void }> =
 
     return (
         <li className={styles.li}>
+            {isActiveRightBar && <AdminAddDetailToOrderRightBar 
+                orderId={order.id} 
+                onClose={handleCloseRightBar} 
+                onAddDetail={handleAddNewDetail}
+            />}
             <div className={styles.orderHeader}>
                 <div className={styles.userContainer}>
                     <div className={styles.userItem}>
@@ -192,7 +245,7 @@ const AdminOrderItem: React.FC<{ order: Order, onAddDetailClick: () => void }> =
                         <td>
                             <button 
                                 className={styles.addDetailBtn}
-                                onClick={onAddDetailClick}>
+                                    onClick={() => setActiveRightBar(true)}>
                                 Добавить детель 
                                 <RightArrowSvg />
                             </button>
@@ -221,7 +274,7 @@ const AdminOrderItem: React.FC<{ order: Order, onAddDetailClick: () => void }> =
                     <span className={styles.totalSum}>
                         {(order.orderDetails.reduce((total, orderDetail) => total + (orderDetail.count * orderDetail.detail.newPrice), 0))} руб.
                     </span>
-                    <span>Статус: </span>
+                    <span>Статус заказа: </span>
                     <select
                         value={order.status}
                         className={styles.select}

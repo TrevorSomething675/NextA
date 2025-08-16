@@ -1,10 +1,10 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
 using Nexta.Domain.Exceptions;
-using Nexta.Application.DTO;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
 {
@@ -39,7 +39,7 @@ namespace Nexta.Application.Queries.Auth.VerifyCodeQuery
             if (user == null)
                 throw new BadRequestException("Неверный пользователь");
 
-            var accessToken = _jwtTokenService.CreateAccessToken(user.Email!, user.Role.ToString());
+            var accessToken = _jwtTokenService.CreateAccessToken(user.Email!, user.Role);
 
             return new VerifyCodeQueryResponse(user, accessToken);
         }

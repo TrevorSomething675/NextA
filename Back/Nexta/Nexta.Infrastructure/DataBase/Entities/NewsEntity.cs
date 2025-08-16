@@ -5,7 +5,6 @@
 		public string? Header { get; set; }
 		public string? Description { get; set; }
 
-		public Guid ImageId { get; set; }
 		public NewsImageEntity Image { get; set; }
 	}
 }

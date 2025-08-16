@@ -5,6 +5,7 @@ using Nexta.Application.Commands.Auth.LoginCommand;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Nexta.Application.Commands.Account.ChangePasswordCommand;
 
 namespace Nexta.Web.Controllers
 {
@@ -32,8 +33,8 @@ namespace Nexta.Web.Controllers
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);
 		}
-		
-		[HttpPost("[action]")]
+
+        [HttpPost("[action]")]
 		[ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
 		public async Task<IResult> IsRegisterUser([FromBody] IsRegisteredQueryRequest request, CancellationToken ct = default)
 		{

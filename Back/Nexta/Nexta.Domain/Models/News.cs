@@ -8,7 +8,6 @@ namespace Nexta.Domain.Models
         public string? Header { get; set; }
         public string? Description { get; set; }
 
-        public Guid? ImageId { get; set; }
         public NewsImage? Image { get; set; }
     }
 }

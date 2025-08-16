@@ -81,7 +81,6 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 
 				if (news.Header != null) existingNews.Header = news.Header;
 				if (news.Description != null) existingNews.Description = news.Description;
-				if (news.ImageId != null) existingNews.ImageId = news.ImageId.Value;
 
 				context.News.Update(existingNews);
 				await context.SaveChangesAsync(ct);

@@ -8,6 +8,8 @@ import { useNotifications } from "../../../../shared/components/Notifications/No
 import { CreateNewOrderRequest } from "../../../order/models/CreateNewOrderRequest";
 import authStore from "../../../../stores/AuthStore/authStore";
 import Button from "../../../../shared/components/Button/Button";
+import { GetOrdersForUserFilter } from "../../../order/models/GetOrdersForUserFilter";
+import orderStore from "../../../../stores/orderStore";
 
 const BasketFooter = observer(() => {
     const navigate = useNavigate();
@@ -27,10 +29,20 @@ const BasketFooter = observer(() => {
         const response = await OrderService.CreateNewOrder(request);
         if(response){
             basket.clear();
+            const userId = localStorage.getItem('userId') ?? '';     
+            const filter: GetOrdersForUserFilter = {
+                userId: userId,
+            }
+            const request = {
+                filter: filter
+            }
+            const ordersResponse = await OrderService.GetOrdersForUser(request);
+            orderStore.setTotalOrders(ordersResponse?.totalCount);
+
             navigate('/Order');
             addNotification({
                 header: 'Заказ сформирован',
-                body: `Ваш заказ [${response.order.id}] был успешно сформирован. Скоро с вами свяжется оператор.`
+                body: `Ваш заказ [${response.id}] был успешно сформирован. Скоро с вами свяжется оператор.`
             })
         }
         setLoading(false);

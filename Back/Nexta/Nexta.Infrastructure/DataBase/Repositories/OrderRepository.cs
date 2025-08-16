@@ -6,6 +6,7 @@ using Nexta.Domain.Models;
 using AutoMapper;
 using Nexta.Infrastructure.DataBase.Entities;
 using Nexta.Domain.Exceptions;
+using Nexta.Infrastructure.Extensions;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -66,8 +67,11 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 		{
 			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
+				var searchTerm = filter.SearchTerm.ToLower();
+
 				var query = context.Orders
 					.AsNoTracking()
+					.WithSearchTerm(searchTerm)
 					.Include(o => o.User)
 					.Where(o => filter.Statuses.Contains(o.Status));
 

@@ -1,13 +1,16 @@
 ﻿using Nexta.Application.Commands.Admin.UpdateDetailCommand;
 using Nexta.Application.Queries.Admin.GetDetailsQuery;
 using Nexta.Application.Queries.Admin.GetDetailQuery;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Nexta.Application.Commands.Admin.CreateAdminDetailCommand;
 
 namespace Nexta.Web.Areas.Controllers
 {
 	[Area("Admin")]
-	[Route("admin/[controller]")]
+    [Authorize(Roles = "Admin")]
+    [Route("admin/[controller]")]
 	[ApiController]
     public class DetailController : ControllerBase
 	{
@@ -39,5 +42,13 @@ namespace Nexta.Web.Areas.Controllers
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);
 		}
-	}
+
+        [HttpPost("[action]")]
+        [ProducesResponseType(typeof(CreateAdminDetailCommandResponse), StatusCodes.Status200OK)]
+        public async Task<IResult> Add([FromBody] CreateAdminDetailCommandRequest request, CancellationToken ct = default)
+        {
+            var response = await _mediator.Send(request, ct);
+            return Results.Ok(response);
+        }
+    }
 }

@@ -2,6 +2,13 @@ import { useState } from "react";
 import { Detail, DetailStatus } from "../../../../shared/entities/Detail";
 import styles from './DetailBody.module.css';
 import Image from "../../../../shared/components/Image/Image";
+import BasketService from "../../../basket/services/BasketService";
+import { AddBasketDetailRequest } from "../../../basket/models/AddBasketDetail";
+import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
+import basket from "../../../../stores/basket";
+import { GetBasketDetailsFilter, GetBasketDetailsRequest } from "../../../basket/models/GetBasketDetails";
+import authStore from "../../../../stores/AuthStore/authStore";
+import { ViewAlreadyExistDetailInBasket } from "../../../../shared/components/ViewAlreadyExistDetailInBasket/ViewAlreadyExistDetailInBasket";
 
 const statusLabels = {
     [DetailStatus.Unknown]: 'Неизвестный статус',
@@ -11,6 +18,8 @@ const statusLabels = {
 
 const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
     const [count, setCount] = useState(1);
+    const { addNotification } = useNotifications();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const increment = () => {
         setCount(count => count + 1);
@@ -20,6 +29,38 @@ const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
         setCount(count => Math.max(1, count - 1));
     };
     
+    const handleAddToBasket = async () => {
+        const userId = localStorage.getItem('userId') ?? '';
+        const detailId = detail.id;
+        const countToPay = count;
+
+        const request: AddBasketDetailRequest = {
+            userId: userId,
+            detailId: detailId,
+            countToPay: countToPay
+        };
+
+        const result = await BasketService.AddBasketDetail(request);
+        if (result.success && result.status === 200) {
+            const filter: GetBasketDetailsFilter = {
+                pageNumber: 1,
+                userId: authStore?.user?.id ?? ''
+            };
+            const getBasketDetailsRequest: GetBasketDetailsRequest = {
+                filter: filter
+            };
+            const basketResult = await BasketService.GetBasketDetails(getBasketDetailsRequest);
+            basket.setBasketDetails(basketResult.details);
+
+            addNotification({
+                header: 'Деталь успешно добавлена в корзину'
+            });
+        } 
+        else if (!result.success && result.status === 409) {
+            setIsModalOpen(true);
+        }
+    };
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
         
@@ -67,12 +108,20 @@ const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
                             </span>
                         }
                     </div>
-                    <button className={styles.buyButton}>
+                    <button className={styles.buyButton} onClick={handleAddToBasket}>
                         В корзину
                     </button>
                 </div>
             </div>
         </div>
+        <div className={styles.rightBar}>
+            <ViewAlreadyExistDetailInBasket
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                detail={detail}
+            />
+        </div>
+        {isModalOpen && <div className={styles.overlay} />}
     </div>
 }
 

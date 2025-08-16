@@ -6,6 +6,9 @@ import { RegistrationRequest, RegistrationResponse } from "../models/registratio
 import { IsRegisteredUserResponse } from "../models/isRegister";
 import { IsAuthRequest, IsAuthResponse } from "../models/isAuth";
 import { VerifyCodeRequest } from "../models/verifyCode";
+import { ChangePasswordRequest } from "../models/changePassword";
+import { ConfirmPhoneFormRequest, ConfirmPhoneFormResponse } from "../../account/models/ConfirmPhoneForm";
+import { ApiResponse } from "../../../http/BaseResponse";
 
 export class AuthService{
     private static readonly AUTH_ENPOINTS = {
@@ -14,7 +17,53 @@ export class AuthService{
         CHECKAUTH: 'Auth/IsAuth',
         CHECKREGISTER: 'Auth/IsRegisterUser',
         SENDVERIFICATIONCODE: 'Code/SendVerificationCode',
-        VERIFYCODE: 'Code/VerifyCode'
+        VERIFYCODE: 'Code/VerifyCode',
+        CHANGEPASSWORD: 'Account/ChangePassword',
+        CHANGEPHONE: 'Account/ConfirmPhone'
+    }
+
+    static async confirmPhone(data: ConfirmPhoneFormRequest): Promise<ApiResponse<ConfirmPhoneFormResponse, ErrorResponseModel>> {
+        try{
+            const formData = this.prepareFormData({
+                email: data.email,
+                phone: data.phone
+            });
+            const response = await api.post<ConfirmPhoneFormResponse>(this.AUTH_ENPOINTS.CHANGEPHONE, formData);
+
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            };
+        }
+        catch(error) {
+            if(axios.isAxiosError(error) && error.response) {
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            }
+            throw new Error('Сетевая ошибка или ошибка конфигурации');
+        }
+    }
+
+    static async changePassword(data: ChangePasswordRequest): Promise<void> {
+        try {
+            const formData = this.prepareFormData({
+                userId: data.userId,
+                email: data.email,
+                legacyPassword: data.legacyPassword,
+                password: data.password,
+                confirmPassword: data.confirmPassword
+            });
+
+            const response = await api.post<void>(this.AUTH_ENPOINTS.CHANGEPASSWORD, formData);
+            return response.data;
+        }
+        catch(error) {
+            this.handleError(error);
+        }
     }
 
     static async register(data:RegistrationRequest) : Promise<RegistrationResponse>{
@@ -30,7 +79,7 @@ export class AuthService{
 
             const response = await api.post<RegistrationResponse>(this.AUTH_ENPOINTS.REGISTER, formData);
             
-            if(response.status === 200){
+            if(response.status === 200) {
                 localStorage.setItem('userId', response.data.user.id ?? '');
                 localStorage.setItem('email', response.data.user.email ?? '');
                 localStorage.setItem('firstName', response.data.user.firstName ?? '');
@@ -42,7 +91,7 @@ export class AuthService{
 
             return response.data;
         }
-        catch(error){
+        catch(error) {
             this.handleError(error);
         }
     }
@@ -56,6 +105,7 @@ export class AuthService{
         localStorage.removeItem('phone');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('isAuth');
+        localStorage.removeItem('role');
     }
 
     static async login(data: LoginRequest) : Promise<LoginResponse>{
@@ -78,7 +128,7 @@ export class AuthService{
 
             return response.data;
         }
-        catch(error){
+        catch(error) {
             this.handleError(error);
         }
     }
@@ -90,7 +140,7 @@ export class AuthService{
 
             return response;
         }
-        catch(error){
+        catch(error) {
             this.handleError(error);
         }
     }
@@ -100,7 +150,7 @@ export class AuthService{
             const response = await api.post(this.AUTH_ENPOINTS.SENDVERIFICATIONCODE, {email});
             return response.data;
         }
-        catch(error){
+        catch(error) {
             this.handleError(error);
         }
     }
@@ -108,8 +158,8 @@ export class AuthService{
     static async isAuth(){
         try{
             const request: IsAuthRequest = {
-                userId: localStorage.getItem('userId') ?? '',
-                role: 'User'
+                email: localStorage.getItem('email') ?? '',
+                role: localStorage.getItem('role') ?? 'User'
             }
 
             const response = await api.post<IsAuthResponse>(this.AUTH_ENPOINTS.CHECKAUTH, request);
@@ -123,11 +173,12 @@ export class AuthService{
                 localStorage.setItem('phone', response.data.user.phone?.toString() ?? '');
                 localStorage.setItem('accessToken', response.data.accessToken);
                 localStorage.setItem('isAuth', 'true');
+                localStorage.setItem('role', response.data.user.role ?? '');
             }
 
             return response.data;
         }
-        catch(error){
+        catch(error) {
             this.handleError(error);
         }
     }
@@ -137,7 +188,7 @@ export class AuthService{
             const response = await api.post<IsRegisteredUserResponse>(this.AUTH_ENPOINTS.CHECKREGISTER, {email});
             return response.data;
         }
-        catch(error){
+        catch(error) {
             this.handleError(error);
         }
     }

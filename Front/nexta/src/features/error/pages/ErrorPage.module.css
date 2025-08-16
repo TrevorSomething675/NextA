@@ -1,0 +1,18 @@
+.container{
+    margin: 1rem 0 0 5rem;
+}
+
+.h2{
+    font-size: 2rem;
+}
+
+.text{
+    font-size: 1.2rem;
+}
+
+.toHomeBtn{
+    width: 14rem;
+    margin: 0;
+    background-color: var(--green-color);
+    margin: 1rem 0 0 0;
+}

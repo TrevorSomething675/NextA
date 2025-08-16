@@ -5,5 +5,6 @@ namespace Nexta.Domain.Filters
     public class GetAllOrdersFilter : BaseFilter
     {
 		public List<OrderStatus> Statuses { get; set; }
+        public string SearchTerm { get; init; } = "";
 	}
 }

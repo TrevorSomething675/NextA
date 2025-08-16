@@ -139,45 +139,49 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<Detail> UpdateAsync(Detail detail, CancellationToken ct = default) // Решил просто обновлять поля явно, использование Patch или маппера будет лишним
+		public async Task<Detail> UpdateAsync(Detail detail, CancellationToken ct = default) 
 		{
-			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
-			{
-				var detailEntity = await context.Details.FirstOrDefaultAsync(d => d.Id == detail.Id, ct);
+            await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+            {
+                var detailEntity = await context.Details
+                    .Include(d => d.Image)
+                    .FirstOrDefaultAsync(d => d.Id == detail.Id, ct);
 
-				if (detailEntity == null) 
-					throw new NotFoundException("Деталь не найдена");
+                if (detailEntity == null)
+                    throw new NotFoundException("Деталь не найдена");
 
-				if (detail.Name != null) detailEntity.Name = detail.Name;
-				if (detail.Article != null) detailEntity.Article = detail.Article;
-				if (detail.Description != null) detailEntity.Description = detail.Description;
-				if (detail.Status != detailEntity.Status) detailEntity.Status = detail.Status;
+                detailEntity.Name = detail.Name ?? detailEntity.Name;
+                detailEntity.Article = detail.Article ?? detailEntity.Article;
+                detailEntity.Description = detail.Description ?? detailEntity.Description;
+                detailEntity.Status = detail.Status;
+                detailEntity.Count = detail.Count;
+                detailEntity.NewPrice = detail.NewPrice;
+                detailEntity.OldPrice = detail.OldPrice;
+                detailEntity.IsVisible = detail.IsVisible;
 
-				if (!string.IsNullOrEmpty(detail.OrderDate)) detailEntity.OrderDate = DateOnly.Parse(detail.OrderDate);
-				if (!string.IsNullOrEmpty(detail.DeliveryDate)) detailEntity.DeliveryDate = DateOnly.Parse(detail.DeliveryDate);
+                if (DateOnly.TryParse(detail.OrderDate, out var orderDate))
+                    detailEntity.OrderDate = orderDate;
 
-				if(detail.Count != detailEntity.Count) detailEntity.Count = detail.Count;
-
-				detailEntity.NewPrice = detail.NewPrice;
-				if(detail.OldPrice != null) detailEntity.OldPrice = detail.OldPrice;
-
-				detailEntity.IsVisible = detail.IsVisible;
-
-				if (detail.ImageId != Guid.Empty)
-				{
-					detailEntity.ImageId = detail.ImageId;
-				} 
-				else if(detail.Image != null)
-				{
-					var newImage = _mapper.Map<DetailImageEntity>(detail.Image);
-					detailEntity.Image = newImage;
-				}
+                if (DateOnly.TryParse(detail.DeliveryDate, out var deliveryDate))
+                    detailEntity.DeliveryDate = deliveryDate;
 
 				await context.SaveChangesAsync(ct);
 
-				var updatedDetail = _mapper.Map<Detail>(detailEntity);
-				return updatedDetail;
+                return _mapper.Map<Detail>(detailEntity);
+            }
+        }
+
+        public async Task<Guid> CreateAsync(Detail detail, CancellationToken ct = default)
+        {
+			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+			{
+				var detailEntity = _mapper.Map<DetailEntity>(detail);
+
+				var result = await context.Details.AddAsync(detailEntity, ct);
+				await context.SaveChangesAsync(ct);
+
+				return result.Entity.Id;
 			}
-		}
-	}
+        }
+    }
 }

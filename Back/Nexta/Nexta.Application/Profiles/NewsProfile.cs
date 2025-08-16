@@ -1,9 +1,9 @@
 ﻿using Nexta.Application.Commands.Admin.AddNewsCommand;
-using Nexta.Application.DTO.RequestModels;
 using Nexta.Domain.Models.Images;
-using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using AutoMapper;
+using Nexta.Application.DTO.Request;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Profiles
 {

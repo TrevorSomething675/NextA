@@ -7,21 +7,11 @@ import { AdminNewsResponse } from "../features/admin/models/News/AdminNewsRespon
 import { UpdateAdminDetailRequest } from "../features/admin/models/UpdateAdminDetailRequest";
 import { UpdateAdminDetailResponse } from "../features/admin/models/UpdateAdminDetailResponse";
 import api from "../http/api";
-import GetAllOrdersRequest from "../models/admin/GetAllOrders/GetAllOrdersRequest";
-import GetAllOrdersResponse from "../models/admin/GetAllOrders/GetAllOrdersResponse";
 import axios from 'axios';
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
+import { CreateAdminDetailRequest, CreateAdminDetailResponse } from "../features/admin/models/CreateAdminDetail";
 
 class AdminService{
-    static async GetAllOrders(request:GetAllOrdersRequest){
-        try{
-            const response = await api.post<GetAllOrdersResponse>('Admin/Home/GetAllOrders', request);
-            return response.data;
-        } catch(error){
-            throw new Error('Сетевая ошибка или ошибка конфигурации');
-        }
-    }
-
     static async GetAdminDetail(id:string, withImage:boolean){
         try{
             const GetAdminDetailRequest:GetAdminDetailRequest = {
@@ -47,6 +37,7 @@ class AdminService{
             }
         }
     }
+
     static async AddImageForDetail(request: AddAdminImageRequest){
         try{
             const response = await api.post<AddAdminImageResponse>('Admin/Image/Add', request);
@@ -59,6 +50,20 @@ class AdminService{
             }
         }
     }
+
+    static async CreateAdminDetail(request: CreateAdminDetailRequest){
+        try{
+            const response = await api.post<CreateAdminDetailResponse>('Admin/Detail/Add', request);
+            return response.data;
+        } catch(error){
+            if(axios.isAxiosError(error) && error.response){
+                return error.response.data as CreateAdminDetailResponse
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
+
     static async UpdateAdminDetail(request: UpdateAdminDetailRequest){
         try{
             const response = await api.post<UpdateAdminDetailResponse>('Admin/Detail/Update', request);
@@ -71,6 +76,7 @@ class AdminService{
             }
         }
     }
+
     static async AddNews(request: AddNewsForm){
         try{
             const response = await api.post<AdminNewsResponse>('Admin/News/Add', request);

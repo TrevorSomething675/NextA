@@ -1,6 +1,4 @@
-﻿using Nexta.Domain.Enums;
-
-namespace Nexta.Domain.Models
+﻿namespace Nexta.Domain.Models
 {
     public class User
 	{
@@ -10,9 +8,9 @@ namespace Nexta.Domain.Models
 		public string? LastName { get; set; }
 					 
 		public string? Email { get; set; }
-		public int? Phone { get; set; }
+		public string? Phone { get; set; }
 
 		public string? PasswordHash { get; set; }
-		public Role Role { get; set; } = Role.Unknown;
+		public string Role { get; set; } = "User";
 	}
 }

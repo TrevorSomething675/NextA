@@ -1,6 +1,6 @@
-﻿using Nexta.Application.DTO.RequestModels;
-using Nexta.Domain.Enums;
+﻿using Nexta.Domain.Enums;
 using MediatR;
+using Nexta.Application.DTO.Request;
 
 namespace Nexta.Application.Commands.Admin.UpdateOrderCommand
 {

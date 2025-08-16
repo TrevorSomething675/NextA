@@ -19,7 +19,7 @@ class AdminOrderService{
 
     static async GetAllOrders(request:GetAllOrdersRequest){
         try{
-            const response = await api.post<GetAllOrdersResponse>('Admin/Home/GetAllOrders', request);
+            const response = await api.post<GetAllOrdersResponse>('Admin/Order/GetAllOrders', request);
             return response.data;
         } catch(error){
             throw new Error('Сетевая ошибка или ошибка конфигурации');

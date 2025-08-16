@@ -9,7 +9,6 @@ import BasketService from '../../services/BasketService';
 import authStore from '../../../../stores/AuthStore/authStore';
 
 const BasketBody = observer(() => {
-    
     useEffect(() => {
         if(authStore.user.id !== undefined){
             const fetchData = async() => {
@@ -22,7 +21,9 @@ const BasketBody = observer(() => {
             };
             try{
                 const response = await BasketService.GetBasketDetails(request);
-                basket.setBasketDetails(response.details);
+                if(response.details){
+                    basket.setBasketDetails(response.details);
+                }
             } catch(error){
                 console.error(error);
             }
@@ -51,9 +52,11 @@ const BasketBody = observer(() => {
                     <BasketItem detail={detail} key={detail.id} />
                 )}
             </tbody>
-        </table>) : (<h2 className={styles.h2}>
-            Ваша корзина пуста
-        </h2>)}
+        </table>) 
+        : 
+        (<div className={styles.noBasketDetails}>
+            Ваша корзина пуста.
+        </div>)}
     </div> 
 });
 

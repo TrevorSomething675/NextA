@@ -4,13 +4,12 @@ import DetailsService from "../../../services/DetailsService";
 import styles from './DetailPage.module.css';
 import DetailHeader from "../components/DetailHeader/detailHeader";
 import DetailBody from "../components/DetailBody/detailBody";
-import DetailFooter from "../components/DetailFooter/detailFooter";
 import { Detail } from "../../../shared/entities/Detail";
 
 const DetailPage = () => {
     const {id} = useParams();
     const [detail, setDetail] = useState({} as Detail)
-    
+
     useEffect(() => {
         const fetch = async() =>{
             if(id !== undefined){
@@ -26,7 +25,6 @@ const DetailPage = () => {
         <div className={styles.detailContainer}>
             <DetailHeader detail={detail} />
             <DetailBody detail={detail} />
-            <DetailFooter detail={detail} />
         </div>
     </div>
 }

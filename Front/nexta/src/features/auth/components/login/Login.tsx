@@ -48,7 +48,7 @@ const Login:React.FC<{changeAuthStatus:any, changeCodeVerifyStatus: (data: AuthU
             <h2 className={styles.h2}>Вход</h2>
             <div>
                 <label
-                    className={styles.label} 
+                    className={styles.label}
                     htmlFor='emailName'>E-mail: </label>
                 <input id='emailName' type='text' className={styles.input} {...register('email', {
                     required: 'Введите почту'

@@ -1,0 +1,30 @@
+.container{
+    font-size: 1.2rem;
+    margin: 1rem 2rem 1rem 2rem;
+}
+
+.h2{
+    font-size: 1.2rem;
+    margin: 1.6rem 0 1rem 0;
+    color: var(--red-color);
+    display: flex;
+    align-items: center;
+}
+
+.input{
+    margin: 1rem 0 1rem 0;
+    height: 1.8rem;
+    font-size: 1.3rem;
+}
+
+.success{
+    color: var(--green-color);
+    display: flex;
+    align-items: center;
+    
+}
+
+.confirmBtn{
+    background-color: var(--green-color);
+    width: 10rem;
+}

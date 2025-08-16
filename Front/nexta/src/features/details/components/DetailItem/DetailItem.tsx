@@ -7,10 +7,13 @@ import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket
 import basket from '../../../../stores/basket';
 import BasketService from '../../../basket/services/BasketService';
 import authStore from '../../../../stores/AuthStore/authStore';
+import { ViewAlreadyExistDetailInBasket } from '../../../../shared/components/ViewAlreadyExistDetailInBasket/ViewAlreadyExistDetailInBasket';
 
 const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     const [count, setCount] = useState(1);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+
     const statusLabels = {
         [DetailStatus.Unknown]: 'Неизвестный статус',
         [DetailStatus.InStock]: 'Есть на складе',
@@ -18,7 +21,7 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     };
         const goToDetailPage = () => {
         navigate(`/Detail/${detail.id}`);
-    }
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
@@ -48,8 +51,8 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
             detailId: detail.id,
             countToPay: count
         };
-        const response = await BasketService.AddBasketDetail(request);
-        if(response)
+        const result = await BasketService.AddBasketDetail(request);
+        if(result && result.status == 200)
         {
             const filter:GetBasketDetailsFilter = {
                 pageNumber: 1,
@@ -58,10 +61,12 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
             const getBasketDetailsRequest:GetBasketDetailsRequest = {
                 filter: filter
             };
-            const result = await BasketService.GetBasketDetails(getBasketDetailsRequest);
-            basket.setBasketDetails(result.details);
+            const response = await BasketService.GetBasketDetails(getBasketDetailsRequest);
+            basket.setBasketDetails(response.details);
+        } else if (!result.success && result.status === 409){
+            setIsModalOpen(true);
         }
-    }
+    }   
 
     const increment = () => {
         setCount(count => count + 1);
@@ -109,6 +114,16 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
                 <button className={styles.addBasketBtn} onClick={fetchData}>
                     В корзину
                 </button>
+            </td>
+            <td>
+                <div>
+                    <ViewAlreadyExistDetailInBasket
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        detail={detail}
+                    />
+                </div>
+                {isModalOpen && <div className={styles.overlay} />}
             </td>
         </tr>
 }

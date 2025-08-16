@@ -1,11 +1,13 @@
 ﻿using Nexta.Application.Commands.Admin.DeleteNewsCommand;
 using Nexta.Application.Commands.Admin.AddNewsCommand;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
 namespace Nexta.Web.Areas.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     [Route("admin/[controller]")]
     [ApiController]
     public class NewsController : ControllerBase

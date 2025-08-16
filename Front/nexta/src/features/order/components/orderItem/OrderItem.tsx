@@ -16,7 +16,7 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
     const getColorForStatus = (status:any) => {
         switch (status) {
             case OrderStatus.Accepted:
-            return '#1e7309';
+            return '#1c6cb8';
             case OrderStatus.InProgress:
             return '#ed7e00';
             case OrderStatus.Canceled:
@@ -101,19 +101,21 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
         <div className={styles.orderBody}>
         </div>
         <div className={styles.orderFooter}>
+            <div className={styles.orderStatus}>
+                <span>Статус заказа: </span>
+                <span style={{color:getColorForStatus(order.status)}}>{statusLabel[order.status]}</span>
+            </div>
             <div>
                 <span className={styles.orderQuestion}>Есть вопросы по заказу?</span>
                 <span className={styles.number}>+7 915-562-95-13</span>
             </div>
-            <div className={styles.orderStatus}>
+            <div>
                 <span className={styles.totalSumText}>
                     К оплате: 
                 </span>
                 <span className={styles.totalSum}>
                     {(order.orderDetails.reduce((total, orderDetail) => total + (orderDetail.count * orderDetail.detail.newPrice), 0))} руб.
                 </span>
-                <span>Статус: </span>
-                <span style={{color:getColorForStatus(order.status)}}>{statusLabel[order.status]}</span>
             </div>
         </div>
     </li>

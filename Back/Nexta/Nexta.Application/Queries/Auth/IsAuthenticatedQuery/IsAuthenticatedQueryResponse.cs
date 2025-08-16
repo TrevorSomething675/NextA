@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO;
+﻿using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.Auth.IsAuthenticatedQuery
 {

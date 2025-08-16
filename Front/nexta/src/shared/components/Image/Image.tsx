@@ -12,7 +12,7 @@ const Image: React.FC<Props> = ({ isBase64Image, srcImage, base64String, classNa
     const combinedClassName = `${styles.image} ${className || ''}`.trim();
 
     if (isLoading) {
-        return <img src="/loading.gif" className={combinedClassName} />;
+        return <img src="/loading.gif" className={styles.image} />;
     }
 
     if (isBase64Image) {

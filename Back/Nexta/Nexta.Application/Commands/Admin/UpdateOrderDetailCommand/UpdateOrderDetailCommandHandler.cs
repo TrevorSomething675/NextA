@@ -1,8 +1,8 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO;
 using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Commands.Admin.UpdateOrderDetailCommand
 {

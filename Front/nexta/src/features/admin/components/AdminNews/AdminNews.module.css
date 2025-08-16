@@ -1,42 +1,55 @@
-.container{
+.container {
     display: flex;
     height: auto;
     justify-content: center;
+    width: 100%;
+    padding: 20px;
 }
 
-.ul{
-    display: flex;
+.newsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.hr{
+.hr {
     display: none;
 }
 
-.newsItem{
+.newsItem {
     position: relative;
     min-height: auto;
     min-width: auto;
-    padding: 0 1rem 0 1rem;
+    padding: 0;
     max-height: 30rem;
+    height: 100%;
 }
 
-.img{
+.img {
     box-shadow: 0 0.125rem 0.5rem 0 rgba(2, 2, 2, 0.555), 0 0.125rem 2rem 0 rgba(0, 0, 0, 0.034);
     border-radius: 0.7rem;
     height: 100%;
     width: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
 }
 
-.loading{
+.loading {
     padding: 5rem;
     box-shadow: 0 0.125rem 0.5rem 0 rgba(2, 2, 2, 0.555), 0 0.125rem 2rem 0 rgba(0, 0, 0, 0.034);
     border-radius: 0.7rem;
-    height: auto;
-    width: auto;
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #f0f0f0;
 }
 
-.deleteBtn{
+.deleteBtn {
     position: absolute;
     color: var(--red-color);
     font-size: 1.4rem;
@@ -48,12 +61,12 @@
     right: 1.4rem;
 }
 
-.deleteBtn:hover{
+.deleteBtn:hover {
     cursor: pointer;
-    transition: .2s;
+    transition: 0.2s;
 }
 
-.deleteBtn::after{
+.deleteBtn::after {
     content: '';
     position: absolute;
     left: 4px;
@@ -62,7 +75,7 @@
     width: 90%;
     background-color: var(--red-color);
     transform: scaleX(0); 
-    transition: .2s;
+    transition: 0.2s;
 }
 
 .deleteBtn:hover::after {

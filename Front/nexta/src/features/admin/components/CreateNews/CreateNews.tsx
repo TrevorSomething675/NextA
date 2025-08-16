@@ -6,8 +6,12 @@ import { AddNewsForm } from "../../models/AddNews/AddNews";
 import AdminService from "../../../../services/AdminService";
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
 
-const CreateNews = () => {
-    const { register, setValue, handleSubmit, formState: {errors}} = useForm<AddNewsForm>();
+interface CreateNewsProps {
+    fetchData: () => Promise<void>;
+}
+
+const CreateNews: React.FC<CreateNewsProps> = ({ fetchData }) => {
+    const { register, setValue, handleSubmit, formState: {errors}, reset } = useForm<AddNewsForm>();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const { addNotification } = useNotifications();
     const [error, setError] = useState<string>('');
@@ -26,32 +30,27 @@ const CreateNews = () => {
         }
         reader.readAsDataURL(file);
     }
-    const submit: SubmitHandler<AddNewsForm> = async (data:AddNewsForm) => {
-        try{
-            if(data.image === undefined) {
-                setError('Необходимо добавить картинку для новости');
-                return;
-            }
-            data.image.bucket = 'news';
-            if(data.image === null){
-                setError('Картинка не должна быть пустой');
-                return;
-            }
-            setError('');
-            AdminService.AddNews(data)
-                .then(result => {
-                    addNotification({
-                        header: 'Новость успешно добавлена'
-                    })
-                    setPreviewImage('');
-                })
-                .catch(error => {
-                    setError(error.Message);
-                });
+
+    const submit: SubmitHandler<AddNewsForm> = async (data: AddNewsForm) => {
+        if(data.image === undefined) {
+            setError('Необходимо добавить картинку для новости');
+            return;
         }
-        catch(error){
-            console.error(error);
+        data.image.bucket = 'news';
+        if(data.image === null){
+            setError('Картинка не должна быть пустой');
+            return;
         }
+        setError('');
+        
+        await AdminService.AddNews(data);
+        addNotification({
+            header: 'Новость успешно добавлена'
+        });
+        
+        setPreviewImage(null);
+        reset();
+        await fetchData();
     }
 
     return <div className={styles.container}>
