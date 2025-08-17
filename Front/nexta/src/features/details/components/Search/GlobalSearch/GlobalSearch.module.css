@@ -11,10 +11,10 @@
 
 .searchInput{
     font-size: 1.4rem;
-    background: none;
     width: 100%;
     outline: none;
     border: none;
+    background-color: var(--white-color);
 }
 
 .searchButton{
@@ -26,6 +26,7 @@
     border-bottom: 2px;
     border-left: 2px;
     transition: .2s;
+    background-color: var(--white-color);
 }
 
 .searchButton:hover{
@@ -51,4 +52,5 @@
 .loadingContainer{
     display: flex;
     align-items: center;
+    background-color: var(--white-color);
 }

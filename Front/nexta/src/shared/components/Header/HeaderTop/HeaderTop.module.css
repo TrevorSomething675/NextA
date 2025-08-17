@@ -1,0 +1,31 @@
+.container{
+    display: flex;
+    justify-content: center;    
+    background: linear-gradient(to bottom, var(--red-color), var(--light-red-color));
+    height: 5rem;
+    box-shadow: 0px 0px 0.5rem var(--dark-color);
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1440px;
+    height: 100%;
+}
+
+.search{
+    margin: 0!important;
+    background-color: var(--white-color);
+    width: 100%;
+}
+
+.searchContainer{
+    width: 100%;
+    margin: 0 2rem 0 2rem;
+}
+
+.storeContainer{
+    display: flex;
+    margin: 0 1rem 0 1rem;
+}

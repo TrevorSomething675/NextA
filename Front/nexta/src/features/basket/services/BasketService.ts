@@ -57,15 +57,19 @@ class BasketService{
             }
         }
     }
-    static async UpdateBasketDetail(data:UpdateBasketDetailRequest) {
+    static async UpdateBasketDetail(data:UpdateBasketDetailRequest) : Promise<ApiResponse<OrderDetail, ErrorResponseModel>> {
         try {
             const response = await api.post<OrderDetail>('Basket/Update', data)
-            return { success: true, data: response.data, status: response.status };
+            return { 
+                success: true, 
+                data: response.data, 
+                status: response.status 
+            };
         } catch(error) {
             if (axios.isAxiosError(error) && error.response) {
                 return { 
                     success: false, 
-                    data: error.response.data, 
+                    data: error.response.data as ErrorResponseModel, 
                     status: error.response.status 
                 };
             }

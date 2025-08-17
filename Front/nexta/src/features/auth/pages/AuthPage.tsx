@@ -18,21 +18,21 @@ const AuthPage = () => {
         setVerifyCodeAuth(!isVerifyCode);
     }
 
-    return <div className='page-body'>
-            {!isVerifyCode && <>
-                {(isLogin) ? 
-                (<Login 
-                    changeCodeVerifyStatus={changeCodeVerifyHandler} 
-                    changeAuthStatus={changeLoginStatusHandler} 
+    return <div>
+        {!isVerifyCode && <>
+            {(isLogin) ? 
+            (<Login 
+                changeCodeVerifyStatus={changeCodeVerifyHandler} 
+                changeAuthStatus={changeLoginStatusHandler} 
                 />)
                 :
                 (<Register 
                     changeCodeVerifyStatus={changeCodeVerifyHandler} 
                     changeFormStatus={changeLoginStatusHandler} 
                 />)}
-            </>}
-            {isVerifyCode && <CodeVerify firstStepUser={authRequest!} />}
-        </div>
+        </>}
+        {isVerifyCode && <CodeVerify firstStepUser={authRequest!} />}
+    </div>
 }
 
 export default AuthPage;

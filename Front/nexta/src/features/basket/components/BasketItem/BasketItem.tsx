@@ -57,11 +57,13 @@ const BasketItem:React.FC<{detail:Detail}> = observer(({detail}) => {
             count: count
         }
         const response = await BasketService.UpdateBasketDetail(request);
-        if(response){
-            setLegacyCount(response.count);
+
+        if(response.success == true && response.status === 200){
+            console.warn(response);
+            setLegacyCount(response.data.count);
             addNotification({
                 header: 'Корзина обновлена',
-                body: `Деталь: ${detail.name}. Изменения успешно внесены.`
+                body: `Товар: ${detail.name}. Изменения успешно внесены.`
             })
         }
     }

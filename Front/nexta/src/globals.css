@@ -21,10 +21,9 @@ ul {
 .page-body {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   width: 100%;
-  margin: 0 auto 0 auto;
-  max-width: 1400px;
+  background: linear-gradient(180deg, var(--white-color) 0%, var(--light-white-color) 100%);
 }
 
 a {

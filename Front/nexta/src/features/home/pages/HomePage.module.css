@@ -1,11 +1,7 @@
 .container {
     flex-direction: column;
     flex-grow: 1;
-}
-
-.header{
-    display: flex;
-    justify-content: center;
+    max-width: 1400px;
 }
 
 .newsBody{
@@ -21,6 +17,4 @@
 .h2 {
     margin: 3rem 0 3rem 0;
     font-size: 2rem;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
 }

@@ -40,7 +40,7 @@ export const CreateAdminDetail = () => {
             const createDetailResponse = await AdminService.CreateAdminDetail(data);
             if(createDetailResponse.id){
                 addNotification({
-                    header: `Деталь ${createDetailResponse.id} успешно создана`
+                    header: `Товар ${createDetailResponse.id} успешно создан`
                 })
             }
         } catch(error){
@@ -167,7 +167,7 @@ export const CreateAdminDetail = () => {
                 </div>
             </div>
             <div className={styles.btnContainer}>
-                <Button content='Создать деталь' className={styles.createBtn} type='submit' />
+                <Button content='Создать товар' className={styles.createBtn} type='submit' />
             </div>
         </form>
     </div>

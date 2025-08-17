@@ -15,9 +15,6 @@ const SearchItem:React.FC<{detail:Detail}> = ({detail}) =>{
         <div className={styles.detailItem}>
             {detail.article}
         </div>
-        <div className={styles.detailItemDescription}>
-            {detail.description}
-        </div>
         <div className={styles.detailItem}>
             Кол-во, шт: {detail.count}
         </div>

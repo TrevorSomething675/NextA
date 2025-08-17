@@ -4,8 +4,12 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 101;
-    width: 80%;
-    max-width: 40rem;
+    width: 84rem;
+}
+
+.header{
+    border-bottom: solid var(--red-color) 2px;
+    padding: 0 0 1rem 0;
 }
 
 .modalContent {
@@ -15,57 +19,6 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 20;
-}
-
-.closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.detailContainer{
-    flex-direction: column;
-    background-color: var(--light-white-color);
-    margin: 1rem 0 0 0;
-    padding: 1rem;
-}
-
-.count{
-    margin: 1rem;
-    text-align: start;
-}
-
-.toBasket{
-    width: 11rem!important;
-    margin: 0!important;
-    background-color: var(--green-color)!important;
-}
-
-.containerFooter{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0.5rem 0 0.5rem;
-}
-
-.oldPrice{
-    margin: 0 0 0 0.35rem;
-    font-size: 1rem;
-    text-decoration: line-through;
-}
-
-.newPrice{
-    margin: 0 0 0 0.5rem;
-    color: var(--red-color);
-    font-size: 1.4rem;
-}
-
-.h2{
-    margin: 1rem;
 }
 
 .down{
@@ -94,11 +47,73 @@
     text-shadow: 1px 1px 15px var(--black-color);
 }
 
-.p{
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.detailContainer{
+    display: flex;
+    padding: 1rem;
+}
+
+.image{
+    height: 24rem;
+    width: 24rem;
+}
+
+.imageContainer{
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ul > li{
+    font-size: 1.2rem;
+    margin: 0.5rem 0 0 0;
+    text-wrap: wrap;
+}
+
+.detailFooter{
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.detailData{
     text-align: start;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    max-width: 100%;
-    display: block;
+    padding: 0 1rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 24rem;
+    flex-grow: 1;
+}
+
+.priceContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.oldPrice{
+    margin: 0 0 0 0.35rem;
+    font-size: 1rem;
+    text-decoration: line-through;
+}
+
+.newPrice{
+    margin: 0 0 0 0.5rem;
+    color: var(--red-color);
+    font-size: 1.4rem;
+}
+
+.updateButton{
+    background-color: var(--green-color)!important;
+    width: 12rem!important;
 }

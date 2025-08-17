@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import SearchService from "../../../../../services/SearchService";
+import { SearchDetailsFilter, SearchDetailsRequest, SearchDetailsResponse } from "../../../models/SearchDetails";
 import SearchSvg from "../../../svgs/SearchSvg/SearchSvg";
 import SearchItem from "../SearchItem/SearchItem";
-import styles from './Search.module.css';
-import { SearchDetailsFilter, SearchDetailsRequest, SearchDetailsResponse } from "../../../models/SearchDetails";
+import styles from './HeaderSearch.module.css';
+import { useNavigate } from "react-router-dom";
+import DetailsService from "../../../../../services/DetailsService";
 
-const Search = () => {
+interface Props {
+    className?:string
+}
+
+export const HeaderSearch:React.FC<Props> = ({className}) => {
+    const container = `${styles.container} ${className || ''}`.trim();
+
     const containerRef = useRef<HTMLDivElement>(null);
     const debounceTimeout = useRef<null | number>(null);
     const [response, setResponse] = useState<SearchDetailsResponse>({} as SearchDetailsResponse);
@@ -47,7 +53,7 @@ const Search = () => {
             const request:SearchDetailsRequest = {
             filter: filter
         }
-            const response = await SearchService.SearchDetail(request);
+            const response = await DetailsService.GetDetails(request);
             setResponse(response);
         }
         setLoading(false);
@@ -68,7 +74,7 @@ const Search = () => {
     };
     }, []);
 
-    return <div className={styles.container} ref={containerRef}>
+    return <div className={container} ref={containerRef}>
         <button className={styles.searchButton}>
             <SearchSvg />
         </button>
@@ -77,12 +83,14 @@ const Search = () => {
             placeholder="Введите артикул или название запчасти"
             onChange={handleInputChange}
             onFocus={handleFocus}
-        />
+            />
         {inFocus &&
             <div className={styles.autoCompleteSearch}>
-                {response?.data?.items?.map((detail) => 
-                    <SearchItem key={detail.id} detail={detail}/>
-                )}
+                <ul>
+                    {response?.data?.items?.map((detail) => 
+                        <SearchItem key={detail.id} detail={detail}/>
+                    )}
+                </ul>
                 <hr className={styles.hr}/>
                 <div className={styles.autoCompleteFooter}>
                 <button className={styles.globalSearchBtn} onClick={goToSearchPage}>
@@ -101,5 +109,3 @@ const Search = () => {
         </div>
     </div>
 };
-
-export default Search;

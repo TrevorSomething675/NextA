@@ -1,40 +1,53 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { UpdateBasketDetailRequest } from '../../../features/basket/models/UpdateBasketDetail';
 import authStore from '../../../stores/AuthStore/authStore';
-import { Detail } from '../../entities/Detail';
+import { Detail, DetailStatus } from '../../entities/Detail';
 import styles from './ViewAlreadyExistDetailInBasket.module.css';
 import Button from '../Button/Button';
 import BasketService from '../../../features/basket/services/BasketService';
 import { useNotifications } from '../Notifications/Notifications';
 import basket from '../../../stores/basket';
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../features/basket/models/GetBasketDetails';
+import Image from '../Image/Image';
 
 interface ViewAlreadyExistDetailInBasketProps {
     isOpen: boolean;
     onClose: () => void;
-    detail:Detail
+    detail: Detail;
+    detailCount: number;
+    onCountChange: (count: number) => void;
 }
 
-export const ViewAlreadyExistDetailInBasket = ({ isOpen, onClose, detail }: ViewAlreadyExistDetailInBasketProps) => {
+export const ViewAlreadyExistDetailInBasket: React.FC<ViewAlreadyExistDetailInBasketProps> = ({ 
+        isOpen, 
+        onClose, 
+        detail, 
+        detailCount,
+        onCountChange
+    }) => {
     const { addNotification } = useNotifications();
-    const [count, setCount] = useState(1);
     
+    useEffect(() => {
+        onCountChange(detailCount ?? 1);
+    }, [detailCount]);
+
+    const statusLabels = {
+        [DetailStatus.Unknown]: 'Неизвестный статус',
+        [DetailStatus.InStock]: 'Есть на складе',
+        [DetailStatus.OutOfStock]: 'Нет на складе',
+    };
+
     const increment = () => {
-        setCount(count => count + 1);
+        onCountChange(detailCount + 1);
     };
 
     const decrement = () => {
-        setCount(count => Math.max(1, count - 1));
+        onCountChange(Math.max(1, detailCount - 1));
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
-        
-        if (!isNaN(value) && value >= 1) {
-            setCount(value);
-        } else {
-            setCount(1);
-        }
+        onCountChange(!isNaN(value) && value >= 1 ? value : 1);
     };
 
     const handleUpdateDetail = async() => {
@@ -42,7 +55,7 @@ export const ViewAlreadyExistDetailInBasket = ({ isOpen, onClose, detail }: View
         const request:UpdateBasketDetailRequest = {
             userId: userId,
             detailId: detail.id,
-            count: count
+            count: detailCount
         }
         const response = await BasketService.UpdateBasketDetail(request);
         if (response.success && response.status === 200) {
@@ -56,7 +69,7 @@ export const ViewAlreadyExistDetailInBasket = ({ isOpen, onClose, detail }: View
             const basketResult = await BasketService.GetBasketDetails(getBasketDetailsRequest);
             basket.setBasketDetails(basketResult.details);
             addNotification({
-                header: 'Деталь успешно обновлена'
+                header: 'Корзина обновлена'
             });
             onClose();
         }
@@ -67,40 +80,49 @@ export const ViewAlreadyExistDetailInBasket = ({ isOpen, onClose, detail }: View
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
-                <button className={styles.closeButton} onClick={onClose}>×</button>
-                <h2>Деталь уже в корзине</h2>
-                <div>Вы можете отредактировать количество.</div>
+                <div className={styles.header}>
+                    <button className={styles.closeButton} onClick={onClose}>×</button>
+                    <h2>Товар уже в корзине</h2>
+                    <div>Вы можете отредактировать количество.</div>
+                </div>
                 <div className={styles.detailContainer}>
-                    <h2 className={styles.h2}>Товар {detail.article}</h2>
-                    <p className={styles.p}>
-                        - {detail.description}
-                    </p>
-                    <div className={styles.count}>
-                        Кол-во: <button type="button" className={styles.down} onClick={decrement}>◄</button>
-                        <input
-                            value={count}
-                            type="number"
-                            name="quantity"
-                            min="1"
-                            max="10"
-                            step="1"
-                            className={styles.countInput}
-                            onChange={handleInputChange}
-                        />
-                        <button type="button" className={styles.up} onClick={increment}>►</button>
+                    <div className={styles.imageContainer}>
+                        <Image isBase64Image={true} base64String={detail?.image?.base64String} className={styles.image} />
                     </div>
-                    <div className={styles.containerFooter}>
-                        <div>
-                            <span className={styles.newPrice}>
-                                {detail.newPrice * count} руб.
-                            </span>
-                            {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
-                                <span className={styles.oldPrice}>
-                                    {detail.oldPrice * count} руб.
+                    <div className={styles.detailData}>
+                        <ul className={styles.ul}>
+                            <li> - {detail.name}</li>
+                            <li> - {detail.description}</li>
+                            <li> - {statusLabels[detail.status]}</li>
+                            <li> - Осталось на складе: {detail.count}</li>
+                        </ul>
+                        <div className={styles.detailFooter}>
+                            <div>
+                                <button type="button" className={styles.down} onClick={decrement}>◄</button>
+                                <input
+                                    value={detailCount}
+                                    type="number"
+                                    name="quantity"
+                                    min="1"
+                                    max="10"
+                                    step="1"
+                                    className={styles.countInput}
+                                    onChange={handleInputChange}
+                                />
+                                <button type="button" className={styles.up} onClick={increment}>►</button>
+                                <span className={styles.newPrice}>
+                                    {detail.newPrice * detailCount} руб.
                                 </span>
-                            }
+                                {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
+                                    <span className={styles.oldPrice}>
+                                        {detail.oldPrice * detailCount} руб.
+                                    </span>
+                                }
+                            </div>
+                            <div>
+                                <Button className={styles.updateButton} onClick={handleUpdateDetail} content='Обновить товар' />
+                            </div>
                         </div>
-                        <Button content='Обновить корзину' className={styles.toBasket} onClick={handleUpdateDetail}/>
                     </div>
                 </div>
             </div>

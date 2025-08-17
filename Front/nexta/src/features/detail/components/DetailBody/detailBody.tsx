@@ -29,6 +29,10 @@ const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
         setCount(count => Math.max(1, count - 1));
     };
     
+    const handleDetailCountChange = (newCount: number) => {
+        setCount(newCount);
+    };
+
     const handleAddToBasket = async () => {
         const userId = localStorage.getItem('userId') ?? '';
         const detailId = detail.id;
@@ -53,7 +57,7 @@ const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
             basket.setBasketDetails(basketResult.details);
 
             addNotification({
-                header: 'Деталь успешно добавлена в корзину'
+                header: 'Товар добавлен в корзину'
             });
         } 
         else if (!result.success && result.status === 409) {
@@ -119,6 +123,8 @@ const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 detail={detail}
+                detailCount={count}
+                onCountChange={handleDetailCountChange}
             />
         </div>
         {isModalOpen && <div className={styles.overlay} />}

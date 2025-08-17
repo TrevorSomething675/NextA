@@ -1,0 +1,6 @@
+.logo{
+    min-width: 16rem;
+    height: 4.4rem;
+    border-radius: 0.5rem;
+    display: flex;
+}

@@ -3,7 +3,7 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
-    max-width: 90rem;
+    width: 1440px;
 }
 
 .header{

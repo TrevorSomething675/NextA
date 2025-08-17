@@ -27,7 +27,7 @@ const AdminDetailsPage = () => {
     }
 
     return <div className={styles.container}>
-        <h2 className={styles.createDetail}>Создать деталь</h2>
+        <h2 className={styles.createDetail}>Создать товар</h2>
         <CreateAdminDetail />
         <h2 className={styles.h2}>Глобальный поиск</h2>
         <div className={styles.header}>

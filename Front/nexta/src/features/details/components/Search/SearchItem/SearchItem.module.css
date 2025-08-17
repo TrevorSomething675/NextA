@@ -1,9 +1,8 @@
 .container{
     display: grid;
-    grid-template-columns: 10rem 10rem auto 15rem 15rem;
+    grid-template-columns: 10rem 10rem 15rem 15rem;
     padding: 0.25rem 0 0.25rem 0;
     transition: .2s;
-    font-size: 1.2rem;
 }
 
 .container:hover{
@@ -27,7 +26,7 @@
 
 .oldPrice{
     margin: 0 0 0 0.35rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-decoration: line-through;
 }
 

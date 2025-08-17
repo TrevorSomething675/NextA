@@ -23,6 +23,10 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
         navigate(`/Detail/${detail.id}`);
     };
 
+    const handleDetailCountChange = (newCount: number) => {
+        setCount(newCount);
+    };
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
         
@@ -121,6 +125,8 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
                         isOpen={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
                         detail={detail}
+                        detailCount={count}
+                        onCountChange={handleDetailCountChange}
                     />
                 </div>
                 {isModalOpen && <div className={styles.overlay} />}
