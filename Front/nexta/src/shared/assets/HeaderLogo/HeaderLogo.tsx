@@ -5,7 +5,7 @@ import Image from '../../components/Image/Image';
 const HeaderLogo = () => {
     return <div className={styles.container}>
         <Link to='/'>
-            <Image srcImage='/nextaLogo.jpg' isBase64Image={false} className={styles.logo} />
+            <Image srcImage='/logo.svg' isBase64Image={false} className={styles.logo} />
         </Link>
     </div>
 }

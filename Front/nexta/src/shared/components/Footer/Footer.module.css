@@ -40,3 +40,15 @@
 .a{
     margin: 0 0.325rem 0 0.225rem;
 }
+
+.address{
+    text-decoration: underline;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.address:hover{
+    color: var(--red-color);
+    transition: .2s;
+}

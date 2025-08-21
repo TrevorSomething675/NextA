@@ -19,6 +19,10 @@
     padding: 1rem;
 }
 
+.error{
+    color:var(--red-color);
+}
+
 .label{
     font-size: 1.5rem;
 }
@@ -63,8 +67,6 @@
     border: none;
     border-radius: 0.25rem;
     background-color: var(--red-color);
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
     font-size: 1rem;
     transition: 0.2s;
     cursor: pointer;

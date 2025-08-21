@@ -9,7 +9,7 @@
 
 .header{
     border-bottom: solid var(--red-color) 2px;
-    padding: 0 0 1rem 0;
+    padding: 0 1rem 1rem 1rem;
 }
 
 .modalContent {
@@ -53,8 +53,17 @@
     right: 10px;
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 2rem;
     cursor: pointer;
+    height: 2.5rem;
+    width: 2.5rem;
+    transition: .2s;
+}
+
+.closeButton:hover{
+    background-color: var(--dark-white-color);
+    border-radius: 5rem;
+    transition: .2s;
 }
 
 .detailContainer{

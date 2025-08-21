@@ -119,7 +119,7 @@ const Register: React.FC<{ changeFormStatus:any, changeCodeVerifyStatus: (data: 
                 {errors.confirmPassword && <div className={styles.error}>{errors.confirmPassword?.message}</div>}
                 
                 {hasError && 
-                <div> 
+                <div className={styles.error}>
                     {hasError} 
                 </div>}
                 <div className={styles.btnsContainer}>

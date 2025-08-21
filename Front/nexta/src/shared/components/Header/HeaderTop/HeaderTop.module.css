@@ -20,12 +20,6 @@
     width: 100%;
 }
 
-.searchContainer{
-    width: 100%;
-    margin: 0 2rem 0 2rem;
-}
-
 .storeContainer{
     display: flex;
-    margin: 0 1rem 0 1rem;
 }

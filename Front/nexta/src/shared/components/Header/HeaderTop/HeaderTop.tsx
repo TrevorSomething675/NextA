@@ -12,9 +12,7 @@ export const HeaderTop = observer(() => {
     return <div className={styles.container}>
         <div className={styles.header}>
             <HeaderLogo />
-            <div className={styles.searchContainer}>
-                <HeaderSearch />
-            </div>
+            <HeaderSearch />
             <div className={styles.storeContainer}>
                 {authStore.isAuthenticated ? <>
                     <Link to='/Basket'>

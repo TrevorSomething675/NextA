@@ -75,27 +75,38 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
     }, []);
 
     return <div className={container} ref={containerRef}>
-        <button className={styles.searchButton}>
-            <SearchSvg />
-        </button>
-        <input
-            className={styles.searchInput}
-            placeholder="Введите артикул или название запчасти"
-            onChange={handleInputChange}
-            onFocus={handleFocus}
-            />
+        <div className={styles.searchHeader}>
+            <div className={styles.searchSvgContainer}>
+                <SearchSvg />
+            </div>
+            <input
+                className={styles.searchInput}
+                placeholder="Введите артикул или название запчасти"
+                onChange={handleInputChange}
+                onFocus={handleFocus}
+                />
+            <div className={styles.loadingContainer}>
+                {isLoading && <img src="/loading.gif" className={styles.loading}/>}
+            </div>
+        </div>
+
         {inFocus &&
             <div className={styles.autoCompleteSearch}>
+                <hr className={styles.hr} />
                 <ul>
                     {response?.data?.items?.map((detail) => 
                         <SearchItem key={detail.id} detail={detail}/>
                     )}
                 </ul>
-                <hr className={styles.hr}/>
+                {
+                    (response?.data?.items?.length != 0 && response.data) && 
+                    <hr className={styles.hr} />
+                }
+                    
                 <div className={styles.autoCompleteFooter}>
-                <button className={styles.globalSearchBtn} onClick={goToSearchPage}>
-                    Глобальный поиск 
-                </button>
+                    <button className={styles.globalSearchBtn} onClick={goToSearchPage}>
+                        Глобальный поиск 
+                    </button>
                 {(response?.data?.items?.length == 0) && 
                 <div className={styles.redColor}>
                     Ничего не найдено
@@ -104,8 +115,5 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
             </div>
         </div>
       }
-        <div className={styles.loadingContainer}>
-            {isLoading && <img src="/loading.gif" className={styles.loading}/>}
-        </div>
     </div>
 };
