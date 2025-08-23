@@ -22,7 +22,7 @@
 }
 
 .addBasketBtn:hover{
-    color: var(--black-color);
+    color: var(--text-color);
     transition: .2s;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .button:hover{
-    color:var(--red-color);
+    color:var(--context-color);
     cursor: pointer;
     transition: .2s;
 }
@@ -48,11 +48,11 @@
 }
 
 .newPrice{
-    color: var(--red-color);
+    color: var(--context-color);
 }
 
 .defaultPrice{
-    color: var(--black-color);
+    color: var(--text-color);
 }
 
 .down{
@@ -64,7 +64,7 @@
 }
 
 .down:hover{
-    text-shadow: 1px 1px 15px var(--black-color);
+    text-shadow: 1px 1px 15px var(--text-color);
     transition: .2s;
 }
 
@@ -78,7 +78,7 @@
 
 .up:hover{
     transition: .2s;
-    text-shadow: 1px 1px 15px var(--black-color);
+    text-shadow: 1px 1px 15px var(--text-color);
 }
 
 .countInput{

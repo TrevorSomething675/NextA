@@ -1,7 +1,7 @@
 .container{
     flex-direction: column;
-    background-color: var(--white-color);
-    box-shadow: 0px 0px 0.75rem var(--dark-color);
-    border-bottom: 2px solid var(--red-color);
+    background-color: var(--default-color);
+    box-shadow: 0px 0px 0.75rem var(--light-text-color);
+    border-bottom: 2px solid var(--context-color);
     z-index: 100;
 }

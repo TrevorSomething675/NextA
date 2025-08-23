@@ -1,5 +1,4 @@
-﻿using Nexta.Domain.Models;
-using Nexta.Domain.Enums;
+﻿using Nexta.Domain.Enums;
 
 namespace Nexta.Application.DTO.Response
 {
@@ -12,6 +11,7 @@ namespace Nexta.Application.DTO.Response
 
 		public List<OrderDetailResponse>? OrderDetails { get; init; }
 
+		public string CreatedDate { get; init; } = string.Empty;
 		public OrderStatus Status { get; init; }
 	}
 }

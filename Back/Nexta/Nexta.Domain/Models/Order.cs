@@ -10,6 +10,7 @@ namespace Nexta.Domain.Models
 
 		public List<OrderDetail>? OrderDetails { get; set; }
 
+		public DateOnly CreatedDate { get; set; }
 		public OrderStatus Status { get; set; }
 	}
 }

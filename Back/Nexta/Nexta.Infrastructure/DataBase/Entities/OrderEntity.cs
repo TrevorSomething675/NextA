@@ -11,6 +11,7 @@ namespace Nexta.Infrastructure.DataBase.Entities
 
 		public List<DetailEntity>? Details { get; set; }
 
+		public DateOnly CreatedDate { get; set; }
 		public OrderStatus Status { get; set; }
 	}
 }

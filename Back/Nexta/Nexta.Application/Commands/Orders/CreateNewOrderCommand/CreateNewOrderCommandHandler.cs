@@ -32,7 +32,7 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
 			var userDetails = await _userDetailRepository.GetRangeAsync(request.UserId, request.DetailIds, ct);
-			var order = await _orderRepository.AddAsync(new Order { UserId = request.UserId });
+			var order = await _orderRepository.AddAsync(new Order { UserId = request.UserId, CreatedDate = request.CreatedDate });
 
 			var orderDetails = new List<OrderDetail>();
 

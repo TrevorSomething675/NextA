@@ -6,5 +6,6 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
     {
         public Guid UserId { get; set; }
         public List<Guid> DetailIds { get; set; }
+        public DateOnly CreatedDate { get; } = DateOnly.FromDateTime(DateTime.Now);
     }
 }

@@ -10,17 +10,17 @@
 }
 
 .form{
-    background-color: var(--light-white-color);
+    background-color: var(--dark-default-color);
     margin: 3rem 0 0 0;
     border-radius: 1rem;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    box-shadow: 0px 0px 0.4rem var(--dark-color);
+    box-shadow: 0px 0px 0.4rem var(--shadow-color);
     width: 30rem;
     padding: 1rem;
 }
 
 .error{
-    color:var(--red-color);
+    color:var(--context-color);
 }
 
 .label{
@@ -33,7 +33,7 @@
     margin: 0 0 0.5rem 0;
     font-size: 1.5rem;
     border-radius: 5px;
-    border: 1px var(--dark-white-color) solid;
+    border: 1px var(--dark-default-color) solid;
     outline: none;
 }
 
@@ -46,7 +46,7 @@
 
 .toLoginBtn{
     font-size: 1rem;
-    color: var(--red-color);
+    color: var(--context-color);
     cursor: pointer;
     transition: .2s;
     text-decoration: underline;
@@ -55,7 +55,7 @@
 }
 
 .toLoginBtn:hover{
-    color: var(--dark-color);
+    color: var(--light-text-color);
     transition: 0.2s;
 }
 
@@ -66,15 +66,16 @@
     background: none;
     border: none;
     border-radius: 0.25rem;
-    background-color: var(--red-color);
+    background-color: var(--context-color);
     font-size: 1rem;
     transition: 0.2s;
     cursor: pointer;
-    color: var(--super-light-white-color);
-    text-shadow: 1px 1px 2px var(--black-color);
+    font-weight: 700;
+    color: var(--light-default-color);
+    text-shadow: 1px 1px 2px var(--text-color);
 }
 
 .registerBtn:hover{
-    color: var(--black-color);
+    color: var(--text-color);
     transition: 0.2s;
 }

@@ -9,7 +9,7 @@
 }
 
 .rejectBtn{
-    background-color: var(--red-color);
+    background-color: var(--context-color);
     width: 13rem;
 }
 
@@ -34,12 +34,12 @@
 .btnContainer{
     margin: 1rem 0 0 0;
     padding: 1rem;
-    background-color: var(--light-white-color);
+    background-color: var(--dark-default-color);
 }
 
 .detailPage{
     display: flex;
-    background-color: var(--light-white-color);
+    background-color: var(--dark-default-color);
     padding: 1rem;
 }
 
@@ -64,7 +64,7 @@
     background: none;
     border: none;
     padding: 0;
-    color: var(--red-color);
+    color: var(--context-color);
     text-decoration: underline;
     font-size: 1rem;
     transition: .2s;
@@ -72,7 +72,7 @@
 }
 
 .removeImageBtn:hover{
-    color:var(--black-color);
+    color:var(--text-color);
     transition: .2s;
     cursor: pointer;
 }
@@ -119,7 +119,7 @@
 
 .newPrice{
     margin: 0 0 0 0.5rem;
-    color: var(--red-color);
+    color: var(--context-color);
     font-size: 1.4rem;
 }
 
@@ -136,7 +136,7 @@
 }
 
 .down:hover{
-    text-shadow: 1px 1px 15px var(--black-color);
+    text-shadow: 1px 1px 15px var(--text-color);
     transition: .2s;
 }
 
@@ -150,7 +150,7 @@
 
 .up:hover{
     transition: .2s;
-    text-shadow: 1px 1px 15px var(--black-color);
+    text-shadow: 1px 1px 15px var(--text-color);
 }
 
 .countContainer{
@@ -170,7 +170,7 @@
 
 .buyButton:hover{
     cursor: pointer;
-    color: var(--black-color);
+    color: var(--text-color);
     transition: .2s;
 }
 

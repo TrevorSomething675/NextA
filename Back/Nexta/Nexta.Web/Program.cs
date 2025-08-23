@@ -60,7 +60,7 @@ services.AddDbContextFactory<MainContext>((serviceProvider, optionsBuilder) =>
             DbContextLoggerOptions.DefaultWithLocalTime |
             DbContextLoggerOptions.SingleLine);
 });
-
+/*
 using (var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
 {
 	if(context.Users.FirstOrDefault() == null)
@@ -287,7 +287,7 @@ using(var context = services.BuildServiceProvider().GetRequiredService<MainConte
 		context.SaveChanges();
 	}
 }
-
+*/
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();

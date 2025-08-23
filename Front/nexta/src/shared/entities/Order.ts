@@ -9,6 +9,7 @@ export interface Order{
     orderDetails:OrderDetail[],
 	details:Detail[],
 	status:OrderStatus,
+	createdDate: string
 }
 
 export enum OrderStatus{

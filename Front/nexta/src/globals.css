@@ -4,7 +4,7 @@ html, body {
   padding: 0;
   font-family: sans-serif;
   font-weight: 700!important;
-  color:var(--dark-grey-color);
+  color:var(--text-color);
 }
 
 ul {
@@ -24,10 +24,10 @@ ul {
   display: flex;
   justify-content: center;
   width: 100%;
-  background: linear-gradient(180deg, var(--white-color) 0%, var(--light-white-color) 100%);
+  background: linear-gradient(180deg, var(--default-color) 0%, var(--dark-default-color) 100%);
 }
 
 a {
-  color: var(--dark-grey-color);
+  color: var(--text-color);
   text-decoration: none;
 }

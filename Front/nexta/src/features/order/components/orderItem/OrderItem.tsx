@@ -40,6 +40,9 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
             <h2 className={styles.h2}>
                 Заказ №: [{order?.id}]
             </h2>
+            <h2 className={styles.h2}>
+                Дата оформления {order?.createdDate}
+            </h2>
         </div>
         <table className={styles.table}>
             <thead className={styles.thead}>
