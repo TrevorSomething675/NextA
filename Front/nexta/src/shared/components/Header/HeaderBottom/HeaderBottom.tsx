@@ -16,7 +16,7 @@ export const HeaderBottom = observer(() => {
                 </Link>
             </div>
             <div>
-                Бесплатный подбор: +7 915-562-95-13
+                Бесплатный подбор: +7 (915) 562-95-13
             </div>
             <div>
                 {authStore.isAuthenticated &&

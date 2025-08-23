@@ -107,7 +107,7 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
             </div>
             <div>
                 <span className={styles.orderQuestion}>Есть вопросы по заказу?</span>
-                <span className={styles.number}>+7 915-562-95-13</span>
+                <span className={styles.number}>+7 (915) 562-95-13</span>
             </div>
             <div>
                 <span className={styles.totalSumText}>

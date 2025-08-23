@@ -1,5 +1,5 @@
-import WarehouseDetails from "../../details/components/WarehouseDetails/WarehouseDetails";
 import News from "../../news/components/News/News";
+import { ProductsContainer } from "../../product/components/ProductsContainer/ProductsContainer";
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
@@ -15,7 +15,7 @@ const HomePage = () => {
             <h2 className={styles.h2}>Список товаров</h2>
         </div>
     </div>
-    <WarehouseDetails />
+    <ProductsContainer />
 </div>
 }
 

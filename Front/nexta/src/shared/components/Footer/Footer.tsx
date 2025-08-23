@@ -4,7 +4,7 @@ const Footer:React.FC = () => {
     return <div className={styles.footer}>
         <ul className={styles.ul}>
             <li className={styles.li}>
-                Наши контакты: +7 915-562-95-13
+                Наши контакты: +7 (915) 562-95-13
             </li>
             <li className={styles.address}>
                 <a href="https://yandex.ru/maps/org/next_a/74246884771/?ll=37.914850%2C51.310781&z=18.98" target='_blank'>

@@ -7,6 +7,8 @@
 }
 
 .button{
+    font-family: sans-serif;
+    font-weight: 700!important;
     background-color: var(--red-color)!important;
     margin: 1rem 4rem!important;
     width: 12rem!important;
