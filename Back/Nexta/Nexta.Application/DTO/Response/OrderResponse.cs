@@ -9,7 +9,7 @@ namespace Nexta.Application.DTO.Response
 		public Guid UserId { get; init; }
 		public UserResponse User { get; init; } = null!;
 
-		public List<OrderDetailResponse>? OrderDetails { get; init; }
+		public List<OrderProductResponse>? BasketProducts { get; init; }
 
 		public string CreatedDate { get; init; } = string.Empty;
 		public OrderStatus Status { get; init; }

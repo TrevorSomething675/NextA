@@ -5,27 +5,27 @@ using MediatR;
 
 namespace Nexta.Application.Commands.Admin.UpdateOrderCommand
 {
-	public class UpdateAdminOrderCommandHandler : IRequestHandler<UpdateAdminOrderCommandRequest, UpdateAdminOrderCommandResponse>
+	public class UpdateAdminOrderCommandHandler : IRequestHandler<UpdateAdminOrderCommand, UpdateAdminOrderCommandResponse>
 	{
-		private readonly IOrderDetailRepository _orderDetailRepository;
+		private readonly IOrderProductRepository _orderProductRepository;
 		private readonly IOrderRepository _orderRepository;
 		private readonly IMapper _mapper;
 
-		public UpdateAdminOrderCommandHandler(IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository, IMapper mapper)
+		public UpdateAdminOrderCommandHandler(IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IMapper mapper)
 		{
-			_orderDetailRepository = orderDetailRepository;
+			_orderProductRepository = orderProductRepository;
 			_orderRepository = orderRepository;
 			_mapper = mapper;
 		}
 
-		public async Task<UpdateAdminOrderCommandResponse> Handle(UpdateAdminOrderCommandRequest request, CancellationToken ct = default)
+		public async Task<UpdateAdminOrderCommandResponse> Handle(UpdateAdminOrderCommand request, CancellationToken ct = default)
 		{
 			var orderToUpdate = _mapper.Map<Order>(request);
 
 			var updatedOrderId = await _orderRepository.UpdateAsync(orderToUpdate);
 
-			if(orderToUpdate.OrderDetails != null)
-				await _orderDetailRepository.ReplaceOrderDetailAsync(updatedOrderId, orderToUpdate.OrderDetails);
+			if(orderToUpdate.OrderProducts != null)
+				await _orderProductRepository.ReplaceOrderProductAsync(updatedOrderId, orderToUpdate.OrderProducts);
 
 			return new UpdateAdminOrderCommandResponse(updatedOrderId);
 		}

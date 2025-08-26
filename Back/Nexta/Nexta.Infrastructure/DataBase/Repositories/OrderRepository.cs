@@ -53,8 +53,8 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			{
 				var orderEntity = await context.Orders
 					.AsNoTracking()
-					.Include(o => o.OrderDetails)
-					.Include(o => o.Details)
+					.Include(o => o.OrderProducts)
+					.Include(o => o.Products)
 					.FirstOrDefaultAsync(ct);
 
 				var order = _mapper.Map<Order>(orderEntity);
@@ -76,7 +76,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 					.Where(o => filter.Statuses.Contains(o.Status));
 
 				var orders = await query
-					.Include(o => o.OrderDetails)!.ThenInclude(od => od.Detail)
+					.Include(o => o.OrderProducts)!.ThenInclude(od => od.Product)
 					.Skip((filter.PageNumber - 1) * filter.PageSize)
 					.Take(filter.PageSize)
 					.ToListAsync(ct);
@@ -103,7 +103,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 					.AsNoTracking();
 
 				var orders = await query
-					.Include(o => o.OrderDetails)!.ThenInclude(od => od.Detail)
+					.Include(o => o.OrderProducts)!.ThenInclude(od => od.Product)
 					.Skip((filter.PageNumber - 1) * filter.PageSize)
 					.Take(filter.PageSize)
 					.ToListAsync(ct);

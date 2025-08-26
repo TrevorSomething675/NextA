@@ -2,7 +2,7 @@
 
 namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
 {
-    public class IsRegisteredQueryValidator : AbstractValidator<IsRegisteredQueryRequest>
+    public class IsRegisteredQueryValidator : AbstractValidator<IsRegisteredQuery>
     {
         public IsRegisteredQueryValidator() 
         {

@@ -9,13 +9,13 @@ namespace Nexta.Web.Extensions
 		{
 			services
 				.AddScoped<IUserRepository, UserRepository>()
-				.AddScoped<IDetailRepository, DetailRepository>()
-				.AddScoped<IUserDetailRepository, UserDetailRepository>()
+				.AddScoped<IProductRepository, ProductsRepository>()
+				.AddScoped<IBasketProductRepository, BasketProductRepository>()
 				.AddScoped<IOrderRepository, OrderRepository>()
-				.AddScoped<IOrderDetailRepository, OrderDetailRepository>()
+				.AddScoped<IOrderProductRepository, OrderProductRepository>()
 				.AddScoped<INewsImageRepository, NewsImageRepository>()
-				.AddScoped<INewsRepository, NewsRepository>()
-				.AddScoped<IDetailImageRepository, DetailImageRepository>();
+				.AddScoped<IProductImageRepository, ProductImageRepository>()
+				.AddScoped<INewsRepository, NewsRepository>();
 
 			return services;
 		}

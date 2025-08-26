@@ -7,7 +7,7 @@ using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {
-	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQueryRequest, GetOrdersForUserQueryResponse>
+	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQuery, GetOrdersForUserQueryResponse>
 	{
 		private readonly IOrderRepository _orderRepository;
 		private readonly IMapper _mapper;
@@ -18,12 +18,12 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 			_mapper = mapper;
 		}
 
-		public async Task<GetOrdersForUserQueryResponse> Handle(GetOrdersForUserQueryRequest request, CancellationToken ct = default)
+		public async Task<GetOrdersForUserQueryResponse> Handle(GetOrdersForUserQuery query, CancellationToken ct = default)
 		{
-			request.Filter.Statuses = GetOrderStatuses();
+			query.Filter.Statuses = GetOrderStatuses();
 
-			var orders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetOrdersAsync(request.Filter, ct));
-			var totalCount = await _orderRepository.CountOrdersAsync(request.Filter.UserId, ct);
+			var orders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetOrdersAsync(query.Filter, ct));
+			var totalCount = await _orderRepository.CountOrdersAsync(query.Filter.UserId, ct);
 
 			return new GetOrdersForUserQueryResponse(orders, totalCount);
 		}

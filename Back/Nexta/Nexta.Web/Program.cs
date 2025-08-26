@@ -60,7 +60,7 @@ services.AddDbContextFactory<MainContext>((serviceProvider, optionsBuilder) =>
             DbContextLoggerOptions.DefaultWithLocalTime |
             DbContextLoggerOptions.SingleLine);
 });
-/*
+
 using (var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
 {
 	if(context.Users.FirstOrDefault() == null)
@@ -77,7 +77,7 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				MiddleName = "TestMName1",
 				PasswordHash = "123123123Qq",
 			};
-			var detail = new DetailEntity
+			var detail = new ProductEntity
 			{
 				Name = "Моторное масло",
 				Article = "A000989210713MBR",
@@ -89,8 +89,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				NewPrice = 12091,
 				IsVisible = true
 			};
-			var detail2 = new DetailEntity
-			{
+			var detail2 = new ProductEntity
+            {
 				Name = "Моторное масло",
 				Article = "A000989220713MBR",
 				Description = "МАСЛО МОТОРНОЕ 229.51 SAE",
@@ -101,8 +101,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				NewPrice = 12264,
 				IsVisible = true
 			};
-			var detail3 = new DetailEntity
-			{
+			var detail3 = new ProductEntity
+            {
 				Name = "Лобовое стекло",
 				Article = "A1666705400MB",
 				Description = "СТЕКЛО ВЕТРОВОЕ ПЕРЕДНЕЕ для Mercedes-Benz GLE",
@@ -113,8 +113,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				NewPrice = 81296,
 				IsVisible = true
 			};
-			var detail4 = new DetailEntity
-			{
+			var detail4 = new ProductEntity
+            {
 				Name = "Свеча зажигания",
 				Article = "Denso-K16RU11",
 				Description = "СВЕЧА ЗАЖИГАНИЯ",
@@ -126,8 +126,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				OldPrice = 320,
 				IsVisible = true
 			};
-			var detail5 = new DetailEntity
-			{
+			var detail5 = new ProductEntity
+            {
 				Name = "Масляный фильтр",
 				Article = "2630035505",
 				Description = "ФИЛЬТР МАСЛЯНЫЙ",
@@ -138,8 +138,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				NewPrice = 507,
 				IsVisible = true
 			};
-			var detail6 = new DetailEntity
-			{
+			var detail6 = new ProductEntity
+            {
 				Name = "Очиститель двигателя",
 				Article = "Grass 116100",
 				Description = "Очиститель двигателя Motor Cleaner",
@@ -150,8 +150,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				NewPrice = 359,
 				IsVisible = true
 			};
-			var detail7 = new DetailEntity
-			{
+			var detail7 = new ProductEntity
+            {
 				Name = "Герметик",
 				Article = "703141410",
 				Description = "Герметик-прокладка Reinzosil силикон серый эластич",
@@ -162,8 +162,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				NewPrice = 718,
 				IsVisible = true
 			};
-			var detail8 = new DetailEntity
-			{
+			var detail8 = new ProductEntity
+            {
 				Name = "Шина",
 				Article = "526111",
 				Description = "Шина зимняя нешипованная легковая 175/65R14 82T",
@@ -175,8 +175,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				OldPrice = 28700,
 				IsVisible = true
 			};
-			var detail9 = new DetailEntity
-			{
+			var detail9 = new ProductEntity
+            {
 				Name = "Шина",
 				Article = "457442784",
 				Description = "Автошина R13 155/70 Cordiant Road Runner 75T (лето)",
@@ -186,8 +186,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				Count = 1,
 				NewPrice = 5960
 			};
-			var detail10 = new DetailEntity
-			{
+			var detail10 = new ProductEntity
+            {
 				Name = "Шина",
 				Article = "1012050",
 				Description = "Шина летняя легковая 175/65R14 82H",
@@ -199,8 +199,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				OldPrice = 11098,
 				IsVisible = false
 			};
-			var detail11 = new DetailEntity
-			{
+			var detail11 = new ProductEntity
+            {
 				Name = "Шина",
 				Article = "1010711",
 				Description = "Автошина R15 195/60 Hankook Optimo ME02 K424 88H (лето)",
@@ -211,8 +211,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				NewPrice = 9276,
 				IsVisible = true
 			};
-			var detail12 = new DetailEntity
-			{
+			var detail12 = new ProductEntity
+            {
 				Name = "Компрессор",
 				Article = "CA03014S",
 				Description = "Компрессор X1 (30л/мин, 7 АТМ, серия STANDARD)",
@@ -223,8 +223,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				NewPrice = 3113,
 				IsVisible = true
 			};
-			var detail13 = new DetailEntity
-			{
+			var detail13 = new ProductEntity
+            {
 				Name = "Манометр",
 				Article = "522200",
 				Description = "Манометр шинный стрелочный в блистере. Изготовлен из ударо-прочной пластмассы. Диапазон " +
@@ -240,20 +240,20 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 			if (context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru") == null)
 			{
 				context.Users.Add(user);
-				context.Details.AddRange(detail, detail2, detail3, detail4, detail5, detail6, detail7, detail8, detail9, detail10, detail11, detail12, detail13);
+				context.Products.AddRange(detail, detail2, detail3, detail4, detail5, detail6, detail7, detail8, detail9, detail10, detail11, detail12, detail13);
 				context.SaveChanges();
 
 				var userEntity = context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru");
-				var detailEntity = context.Details.FirstOrDefault();
+				var detailEntity = context.Products.FirstOrDefault();
 
-				var userDetailEntity = new UserDetailEntity
+				var userDetailEntity = new BasketProductEntity
 				{
-					Detail = detailEntity,
+					Product = detailEntity,
 					User = userEntity
 				};
 
 
-				context.UserDetails.Add(userDetailEntity);
+				context.BasketProducts.Add(userDetailEntity);
 				context.SaveChanges();
 				var userEntity1 = context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru");
 				var order = new OrderEntity
@@ -275,19 +275,19 @@ using(var context = services.BuildServiceProvider().GetRequiredService<MainConte
 	{
 	    var createdOrder = context.Orders.FirstOrDefault();
 	
-		var createdDetail = context.Details.FirstOrDefault();
+		var createdDetail = context.Products.FirstOrDefault();
 	
-		var orderDetail1 = new OrderDetailEntity
+		var orderDetail1 = new OrderProductEntity
 		{
-			Detail = createdDetail,
+			Product = createdDetail,
 			Order = createdOrder
 		};
 	
-		context.OrderDetails.Add(orderDetail1);
+		context.OrderProducts.Add(orderDetail1);
 		context.SaveChanges();
 	}
 }
-*/
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();

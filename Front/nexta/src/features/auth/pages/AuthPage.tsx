@@ -1,38 +1,55 @@
-import { useState } from "react";
-import Login from "../components/login/Login";
-import Register from "../components/register/Register";
-import CodeVerify from "../components/codeVerify/CodeVerify";
-import { AuthUser } from "../../../stores/AuthStore/models/AuthUser";
+import { useState } from "react"
+import Login from "../components/login/Login"
+import { RegisterFirstStep } from "../components/registerFirstStep/RegisterFirstStep"
+import { RegisterSecondStep } from "../components/registerSecondStep/RegisterSecondStep"
+import CodeVerify from "../components/codeVerify/CodeVerify"
 
-const AuthPage = () => {
-    const [isLogin, changeAuth] = useState(true);
-    const [isVerifyCode, setVerifyCodeAuth] = useState(false);
-    const [authRequest, setAuthRequest] = useState<AuthUser | null>(null);
+export type AuthStep = "login" | "registerFirstStep" | "registerSecondStep" | "codeVerify"
 
-    const changeLoginStatusHandler = () => {
-        changeAuth(!isLogin);
-    }
+export interface UserData {
+    id?:string | null
+    email:string | null
+    firstName:string | null
+    lastName:string | null
+    middleName:string | null
+    role?:string | null
+    phone?:string | null
+    password: string,
+    confirmPassword?: string | null
+}
 
-    const changeCodeVerifyHandler = (user: AuthUser) => {
-        setAuthRequest(user);
-        setVerifyCodeAuth(!isVerifyCode);
+export const AuthPage = () => {
+    const [authStep, setAuthStep] = useState<AuthStep>("login");
+    const [authUser, setAuthUser] = useState<UserData>({} as UserData);
+
+    const handleChangeAuth = (authStep:AuthStep, authUser: UserData) => {
+        console.log(authStep);
+        console.warn(authUser);
+        
+        setAuthStep(authStep);
+        setAuthUser(authUser);
     }
 
     return <div>
-        {!isVerifyCode && <>
-            {(isLogin) ? 
-            (<Login 
-                changeCodeVerifyStatus={changeCodeVerifyHandler} 
-                changeAuthStatus={changeLoginStatusHandler} 
-                />)
-                :
-                (<Register 
-                    changeCodeVerifyStatus={changeCodeVerifyHandler} 
-                    changeFormStatus={changeLoginStatusHandler} 
-                />)}
-        </>}
-        {isVerifyCode && <CodeVerify firstStepUser={authRequest!} />}
+        {authStep === "login" && (
+            <Login 
+                handleChangeAuth={handleChangeAuth}
+            />
+        )}
+        {authStep === "registerFirstStep" &&
+            <RegisterFirstStep 
+                handleChangeAuth={handleChangeAuth}
+            />
+        }
+        {authStep === "registerSecondStep" &&
+            <RegisterSecondStep 
+                authUser={authUser}
+            />
+        }
+        {authStep === 'codeVerify' && 
+            <CodeVerify 
+                authUser={authUser}
+            />
+        }
     </div>
 }
-
-export default AuthPage;

@@ -7,7 +7,8 @@ import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket
 import basket from '../../../../stores/basket';
 import BasketService from '../../../basket/services/BasketService';
 import authStore from '../../../../stores/AuthStore/authStore';
-import { ViewAlreadyExistDetailInBasket } from '../../../../shared/components/ViewAlreadyExistDetailInBasket/ViewAlreadyExistDetailInBasket';
+import { ViewAlreadyExistProductInBasket } from '../../../../shared/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket';
+import { Product } from '../../../../models/product/Product';
 
 const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     const [count, setCount] = useState(1);
@@ -121,11 +122,11 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
             </td>
             <td>
                 <div>
-                    <ViewAlreadyExistDetailInBasket
+                    <ViewAlreadyExistProductInBasket
                         isOpen={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
-                        detail={detail}
-                        detailCount={count}
+                        product={{} as Product}
+                        productCount={count}
                         onCountChange={handleDetailCountChange}
                     />
                 </div>

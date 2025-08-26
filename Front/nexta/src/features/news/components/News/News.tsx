@@ -28,9 +28,11 @@ const News = () => {
     }, [isLoading, newsResponse, currentSlide]);
 
     const fetchData = async () => {
-        const news = await NewsService.GetNews();
-        setNewsResponse(news);
-        setIsLoading(false);
+        const response = await NewsService.Get();
+        if(response.success && response.status === 200){
+            setNewsResponse(response.data);
+            setIsLoading(false);
+        }
     };
 
     const stopAutoSlide = () => {

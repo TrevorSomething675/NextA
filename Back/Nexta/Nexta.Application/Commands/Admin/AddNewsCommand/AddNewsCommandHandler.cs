@@ -1,32 +1,26 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Abstractions.Services;
+using Nexta.Application.DTO.Response;
 using Nexta.Domain.Models;
+using FluentValidation;
 using AutoMapper;
 using MediatR;
-using FluentValidation;
-using Nexta.Domain.Exceptions;
-using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Commands.Admin.AddNewsCommand
 {
-	public class AddNewsCommandHandler : IRequestHandler<AddNewsCommandRequest, AddNewsCommandResponse>
+	public class AddNewsCommandHandler : IRequestHandler<AddNewsCommand, AddNewsCommandResponse>
 	{
-		private readonly IValidator<AddNewsCommandRequest> _validator;
-		private readonly INewsImageRepository _newsImageRepository;
+		private readonly IValidator<AddNewsCommand> _validator;
 		private readonly INewsRepository _newsRepository;
 		private readonly IMapper _mapper;
 		
-		public AddNewsCommandHandler(INewsRepository newsRepository, INewsImageRepository newsImageRepository,
-
-            IMapper mapper, IValidator<AddNewsCommandRequest> validator)
+		public AddNewsCommandHandler(INewsRepository newsRepository, IMapper mapper, IValidator<AddNewsCommand> validator)
 		{
-			_newsImageRepository = newsImageRepository;
 			_newsRepository = newsRepository;
 			_validator = validator;
 			_mapper = mapper;
 		}
 
-		public async Task<AddNewsCommandResponse> Handle(AddNewsCommandRequest request, CancellationToken ct = default)
+		public async Task<AddNewsCommandResponse> Handle(AddNewsCommand request, CancellationToken ct = default)
 		{
 			var validationResult = await _validator.ValidateAsync(request, ct);
 			if (!validationResult.IsValid)

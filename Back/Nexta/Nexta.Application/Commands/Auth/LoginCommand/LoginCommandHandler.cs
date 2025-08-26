@@ -8,15 +8,15 @@ using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Commands.Auth.LoginCommand
 {
-	public class LoginCommandHandler : IRequestHandler<LoginCommandRequest, LoginCommandResponse>
+	public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginCommandResponse>
 	{
-		private readonly IValidator<LoginCommandRequest> _validator;
+		private readonly IValidator<LoginCommand> _validator;
 		private readonly IHashService _passwordHashService;
 		private readonly IUserRepository _userRepository;
 		private readonly IMapper _mapper;
 
 		public LoginCommandHandler(IHashService passwordHashService, IUserRepository userRepository,
-			IMapper mapper, IValidator<LoginCommandRequest> validator)
+			IMapper mapper, IValidator<LoginCommand> validator)
 		{
 			_passwordHashService = passwordHashService;
 			_userRepository = userRepository;
@@ -24,7 +24,7 @@ namespace Nexta.Application.Commands.Auth.LoginCommand
 			_mapper = mapper;
 		}
 
-		public async Task<LoginCommandResponse> Handle(LoginCommandRequest request, CancellationToken ct = default)
+		public async Task<LoginCommandResponse> Handle(LoginCommand request, CancellationToken ct = default)
 		{
 			var validationResult = await _validator.ValidateAsync(request, ct);
 			if (!validationResult.IsValid)

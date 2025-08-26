@@ -9,10 +9,8 @@ import { GetBasketDetailsFilter, GetBasketDetailsRequest } from './features/bask
 import { GetOrdersForUserFilter, GetOrdersForUserRequest } from './features/order/models/GetOrdersForUserFilter'
 import { NotificationsProvider } from "./shared/components/Notifications/Notifications"
 import HomePage from "./features/home/pages/HomePage"
-import AuthPage from "./features/auth/pages/AuthPage"
 import BasketPage from "./features/basket/pages/BasketPage"
 import SearchPage from "./features/details/pages/SearchPage/SearchPage"
-import DetailPage from "./features/detail/pages/DetailPage"
 import OrderPage from "./features/order/pages/OrdersPage"
 import BasketService from "./features/basket/services/BasketService"
 import Header from "./shared/components/Header/Header"
@@ -26,12 +24,14 @@ import AdminNewsPage from "./features/admin/pages/news/AdminNewsPage"
 import AdminDetailPage from "./features/admin/pages/detail/AdminDetailPage"
 import { ErrorPage } from "./features/error/pages/ErrorPage"
 import { ProtectedAdminRoute } from "./http/ProtectedAdminRoute"
-import { AuthService } from "./features/auth/services/AuthService"
+import { ProductPage } from "./features/product/pages/ProductPage"
+import { AuthPage } from "./features/auth/pages/AuthPage"
+import { AuthService } from "./services/AuthService"
 
 const App = () => {
   useEffect(() => {
     const fetchData = async() => {
-        await AuthService.isAuth();
+        await AuthService.checkAuth();
 
         const filter:GetBasketDetailsFilter = {
             pageNumber: 1,
@@ -78,7 +78,7 @@ const App = () => {
               <Route path="Auth" element={<AuthPage />} />
               <Route path="Basket" element={<BasketPage />} />
               <Route path="Search" element={<SearchPage />} />
-              <Route path="Detail/:id" element={<DetailPage />} />
+              <Route path="Product/:id" element={<ProductPage />} />
               <Route path="Account" element={<AccountPage />} />
               <Route path="Order" element={<OrderPage />} />
               <Route path="Admin/Orders" element={

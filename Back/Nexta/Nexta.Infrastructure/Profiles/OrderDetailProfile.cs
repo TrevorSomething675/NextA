@@ -8,7 +8,7 @@ namespace Nexta.Infrastructure.Profiles
     {
         public OrderDetailProfile()
         {
-            CreateMap<OrderDetailEntity, OrderDetail>().ReverseMap();
+            CreateMap<OrderProductEntity, OrderProduct>().ReverseMap();
         }
     }
 }

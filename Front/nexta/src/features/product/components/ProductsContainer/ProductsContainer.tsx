@@ -1,38 +1,33 @@
 import { useEffect, useState } from 'react';
 import styles from './ProductsContainer.module.css';
-import { GetWarehouseResponse } from '../../../details/models/GetWarehouse';
-import { GetDetailsFilter, GetDetailsRequest } from '../../../details/models/GetDetails';
-import WarehouseService from '../../../../services/WarehouseService';
 import { ProductCard } from '../ProductCard/ProductCard';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
+import ProductsService from '../../../../services/ProductService';
+import { GetProductsResponse } from '../../../../models/product/GetProducts';
 
 export const ProductsContainer:React.FC<{pageNumber?: number}> = () => {
+    const [response, setResponse] = useState<GetProductsResponse>({} as GetProductsResponse);
+    
     const handlePageNumberChange = (pageNumber:number = 1) => {
-        fetchData(pageNumber);
+        fetchData('', pageNumber);
     };
 
-    const [response, setResponse] = useState<GetWarehouseResponse>({} as GetWarehouseResponse);
-    const fetchData = async (pageNumber:number) => {
-        const filter:GetDetailsFilter = {
-            pageSize: 8,
-            pageNumber: pageNumber
+    const fetchData = async (searchTerm:string = '',  pageNumber?:number, pageSize?:number) => {
+            const response = await ProductsService.Get(searchTerm, pageSize, pageNumber, false);
+            if(response.success && response.status === 200){
+                setResponse(response.data);
+            }
         }
-        const request:GetDetailsRequest = {
-            filter: filter
-        }
-        const response = await WarehouseService.GetDetails(request);
-        setResponse(response);
-    };
 
     useEffect(() => {
-        fetchData(1);
+        fetchData('');
     }, []);
 
 
     return <div className={styles.container}>
         <div className={styles.products}>
-            {(response?.data?.items !== undefined) && (response.data.items.map((detail) => 
-                <ProductCard key={detail.id} detail={detail} />
+            {(response?.data?.items !== undefined) && (response.data.items.map((product) => 
+                <ProductCard key={product.id} product={product} />
             ))}
         </div>
         <div className={styles.paggingContainer}>

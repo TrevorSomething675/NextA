@@ -3,7 +3,7 @@ import Button from '../../../../shared/components/Button/Button';
 import authStore from '../../../../stores/AuthStore/authStore';
 import styles from './ConfirmPhone.module.css';
 import { ConfirmPhoneFormRequest } from '../../models/ConfirmPhoneForm';
-import { AuthService } from '../../../auth/services/AuthService';
+import { AuthService } from '../../../../services/LegacyAuthService';
 import { observer } from 'mobx-react';
 import { TrueSvg } from '../../../../shared/svgs/TrueSvg/TrueSvg';
 import { FalseSvg } from '../../../../shared/svgs/FalseSvg/FalseSvg';

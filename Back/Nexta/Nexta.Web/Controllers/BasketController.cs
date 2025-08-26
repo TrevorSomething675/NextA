@@ -1,52 +1,65 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Nexta.Application.Commands.Basket.UpdateBasketProductCommand;
+using Nexta.Application.Commands.Basket.DeleteBasketProductCommand;
+using Nexta.Application.Commands.Basket.AddBasketProductCommand;
+using Nexta.Application.Queries.Basket.GetBasketProductsQuery;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nexta.Web.Models.Basket;
+using AutoMapper;
 using MediatR;
-using Nexta.Application.Queries.Basket.GetBasketDetailsQuery;
-using Nexta.Application.Commands.Basket.DeleteBasketDetailCommand;
-using Nexta.Application.Commands.Basket.AddBasketDetailCommand;
-using Nexta.Application.Commands.Basket.UpdateBasketDetailCommand;
 
 namespace Nexta.Web.Controllers
 {
 	[Authorize]
-	[Route("[controller]")]
+	[Route("api/[controller]")]
 	public class BasketController : ControllerBase
 	{
 		private readonly IMediator _mediator;
-		public BasketController(IMediator mediator)
+		private readonly IMapper _mapper;
+
+		public BasketController(IMediator mediator, IMapper mapper)
 		{
 			_mediator = mediator;
+			_mapper = mapper;
 		}
 
-		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(GetBasketDetailsQueryResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Get([FromBody] GetBasketDetailsQueryRequest request, CancellationToken ct = default)
+		[HttpGet("[action]")]
+		[ProducesResponseType(typeof(GetBasketProductsQueryResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Get([FromQuery] GetBasketProductsRequest request, CancellationToken ct = default)
 		{
+			var query = _mapper.Map<GetBasketProductsQuery>(request);
 			var response = await _mediator.Send(request, ct);
+
 			return Results.Ok(response);
 		}
 
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(AddBasketDetailQueryResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Add([FromBody] AddBasketDetailQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(AddBasketProductCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Add([FromBody] AddBasketProductRequest request, CancellationToken ct = default)
 		{
+			var command = _mapper.Map<AddBasketProductCommand>(request);
 			var response = await _mediator.Send(request, ct);
+
+			return Results.Ok(response);
+		}
+
+		[HttpPatch("[action]")]
+		[ProducesResponseType(typeof(UpdateBasketProductCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Update([FromBody] UpdateBasketProductRequest request, CancellationToken ct = default)
+		{
+			var command = _mapper.Map<UpdateBasketProductCommand>(request);
+			var response = await _mediator.Send(command, ct);
+
 			return Results.Ok(response);
 		}
 
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(DeleteBasketDetailCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Delete([FromBody] DeleteBasketDetailCommandRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(DeleteBasketProductCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> Delete([FromRoute] DeleteBasketProductRequest request, CancellationToken ct = default)
 		{
+			var command = _mapper.Map<DeleteBasketProductCommand>(request);
 			var response = await _mediator.Send(request, ct);
-			return Results.Ok(response);
-		}
 
-		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(UpdateBasketDetailCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Update([FromBody] UpdateBasketDetailCommandRequest request, CancellationToken ct = default)
-		{
-			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);
 		}
 	}

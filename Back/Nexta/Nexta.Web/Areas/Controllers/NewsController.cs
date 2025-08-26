@@ -2,6 +2,8 @@
 using Nexta.Application.Commands.Admin.AddNewsCommand;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nexta.Web.Areas.Models;
+using AutoMapper;
 using MediatR;
 
 namespace Nexta.Web.Areas.Controllers
@@ -13,25 +15,32 @@ namespace Nexta.Web.Areas.Controllers
     public class NewsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public NewsController(IMediator mediator)
+
+        public NewsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         [ProducesResponseType(typeof(AddNewsCommandResponse), StatusCodes.Status200OK)]
-        public async Task<IResult> Add([FromBody] AddNewsCommandRequest request, CancellationToken ct = default)
+        public async Task<IResult> Add([FromBody] AddNewsRequest request, CancellationToken ct = default)
 		{
-            var response = await _mediator.Send(request, ct);
+            var command = _mapper.Map<AddNewsCommand>(request);
+            var response = await _mediator.Send(command, ct);
+
             return Results.Ok(response);
 		}
 
-        [HttpPost("[action]")]
+        [HttpPost("{id}")]
         [ProducesResponseType(typeof(DeleteNewsCommandResponse), StatusCodes.Status200OK)]
-        public async Task<IResult> Delete([FromBody] DeleteNewsCommandRequest request, CancellationToken ct = default)
+        public async Task<IResult> Delete([FromRoute] Guid id, CancellationToken ct = default)
         {
-            var response = await _mediator.Send(request, ct);
+            var command = new DeleteNewsCommandRequest(id);
+            var response = await _mediator.Send(command, ct);
+
             return Results.Ok(response);
         }
     }

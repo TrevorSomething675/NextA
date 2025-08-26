@@ -5,14 +5,28 @@ import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
 import { AddNewsForm } from "../features/admin/models/AddNews/AddNews";
 import { DeleteNewsRequest } from "../features/admin/models/DeleteNews/DeleteNewsRequest";
 import { DeleteNewsResponse } from "../features/admin/models/DeleteNews/DeleteNewsResponse";
+import { ApiResponse } from "../http/BaseResponse";
 
 class NewsService{
-    static async GetNews(){
+    static async Get() : Promise<ApiResponse<GetNewsResponse, ErrorResponseModel>>{
         try{
-            const response = await api.post<GetNewsResponse>('News/GetAll');
-            return response.data
+            const response = await api.get<GetNewsResponse>('News/Get');
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            }
         } catch(error){
-            throw new Error('Сетевая ошибка или ошибка конфигурации');
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            }
+            else{
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
         }
     }
     static async Update(){

@@ -5,7 +5,7 @@ namespace Nexta.Infrastructure.Extensions
 {
     public static class DetailEntityQueryExtension
 	{
-		public static IQueryable<DetailEntity> WithSearchTerm(this IQueryable<DetailEntity> query, string searchTerm)
+		public static IQueryable<ProductEntity> WithSearchTerm(this IQueryable<ProductEntity> query, string searchTerm)
 		{
 			if (!string.IsNullOrEmpty(searchTerm))
 			{

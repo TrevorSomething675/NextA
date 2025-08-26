@@ -6,7 +6,9 @@ import { GetDetailRequest, GetDetailResponse } from '../features/detail/models/G
 class DetailsService{
     static async GetDetails(request:GetDetailsRequest){
         try{
-            const response = await api.post<GetDetailsResponse>('Detail/GetAll', request);
+            const response = await api.get<GetDetailsResponse>('Products/Get', {
+                params: request
+            });
             return response.data
         } catch(error){
             if(axios.isAxiosError(error) && error.response){

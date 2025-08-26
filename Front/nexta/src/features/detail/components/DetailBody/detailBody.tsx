@@ -8,7 +8,8 @@ import { useNotifications } from "../../../../shared/components/Notifications/No
 import basket from "../../../../stores/basket";
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from "../../../basket/models/GetBasketDetails";
 import authStore from "../../../../stores/AuthStore/authStore";
-import { ViewAlreadyExistDetailInBasket } from "../../../../shared/components/ViewAlreadyExistDetailInBasket/ViewAlreadyExistDetailInBasket";
+import { ViewAlreadyExistProductInBasket } from "../../../../shared/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket";
+import { Product } from "../../../../models/product/Product";
 
 const statusLabels = {
     [DetailStatus.Unknown]: 'Неизвестный статус',
@@ -119,11 +120,11 @@ const DetailBody:React.FC<{detail:Detail}> = ({detail}) => {
             </div>
         </div>
         <div className={styles.rightBar}>
-            <ViewAlreadyExistDetailInBasket
+            <ViewAlreadyExistProductInBasket
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                detail={detail}
-                detailCount={count}
+                product={{} as Product}
+                productCount={count}
                 onCountChange={handleDetailCountChange}
             />
         </div>

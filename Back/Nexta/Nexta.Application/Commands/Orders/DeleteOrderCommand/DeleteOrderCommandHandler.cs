@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Nexta.Application.Commands.Orders.DeleteOrderCommand
 {
-	public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommandRequest, DeleteOrderCommandResponse>
+	public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, DeleteOrderCommandResponse>
 	{
 		private readonly IOrderRepository _orderRepository;
 
@@ -12,7 +12,7 @@ namespace Nexta.Application.Commands.Orders.DeleteOrderCommand
 			_orderRepository = orderRepository;
 		}
 
-		public async Task<DeleteOrderCommandResponse> Handle(DeleteOrderCommandRequest request, CancellationToken cancellationToken)
+		public async Task<DeleteOrderCommandResponse> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
 		{
 			var orderId = await _orderRepository.DeleteAsync(request.OrderId);
 

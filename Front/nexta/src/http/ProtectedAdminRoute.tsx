@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../features/auth/services/AuthService";
+import { AuthService } from "../services/LegacyAuthService";
 import authStore from "../stores/AuthStore/authStore";
 
 export const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {

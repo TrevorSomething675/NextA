@@ -8,7 +8,7 @@ namespace Nexta.Infrastructure.Profiles
     {
         public UserDetailProfile() 
         {
-            CreateMap<UserDetail, UserDetailEntity>().ReverseMap();
+            CreateMap<BasketProduct, BasketProductEntity>().ReverseMap();
         }
     }
 }

@@ -7,8 +7,10 @@ export interface RegistrationRequest {
     lastName:string,
     password:string,
     confirmPassword:string
+    code: string
 }
 
 export interface RegistrationResponse {
     user:User
+    accessToken:string
 }

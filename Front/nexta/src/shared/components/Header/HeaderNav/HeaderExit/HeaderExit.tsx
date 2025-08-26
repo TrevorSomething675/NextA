@@ -1,7 +1,7 @@
 import basket from "../../../../../stores/basket";
 import styles from './HeaderExit.module.css';
 import authStore from "../../../../../stores/AuthStore/authStore";
-import { AuthService } from "../../../../../features/auth/services/AuthService";
+import { AuthService } from "../../../../../services/AuthService";
 
 export const HeaderExit = () => {
     const logout = () => {

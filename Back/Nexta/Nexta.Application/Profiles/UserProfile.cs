@@ -1,7 +1,7 @@
-﻿using Nexta.Application.Commands.Auth.RegistrationCommand;
-using Nexta.Domain.Models;
+﻿using Nexta.Domain.Models;
 using AutoMapper;
 using Nexta.Application.DTO.Response;
+using Nexta.Application.Commands.Auth.RegisterCommand;
 
 namespace Nexta.Application.Profiles
 {
@@ -9,7 +9,7 @@ namespace Nexta.Application.Profiles
     {
         public UserProfile() 
         {
-            CreateMap<RegistrationCommandRequest, User>();
+            CreateMap<RegisterCommand, User>();
             CreateMap<User, UserResponse>();
         }
     }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Nexta.Application.Commands.Account.ConfirmPhoneCommand
 {
-    public class ConfirmPhoneCommandHandler : IRequestHandler<ConfirmPhoneCommandRequest, ConfirmPhoneCommandResponse>
+    public class ConfirmPhoneCommandHandler : IRequestHandler<ConfirmPhoneCommand, ConfirmPhoneCommandResponse>
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,7 +13,7 @@ namespace Nexta.Application.Commands.Account.ConfirmPhoneCommand
             _userRepository = userRepository;
         }
 
-        public async Task<ConfirmPhoneCommandResponse> Handle(ConfirmPhoneCommandRequest request, CancellationToken ct = default)
+        public async Task<ConfirmPhoneCommandResponse> Handle(ConfirmPhoneCommand request, CancellationToken ct = default)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email, ct);
 

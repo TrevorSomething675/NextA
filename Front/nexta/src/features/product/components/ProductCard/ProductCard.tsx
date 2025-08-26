@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Image from '../../../../shared/components/Image/Image';
-import { Detail } from '../../../../shared/entities/Detail';
 import styles from './ProductCard.module.css';
 import { useNavigate } from 'react-router-dom';
 import { AddBasketDetailRequest } from '../../../basket/models/AddBasketDetail';
@@ -8,10 +7,11 @@ import authStore from '../../../../stores/AuthStore/authStore';
 import BasketService from '../../../basket/services/BasketService';
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket/models/GetBasketDetails';
 import basket from '../../../../stores/basket';
-import { ViewAlreadyExistDetailInBasket } from '../../../../shared/components/ViewAlreadyExistDetailInBasket/ViewAlreadyExistDetailInBasket';
 import { useNotifications } from '../../../../shared/components/Notifications/Notifications';
+import { Product } from '../../../../models/product/Product';
+import { ViewAlreadyExistProductInBasket } from '../../../../shared/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket';
 
-export const ProductCard:React.FC<{detail:Detail}> = ({detail}) => {
+export const ProductCard:React.FC<{product:Product}> = ({product}) => {
     const [count, setCount] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
@@ -19,7 +19,7 @@ export const ProductCard:React.FC<{detail:Detail}> = ({detail}) => {
 
     const goToDetailPage = () => {
         if(!isModalOpen){
-            navigate(`/Detail/${detail.id}`);
+            navigate(`/Product/${product.id}`);
         }
     };
     const increment = () => {
@@ -47,7 +47,7 @@ export const ProductCard:React.FC<{detail:Detail}> = ({detail}) => {
     const fetchData = async() =>{
         const request:AddBasketDetailRequest = {
             userId: authStore?.user?.id ?? '',
-            detailId: detail.id,
+            detailId: product.id,
             countToPay: count
         };
         const result = await BasketService.AddBasketDetail(request);
@@ -72,28 +72,27 @@ export const ProductCard:React.FC<{detail:Detail}> = ({detail}) => {
 
     return <div className={styles.container}>
         <div>
-            <ViewAlreadyExistDetailInBasket
+            <ViewAlreadyExistProductInBasket
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                detail={detail}
-                detailCount={count}
+                product={product}
+                productCount={count}
                 onCountChange={handleDetailCountChange}
             />
         </div>
         {isModalOpen && <div className={styles.overlay} />}
         <div className={styles.productHeader} onClick={goToDetailPage}>
             <div className={styles.offersContainer}>
-                {(detail.oldPrice !== 0) &&
+                {(product.oldPrice !== 0) &&
                     <div className={styles.saleOffer}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15"/>
                         </svg>
                         Скидка
                     </div>}
-                    
-                {(detail?.count > 0) && 
+                {(product?.count > 0) && 
                     <div className={styles.warehouseOffer}>
-                        На складе: {detail.count}
+                        На складе: {product.count}
                     </div>}            
             </div>
             <Image srcImage='/defaultImage2.jpg' className={styles.image} />
@@ -101,16 +100,16 @@ export const ProductCard:React.FC<{detail:Detail}> = ({detail}) => {
         <div className={styles.productBody} onClick={goToDetailPage}>
             <div>
                 <h2 className={styles.h2}>
-                    {detail.name}
+                    {product.name}
                 </h2>
             </div>
             <div>
                 <h2 className={styles.h2}>
-                    Артикул: {detail.article}
+                    Артикул: {product.article}
                 </h2>
             </div>
             <div className={styles.description}>
-                {detail.description}
+                {product.description}
             </div>
         </div>
         <div className={styles.productFooter}>
@@ -128,12 +127,12 @@ export const ProductCard:React.FC<{detail:Detail}> = ({detail}) => {
                     />
                 <button type="button" className={styles.up} onClick={increment}>►</button>
                 <span className={styles.priceContainer}>
-                    <span className={detail.oldPrice ? styles.newPrice : styles.defaultPrice}>
-                        {detail.newPrice * count} руб.
+                    <span className={product.oldPrice ? styles.newPrice : styles.defaultPrice}>
+                        {product.newPrice * count} руб.
                     </span>
-                    {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
+                    {(product.oldPrice !== undefined && product.oldPrice != 0) &&
                         <span className={styles.oldPrice}>
-                            {detail.oldPrice * count} руб.
+                            {product.oldPrice * count} руб.
                         </span>
                     }
                 </span>

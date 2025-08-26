@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using System.Reflection;
+﻿using System.Reflection;
+using AutoMapper;
 
 namespace Nexta.Web.Extensions
 {
@@ -11,6 +11,7 @@ namespace Nexta.Web.Extensions
 			{
 				config.AddMaps(Assembly.GetAssembly(typeof(Application.AssemblyMarker)));
 				config.AddMaps(Assembly.GetAssembly(typeof(Infrastructure.AssemblyMarker)));
+				config.AddMaps(Assembly.GetAssembly(typeof(Web.AssemblyMarker)));
 			});
 			//mapperConfig.AssertConfigurationIsValid();
 			var mapper = mapperConfig.CreateMapper();

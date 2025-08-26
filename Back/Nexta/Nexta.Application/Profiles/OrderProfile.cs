@@ -14,7 +14,7 @@ namespace Nexta.Application.Profiles
             CreateMap<DateOnly, string>().ConvertUsing(d => d.ToString("dd.MM.yyyy"));
 
             CreateMap<PagedData<Order>, PagedData<OrderResponse>>();
-            CreateMap<UpdateAdminOrderCommandRequest, Order>();
+            CreateMap<UpdateAdminOrderCommand, Order>();
         }
     }
 }

@@ -6,7 +6,7 @@ import { ChangePasswordRequest } from '../../../auth/models/changePassword';
 import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
 import Button from '../../../../shared/components/Button/Button';
 import authStore from '../../../../stores/AuthStore/authStore';
-import { AuthService } from '../../../auth/services/AuthService';
+import { AuthService } from '../../../../services/LegacyAuthService';
 import { useNavigate } from 'react-router-dom';
 import { useNotifications } from '../../../../shared/components/Notifications/Notifications';
 

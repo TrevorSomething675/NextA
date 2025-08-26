@@ -1,48 +1,46 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models;
 using FluentValidation;
-using AutoMapper;
 using MediatR;
 
 namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 {
-	public class CreateNewOrderCommandHandler : IRequestHandler<CreateNewOrderCommandRequest, CreateNewOrderCommandResponse>
+	public class CreateNewOrderCommandHandler : IRequestHandler<CreateNewOrderCommand, CreateNewOrderCommandResponse>
 	{
-		private readonly IMapper _mapper;
-		private readonly IUserDetailRepository _userDetailRepository;
+		private readonly IBasketProductRepository _basketProductRepository;
 		private readonly IOrderRepository _orderRepository;
-		private readonly IOrderDetailRepository _orderDetailRepository;
-		private readonly IValidator<CreateNewOrderCommandRequest> _validator;
+		private readonly IOrderProductRepository _orderProductRepository;
+		private readonly IValidator<CreateNewOrderCommand> _validator;
 
-		public CreateNewOrderCommandHandler(IUserDetailRepository userDetailRepository, IOrderDetailRepository orderDetailRepository,
-			IMapper mapper, IOrderRepository orderRepository, IValidator<CreateNewOrderCommandRequest> validator)
+		public CreateNewOrderCommandHandler(IBasketProductRepository basketProductRepository, IOrderProductRepository orderProductRepository,
+			IOrderRepository orderRepository, IValidator<CreateNewOrderCommand> validator)
 		{
-			_orderDetailRepository = orderDetailRepository;
-			_userDetailRepository = userDetailRepository;
+            _orderProductRepository = orderProductRepository;
+            _basketProductRepository = basketProductRepository;
 			_orderRepository = orderRepository;
 			_validator = validator;
-			_mapper = mapper;
 		}
 
-		public async Task<CreateNewOrderCommandResponse> Handle(CreateNewOrderCommandRequest request, CancellationToken ct)
+		public async Task<CreateNewOrderCommandResponse> Handle(CreateNewOrderCommand command, CancellationToken ct)
 		{
-			var validationResult = await _validator.ValidateAsync(request, ct);
+			var validationResult = await _validator.ValidateAsync(command, ct);
 
 			if (!validationResult.IsValid)
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var userDetails = await _userDetailRepository.GetRangeAsync(request.UserId, request.DetailIds, ct);
-			var order = await _orderRepository.AddAsync(new Order { UserId = request.UserId, CreatedDate = request.CreatedDate });
+			var userDetails = await _basketProductRepository.GetRangeAsync(command.UserId, command.ProductIds, ct);
+			var order = await _orderRepository.AddAsync(new Order { UserId = command.UserId, CreatedDate = command.CreatedDate });
 
-			var orderDetails = new List<OrderDetail>();
+			var orderDetails = new List<OrderProduct>();
 
 			foreach (var detail in userDetails)
 			{
-				orderDetails.Add(new OrderDetail { OrderId = order.Id, DetailId = detail.DetailId, Count = detail.Count.Value });
+				orderDetails.Add(new OrderProduct { OrderId = order.Id, ProductId = detail.ProductId, Count = detail.Count.Value });
 			}
 
-			await _orderDetailRepository.AddRangeAsync(orderDetails, ct);
-			await _userDetailRepository.DeleteRangeAsync(request.UserId, request.DetailIds, ct);
+			await Task.WhenAll(
+				_orderProductRepository.AddRangeAsync(orderDetails, ct), 
+				_basketProductRepository.DeleteRangeAsync(command.UserId, command.ProductIds, ct));
 
 			return new CreateNewOrderCommandResponse(order.Id);
 		}

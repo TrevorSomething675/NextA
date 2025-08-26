@@ -1,6 +1,4 @@
-﻿using Nexta.Domain.Enums;
-
-namespace Nexta.Infrastructure.DataBase.Entities
+﻿namespace Nexta.Infrastructure.DataBase.Entities
 {
 	public class UserEntity : BaseEntity
 	{
@@ -13,7 +11,7 @@ namespace Nexta.Infrastructure.DataBase.Entities
 
 		public string PasswordHash { get; set; } = null!;
 		public string Role { get; set; } = "User";
-		public List<UserDetailEntity>? UserDetails { get; set; }
+		public List<BasketProductEntity>? BasketProducts { get; set; }
 
 		public List<OrderEntity>? Orders { get; set; }
 	}

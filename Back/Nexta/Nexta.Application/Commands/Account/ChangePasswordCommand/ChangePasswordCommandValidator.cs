@@ -2,7 +2,7 @@
 
 namespace Nexta.Application.Commands.Account.ChangePasswordCommand
 {
-    public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommandRequest>
+    public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommand>
     {
         public ChangePasswordCommandValidator()
         {
