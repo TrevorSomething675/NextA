@@ -4,6 +4,7 @@ using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Commands.Basket.AddBasketProductCommand
 {
@@ -17,27 +18,29 @@ namespace Nexta.Application.Commands.Basket.AddBasketProductCommand
 			_basketProductRepository = basketProductRepository;
 			_mapper = mapper;
 		}
-		public async Task<AddBasketProductCommandResponse> Handle(AddBasketProductCommand request, CancellationToken ct)
+		public async Task<AddBasketProductCommandResponse> Handle(AddBasketProductCommand command, CancellationToken ct)
 		{
-			var basketProduct = await _basketProductRepository.GetAsync(request.UserId, request.ProductId, ct);
+			var basketProduct = await _basketProductRepository.GetAsync(command.UserId, command.ProductId, ct);
 
 			if (basketProduct != null)
 				throw new ConflictException("Деталь уже в корзине");
 
 			var basketProductToCreate = new BasketProduct
 			{ 
-				UserId = request.UserId,
-				ProductId = request.ProductId,
-				Count = request.CountToPay,
-				Status = UserDetailStatus.AtWork,
+				UserId = command.UserId,
+				ProductId = command.ProductId,
+				Count = command.CountToPay,
+				Status = BasketProductStatus.AtWork,
 			};
 
-			var basketDetailResponse = _mapper.Map<BasketProduct>(await _basketProductRepository.AddAsync(basketProductToCreate, ct));
+			var createdBasketProduct = _mapper.Map<BasketProduct>(await _basketProductRepository.AddAsync(basketProductToCreate, ct));
 
-			if (basketDetailResponse == null)
+			if (createdBasketProduct == null)
 				throw new BadRequestException("Деталь не получилось добавить");
 
-			return new AddBasketProductCommandResponse(basketDetailResponse);
+			var basketResponse = _mapper.Map<BasketProductResponse>(createdBasketProduct);
+
+			return new AddBasketProductCommandResponse(basketResponse);
 		}
 	}
 }

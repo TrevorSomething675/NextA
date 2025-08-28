@@ -14,7 +14,7 @@ namespace Nexta.Web.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpPost("[action]")]
+		[HttpPost("SendVerificationCode")]
 		[ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
 		public async Task<IResult> SendVerificationCode([FromBody] SendVerificationCodeQueryRequest request, CancellationToken ct = default)
 		{
@@ -22,7 +22,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPost("[action]")]
+		[HttpPost("VerifyCode")]
 		[ProducesResponseType(typeof(VerifyCodeCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> VerifyCode([FromBody] VerifyCodeCommand request, CancellationToken ct = default)
 		{

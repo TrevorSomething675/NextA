@@ -3,12 +3,12 @@ import { UpdateBasketDetailRequest } from '../../../features/basket/models/Updat
 import authStore from '../../../stores/AuthStore/authStore';
 import styles from './ViewAlreadyExistProductInBasket.module.css';
 import Button from '../Button/Button';
-import BasketService from '../../../features/basket/services/BasketService';
+import BasketService from '../../../services/BasketService';
 import { useNotifications } from '../Notifications/Notifications';
 import basket from '../../../stores/basket';
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../features/basket/models/GetBasketDetails';
 import Image from '../Image/Image';
-import { Product, ProductStatus } from '../../../models/product/Product';
+import { Product, ProductStatus } from '../../../models/Product';
 
 interface ViewAlreadyExistProductInBasketProps {
     isOpen: boolean;

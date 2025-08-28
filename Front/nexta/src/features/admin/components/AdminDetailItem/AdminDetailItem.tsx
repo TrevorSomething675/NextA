@@ -1,24 +1,22 @@
 import { useState } from "react";
-import { Detail, DetailStatus } from "../../../../shared/entities/Detail";
 import authStore from "../../../../stores/AuthStore/authStore";
 import basket from "../../../../stores/basket";
-import { AddBasketDetailRequest } from "../../../basket/models/AddBasketDetail";
-import { GetBasketDetailsFilter, GetBasketDetailsRequest } from "../../../basket/models/GetBasketDetails";
-import BasketService from "../../../basket/services/BasketService";
+import BasketService from "../../../../services/BasketService";
 import { useNavigate } from "react-router-dom";
 import styles from './AdminDetailItem.module.css';
+import { Product, ProductStatus } from "../../../../models/Product";
 
-const AdminDetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
+const AdminDetailItem:React.FC<{product:Product}> = ({product}) =>{
 
     const [count, setCount] = useState(1);
     const navigate = useNavigate();
     const statusLabels = {
-        [DetailStatus.Unknown]: 'Неизвестный статус',
-        [DetailStatus.InStock]: 'Есть на складе',
-        [DetailStatus.OutOfStock]: 'Нет на складе',
+        [ProductStatus.Unknown]: 'Неизвестный статус',
+        [ProductStatus.InStock]: 'Есть на складе',
+        [ProductStatus.OutOfStock]: 'Нет на складе',
     };
         const goToDetailPage = () => {
-        navigate(`/Admin/Detail/${detail.id}`);
+        navigate(`/Admin/Product/${product.id}`);
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,17 +31,18 @@ const AdminDetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
 
     const getColorForStatus = (status:any) => {
         switch (status) {
-            case DetailStatus.InStock:
+            case ProductStatus.InStock:
             return '#1b8700';
-            case DetailStatus.OutOfStock:
+            case ProductStatus.OutOfStock:
             return '#ed7e00';
-            case DetailStatus.Unknown:
+            case ProductStatus.Unknown:
             default:
             return 'gray';
         }
     }
 
     const fetchData = async() =>{
+        /*
         const request:AddBasketDetailRequest = {
             userId: authStore?.user?.id ?? '',
             detailId: detail.id,
@@ -62,6 +61,7 @@ const AdminDetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
             const result = await BasketService.GetBasketDetails(getBasketDetailsRequest);
             basket.setBasketDetails(result.details);
         }
+        */
     }
 
     const increment = () => {
@@ -75,13 +75,13 @@ const AdminDetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
     return <tr className={styles.tr}>
             <td>
                 <button onClick={goToDetailPage} className={styles.button}>
-                    {detail.name}
+                    {product.name}
                 </button>
             </td>
-            <td>{detail.article}</td>
-            <td>{detail.description}</td>
-            <td style={{color: getColorForStatus(detail.status)}}>{statusLabels[detail.status]}</td>
-            <td>{detail.deliveryDate}</td>
+            <td>{product.article}</td>
+            <td>{product.description}</td>
+            <td style={{color: getColorForStatus(product.status)}}>{statusLabels[product.status]}</td>
+            <td>{product.deliveryDate}</td>
             <td>
                 <button type="button" className={styles.down} onClick={decrement}>◄</button>
                     <input
@@ -97,12 +97,12 @@ const AdminDetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
                 <button type="button" className={styles.up} onClick={increment}>►</button>
             </td>
             <td>
-                <span className={detail.oldPrice ? styles.newPrice : styles.defaultPrice}>
-                    {detail.newPrice * count} руб.
+                <span className={product.oldPrice ? styles.newPrice : styles.defaultPrice}>
+                    {product.newPrice * count} руб.
                 </span>
-                {(detail.oldPrice !== undefined && detail.oldPrice != 0) &&
+                {(product.oldPrice !== undefined && product.oldPrice != 0) &&
                     <span className={styles.oldPrice}>
-                        {detail.oldPrice * count} руб.
+                        {product.oldPrice * count} руб.
                     </span>
                 }
             </td>

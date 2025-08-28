@@ -13,9 +13,9 @@ namespace Nexta.Application.Commands.Basket.DeleteBasketProductCommand
 			_basketProductRepository = basketProductRepository;
 		}
 
-		public async Task<DeleteBasketProductCommandResponse> Handle(DeleteBasketProductCommand request, CancellationToken ct)
+		public async Task<DeleteBasketProductCommandResponse> Handle(DeleteBasketProductCommand command, CancellationToken ct)
 		{
-			var basketProduct = await _basketProductRepository.GetAsync(request.UserId, request.ProductId, ct);
+			var basketProduct = await _basketProductRepository.GetAsync(command.UserId, command.ProductId, ct);
 			if (basketProduct == null)
 				throw new NotFoundException("В корзине нет такой детали");
 

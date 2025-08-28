@@ -3,6 +3,6 @@
     public class CreateNewOrderRequest
     {
         public Guid UserId { get; set; }
-        public List<Guid> DetailIds { get; set; }
+        public List<Guid> ProductIds { get; set; }
     }
 }

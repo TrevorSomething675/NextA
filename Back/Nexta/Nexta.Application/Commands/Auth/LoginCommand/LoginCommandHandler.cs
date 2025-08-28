@@ -24,18 +24,18 @@ namespace Nexta.Application.Commands.Auth.LoginCommand
 			_mapper = mapper;
 		}
 
-		public async Task<LoginCommandResponse> Handle(LoginCommand request, CancellationToken ct = default)
+		public async Task<LoginCommandResponse> Handle(LoginCommand command, CancellationToken ct = default)
 		{
-			var validationResult = await _validator.ValidateAsync(request, ct);
+			var validationResult = await _validator.ValidateAsync(command, ct);
 			if (!validationResult.IsValid)
 				throw new BadRequestException(string.Join(", ", validationResult.Errors));
 
-			var user = await _userRepository.GetByEmailAsync(request.Email, ct);
+			var user = await _userRepository.GetByEmailAsync(command.Email, ct);
 
 			if (user == null)
 				throw new NotFoundException("Пользователь не зарегистрирован");
 
-			if (!_passwordHashService.Validate(request.Password, user.PasswordHash!))
+			if (!_passwordHashService.Validate(command.Password, user.PasswordHash!))
 				throw new UnauthorizedException("Неверный логин или пароль");
 
 			var responseUser = _mapper.Map<UserResponse>(user);

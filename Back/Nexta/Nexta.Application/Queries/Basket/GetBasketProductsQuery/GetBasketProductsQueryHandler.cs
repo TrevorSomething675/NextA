@@ -7,18 +7,18 @@ namespace Nexta.Application.Queries.Basket.GetBasketProductsQuery
 {
 	public class GetBasketProductsQueryHandler : IRequestHandler<GetBasketProductsQuery, GetBasketProductsQueryResponse>
 	{
-		private readonly IProductRepository _productRepository;
+		private readonly IBasketProductRepository _basketProductRepository;
 		private readonly IMapper _mapper;
 
-		public GetBasketProductsQueryHandler(IProductRepository productRepository, IMapper mapper)
+		public GetBasketProductsQueryHandler(IBasketProductRepository basketProductRepository, IMapper mapper)
 		{
-			_productRepository = productRepository;
+			_basketProductRepository = basketProductRepository;
 			_mapper = mapper;
 		}
 
 		public async Task<GetBasketProductsQueryResponse> Handle(GetBasketProductsQuery query, CancellationToken ct = default)
 		{
-			var products = _mapper.Map<List<ProductResponse>>(await _productRepository.GetBasketProductsAsync(query.Filter, ct));
+			var products = _mapper.Map<List<BasketProductResponse>>(await _basketProductRepository.GetAllAsync(query.UserId, ct));
 
 			return new GetBasketProductsQueryResponse(products);
 		}

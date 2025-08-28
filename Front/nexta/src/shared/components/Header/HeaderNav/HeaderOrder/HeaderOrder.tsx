@@ -13,7 +13,7 @@ export const HeaderOrder = observer(() => {
                 Заказы
             </div>
             <div className={styles.text}>
-                Кол-во: {orderStore?.totalOrders !== undefined && orderStore?.totalOrders}
+                Кол-во: {orderStore?.totalCountOrders !== undefined && orderStore?.totalCountOrders}
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@ namespace Nexta.Web.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("ConfirmPhone")]
         [ProducesResponseType(typeof(ConfirmPhoneCommandResponse), StatusCodes.Status200OK)]
         public async Task<IResult> ConfirmPhone([FromBody] ConfirmPhoneCommandRequest request, CancellationToken ct = default)
         {
@@ -29,7 +29,7 @@ namespace Nexta.Web.Controllers
             return Results.Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("ChangePassword")]
         [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
         public async Task<IResult> ChangePassword([FromBody] ChangePasswordCommandRequest request, CancellationToken ct = default)
         {

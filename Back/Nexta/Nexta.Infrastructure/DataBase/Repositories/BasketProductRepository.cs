@@ -17,14 +17,36 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             _mapper = mapper;
         }
 
+        public async Task<List<BasketProduct>> GetAllAsync(Guid userId, CancellationToken ct = default)
+        {
+            await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
+            {
+                var basketProductEntities = await context.BasketProducts
+                    .AsNoTracking()
+                    .Where(bp => bp.UserId == userId)
+                    .Include(bp => bp.Product)
+                    .ToListAsync(ct);
+
+                var basketProducts = _mapper.Map<List<BasketProduct>>(basketProductEntities);
+
+                return basketProducts;
+            }
+        }
+
         public async Task<BasketProduct> AddAsync(BasketProduct basketProductToAdd, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
                 var basketProductEntity = _mapper.Map<BasketProductEntity>(basketProductToAdd);
-                var createdBasketProduct = (await context.BasketProducts.AddAsync(basketProductEntity, ct)).Entity;
 
+                await context.BasketProducts.AddAsync(basketProductEntity, ct);
                 await context.SaveChangesAsync(ct);
+
+                var createdBasketProduct = await context.BasketProducts
+                    .AsNoTracking()
+                    .Include(b => b.Product)
+                    .FirstAsync(b => b.ProductId == basketProductToAdd.ProductId &&
+                        b.UserId == basketProductToAdd.UserId, ct);
 
                 var basketProduct = _mapper.Map<BasketProduct>(createdBasketProduct);
 
@@ -68,6 +90,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
                 var basketProductEntity = await context.BasketProducts
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(u => u.ProductId == productId && u.UserId == userId, ct);
 
                 var basketProduct = _mapper.Map<BasketProduct>(basketProductEntity);
@@ -90,6 +113,8 @@ namespace Nexta.Infrastructure.DataBase.Repositories
                 return basketDetails;
             }
         }
+
+
 
         public async Task<BasketProduct> UpdateAsync(BasketProduct basketProductToUpdate, CancellationToken ct = default)
         {

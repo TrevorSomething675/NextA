@@ -1,8 +1,8 @@
 export interface CreateNewOrderRequest{
     userId:string,
-    detailIds:string[]
+    productIds:string[]
 }
 
 export interface CreateNewOrderResponse{
-    id:string;
+    id:string
 }

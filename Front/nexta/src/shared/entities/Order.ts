@@ -1,13 +1,13 @@
-import { Detail } from "./Detail";
-import { OrderDetail } from "./OrderDetail";
+import { BasketProduct } from "../../models/basketProduct/BasketProduct";
+import { Product } from "../../models/Product";
 import { User } from "./User";
 
 export interface Order{
 	id:string,
     userId:string,
 	user:User,
-    orderDetails:OrderDetail[],
-	details:Detail[],
+	basketProducts: BasketProduct[]
+	products:Product[]
 	status:OrderStatus,
 	createdDate: string
 }

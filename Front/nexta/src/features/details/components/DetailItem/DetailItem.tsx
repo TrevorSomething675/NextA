@@ -1,24 +1,21 @@
 import { useState } from 'react';
-import { Detail, DetailStatus } from '../../../../shared/entities/Detail';
 import styles from './DetailItem.module.css';
 import { useNavigate } from 'react-router-dom';
-import { AddBasketDetailRequest } from '../../../basket/models/AddBasketDetail';
-import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket/models/GetBasketDetails';
 import basket from '../../../../stores/basket';
-import BasketService from '../../../basket/services/BasketService';
+import BasketService from '../../../../services/BasketService';
 import authStore from '../../../../stores/AuthStore/authStore';
 import { ViewAlreadyExistProductInBasket } from '../../../../shared/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket';
-import { Product } from '../../../../models/product/Product';
+import { Product, ProductStatus } from '../../../../models/Product';
 
-const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
+const DetailItem:React.FC<{detail:Product}> = ({detail}) =>{
     const [count, setCount] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const statusLabels = {
-        [DetailStatus.Unknown]: 'Неизвестный статус',
-        [DetailStatus.InStock]: 'Есть на складе',
-        [DetailStatus.OutOfStock]: 'Нет на складе',
+        [ProductStatus.Unknown]: 'Неизвестный статус',
+        [ProductStatus.InStock]: 'Есть на складе',
+        [ProductStatus.OutOfStock]: 'Нет на складе',
     };
         const goToDetailPage = () => {
         navigate(`/Detail/${detail.id}`);
@@ -40,16 +37,17 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
 
     const getColorForStatus = (status:any) => {
         switch (status) {
-            case DetailStatus.InStock:
+            case ProductStatus.InStock:
             return '#1b8700';
-            case DetailStatus.OutOfStock:
+            case ProductStatus.OutOfStock:
             return '#ed7e00';
-            case DetailStatus.Unknown:
+            case ProductStatus.Unknown:
             default:
             return 'gray';
         }
     }
 
+    /*
     const fetchData = async() =>{
         const request:AddBasketDetailRequest = {
             userId: authStore?.user?.id ?? '',
@@ -71,7 +69,8 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
         } else if (!result.success && result.status === 409){
             setIsModalOpen(true);
         }
-    }   
+    }
+    */
 
     const increment = () => {
         setCount(count => count + 1);
@@ -116,7 +115,7 @@ const DetailItem:React.FC<{detail:Detail}> = ({detail}) =>{
                 }
             </td>
             <td>
-                <button className={styles.addBasketBtn} onClick={fetchData}>
+                <button className={styles.addBasketBtn} /* onClick={} */>
                     В корзину
                 </button>
             </td>

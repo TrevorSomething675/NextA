@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { DetailStatus } from "../../../../../shared/entities/Detail";
 import styles from './AdminDetailBody.module.css';
 import { AdminDetail } from "../../../models/AdminDetail";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -7,11 +6,12 @@ import { UpdateAdminDetailRequest } from "../../../models/UpdateAdminDetailReque
 import AdminService from "../../../../../services/AdminService";
 import Image from "../../../../../shared/components/Image/Image";
 import Button from "../../../../../shared/components/Button/Button";
+import { ProductStatus } from "../../../../../models/Product";
 
 const statusLabels = {
-    [DetailStatus.Unknown]: 'Неизвестный статус',
-    [DetailStatus.InStock]: 'Есть на складе',
-    [DetailStatus.OutOfStock]: 'Нет на складе',
+    [ProductStatus.Unknown]: 'Неизвестный статус',
+    [ProductStatus.InStock]: 'Есть на складе',
+    [ProductStatus.OutOfStock]: 'Нет на складе',
 };
 
 const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void>}> = ({detail, onUpdate}) => {
@@ -285,7 +285,7 @@ const AdminDetailBody:React.FC<{detail: AdminDetail, onUpdate:() => Promise<void
                     <ul className={styles.ul}>
                         <li> - {detail.name}</li>
                         <li> - {detail.description}</li>
-                        <li> - {statusLabels[detail.status]}</li>
+                        <li> - {ProductStatus[detail.status]}</li>
                         <li> - Осталось на складе: {detail.count}</li>
                     </ul>
                 <div className={styles.detailFooter}>

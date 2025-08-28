@@ -1,40 +1,34 @@
 import styles from './BasketBody.module.css';
 import { useEffect } from 'react';
-import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../models/GetBasketDetails';
 import { observer } from 'mobx-react';
 import basket from '../../../../stores/basket';
-import { toJS } from 'mobx';
-import BasketItem from '../BasketItem/BasketItem';
-import BasketService from '../../services/BasketService';
+import BasketService from '../../../../services/BasketService';
 import authStore from '../../../../stores/AuthStore/authStore';
+import BasketItem from '../BasketItem/BasketItem';
 
 const BasketBody = observer(() => {
     useEffect(() => {
         if(authStore.user.id !== undefined){
             const fetchData = async() => {
-                const filter:GetBasketDetailsFilter = {
-                pageNumber: 1,
-                userId: authStore?.user?.id ?? ''
-            };
-            const request:GetBasketDetailsRequest = {
-                filter: filter
-            };
-            try{
-                const response = await BasketService.GetBasketDetails(request);
-                if(response.details){
-                    basket.setBasketDetails(response.details);
+                const userId = authStore?.user?.id ?? '';
+
+                try{
+                    const response = await BasketService.GetBasketProducts(userId);
+                    if(response.success && response.status === 200){
+                        basket.setBasketItems(response.data.products);
+                    }
+                } 
+                catch(error){
+                    console.error(error);
                 }
-            } catch(error){
-                console.error(error);
             }
-        }
         
         fetchData();
     }
     }, []);
     
     return <div className={styles.container}>
-        {(basket?.details !== undefined) && (basket.details.length > 0) ? (<table className={styles.table}>
+        {(basket?.items !== undefined) && (basket.items.length > 0) ? (<table className={styles.table}>
             <thead className={styles.thead}>
                 <tr className={styles.tr}>
                     <th>Название</th>
@@ -48,8 +42,8 @@ const BasketBody = observer(() => {
                 </tr>
             </thead>
             <tbody className={styles.tbody}>
-                {toJS(basket.details).length > 0 && toJS(basket.details).map((detail) => 
-                    <BasketItem detail={detail} key={detail.id} />
+                {basket.items.length > 0 && basket.items.map((product) => 
+                    <BasketItem product={product} key={product.productId} />
                 )}
             </tbody>
         </table>) 

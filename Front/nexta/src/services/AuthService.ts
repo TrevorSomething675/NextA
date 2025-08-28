@@ -175,7 +175,6 @@ export class AuthService{
             }
 
             const response = await api.post<CheckAuthResponse>(this.AUTH_ENPOINTS.CHECKAUTH, request);
-            console.warn(response);
             if(response.status === 200){
                 localStorage.setItem('userId', response.data.user.id ?? '');
                 localStorage.setItem('email', response.data.user.email ?? '');

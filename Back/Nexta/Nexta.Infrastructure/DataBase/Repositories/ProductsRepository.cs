@@ -5,7 +5,6 @@ using Nexta.Domain.Models.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Filters.Products;
 using Nexta.Domain.Exceptions;
-using Nexta.Domain.Filters;
 using Nexta.Domain.Models;
 using AutoMapper;
 

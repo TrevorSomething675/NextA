@@ -1,60 +1,102 @@
-import { CreateNewOrderRequest, CreateNewOrderResponse } from "../features/order/models/CreateNewOrderRequest";
-import { GetLegacyOrdersForUserRequest } from "../features/order/models/GetLegacyOrders";
-import { GetOrdersForUserRequest, GetOrdersForUserResponse } from "../features/order/models/GetOrdersForUserFilter";
+import { CreateNewOrderRequest, CreateNewOrderResponse } from "../http/models/order/CreateNewOrderRequest";
+import { GetLegacyOrdersForUserRequest, GetLegacyOrdersForUserResponse } from "../http/models/order/GetLegacyOrders";
+import { GetOrdersForUserRequest, GetOrdersForUserResponse } from "../http/models/order/GetOrdersForUserFilter";
 import api from "../http/api";
 import axios from 'axios';
-
+import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
+import { ApiResponse } from "../http/BaseResponse";
 
 class OrderService{
-    static async GetOrdersForUser(request:GetOrdersForUserRequest){
+    static async GetOrdersForUser(request:GetOrdersForUserRequest) : Promise<ApiResponse<GetOrdersForUserResponse, ErrorResponseModel>>{
         try{
-            const response = await api.post<GetOrdersForUserResponse>('Order/GetOrdersForUser', request);
-            return response.data;
+            const response = await api.get<GetOrdersForUserResponse>('Orders/GetOrdersForUser', {
+                params: {
+                    userId: request.userId,
+                    pageSize: request.pageSize,
+                    pageNumber: request.pageNumber
+                }
+            });
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            }
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as GetOrdersForUserResponse
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
         }
     }
-    static async GetLegacyOrdersForUser(request:GetLegacyOrdersForUserRequest){
+    static async GetLegacyOrdersForUser(request:GetLegacyOrdersForUserRequest) : Promise<ApiResponse<GetLegacyOrdersForUserResponse, ErrorResponseModel>>{
         try{
-            const response = await api.post<GetOrdersForUserResponse>('Order/GetLegacyOrdersForUser', request);
-            return response.data;
+            const response = await api.get<GetOrdersForUserResponse>('Orders/GetLegacyOrdersForUser', {
+                params: {
+                    userId: request.userId,
+                    pageSize: request.pageSize,
+                    pageNumber: request.pageNumber
+                }
+            });
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            }
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as GetOrdersForUserResponse
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
         }
     }
 
-    static async CreateNewOrder(request:CreateNewOrderRequest){
+    static async CreateNewOrder(request:CreateNewOrderRequest) : Promise<ApiResponse<CreateNewOrderResponse, ErrorResponseModel>>{
         try{
             const response = await api.post<CreateNewOrderResponse>('Order/CreateNewOrder', request);
-            return response.data;
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            }
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as CreateNewOrderResponse
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
         }
     }
 
-    static async Delete(orderId:string){
+    static async Delete(id:string){
         try{
-            const request = {
-                orderId: orderId
+            const response = await api.post<string>(`Order/Delete/${id}`);
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
             }
-            const response = await api.post<string>('Order/Delete', request)
-            return response.data;
         }
         catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as CreateNewOrderResponse
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }

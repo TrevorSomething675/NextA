@@ -1,7 +1,8 @@
-﻿using Nexta.Domain.Filters.Products;
+﻿using Nexta.Application.Commands.Basket.DeleteBasketProductCommand;
+using Nexta.Application.Commands.Basket.UpdateBasketProductCommand;
+using Nexta.Application.Commands.Basket.AddBasketProductCommand;
 using Nexta.Web.Models.Basket;
 using AutoMapper;
-using Nexta.Application.Queries.Basket.GetBasketProductsQuery;
 
 namespace Nexta.Web.Profiles
 {
@@ -9,10 +10,9 @@ namespace Nexta.Web.Profiles
     {
         public BasketProfile()
         {
-            CreateMap<GetBasketProductsRequest, GetBasketProductsFilter>();
-
-            CreateMap<GetBasketProductsRequest, GetBasketProductsQuery>()
-                .ForMember(src => src.Filter, opt => opt.MapFrom(x => x));
+            CreateMap<AddBasketProductRequest, AddBasketProductCommand>();
+            CreateMap<DeleteBasketProductRequest, DeleteBasketProductCommand>();
+            CreateMap<UpdateBasketProductRequest, UpdateBasketProductCommand>();
         }
     }
 }

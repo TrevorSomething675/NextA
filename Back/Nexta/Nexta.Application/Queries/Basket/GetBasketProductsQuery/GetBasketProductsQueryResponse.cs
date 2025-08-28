@@ -2,8 +2,8 @@
 
 namespace Nexta.Application.Queries.Basket.GetBasketProductsQuery
 {
-    public class GetBasketProductsQueryResponse(List<ProductResponse> products)
+    public class GetBasketProductsQueryResponse(List<BasketProductResponse> products)
     {
-		public List<ProductResponse>? Products { get; init; } = products;
+		public List<BasketProductResponse>? Products { get; init; } = products;
 	}
 }

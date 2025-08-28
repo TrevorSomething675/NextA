@@ -2,14 +2,14 @@ import { useState } from "react";
 import { Detail, DetailStatus } from "../../../../shared/entities/Detail";
 import styles from './DetailBody.module.css';
 import Image from "../../../../shared/components/Image/Image";
-import BasketService from "../../../basket/services/BasketService";
+import BasketService from "../../../../services/BasketService";
 import { AddBasketDetailRequest } from "../../../basket/models/AddBasketDetail";
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
 import basket from "../../../../stores/basket";
 import { GetBasketDetailsFilter, GetBasketDetailsRequest } from "../../../basket/models/GetBasketDetails";
 import authStore from "../../../../stores/AuthStore/authStore";
 import { ViewAlreadyExistProductInBasket } from "../../../../shared/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket";
-import { Product } from "../../../../models/product/Product";
+import { Product } from "../../../../models/Product";
 
 const statusLabels = {
     [DetailStatus.Unknown]: 'Неизвестный статус',

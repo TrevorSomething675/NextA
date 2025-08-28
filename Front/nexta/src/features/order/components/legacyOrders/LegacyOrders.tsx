@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { GetOrdersForUserFilter, GetOrdersForUserResponse } from "../../models/GetOrdersForUserFilter";
-import { GetLegacyOrdersForUserRequest } from "../../models/GetLegacyOrders";
+import { GetOrdersForUserFilter, GetOrdersForUserResponse } from "../../../../http/models/order/GetOrdersForUserFilter";
+import { GetLegacyOrdersForUserRequest } from "../../../../http/models/order/GetLegacyOrders";
 import OrderService from "../../../../services/OrderService";
 import Pagging from "../../../../shared/components/Pagging/Pagging";
 import OrderItem from "../orderItem/OrderItem";

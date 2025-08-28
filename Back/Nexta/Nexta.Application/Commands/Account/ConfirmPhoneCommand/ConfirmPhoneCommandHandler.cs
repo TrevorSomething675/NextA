@@ -13,14 +13,14 @@ namespace Nexta.Application.Commands.Account.ConfirmPhoneCommand
             _userRepository = userRepository;
         }
 
-        public async Task<ConfirmPhoneCommandResponse> Handle(ConfirmPhoneCommand request, CancellationToken ct = default)
+        public async Task<ConfirmPhoneCommandResponse> Handle(ConfirmPhoneCommand command, CancellationToken ct = default)
         {
-            var user = await _userRepository.GetByEmailAsync(request.Email, ct);
+            var user = await _userRepository.GetByEmailAsync(command.Email, ct);
 
             if (user == null)
                 throw new NotFoundException("Пользователь не найден");
 
-            user.Phone = request.Phone;
+            user.Phone = command.Phone;
             var updatedUser = await _userRepository.UpdateAsync(user, ct);
 
             if (updatedUser?.Phone == null)

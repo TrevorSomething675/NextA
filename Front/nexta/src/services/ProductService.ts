@@ -1,8 +1,8 @@
 import api from "../http/api";
 import axios from 'axios';
-import { GetProductsResponse } from "../models/product/GetProducts";
+import { GetProductsResponse } from "../http/models/product/GetProducts";
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
-import { GetProductResponse } from "../models/product/GetProduct";
+import { GetProductResponse } from "../http/models/product/GetProduct";
 import { ApiResponse } from "../http/BaseResponse";
 
 class ProductsService{

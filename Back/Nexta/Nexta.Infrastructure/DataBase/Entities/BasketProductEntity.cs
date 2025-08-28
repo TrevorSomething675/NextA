@@ -12,6 +12,6 @@ namespace Nexta.Infrastructure.DataBase.Entities
 
         public int Count { get; set; }
         public DateOnly DeliveryDate { get; set; }
-        public UserDetailStatus Status { get; set; }
+        public BasketProductStatus Status { get; set; }
     }
 }

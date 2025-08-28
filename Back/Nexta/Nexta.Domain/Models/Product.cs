@@ -9,7 +9,7 @@ namespace Nexta.Domain.Models
         public string Name { get; set; } = null!;
         public string Article { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public DetailStatus Status { get; set; }
+        public ProductStatus Status { get; set; }
 
         public string? OrderDate { get; set; }
         public string? DeliveryDate { get; set; }

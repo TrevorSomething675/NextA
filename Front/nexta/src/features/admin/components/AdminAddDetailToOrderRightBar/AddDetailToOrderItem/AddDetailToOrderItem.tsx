@@ -1,18 +1,18 @@
-import { Detail, DetailStatus } from "../../../../../shared/entities/Detail";
+import { Product, ProductStatus } from '../../../../../models/Product';
 import styles from './AddDetailToOrderItem.module.css';
 import { useState } from "react";
 
 interface AddDetailToOrderItemProps {
-    detail: Detail;
-    onAddToOrder: (detail: Detail, count: number) => void;
+    detail: Product;
+    onAddToOrder: (detail: Product, count: number) => void;
 }
 
 export const AddDetailToOrderItem: React.FC<AddDetailToOrderItemProps> = ({ detail, onAddToOrder }) => {
     const [count, setCount] = useState(1);
     const statusLabels = {
-        [DetailStatus.Unknown]: 'Неизвестный статус',
-        [DetailStatus.InStock]: 'Есть на складе',
-        [DetailStatus.OutOfStock]: 'Нет на складе',
+        [ProductStatus.Unknown]: 'Неизвестный статус',
+        [ProductStatus.InStock]: 'Есть на складе',
+        [ProductStatus.OutOfStock]: 'Нет на складе',
     };
         const goToDetailPage = () => {
         window.open(`/Admin/Detail/${detail.id}`);
@@ -20,11 +20,11 @@ export const AddDetailToOrderItem: React.FC<AddDetailToOrderItemProps> = ({ deta
 
     const getColorForStatus = (status:any) => {
         switch (status) {
-            case DetailStatus.InStock:
+            case ProductStatus.InStock:
             return '#1b8700';
-            case DetailStatus.OutOfStock:
+            case ProductStatus.OutOfStock:
             return '#ed7e00';
-            case DetailStatus.Unknown:
+            case ProductStatus.Unknown:
             default:
             return 'gray';
         }
@@ -49,7 +49,7 @@ export const AddDetailToOrderItem: React.FC<AddDetailToOrderItemProps> = ({ deta
     };
 
     const fetchData = async() =>{
-        const detailToAdd = detail as Detail;
+        const detailToAdd = detail as Product;
         const countToAdd = count;
 
         onAddToOrder(detailToAdd, countToAdd);

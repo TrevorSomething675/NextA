@@ -1,40 +1,40 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using Nexta.Application.Commands.Orders.UpdateOrderProductCommand;
+using Nexta.Application.Commands.Orders.CreateNewOrderCommand;
+using Nexta.Application.Queries.Orders.GetOrdersForUserQuery;
+using Nexta.Application.Queries.Orders.GetLegacyOrdersQuery;
+using Nexta.Application.Commands.Orders.DeleteOrderCommand;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nexta.Application.Commands.Orders.CreateNewOrderCommand;
-using Nexta.Application.Commands.Orders.DeleteOrderCommand;
-using Nexta.Application.Commands.Orders.UpdateOrderProductCommand;
-using Nexta.Application.Queries.Orders.GetLegacyOrdersQuery;
-using Nexta.Application.Queries.Orders.GetOrdersForUserQuery;
 using Nexta.Web.Models.Orders;
+using AutoMapper;
+using MediatR;
 
 namespace Nexta.Web.Controllers
 {
 	[Authorize]
-    [Route("api/[controller]")]
-    public class OrderController : ControllerBase
+    [Route("[controller]")]
+    public class OrdersController : ControllerBase
 	{
 		private readonly IMediator _mediator;
 		private readonly IMapper _mapper;
 
-		public OrderController(IMediator mediator, IMapper mapper)
+		public OrdersController(IMediator mediator, IMapper mapper)
 		{
 			_mediator = mediator;
 			_mapper = mapper;
 		}
 
-		[HttpGet]
+		[HttpGet("GetOrdersForUser")]
 		[ProducesResponseType(typeof(GetOrdersForUserQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> GetOrdersForUser([FromQuery] GetOrdersForUserRequest request, CancellationToken ct = default)
 		{
 			var query = _mapper.Map<GetOrdersForUserQuery>(request);
-			var response = await _mediator.Send(request, ct);
+			var response = await _mediator.Send(query, ct);
 
 			return Results.Ok(response);
 		}
 
-		[HttpGet]
+		[HttpGet("GetLegacyOrdersForUser")]
 		[ProducesResponseType(typeof(GetLegacyOrdersQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> GetLegacyOrdersForUser([FromQuery] GetOrdersForUserRequest request, CancellationToken ct = default)
 		{
@@ -44,17 +44,17 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPost]
+		[HttpPost("CreateNewOrder")]
 		[ProducesResponseType(typeof(CreateNewOrderCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> CreateNewOrder([FromBody] CreateNewOrderRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<CreateNewOrderCommand>(request);
-			var response = await _mediator.Send(request, ct);
+			var response = await _mediator.Send(command, ct);
 
 			return Results.Ok(response);
 		}
 
-		[HttpPatch]
+		[HttpPatch("UpdateOrderProduct")]
 		[ProducesResponseType(typeof(UpdateOrderProductCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> UpdateOrderProduct([FromBody] UpdateOrderProductRequest request, CancellationToken ct = default)
 		{
@@ -64,11 +64,11 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpDelete("{orderId}")]
+		[HttpDelete("{OrderId}")]
 		[ProducesResponseType(typeof(DeleteOrderCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Delete([FromRoute] Guid orderId, CancellationToken ct = default)
+		public async Task<IResult> Delete([FromRoute] Guid OrderId, CancellationToken ct = default)
 		{
-			var command = new DeleteOrderCommand(orderId);
+			var command = new DeleteOrderCommand(OrderId);
 			var response = await _mediator.Send(command, ct);
 
 			return Results.Ok(response);

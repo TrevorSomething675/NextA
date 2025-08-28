@@ -1,13 +1,16 @@
-import { Detail } from "./Detail";
-
-export interface UserDetail{
-    detail: Detail,
+export interface BasketProduct{
+    userId: string,
+    productId: string,
     count: number,
     deliveryDate: string,
-    status: UserDetailStatus
+    article:string,
+    name:string,
+    status: BasketProductStatus,
+    newPrice:number,
+    oldPrice:number
 }
 
-export enum UserDetailStatus{
+export enum BasketProductStatus{
     Unknown = -1, //Неизвестный статус
     Accepted = 0, //Принят
     AtWork = 1, //В работе

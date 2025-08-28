@@ -23,18 +23,18 @@ namespace Nexta.Application.Commands.Auth.CheckAuthCommand
 			_mapper = mapper;
 		}
 
-		public async Task<CheckAuthCommandResponse> Handle(CheckAuthCommand request, CancellationToken ct = default)
+		public async Task<CheckAuthCommandResponse> Handle(CheckAuthCommand command, CancellationToken ct = default)
 		{
-			var validationResult = await _validator.ValidateAsync(request, ct);
+			var validationResult = await _validator.ValidateAsync(command, ct);
 			if(!validationResult.IsValid)
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var user = await _userRepository.GetByEmailAsync(request.Email, ct);
+			var user = await _userRepository.GetByEmailAsync(command.Email, ct);
 
 			if(user == null)
 				throw new UnauthorizedAccessException("Пользователь не найден");
 
-			var accessToken = _jwtTokenService.CreateAccessToken(request.Email, user.Role.ToString());
+			var accessToken = _jwtTokenService.CreateAccessToken(command.Email, user.Role.ToString());
 
 			var userResponse = _mapper.Map<UserResponse>(user);
 

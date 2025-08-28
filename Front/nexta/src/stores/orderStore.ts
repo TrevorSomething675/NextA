@@ -3,14 +3,14 @@ import { Order } from "../shared/entities/Order";
 
 class OrderStore{
     orders: Order[] = [];
-    totalOrders:number = 0;
+    totalCountOrders:number = 0;
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    setTotalOrders = (totalOrders:number) =>{
-        this.totalOrders = totalOrders;
+    setTotalCountOrders = (totalCountOrders:number) => {
+        this.totalCountOrders = totalCountOrders;
     }
 
     setOrders = (orders:Order[]) => {

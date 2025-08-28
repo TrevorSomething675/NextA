@@ -1,5 +1,5 @@
-import { PagedData } from "../../shared/models/PagedDataT";
-import { Product } from "./Product";
+import { PagedData } from "../../../shared/models/PagedDataT";
+import { Product } from "../../../models/Product";
 
 export interface GetProductsRequest{
     searchTerm?:string | null,

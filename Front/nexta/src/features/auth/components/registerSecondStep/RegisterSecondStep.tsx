@@ -7,6 +7,12 @@ import { ErrorResponseModel } from "../../../../shared/models/ErrorResponseModel
 import styles from './RegisterSecondStep.module.css';
 import { RegistrationRequest } from "../../models/registration";
 import authStore from "../../../../stores/AuthStore/authStore";
+import BasketService from "../../../../services/BasketService";
+import basket from "../../../../stores/basket";
+import { GetOrdersForUserRequest } from "../../../../http/models/order/GetOrdersForUserFilter";
+import OrderService from "../../../../services/OrderService";
+import orderStore from "../../../../stores/orderStore";
+import { GetBasketProductsRequest } from "../../../../http/models/basketProduct/GetBasketProducts";
 
 interface RegisterSecondStepProps{
     authUser: UserData,
@@ -118,8 +124,28 @@ export const RegisterSecondStep:React.FC<RegisterSecondStepProps> = ({authUser})
             var registerResponse = await AuthService.register(request);
             if(registerResponse.success && registerResponse.status === 200){
                 authStore.setUserData(registerResponse.data.user);
-                //TODO наполнение корзины и заказов
-                navigate('/');
+                const request: GetBasketProductsRequest = {
+                    userId: authStore.user.id ?? '',
+                    pageNumber: 1,
+                    pageSize: 8
+                }
+
+                const basketResponse = await BasketService.GetBasketProducts(request);
+                if(basketResponse.success && basketResponse.status === 200){
+                    basket.setBasketProducts(basketResponse.data.Products);
+                
+                    const ordersRequest:GetOrdersForUserRequest = {
+                        userId: authStore.user.id ?? '',
+                        pageSize: 8,
+                        pageNumber: 1
+                    }
+                    const orderResponse = await OrderService.GetOrdersForUser(ordersRequest);
+                    if(orderResponse.success && orderResponse.status === 200){
+                        orderStore.setOrders(orderResponse?.data.data.items);
+                        orderStore.setTotalOrders(orderResponse?.data.totalCount);
+                    }
+                    navigate('/');
+                }
             }
         }
         catch (error) {

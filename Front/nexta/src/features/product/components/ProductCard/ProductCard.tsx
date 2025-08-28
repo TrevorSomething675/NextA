@@ -2,14 +2,13 @@ import { useState } from 'react';
 import Image from '../../../../shared/components/Image/Image';
 import styles from './ProductCard.module.css';
 import { useNavigate } from 'react-router-dom';
-import { AddBasketDetailRequest } from '../../../basket/models/AddBasketDetail';
 import authStore from '../../../../stores/AuthStore/authStore';
-import BasketService from '../../../basket/services/BasketService';
-import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket/models/GetBasketDetails';
+import BasketService from '../../../../services/BasketService';
 import basket from '../../../../stores/basket';
 import { useNotifications } from '../../../../shared/components/Notifications/Notifications';
-import { Product } from '../../../../models/product/Product';
+import { Product } from '../../../../models/Product';
 import { ViewAlreadyExistProductInBasket } from '../../../../shared/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket';
+import { AddBasketProductRequest } from '../../../../http/models/basketProduct/AddBasketProduct';
 
 export const ProductCard:React.FC<{product:Product}> = ({product}) => {
     const [count, setCount] = useState(1);
@@ -45,27 +44,19 @@ export const ProductCard:React.FC<{product:Product}> = ({product}) => {
     };
 
     const fetchData = async() =>{
-        const request:AddBasketDetailRequest = {
+        const request:AddBasketProductRequest = {
             userId: authStore?.user?.id ?? '',
-            detailId: product.id,
+            productId: product.id,
             countToPay: count
         };
-        const result = await BasketService.AddBasketDetail(request);
-        if(result && result.status == 200)
+        const response = await BasketService.AddBasketProduct(request);
+        if(response.success && response.status === 200)
         {
             addNotification({
-                header: 'Товар добавлен в корзину'
+                header: `Товар ${response.data.basketProduct.name} добавлен в корзину`
             });
-            const filter:GetBasketDetailsFilter = {
-                pageNumber: 1,
-                userId: authStore?.user?.id ?? ''
-            };
-            const getBasketDetailsRequest:GetBasketDetailsRequest = {
-                filter: filter
-            };
-            const response = await BasketService.GetBasketDetails(getBasketDetailsRequest);
-            basket.setBasketDetails(response.details);
-        } else if (!result.success && result.status === 409){
+            basket.addBasketProduct(response.data.basketProduct)
+        } else if (!response.success && response.status === 409){
             setIsModalOpen(true);
         }
     }

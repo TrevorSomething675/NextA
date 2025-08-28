@@ -1,9 +1,9 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Commands.Basket.AddBasketProductCommand
 {
-    public class AddBasketProductCommandResponse(BasketProduct basketProduct)
+    public class AddBasketProductCommandResponse(BasketProductResponse basketProduct)
     {
-        public BasketProduct BasketProduct { get; set; } = basketProduct;
+        public BasketProductResponse BasketProduct { get; set; } = basketProduct;
 	}
 }

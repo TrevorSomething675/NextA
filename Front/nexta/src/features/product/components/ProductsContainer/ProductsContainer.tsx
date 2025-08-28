@@ -3,7 +3,7 @@ import styles from './ProductsContainer.module.css';
 import { ProductCard } from '../ProductCard/ProductCard';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
 import ProductsService from '../../../../services/ProductService';
-import { GetProductsResponse } from '../../../../models/product/GetProducts';
+import { GetProductsResponse } from '../../../../http/models/product/GetProducts';
 
 export const ProductsContainer:React.FC<{pageNumber?: number}> = () => {
     const [response, setResponse] = useState<GetProductsResponse>({} as GetProductsResponse);

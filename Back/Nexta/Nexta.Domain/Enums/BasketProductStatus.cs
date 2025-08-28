@@ -1,6 +1,6 @@
 ﻿namespace Nexta.Domain.Enums
 {
-    public enum UserDetailStatus : int
+    public enum BasketProductStatus : int
     {
 		Unknown = -1, //Неизвестный статус
 		Accepted = 0, //Принят

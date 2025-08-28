@@ -5,12 +5,12 @@ import styles from './AdminAddDetailToOrderRightBar.module.css';
 import { AddDetailToOrderItem } from './AddDetailToOrderItem/AddDetailToOrderItem';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
 import Button from '../../../../shared/components/Button/Button';
-import { Detail } from '../../../../shared/entities/Detail';
+import { Product } from '../../../../models/Product';
 
 interface AdminAddDetailToOrderRightBarProps {
     orderId: string;
     onClose?: () => void;
-    onAddDetail: (detail: Detail, count: number) => void;
+    onAddDetail: (detail: Product, count: number) => void;
 }
 
 export const AdminAddDetailToOrderRightBar: React.FC<AdminAddDetailToOrderRightBarProps> = ({ orderId, onClose, onAddDetail }) => {
@@ -20,7 +20,7 @@ export const AdminAddDetailToOrderRightBar: React.FC<AdminAddDetailToOrderRightB
     const [searchTerm, setSearchTerm] = useState('');
     const [fetchData, setFetchData] = useState<(query: string, page: number) => void>();
 
-    const handleAddPrevDetail = (detail:Detail, count:number) => {
+    const handleAddPrevDetail = (detail:Product, count:number) => {
         onAddDetail(detail, count);
     }
 

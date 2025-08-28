@@ -8,6 +8,11 @@ namespace Nexta.Application.DTO.Response
         public Guid ProductId { get; init; }
         public int Count { get; init; }
         public DateOnly DeliveryDate { get; set; }
-        public UserDetailStatus Status { get; set; }
+        public string Article { get; set; }
+        public string Name { get; set; }
+
+        public BasketProductStatus Status { get; set; }
+        public int NewPrice { get; set; }
+        public int OldPrice { get; set; }
     }
 }

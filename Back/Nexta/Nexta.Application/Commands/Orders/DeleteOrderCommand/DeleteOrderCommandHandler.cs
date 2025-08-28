@@ -12,9 +12,9 @@ namespace Nexta.Application.Commands.Orders.DeleteOrderCommand
 			_orderRepository = orderRepository;
 		}
 
-		public async Task<DeleteOrderCommandResponse> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
+		public async Task<DeleteOrderCommandResponse> Handle(DeleteOrderCommand command, CancellationToken cancellationToken)
 		{
-			var orderId = await _orderRepository.DeleteAsync(request.OrderId);
+			var orderId = await _orderRepository.DeleteAsync(command.OrderId);
 
 			return new DeleteOrderCommandResponse(orderId);
 		}

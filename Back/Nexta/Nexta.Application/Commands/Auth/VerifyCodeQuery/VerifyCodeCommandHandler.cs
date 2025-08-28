@@ -26,17 +26,17 @@ namespace Nexta.Application.Commands.Auth.VerifyCodeQuery
             _mapper = mapper;
         }
 
-		public async Task<VerifyCodeCommandResponse> Handle(VerifyCodeCommand request, CancellationToken ct = default)
+		public async Task<VerifyCodeCommandResponse> Handle(VerifyCodeCommand command, CancellationToken ct = default)
 		{
-            var validationResult = await _validator.ValidateAsync(request, ct);
+            var validationResult = await _validator.ValidateAsync(command, ct);
             if (!validationResult.IsValid)
                 throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var verifyResult = _verificationCodeService.VerifyCode(request.Email, request.Code);
+			var verifyResult = _verificationCodeService.VerifyCode(command.Email, command.Code);
             if (!verifyResult)
                 throw new BadRequestException("Неверный код");
 
-            var user = _mapper.Map<UserResponse>(await _userRepository.GetByEmailAsync(request.Email, ct));
+            var user = _mapper.Map<UserResponse>(await _userRepository.GetByEmailAsync(command.Email, ct));
             if (user == null)
                 throw new BadRequestException("Неверный пользователь");
             

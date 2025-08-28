@@ -11,7 +11,7 @@ using MediatR;
 namespace Nexta.Web.Controllers
 {
 	[Authorize]
-	[Route("api/[controller]")]
+	[Route("[controller]")]
 	public class BasketController : ControllerBase
 	{
 		private readonly IMediator _mediator;
@@ -23,27 +23,27 @@ namespace Nexta.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpGet("[action]")]
+		[HttpGet("Get/{userId}")]
 		[ProducesResponseType(typeof(GetBasketProductsQueryResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Get([FromQuery] GetBasketProductsRequest request, CancellationToken ct = default)
+		public async Task<IResult> Get([FromRoute] Guid userId, CancellationToken ct = default)
 		{
-			var query = _mapper.Map<GetBasketProductsQuery>(request);
-			var response = await _mediator.Send(request, ct);
+			var query = new GetBasketProductsQuery(userId);
+            var response = await _mediator.Send(query, ct);
 
 			return Results.Ok(response);
 		}
 
-		[HttpPost("[action]")]
+		[HttpPost("Add")]
 		[ProducesResponseType(typeof(AddBasketProductCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Add([FromBody] AddBasketProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<AddBasketProductCommand>(request);
-			var response = await _mediator.Send(request, ct);
+			var response = await _mediator.Send(command, ct);
 
 			return Results.Ok(response);
 		}
 
-		[HttpPatch("[action]")]
+		[HttpPatch("Update")]
 		[ProducesResponseType(typeof(UpdateBasketProductCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Update([FromBody] UpdateBasketProductRequest request, CancellationToken ct = default)
 		{
@@ -53,12 +53,12 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPost("[action]")]
+		[HttpDelete("Delete")]
 		[ProducesResponseType(typeof(DeleteBasketProductCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Delete([FromRoute] DeleteBasketProductRequest request, CancellationToken ct = default)
+		public async Task<IResult> Delete([FromQuery] DeleteBasketProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<DeleteBasketProductCommand>(request);
-			var response = await _mediator.Send(request, ct);
+			var response = await _mediator.Send(command, ct);
 
 			return Results.Ok(response);
 		}

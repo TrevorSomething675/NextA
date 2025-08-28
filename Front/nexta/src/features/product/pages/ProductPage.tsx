@@ -2,7 +2,7 @@ import ProductsService from "../../../services/ProductService";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styles from './ProductPage.module.css';
-import { Product, ProductStatus } from "../../../models/product/Product";
+import { Product, ProductStatus } from "../../../models/Product";
 import { useNotifications } from "../../../shared/components/Notifications/Notifications";
 import Image from "../../../shared/components/Image/Image";
 import { ViewAlreadyExistProductInBasket } from "../../../shared/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket";

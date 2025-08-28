@@ -20,7 +20,7 @@ namespace Nexta.Application.Profiles
             CreateMap<PagedData<Product>, PagedData<AdminProductResponse>>();
             CreateMap<PagedData<Product>, PagedData<ProductResponse>>();
             CreateMap<UpdateAdminProductCommand, Product>()
-                .ForMember(src => src.Status, opt => opt.MapFrom(x => (DetailStatus)x.Status));
+                .ForMember(src => src.Status, opt => opt.MapFrom(x => (ProductStatus)x.Status));
             CreateMap<ProductRequest, Product>();
             CreateMap<ProductImageRequest, ProductImage>();
             CreateMap<ProductImage, ProductImageResponse>();

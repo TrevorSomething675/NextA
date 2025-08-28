@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
 import OrderService from '../../../../services/OrderService';
-import { GetOrdersForUserFilter, GetOrdersForUserRequest, GetOrdersForUserResponse } from '../../models/GetOrdersForUserFilter';
+import { GetOrdersForUserRequest, GetOrdersForUserResponse } from '../../../../http/models/order/GetOrdersForUserFilter';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
 import OrderItem from '../orderItem/OrderItem';
 import authStore from '../../../../stores/AuthStore/authStore';
@@ -9,37 +9,27 @@ import styles from './Orders.module.css';
 
 const Orders = observer(() => {
     const [response, setResponse] = useState<GetOrdersForUserResponse>({} as GetOrdersForUserResponse);
+
     const handlePageNumberChange = (pageNumber:number) => {
         const userId = authStore?.user?.id ?? '';
-        const filter:GetOrdersForUserFilter = {
-            userId: userId,
-            pageSize: 8,
-            pageNumber: pageNumber
-        };
-        const request:GetOrdersForUserRequest ={
-            filter:filter
-        };
-        
-        fetchData(request);
+        fetchData(userId, 8, pageNumber);
     }
     
     useEffect(() => {
         const userId = authStore?.user?.id ?? '';
-        const filter:GetOrdersForUserFilter = {
-            userId: userId,
-            pageSize: 8,
-            pageNumber: 1
-        };
-        const request:GetOrdersForUserRequest = {
-            filter:filter
-        };
-        fetchData(request);
+        fetchData(userId, 8, 1);
     }, []);
-
-    const fetchData = async (request:GetOrdersForUserRequest) => {
+    
+    const fetchData = async (userId:string, pageSize?:number, pageNumber?:number) => {
+        const request: GetOrdersForUserRequest = {
+            userId: userId,
+            pageSize: pageSize,
+            pageNumber: pageNumber
+        };
+        
         const response = await OrderService.GetOrdersForUser(request);
-        if(response){
-            setResponse(response);
+        if(response.success && response.status === 200){
+            setResponse(response.data);
         }
     }
     
