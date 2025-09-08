@@ -38,7 +38,6 @@ const Login:React.FC<RegisterSecondStepProps> = ({handleChangeAuth}) => {
                 handleChangeAuth('codeVerify', userData);
             }
             else if (!response.success){
-                console.error(response.data);
                 setError(response.data.Message ?? '');
             } 
         } catch(error){

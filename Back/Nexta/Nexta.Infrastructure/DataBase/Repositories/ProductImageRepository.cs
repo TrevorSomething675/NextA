@@ -18,35 +18,35 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             _mapper = mapper;
         }
 
-        public async Task<Guid> AddAsync(ProductImage detailImage, CancellationToken ct = default)
+        public async Task<Guid> AddAsync(ProductImage productImage, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
-                var detailEntity = _mapper.Map<ProductImageEntity>(detailImage);
+                var productEntity = _mapper.Map<ProductImageEntity>(productImage);
 
-                var createdDetailImage = await context.ProductImages.AddAsync(detailEntity, ct);
+                var createdProductImage = await context.ProductImages.AddAsync(productEntity, ct);
 
                 await context.SaveChangesAsync(ct);
 
-                return createdDetailImage.Entity.Id;
+                return createdProductImage.Entity.Id;
             }
         }
 
-        public async Task<Guid> RemoveAsync(Guid id, CancellationToken ct = default)
+        public async Task<Guid> DeleteAsync(Guid id, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
-                var detailImageToRemove = await context.ProductImages
+                var productImageToRemove = await context.ProductImages
                     .Include(di => di.Product)
                     .FirstOrDefaultAsync(di => di.Id == id, ct);
 
-                if (detailImageToRemove == null)
+                if (productImageToRemove == null)
                     throw new NotFoundException("Не найдена картинка для детали");
 
-                context.ProductImages.Remove(detailImageToRemove);
+                context.ProductImages.Remove(productImageToRemove);
                 await context.SaveChangesAsync(ct);
 
-                return detailImageToRemove.Id;
+                return productImageToRemove.Id;
             }
         }
 

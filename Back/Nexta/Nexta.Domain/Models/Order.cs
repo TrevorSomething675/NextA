@@ -8,6 +8,7 @@ namespace Nexta.Domain.Models
 		public Guid UserId { get; set; }
 		public User User { get; set; } = null!;
 
+		public List<Product>? Products { get; set; }
 		public List<OrderProduct>? OrderProducts { get; set; }
 
 		public DateOnly CreatedDate { get; set; }

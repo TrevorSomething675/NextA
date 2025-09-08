@@ -103,23 +103,33 @@ namespace Nexta.Infrastructure.DataBase.Repositories
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
-                var basketDetailsEntities = await context.BasketProducts
+                var basketProductsEntities = await context.BasketProducts
                     .AsNoTracking()
                     .Where(ud => ud.UserId == userId && productIds.Contains(ud.ProductId))
                     .ToListAsync(ct);
 
-                var basketDetails = _mapper.Map<List<BasketProduct>>(basketDetailsEntities);
+                var basketProducts = _mapper.Map<List<BasketProduct>>(basketProductsEntities);
 
-                return basketDetails;
+                return basketProducts;
             }
         }
-
-
 
         public async Task<BasketProduct> UpdateAsync(BasketProduct basketProductToUpdate, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
+                await context.BasketProducts
+                    .Where(ud => ud.ProductId == basketProductToUpdate.ProductId && ud.UserId == basketProductToUpdate.UserId)
+                    .ExecuteUpdateAsync(product => product
+                        .SetProperty(p => p.Count, p => basketProductToUpdate.Count.HasValue ? basketProductToUpdate.Count : p.Count)
+                        .SetProperty(p => p.Status, p => basketProductToUpdate.Status.HasValue ? basketProductToUpdate.Status : p.Status)
+                        .SetProperty(p => p.DeliveryDate, p => basketProductToUpdate.DeliveryDate.HasValue ? basketProductToUpdate.DeliveryDate : p.DeliveryDate), ct);
+
+                var updateProduct = _mapper.Map<BasketProduct>(basketProductToUpdate);
+                return updateProduct;
+            }
+        }
+                /*
                 var basketProductEntity = await context.BasketProducts
                     .FirstOrDefaultAsync(ud => ud.ProductId == basketProductToUpdate.ProductId && ud.UserId == basketProductToUpdate.UserId, ct);
 
@@ -139,7 +149,6 @@ namespace Nexta.Infrastructure.DataBase.Repositories
                 var basketProduct = _mapper.Map<BasketProduct>(basketProductEntity);
 
                 return basketProduct;
-            }
-        }
+                */
     }
 }

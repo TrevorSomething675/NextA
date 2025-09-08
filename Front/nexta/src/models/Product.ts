@@ -1,6 +1,6 @@
 import { Image } from "../shared/entities/Image";
-import { Order } from "../shared/entities/Order";
-import { BasketProduct } from "./BasketProduct";
+import { UserOrder } from "./order/UserOrder";
+import { UserBasketProduct } from "./UserBasketProduct";
 
 export interface Product{
     id:string,
@@ -13,8 +13,8 @@ export interface Product{
     count:number,
     newPrice:number,
     oldPrice:number,
-    basketProducts: BasketProduct[],
-    orders:Order[],
+    basketProducts: UserBasketProduct[],
+    orders:UserOrder[],
     image:Image
 }
 

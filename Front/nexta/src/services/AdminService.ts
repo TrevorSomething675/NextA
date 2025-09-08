@@ -1,37 +1,79 @@
 import { AddAdminImageRequest } from "../features/admin/models/AddAdminImageRequest";
 import { AddAdminImageResponse } from "../features/admin/models/AddAdminImageResponse";
 import { AddNewsForm } from "../features/admin/models/AddNews/AddNews";
-import { GetAdminDetailRequest, GetAdminDetailResponse } from "../features/admin/models/GetAdminDetail";
-import { GetAdminDetailsRequest, GetAdminDetailsResponse } from "../features/admin/models/GetAdminDetails";
 import { AdminNewsResponse } from "../features/admin/models/News/AdminNewsResponse";
-import { UpdateAdminDetailRequest } from "../features/admin/models/UpdateAdminDetailRequest";
-import { UpdateAdminDetailResponse } from "../features/admin/models/UpdateAdminDetailResponse";
 import api from "../http/api";
 import axios from 'axios';
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
-import { CreateAdminDetailRequest, CreateAdminDetailResponse } from "../features/admin/models/CreateAdminDetail";
+import { GetAdminProductResponse } from "../features/admin/models/AdminProduct/GetAdminProduct";
+import { GetAdminProductsRequest, GetAdminProductsResponse } from "../features/admin/models/AdminProduct/GetAdminProducts";
+import { ApiResponse } from "../http/BaseResponse";
+import { UpdateAdminProductRequest, UpdateAdminProductResponse } from "../features/admin/models/AdminProduct/UpdateAdminProduct";
+import { CreateAdminProductRequest, CreateAdminProductResponse } from "../features/admin/models/AdminProduct/CreateAdminProduct";
 
 class AdminService{
-    static async GetAdminDetail(id:string, withImage:boolean){
+    static async GetAdminProduct(id:string) : Promise<ApiResponse<GetAdminProductResponse, ErrorResponseModel>>{
         try{
-            const GetAdminDetailRequest:GetAdminDetailRequest = {
-                detailId: id,
-                withImage: withImage
-            };
-            const response = await api.post<GetAdminDetailResponse>('Admin/Detail/Get', GetAdminDetailRequest);
-            return response.data;
+            const response = await api.get<GetAdminProductResponse>(`Admin/Products/GetById/${id}`);
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            } 
         } catch(error){
-            throw new Error('Сетевая ошибка или ошибка конфигурации');
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
         }
     }
 
-    static async GetAdminDetails(request:GetAdminDetailsRequest){
+    static async GetAdminProducts(request:GetAdminProductsRequest) : Promise<ApiResponse<GetAdminProductsResponse, ErrorResponseModel>>{
         try{
-            const response = await api.post<GetAdminDetailsResponse>('Admin/Detail/GetAll', request);
-            return response.data
+            const response = await api.get<GetAdminProductsResponse>('Admin/Products/Get', {
+                params: {
+                    searchTerm: request.searchTerm ?? '',
+                    pageNumber: request.pageNumber
+                }
+            });
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            }
+        } catch(error) {
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
+
+    static async UpdateAdminProduct(request: UpdateAdminProductRequest) : Promise<ApiResponse<UpdateAdminProductResponse, ErrorResponseModel>>{
+        try{
+            const response = await api.patch<UpdateAdminProductResponse>('Admin/Products/Update', request);
+            return {
+                success:true,
+                data: response.data,
+                status: response.status
+            }
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as GetAdminDetailsResponse
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
@@ -51,26 +93,21 @@ class AdminService{
         }
     }
 
-    static async CreateAdminDetail(request: CreateAdminDetailRequest){
+    static async CreateAdminProduct(request: CreateAdminProductRequest) : Promise<ApiResponse<CreateAdminProductResponse, ErrorResponseModel>>{
         try{
-            const response = await api.post<CreateAdminDetailResponse>('Admin/Detail/Add', request);
-            return response.data;
-        } catch(error){
-            if(axios.isAxiosError(error) && error.response){
-                return error.response.data as CreateAdminDetailResponse
-            } else {
-                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            const response = await api.post<CreateAdminProductResponse>('Admin/Products/Add', request);
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
             }
-        }
-    }
-
-    static async UpdateAdminDetail(request: UpdateAdminDetailRequest){
-        try{
-            const response = await api.post<UpdateAdminDetailResponse>('Admin/Detail/Update', request);
-            return response.data;
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                return error.response.data as UpdateAdminDetailResponse
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
             } else {
                 throw new Error('Сетевая ошибка или ошибка конфигурации');
             }

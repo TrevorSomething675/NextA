@@ -3,7 +3,6 @@ import api from "../http/api";
 import axios from 'axios';
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
 import { AddNewsForm } from "../features/admin/models/AddNews/AddNews";
-import { DeleteNewsRequest } from "../features/admin/models/DeleteNews/DeleteNewsRequest";
 import { DeleteNewsResponse } from "../features/admin/models/DeleteNews/DeleteNewsResponse";
 import { ApiResponse } from "../http/BaseResponse";
 
@@ -45,15 +44,24 @@ class NewsService{
             throw new Error('Сетевая ошибка или ошибка конфигурации');
         }
     }
-    static async Delete(request:DeleteNewsRequest){
+    static async Delete(id:string) : Promise<ApiResponse<DeleteNewsResponse, ErrorResponseModel>>{
         try{
-            const response = await api.post<DeleteNewsResponse>('Admin/News/Delete', request);
-            return response.data;
+            const response = await api.delete<DeleteNewsResponse>(`Admin/News/Delete/${id}`);
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            }
         } catch(error){
             if(axios.isAxiosError(error) && error.response){
-                throw error.response.data as ErrorResponseModel;
-            } else {
-                throw error;
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            }
+            else{
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
             }
         }
     }

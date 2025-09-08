@@ -22,7 +22,6 @@ namespace Nexta.Infrastructure.DataBase.Entities
 
         public bool IsVisible { get; set; } = false;
 
-        public Guid? ImageId { get; set; }
         public ProductImageEntity? Image { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Nexta.Application.Commands.Admin.CreateAdminProductCommand;
-using Nexta.Application.Commands.Admin.UpdateDetailCommand;
 using Nexta.Application.Queries.Admin.GetProductsQuery;
 using Nexta.Application.Queries.Admin.GetProductQuery;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Areas.Models;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.Commands.Admin.UpdateProductCommand;
 
 namespace Nexta.Web.Areas.Controllers
 {
@@ -25,7 +25,7 @@ namespace Nexta.Web.Areas.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("GetById/{id}")]
 		[ProducesResponseType(typeof(GetAdminProductQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> GetById([FromRoute] Guid id, CancellationToken ct = default)
 		{
@@ -35,7 +35,7 @@ namespace Nexta.Web.Areas.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpGet]
+		[HttpGet("[action]")]
 		[ProducesResponseType(typeof(GetAdminProductsQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Get([FromQuery] GetAdminProductsRequest request, CancellationToken ct = default)
 		{
@@ -45,23 +45,24 @@ namespace Nexta.Web.Areas.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPatch]
-		public async Task<IResult> Update([FromBody] UpdateAdminProductRequest request, CancellationToken ct = default)
-		{
-			var command = _mapper.Map<UpdateAdminProductCommand>(request);
-			var response = await _mediator.Send(request, ct);
-
-			return Results.Ok(response);
-		}
-
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(CreateAdminProductCommandResponse), StatusCodes.Status200OK)]
         public async Task<IResult> Add([FromBody] CreateAdminProductRequest request, CancellationToken ct = default)
         {
 			var command = _mapper.Map<CreateAdminProductCommand>(request);
-            var response = await _mediator.Send(request, ct);
+            var response = await _mediator.Send(command, ct);
 
             return Results.Ok(response);
         }
+
+		[HttpPatch("[action]")]
+        [ProducesResponseType(typeof(UpdateAdminProductCommandResponse), StatusCodes.Status200OK)]
+        public async Task<IResult> Update([FromBody] UpdateAdminProductRequest request, CancellationToken ct = default)
+		{
+			var command = _mapper.Map<UpdateAdminProductCommand>(request);
+			var response = await _mediator.Send(command, ct);
+
+			return Results.Ok(response);
+		}
     }
 }

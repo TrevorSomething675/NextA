@@ -6,6 +6,7 @@ namespace Nexta.Application.DTO.Response
     {
         public Guid UserId { get; init; }
         public Guid ProductId { get; init; }
+        public string Description { get; init; }
         public int Count { get; init; }
         public DateOnly DeliveryDate { get; set; }
         public string Article { get; set; }

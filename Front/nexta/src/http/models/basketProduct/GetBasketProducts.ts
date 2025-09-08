@@ -1,5 +1,5 @@
-import { BasketProduct } from "../../../models/BasketProduct"
+import { UserBasketProduct } from "../../../models/UserBasketProduct"
 
 export interface GetBasketProductsResponse {
-    products: BasketProduct[]
+    products: UserBasketProduct[]
 }

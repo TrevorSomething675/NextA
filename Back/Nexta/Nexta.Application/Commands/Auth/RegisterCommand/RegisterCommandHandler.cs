@@ -2,7 +2,6 @@
 using Nexta.Domain.Abstractions.Services;
 using Nexta.Domain.Exceptions;
 using Nexta.Domain.Models;
-using Nexta.Domain.Enums;
 using FluentValidation;
 using AutoMapper;
 using MediatR;

@@ -1,0 +1,96 @@
+.container {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    background-color: var(--default-color);
+    width: 30rem;
+    height: 100%;
+    box-shadow: 0px 0px 0.4rem var(--shadow-color);
+    top: 0;
+    left: 0;
+    animation: slideIn 0.3s ease forwards;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 998;
+    pointer-events: auto;
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.container-exit {
+    animation: slideOut 0.3s ease forwards;
+}
+
+.overlay-exit {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.h2 {
+    margin: 2rem 0 0 0;
+    font-size: 1.8rem;
+    text-decoration: underline 0.15rem var(--context-color);
+    text-align: center;
+    text-underline-offset: 0.2rem;
+    flex-shrink: 0;
+}
+
+.body {
+    margin: 1rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 4rem;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.createOrder {
+    width: 12rem;
+    background-color: var(--green-color);
+}
+
+.toBasket {
+    width: 12rem;
+}
+
+.resultPriceContainer{
+    display: flex;
+    margin: 0.5rem 0 0.5rem 2rem;
+    font-size: 1.2rem;
+    color: var(--context-color);
+}
+
+.priceText{
+    margin: 0 0.25rem 0 0;
+    color:var(--text-color);
+}

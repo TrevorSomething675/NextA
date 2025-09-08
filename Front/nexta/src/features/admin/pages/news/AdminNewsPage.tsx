@@ -10,9 +10,18 @@ const AdminNewsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = async () => {
-        const news = await NewsService.GetNews();
-        setNewsResponse(news);
-        setIsLoading(false);
+        const response = await NewsService.Get();
+        if(response.success && response.status === 200){
+            setNewsResponse(response.data);
+            setIsLoading(false);
+        }
+    }
+
+    const handleNewsDelete = (id: string) => {
+        setNewsResponse(prev => ({
+            ...prev,
+            news: prev.news?.filter(newsItem => newsItem.id !== id) || []
+        }));
     }
 
     useEffect(() => {
@@ -29,7 +38,7 @@ const AdminNewsPage = () => {
             <AdminNews
                 newsResponse={newsResponse}
                 isLoading={isLoading}
-                fetchData={fetchData}
+                onNewsDelete={handleNewsDelete}
             />
         </div>
     </div>

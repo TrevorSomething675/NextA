@@ -1,9 +1,10 @@
-import { BasketProduct } from "../models/BasketProduct";
+import { UserBasketProduct } from "../models/UserBasketProduct";
 import { makeAutoObservable, runInAction } from "mobx";
 
 class BasketStore {
-    items: BasketProduct[] = [];
-    
+    items: UserBasketProduct[] = [];
+    isVisibleBasket = false;
+
     constructor() {
         makeAutoObservable(this);
     }
@@ -12,6 +13,7 @@ class BasketStore {
         const n = Number(v);
         return Number.isFinite(n) ? n : def;
     }
+    
     get totalPrice() {
         return this.items.reduce((sum, item) => {
             const price = this.num(item.newPrice, 0);
@@ -24,7 +26,11 @@ class BasketStore {
         return this.items.reduce((sum, item) => sum + item.count, 0);
     }
 
-    addBasketProduct = (product: BasketProduct) => {
+    setVisibleBasket = (state:boolean) => {
+        this.isVisibleBasket = state;
+    }
+
+    addBasketProduct = (product: UserBasketProduct) => {
         const existingItem = this.items.find(item => item.productId === product.productId)!;
         
         if (existingItem) {
@@ -67,7 +73,7 @@ class BasketStore {
         this.items = [];
     }
 
-    setBasketItems = (items: BasketProduct[]) => {
+    setBasketItems = (items: UserBasketProduct[]) => {
         this.items = items.map(it => ({
         ...it,
         newPrice: this.num(it.newPrice, 0),

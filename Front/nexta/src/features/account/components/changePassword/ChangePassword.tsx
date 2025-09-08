@@ -35,7 +35,7 @@ export const ChangePassword = observer(() => {
         })
         .catch(error => {
             const errorResponse = error as ErrorResponseModel;
-            setError(errorResponse.message ?? '');
+            setError(errorResponse.Message ?? '');
         })
         .finally(() =>{
             setLoading(false);

@@ -10,7 +10,10 @@ namespace Nexta.Infrastructure.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductEntity>().ReverseMap();
+            CreateMap<Product, ProductEntity>();
+            CreateMap<ProductEntity, Product>()
+                .ForMember(dest => dest.ImageId, opt => opt.MapFrom(src => src.Image.Id));
+
             CreateMap<PagedData<Product>, PagedData<ProductEntity>>().ReverseMap();
 
             CreateMap<ProductImage, ProductImageEntity>().ReverseMap();

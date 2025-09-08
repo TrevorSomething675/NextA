@@ -1,7 +1,6 @@
-import { AddNewsImage } from "./AddNewsImage";
-
 export interface AddNewsForm {
     header:string,
     description:string,
-    image:AddNewsImage
+    imageName:string,
+    imageBase64String:string
 };

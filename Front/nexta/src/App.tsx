@@ -4,29 +4,30 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useEffect } from 'react'
 import OrderService from './services/OrderService'
 import orderStore from './stores/orderStore'
-import { GetOrdersForUserRequest } from './http/models/order/GetOrdersForUserFilter'
 import { NotificationsProvider } from "./shared/components/Notifications/Notifications"
 import HomePage from "./features/home/pages/HomePage"
 import BasketPage from "./features/basket/pages/BasketPage"
-import SearchPage from "./features/details/pages/SearchPage/SearchPage"
+import SearchPage from "./features/product/pages/SearchPage/SearchPage"
 import OrderPage from "./features/order/pages/OrdersPage"
 import BasketService from "./services/BasketService"
 import {Header} from "./shared/components/Header/Header"
 import Footer from "./shared/components/Footer/Footer"
 import AccountPage from "./features/account/pages/AccountPage"
 import AdminOrdersPage from "./features/admin/pages/orders/AdminOrdersPage"
-import AdminDetailsPage from "./features/admin/pages/details/AdminDetailsPage"
 import AdminNewsPage from "./features/admin/pages/news/AdminNewsPage"
-import AdminDetailPage from "./features/admin/pages/detail/AdminDetailPage"
 import { ErrorPage } from "./features/error/pages/ErrorPage"
 import { ProtectedAdminRoute } from "./http/ProtectedAdminRoute"
-import { ProductPage } from "./features/product/pages/ProductPage"
+import { ProductPage } from "./features/product/pages/ProductPage/ProductPage"
 import { AuthPage } from "./features/auth/pages/AuthPage"
 import { AuthService } from "./services/AuthService"
 import authStore from "./stores/AuthStore/authStore"
 import basket from "./stores/basket"
+import { AdminProductPage } from "./features/admin/pages/Product/AdminProductPage"
+import { AdminProductsPage } from "./features/admin/pages/Products/AdminProductsPage"
+import { BasketSidebar } from "./features/basket/components/BasketSidebar/BasketSidebar"
+import { observer } from "mobx-react"
 
-const App = () => {
+const App = observer(() => {
   useEffect(() => {
     const fetchData = async() => {
       await AuthService.checkAuth();
@@ -35,16 +36,11 @@ const App = () => {
       const basketResponse = await BasketService.GetBasketProducts(userId);
       if(basketResponse.success && basketResponse.status === 200){
         basket.setBasketItems(basketResponse.data.products);
-      
-        const ordersRequest:GetOrdersForUserRequest = {
-          userId: authStore.user.id ?? '',
-          pageSize: 8,
-          pageNumber: 1
-        }
-        const orderResponse = await OrderService.GetOrdersForUser(ordersRequest);
+
+        const orderResponse = await OrderService.GetOrdersForUser(userId);
+
         if(orderResponse.success && orderResponse.status === 200){
-          orderStore.setOrders(orderResponse?.data.data.items);
-          orderStore.setTotalCountOrders(orderResponse?.data.totalCount);
+          orderStore.setOrderItems(orderResponse?.data.data.items);
         }
       }
     }
@@ -59,6 +55,7 @@ const App = () => {
         <BrowserRouter>
           <Header />
           <div className='page-body'>
+            {basket.isVisibleBasket && <BasketSidebar />}
             <Routes>
               <Route path="/Error" element={<ErrorPage />} />
               <Route path="*" element={<HomePage />} />
@@ -73,9 +70,9 @@ const App = () => {
                   <AdminOrdersPage />
                 </ProtectedAdminRoute>
               } />
-              <Route path="Admin/Details" element={
+              <Route path="Admin/Products" element={
                 <ProtectedAdminRoute>
-                  <AdminDetailsPage />
+                  <AdminProductsPage />
                 </ProtectedAdminRoute>
               } />
               <Route path="Admin/News" element={
@@ -83,9 +80,9 @@ const App = () => {
                   <AdminNewsPage />
                 </ProtectedAdminRoute>
               } />
-              <Route path="Admin/Detail/:id" element={
+              <Route path="Admin/Product/:id" element={
                 <ProtectedAdminRoute>
-                  <AdminDetailPage />
+                  <AdminProductPage />
                 </ProtectedAdminRoute>
               } />
             </Routes>
@@ -94,6 +91,6 @@ const App = () => {
         </BrowserRouter>
       </NotificationsProvider>
   </div>
-}
+});
 
 export default App;

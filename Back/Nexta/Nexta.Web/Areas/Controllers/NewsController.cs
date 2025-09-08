@@ -24,7 +24,7 @@ namespace Nexta.Web.Areas.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         [ProducesResponseType(typeof(AddNewsCommandResponse), StatusCodes.Status200OK)]
         public async Task<IResult> Add([FromBody] AddNewsRequest request, CancellationToken ct = default)
 		{
@@ -34,7 +34,7 @@ namespace Nexta.Web.Areas.Controllers
             return Results.Ok(response);
 		}
 
-        [HttpPost("{id}")]
+        [HttpDelete("Delete/{id}")]
         [ProducesResponseType(typeof(DeleteNewsCommandResponse), StatusCodes.Status200OK)]
         public async Task<IResult> Delete([FromRoute] Guid id, CancellationToken ct = default)
         {

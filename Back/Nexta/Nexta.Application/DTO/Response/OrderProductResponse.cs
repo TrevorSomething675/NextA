@@ -2,10 +2,12 @@
 {
     public class OrderProductResponse
     {
-		public Guid OrderId { get; init; }
-		public Guid ProductId { get; init; }
-        public ProductResponse Product { get; init; }
-
-        public int Count { get; set; }
+		public Guid Id { get; init; }
+        public string Name { get; init; }
+        public string Article { get; init; }
+        public string Description { get; init; }
+        public int NewPrice { get; init; }
+        public int OldPrice { get; init; }
+        public int Count { get; init; }
     }
 }

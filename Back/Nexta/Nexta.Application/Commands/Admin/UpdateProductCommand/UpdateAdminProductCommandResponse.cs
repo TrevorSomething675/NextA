@@ -1,9 +1,9 @@
-﻿using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Admin;
 
-namespace Nexta.Application.Commands.Admin.UpdateDetailCommand
+namespace Nexta.Application.Commands.Admin.UpdateProductCommand
 {
-    public class UpdateAdminProductCommandResponse(ProductResponse product)
+    public class UpdateAdminProductCommandResponse(AdminProductResponse product)
     {
-        public ProductResponse Product { get; init; } = product;
+        public AdminProductResponse Product { get; init; } = product;
     }
 }

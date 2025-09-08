@@ -14,7 +14,7 @@ namespace Nexta.Web.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpGet("Get")]
+		[HttpGet("[action]")]
 		[ProducesResponseType(typeof(GetNewsQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Get(CancellationToken ct = default)
 		{

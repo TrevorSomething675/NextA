@@ -23,7 +23,7 @@ namespace Nexta.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpGet("Get/{userId}")]
+		[HttpGet("[action]/{userId}")]
 		[ProducesResponseType(typeof(GetBasketProductsQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Get([FromRoute] Guid userId, CancellationToken ct = default)
 		{
@@ -33,7 +33,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPost("Add")]
+		[HttpPost("[action]")]
 		[ProducesResponseType(typeof(AddBasketProductCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Add([FromBody] AddBasketProductRequest request, CancellationToken ct = default)
 		{
@@ -43,7 +43,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPatch("Update")]
+		[HttpPatch("[action]")]
 		[ProducesResponseType(typeof(UpdateBasketProductCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Update([FromBody] UpdateBasketProductRequest request, CancellationToken ct = default)
 		{
@@ -53,7 +53,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpDelete("Delete")]
+		[HttpDelete("[action]")]
 		[ProducesResponseType(typeof(DeleteBasketProductCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Delete([FromQuery] DeleteBasketProductRequest request, CancellationToken ct = default)
 		{

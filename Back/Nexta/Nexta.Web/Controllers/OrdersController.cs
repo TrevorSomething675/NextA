@@ -24,7 +24,7 @@ namespace Nexta.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpGet("GetOrdersForUser")]
+		[HttpGet("[action]")]
 		[ProducesResponseType(typeof(GetOrdersForUserQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> GetOrdersForUser([FromQuery] GetOrdersForUserRequest request, CancellationToken ct = default)
 		{
@@ -34,7 +34,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpGet("GetLegacyOrdersForUser")]
+		[HttpGet("[action]")]
 		[ProducesResponseType(typeof(GetLegacyOrdersQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> GetLegacyOrdersForUser([FromQuery] GetOrdersForUserRequest request, CancellationToken ct = default)
 		{
@@ -44,7 +44,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPost("CreateNewOrder")]
+		[HttpPost("[action]")]
 		[ProducesResponseType(typeof(CreateNewOrderCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> CreateNewOrder([FromBody] CreateNewOrderRequest request, CancellationToken ct = default)
 		{
@@ -54,7 +54,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPatch("UpdateOrderProduct")]
+		[HttpPatch("[action]")]
 		[ProducesResponseType(typeof(UpdateOrderProductCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> UpdateOrderProduct([FromBody] UpdateOrderProductRequest request, CancellationToken ct = default)
 		{
@@ -64,7 +64,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpDelete("{OrderId}")]
+		[HttpDelete("Delete/{OrderId}")]
 		[ProducesResponseType(typeof(DeleteOrderCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Delete([FromRoute] Guid OrderId, CancellationToken ct = default)
 		{

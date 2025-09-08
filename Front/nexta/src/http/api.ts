@@ -20,7 +20,6 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if(error.response?.status === 403){
-            console.log('start')
             authStore.isAdmin = false;
 
             window.location.href = '/error';

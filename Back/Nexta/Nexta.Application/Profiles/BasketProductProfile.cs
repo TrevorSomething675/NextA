@@ -20,7 +20,8 @@ namespace Nexta.Application.Profiles
                 .ForMember(src => src.Name, opt => opt.MapFrom(x => x.Product!.Name))
                 .ForMember(src => src.NewPrice, opt => opt.MapFrom(x => x.Product!.NewPrice))
                 .ForMember(src => src.OldPrice, opt => opt.MapFrom(x => x.Product!.OldPrice ?? null))
-                .ForMember(src => src.Status, opt => opt.MapFrom(x => x.Status));
+                .ForMember(src => src.Status, opt => opt.MapFrom(x => x.Status))
+                .ForMember(src => src.Description, opt => opt.MapFrom(x => x.Product!.Description));
             CreateMap<UpdateBasketProductCommand, BasketProduct>();
         }
     }

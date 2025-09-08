@@ -1,5 +1,4 @@
 ﻿using Nexta.Application.Commands.Admin.CreateAdminProductCommand;
-using Nexta.Application.Commands.Admin.UpdateDetailCommand;
 using Nexta.Application.DTO.Response;
 using Nexta.Domain.Models.DataModels;
 using Nexta.Application.DTO.Request;
@@ -8,6 +7,7 @@ using Nexta.Domain.Models.Images;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
+using Nexta.Application.Commands.Admin.UpdateProductCommand;
 
 namespace Nexta.Application.Profiles
 {
@@ -26,6 +26,9 @@ namespace Nexta.Application.Profiles
             CreateMap<ProductImage, ProductImageResponse>();
             CreateMap<ProductImage, AdminProductImageResponse>();
             CreateMap<CreateAdminProductCommand, Product>();
+            CreateMap<ImageRequest, ProductImage>();
+
+            CreateMap<Product, OrderProductResponse>();
         }
     }
 }

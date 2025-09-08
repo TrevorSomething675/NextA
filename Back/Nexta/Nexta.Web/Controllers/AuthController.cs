@@ -22,7 +22,7 @@ namespace Nexta.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpPost("Login")]
+		[HttpPost("[action]")]
 		[ProducesResponseType(typeof(LoginCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Login([FromBody] LoginRequest request, CancellationToken ct = default)
 		{
@@ -32,7 +32,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPost("Register")]
+		[HttpPost("[action]")]
 		[ProducesResponseType(typeof(RegisterCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Register([FromBody] RegistrationRequest request, CancellationToken ct = default)
 		{
@@ -42,7 +42,7 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-        [HttpGet("IsRegisterUser")]
+        [HttpGet("[action]")]
 		[ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
 		public async Task<IResult> IsRegisterUser([FromQuery] string email, CancellationToken ct = default)
 		{
@@ -53,7 +53,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[Authorize]
-		[HttpPost("CheckAuth")]
+		[HttpPost("[action]")]
 		[ProducesResponseType(typeof(CheckAuthCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> CheckAuth([FromBody] CheckUserAuthRequest request, CancellationToken ct = default)
 		{

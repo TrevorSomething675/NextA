@@ -72,7 +72,7 @@ class BasketService{
             throw new Error('Сетевая ошибка или ошибка конфигурации');
         }
     }
-    static async UpdateBasketDetail(data:UpdateBasketProductRequest) : Promise<ApiResponse<UpdateBasketProductResponse, ErrorResponseModel>> {
+    static async UpdateBasketProduct(data:UpdateBasketProductRequest) : Promise<ApiResponse<UpdateBasketProductResponse, ErrorResponseModel>> {
         try {
             const response = await api.patch<UpdateBasketProductResponse>('Basket/Update', data)
             return { 

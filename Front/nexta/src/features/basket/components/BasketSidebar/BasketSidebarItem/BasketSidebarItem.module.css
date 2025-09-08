@@ -1,0 +1,138 @@
+.container{
+    margin: 1rem 0 1rem 0;
+    padding: 1rem 1rem 0.25rem 1rem;
+    background-color: var(--light-default-color);
+    border-radius: 1rem;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998; 
+    backdrop-filter: blur(1px);
+}
+
+.header{
+    font-size: 1.2rem;
+}
+
+.headerItem{
+    margin: 0.25rem 0 0.25rem 0;
+}
+
+.description{
+    font-size: 1rem;
+    color: var(--shadow-color);
+}
+
+.body{
+    margin: 1rem 0 0 0;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0 0 0;
+}
+
+.removeBasketBtn{
+    padding: 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 1.2rem;
+    transition: .2s;
+    color:var(--context-color);
+}
+
+.removeBasketBtn:hover{
+    color: var(--text-color);
+    transition: .2s;
+}
+
+.updateBasketBtn{
+    padding: 0 0.25rem 0 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    transition: .2s;
+    color:var(--violet-color);
+}
+
+.updateBasketBtn:hover{
+    color: var(--dark-default-color);
+    transition: .2s;
+}
+
+.updateBasketBtn::after, .removeBasketBtn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.1s;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.updateBasketBtn:hover::after, .removeBasketBtn:hover::after {
+    opacity: 1;
+}
+
+.down{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.down:hover{
+    text-shadow: 1px 1px 15px var(--text-color);
+    transition: .2s;
+}
+
+.up{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.up:hover{
+    transition: .2s;
+    text-shadow: 1px 1px 15px var(--text-color);
+}
+
+.countInput{
+    text-align: center;
+    font-size: 1rem;
+    flex-direction: row;
+    background: none;
+    border: none;
+    max-width: 2rem;
+}
+
+.oldPrice{
+    margin: 0 0 0 0.35rem;
+    font-size: 0.9rem;
+    text-decoration: line-through;
+}
+
+.newPrice{
+    color: var(--context-color);
+}

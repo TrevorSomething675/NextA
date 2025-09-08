@@ -1,9 +1,10 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models.DataModels;
+using Nexta.Application.DTO.Response;
+using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {
@@ -22,10 +23,12 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 		{
 			query.Filter.Statuses = GetOrderStatuses();
 
-			var orders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetOrdersAsync(query.Filter, ct));
-			var totalCount = await _orderRepository.CountOrdersAsync(query.Filter.UserId, ct);
+			var orders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(query.Filter, ct));
+			var totalCount = await _orderRepository.CountOrdersAsync(query.Filter.UserId!.Value, ct);
 
-			return new GetOrdersForUserQueryResponse(orders, totalCount);
+			var responseOrders = _mapper.Map<PagedData<OrderResponse>>(orders);
+
+			return new GetOrdersForUserQueryResponse(responseOrders, totalCount);
 		}
 
 		private List<OrderStatus> GetOrderStatuses()
@@ -34,7 +37,6 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 			{
 				OrderStatus.Accepted,
 				OrderStatus.InProgress,
-				OrderStatus.Canceled,
 				OrderStatus.Ready
 			};
 

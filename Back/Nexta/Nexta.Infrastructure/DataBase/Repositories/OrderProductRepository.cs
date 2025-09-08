@@ -23,10 +23,10 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
                 var orderProductEntity = _mapper.Map<OrderProductEntity>(orderProduct);
-                var createdOrderDetail = context.OrderProducts.Add(orderProductEntity);
+                var createdOrderProduct = context.OrderProducts.Add(orderProductEntity);
                 await context.SaveChangesAsync(ct);
 
-                var result = _mapper.Map<OrderProduct>(createdOrderDetail);
+                var result = _mapper.Map<OrderProduct>(createdOrderProduct);
 
                 return result;
             }
@@ -50,11 +50,11 @@ namespace Nexta.Infrastructure.DataBase.Repositories
                 if (orderProductToDelete == null)
                     throw new NotFoundException("Деталь не найдена в заказе");
 
-                var deletedOrderDetailEntity = context.OrderProducts.Remove(orderProductToDelete);
+                var deletedOrderProductEntity = context.OrderProducts.Remove(orderProductToDelete);
                 await context.SaveChangesAsync(ct);
-                var deletedProductDetail = _mapper.Map<OrderProduct>(deletedOrderDetailEntity.Entity);
+                var deletedOrderProduct = _mapper.Map<OrderProduct>(deletedOrderProductEntity.Entity);
 
-                return deletedProductDetail;
+                return deletedOrderProduct;
             }
         }
 

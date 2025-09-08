@@ -1,19 +1,19 @@
 import { CreateNewOrderRequest, CreateNewOrderResponse } from "../http/models/order/CreateNewOrderRequest";
 import { GetLegacyOrdersForUserRequest, GetLegacyOrdersForUserResponse } from "../http/models/order/GetLegacyOrders";
-import { GetOrdersForUserRequest, GetOrdersForUserResponse } from "../http/models/order/GetOrdersForUserFilter";
+import { GetOrdersForUserResponse } from "../http/models/order/GetOrdersForUser";
 import api from "../http/api";
 import axios from 'axios';
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
 import { ApiResponse } from "../http/BaseResponse";
 
 class OrderService{
-    static async GetOrdersForUser(request:GetOrdersForUserRequest) : Promise<ApiResponse<GetOrdersForUserResponse, ErrorResponseModel>>{
+    static async GetOrdersForUser(userId:string, pageSize?:number, pageNumber?:number) : Promise<ApiResponse<GetOrdersForUserResponse, ErrorResponseModel>>{
         try{
             const response = await api.get<GetOrdersForUserResponse>('Orders/GetOrdersForUser', {
                 params: {
-                    userId: request.userId,
-                    pageSize: request.pageSize,
-                    pageNumber: request.pageNumber
+                    userId: userId,
+                    pageSize: pageSize,
+                    pageNumber: pageNumber
                 }
             });
             return {
@@ -60,9 +60,10 @@ class OrderService{
         }
     }
 
-    static async CreateNewOrder(request:CreateNewOrderRequest) : Promise<ApiResponse<CreateNewOrderResponse, ErrorResponseModel>>{
+    static async CreateNewOrder(userId:string, productIds:string[]) : Promise<ApiResponse<CreateNewOrderResponse, ErrorResponseModel>>{
         try{
-            const response = await api.post<CreateNewOrderResponse>('Order/CreateNewOrder', request);
+            const request: CreateNewOrderRequest = {userId: userId, productIds: productIds};
+            const response = await api.post<CreateNewOrderResponse>('Orders/CreateNewOrder', request);
             return {
                 success: true,
                 data: response.data,
@@ -83,7 +84,7 @@ class OrderService{
 
     static async Delete(id:string){
         try{
-            const response = await api.post<string>(`Order/Delete/${id}`);
+            const response = await api.delete<string>(`Orders/Delete/${id}`);
             return {
                 success: true,
                 data: response.data,

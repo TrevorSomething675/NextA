@@ -66,7 +66,7 @@
     transition: .2s;
 }
 
-.detailContainer{
+.productContainer{
     display: flex;
     padding: 1rem;
 }
@@ -88,13 +88,13 @@
     text-wrap: wrap;
 }
 
-.detailFooter{
+.productFooter{
     margin-top: auto;
     display: flex;
     justify-content: space-between;
 }
 
-.detailData{
+.productData{
     text-align: start;
     padding: 0 1rem 0 1rem;
     display: flex;

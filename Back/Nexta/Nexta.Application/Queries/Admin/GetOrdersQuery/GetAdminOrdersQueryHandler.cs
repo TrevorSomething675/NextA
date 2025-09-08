@@ -3,6 +3,7 @@ using Nexta.Domain.Models.DataModels;
 using Nexta.Application.DTO.Response;
 using AutoMapper;
 using MediatR;
+using Nexta.Domain.Models;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {
@@ -17,11 +18,12 @@ namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 			_mapper = mapper;
 		}
 
-		public async Task<GetAdminOrdersQueryResponse> Handle(GetAdminOrdersQuery request, CancellationToken ct = default)
+		public async Task<GetAdminOrdersQueryResponse> Handle(GetAdminOrdersQuery query, CancellationToken ct = default)
 		{
-			var pagedOrders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetAllOrdersAsync(request.Filter, ct));
+			var pagedOrders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(query.Filter, ct));
+			var responseOrders = _mapper.Map<PagedData<OrderResponse>>(pagedOrders);
 
-			return new GetAdminOrdersQueryResponse(pagedOrders);
+			return new GetAdminOrdersQueryResponse(responseOrders);
 		}
 	}
 }

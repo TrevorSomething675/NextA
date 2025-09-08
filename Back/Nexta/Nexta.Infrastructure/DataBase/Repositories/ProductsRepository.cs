@@ -43,6 +43,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
                 var searchTerm = filter.SearchTerm.ToLower() ?? "";
 
                 var query = context.Products
+                    .Include(p => p.Image)
                     .WithSearchTerm(searchTerm)
                     .Where(d => d.IsVisible || filter.WithHidden)
                     .AsNoTracking();

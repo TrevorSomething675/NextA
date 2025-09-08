@@ -19,6 +19,7 @@ namespace Nexta.Application.DTO.Admin
 		public bool isVisible { get; init; }
 
 		public Guid? ImageId { get; init; }
-		public AdminProductImageResponse? Image { get; set; }
+		public string? ImageName { get; init; }
+		public string? Base64String { get; init; }
 	}
 }

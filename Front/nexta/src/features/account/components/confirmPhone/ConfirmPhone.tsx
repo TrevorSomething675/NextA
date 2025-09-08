@@ -19,7 +19,7 @@ export const ConfirmPhone = observer(() => {
             localStorage.setItem('phone', response.data.phone);
             authStore.user.phone = response.data.phone;
         } else if (!response.success && response?.status === 400){
-            console.error(response.data.message);
+            console.error(response.data.Message);
         }
     }
 

@@ -1,6 +1,4 @@
-﻿using Nexta.Application.DTO.Request;
-
-namespace Nexta.Web.Areas.Models
+﻿namespace Nexta.Web.Areas.Models
 {
     public class AddNewsRequest
     {

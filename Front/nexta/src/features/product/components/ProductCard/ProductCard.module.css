@@ -7,12 +7,12 @@
     border-radius: 1rem;
     padding: 0.5rem;
     background-color: var(--light-default-color);
+    text-align: start;
 }
 
 .productHeader {
     transition: .2s;
-    border-radius: 1rem;
-    border: 0.5rem solid var(--card-border-color);
+    border-radius: 0.5rem;
 }
 
 .productHeader:hover {
@@ -37,7 +37,9 @@
 .image {
     width: 100%;
     height: 100%;
-    border-radius: 0.4rem;
+    border-radius: 1rem!important;
+    border: 0.4rem solid var(--card-border-color);
+    box-sizing: border-box;
 }
 
 .h2 {
@@ -163,6 +165,13 @@
     color: var(--text-color);
 }
 
+.warehouseOffer{
+    padding: 0.4rem;
+    margin: 0.25rem 0 0 0.125rem;
+    border-radius: 0.5rem;
+    background-color: var(--green-color);
+}
+
 .offersContainer{
     font-size: 1rem;
     position: absolute;
@@ -172,15 +181,14 @@
 }
 
 .saleOffer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.4rem;
     border-radius: 0.5rem;
     background-color: var(--violet-color);
-    margin: 0.125rem 0 0 0.125rem;
 }
 
-.warehouseOffer{
-    padding: 0.4rem;
-    margin: 0.25rem 0 0 0.125rem;
-    border-radius: 0.5rem;
-    background-color: var(--green-color);
+.saleOfferSvg{
+    margin: 0 0.25rem 0.125rem 0;
 }

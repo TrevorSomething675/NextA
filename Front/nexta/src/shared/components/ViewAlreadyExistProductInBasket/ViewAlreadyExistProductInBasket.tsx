@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
-import { UpdateBasketDetailRequest } from '../../../features/basket/models/UpdateBasketDetail';
 import authStore from '../../../stores/AuthStore/authStore';
 import styles from './ViewAlreadyExistProductInBasket.module.css';
 import Button from '../Button/Button';
 import BasketService from '../../../services/BasketService';
 import { useNotifications } from '../Notifications/Notifications';
 import basket from '../../../stores/basket';
-import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../features/basket/models/GetBasketDetails';
 import Image from '../Image/Image';
 import { Product, ProductStatus } from '../../../models/Product';
+import { UpdateBasketProductRequest } from '../../../http/models/basketProduct/UpdateBasketProduct';
 
 interface ViewAlreadyExistProductInBasketProps {
     isOpen: boolean;
@@ -50,24 +49,18 @@ export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductIn
         onCountChange(!isNaN(value) && value >= 1 ? value : 1);
     };
 
-    const handleUpdateDetail = async() => {
-        const userId = authStore.user.id;
-        const request:UpdateBasketDetailRequest = {
+    const handleUpdateProduct = async() => {
+        const userId = authStore.user.id ?? '';
+
+        const request:UpdateBasketProductRequest = {
             userId: userId,
-            detailId: product.id,
+            productId: product.id,
             count: productCount
         }
-        const response = await BasketService.UpdateBasketDetail(request);
+        const response = await BasketService.UpdateBasketProduct(request);
+
         if (response.success && response.status === 200) {
-            const filter: GetBasketDetailsFilter = {
-                pageNumber: 1,
-                userId: authStore?.user?.id ?? ''
-            };
-            const getBasketDetailsRequest: GetBasketDetailsRequest = {
-                filter: filter
-            };
-            const basketResult = await BasketService.GetBasketDetails(getBasketDetailsRequest);
-            basket.setBasketDetails(basketResult.details);
+            basket.changeProductCount(response.data.productId, response.data.count);
             addNotification({
                 header: 'Корзина обновлена'
             });
@@ -85,18 +78,18 @@ export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductIn
                     <h2>Товар уже в корзине</h2>
                     <div>Вы можете отредактировать количество.</div>
                 </div>
-                <div className={styles.detailContainer}>
+                <div className={styles.productContainer}>
                     <div className={styles.imageContainer}>
                         <Image isBase64Image={true} base64String={product?.image?.base64String} className={styles.image} />
                     </div>
-                    <div className={styles.detailData}>
+                    <div className={styles.productData}>
                         <ul className={styles.ul}>
                             <li> - {product.name}</li>
                             <li> - {product.description}</li>
                             <li> - {statusLabels[product.status]}</li>
                             <li> - Осталось на складе: {product.count}</li>
                         </ul>
-                        <div className={styles.detailFooter}>
+                        <div className={styles.productFooter}>
                             <div>
                                 <button type="button" className={styles.down} onClick={decrement}>◄</button>
                                 <input
@@ -120,7 +113,7 @@ export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductIn
                                 }
                             </div>
                             <div>
-                                <Button className={styles.updateButton} onClick={handleUpdateDetail} content='Обновить товар' />
+                                <Button className={styles.updateButton} onClick={handleUpdateProduct} content='Обновить товар' />
                             </div>
                         </div>
                     </div>

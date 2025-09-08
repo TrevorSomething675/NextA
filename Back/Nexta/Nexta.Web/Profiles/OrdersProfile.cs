@@ -10,7 +10,8 @@ namespace Nexta.Web.Profiles
     {
         public OrdersProfile()
         {
-            CreateMap<GetOrdersForUserRequest, GetOrdersFilter>();
+            CreateMap<GetOrdersForUserRequest, GetOrdersFilter>()
+                .ForMember(src => src.SearchTerm, opt => opt.MapFrom(x => x.SearchTerm ?? ""));
 
             CreateMap<GetOrdersForUserRequest, GetOrdersForUserQuery>()
                 .ForMember(src => src.Filter, opt => opt.MapFrom(x => x));

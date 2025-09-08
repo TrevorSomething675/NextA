@@ -2,8 +2,8 @@
 
 namespace Nexta.Application.Commands.Admin.AddAdminProductToOrderCommand
 {
-    public class AddAdminProductToOrderCommandResponse(OrderProductResponse orderDetail)
+    public class AddAdminProductToOrderCommandResponse(OrderProductResponse orderProduct)
     {
-        public OrderProductResponse OrderDetail { get; init; } = orderDetail;
+        public OrderProductResponse OrderProduct { get; init; } = orderProduct;
     }
 }

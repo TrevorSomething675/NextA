@@ -1,10 +1,11 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
-using Nexta.Domain.Models;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Admin;
+using Nexta.Application.Enums;
+using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Domain.Models;
 
-namespace Nexta.Application.Commands.Admin.UpdateDetailCommand
+namespace Nexta.Application.Commands.Admin.UpdateProductCommand
 {
 	public class UpdateAdminProductCommandHandler : IRequestHandler<UpdateAdminProductCommand, UpdateAdminProductCommandResponse>
 	{
@@ -19,30 +20,29 @@ namespace Nexta.Application.Commands.Admin.UpdateDetailCommand
 			_mapper = mapper;
 		}
 
-		public async Task<UpdateAdminProductCommandResponse> Handle(UpdateAdminProductCommand request, CancellationToken ct = default)
+		public async Task<UpdateAdminProductCommandResponse> Handle(UpdateAdminProductCommand command, CancellationToken ct = default)
 		{
-			var productToUpdate = _mapper.Map<Product>(request);
+			var productToUpdate = _mapper.Map<Product>(command);
 
 			var updatedDbProduct = await _productRepository.UpdateAsync(productToUpdate, ct);
 
-			if (productToUpdate.ImageId != null && productToUpdate.Image == null) // Удаление картинки
+			switch (command.Type)
 			{
-				await _productImageRepository.RemoveAsync(productToUpdate.ImageId.Value);
-			}
-			else if (productToUpdate.ImageId != null && productToUpdate.Image != null) // Обновление картинки
-			{
-				var detailImage = productToUpdate.Image;
-				detailImage.Id = productToUpdate.ImageId.Value;
-				await _productImageRepository.UpdateAsync(productToUpdate.Image);
-			}
-			else if (productToUpdate.ImageId == null && productToUpdate.Image != null) //Добавление картинки
-			{
-				var detailImage = productToUpdate.Image;
-				detailImage.ProductId = updatedDbProduct.Id;
-				await _productImageRepository.AddAsync(detailImage); 
+				case PrdouctOperationType.Update:
+					await _productImageRepository.UpdateAsync(productToUpdate.Image, ct);
+					break;
+				case PrdouctOperationType.Create:
+					await _productImageRepository.AddAsync(productToUpdate.Image, ct);
+					break;
+				case PrdouctOperationType.Delete:
+					await _productImageRepository.DeleteAsync(productToUpdate.ImageId.Value, ct);
+					break;
+
+				default:
+					break;
 			}
 
-			var result = _mapper.Map<ProductResponse>(updatedDbProduct);
+			var result = _mapper.Map<AdminProductResponse>(updatedDbProduct);
 
 			return new UpdateAdminProductCommandResponse(result);
 		}

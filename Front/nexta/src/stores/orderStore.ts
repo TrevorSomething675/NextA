@@ -1,20 +1,19 @@
 import { makeAutoObservable } from "mobx";
-import { Order } from "../shared/entities/Order";
+import { UserOrder } from "../models/order/UserOrder";
 
 class OrderStore{
-    orders: Order[] = [];
-    totalCountOrders:number = 0;
+    items: UserOrder[] = [];
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    setTotalCountOrders = (totalCountOrders:number) => {
-        this.totalCountOrders = totalCountOrders;
+    get totalOrderCount(){
+        return this.items.length ?? 0;
     }
 
-    setOrders = (orders:Order[]) => {
-        this.orders = orders;
+    setOrderItems = (newOrders: UserOrder[]) => {
+        this.items = newOrders;
     }
 }
 

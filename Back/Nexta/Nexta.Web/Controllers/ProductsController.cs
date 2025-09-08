@@ -19,7 +19,7 @@ namespace Nexta.Web.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("[action]/{id}")]
         [ProducesResponseType(typeof(GetProductByIdQueryResponse), StatusCodes.Status200OK)]
         public async Task<IResult> GetById([FromRoute] Guid id, CancellationToken ct = default)
         {
@@ -29,7 +29,7 @@ namespace Nexta.Web.Controllers
             return Results.Ok(response);
         }
 
-        [HttpGet("Get")]
+        [HttpGet("[action]")]
         [ProducesResponseType(typeof(GetProductsQueryResponse), StatusCodes.Status200OK)]
         public async Task<IResult> Get([FromQuery] GetProductsRequest request, CancellationToken ct = default)
         {

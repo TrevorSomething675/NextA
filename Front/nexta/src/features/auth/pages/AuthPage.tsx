@@ -23,9 +23,6 @@ export const AuthPage = () => {
     const [authUser, setAuthUser] = useState<UserData>({} as UserData);
 
     const handleChangeAuth = (authStep:AuthStep, authUser: UserData) => {
-        console.log(authStep);
-        console.warn(authUser);
-        
         setAuthStep(authStep);
         setAuthUser(authUser);
     }

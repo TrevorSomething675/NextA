@@ -5,6 +5,6 @@ namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {
     public class GetAdminOrdersQuery : IRequest<GetAdminOrdersQueryResponse>
     {
-        public GetAllOrdersFilter Filter { get; set; }
+        public GetOrdersFilter Filter { get; set; }
     }
 }

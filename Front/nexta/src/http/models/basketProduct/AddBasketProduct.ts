@@ -1,4 +1,4 @@
-import { BasketProduct } from "../../../models/BasketProduct"
+import { UserBasketProduct } from "../../../models/UserBasketProduct"
 
 export interface AddBasketProductRequest{
     productId:string,
@@ -7,5 +7,5 @@ export interface AddBasketProductRequest{
 }
 
 export interface AddBasketProductResponse{
-    basketProduct: BasketProduct
+    basketProduct: UserBasketProduct
 }

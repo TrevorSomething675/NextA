@@ -1,0 +1,179 @@
+.container{
+    margin: 1rem 0 0 0;
+}
+
+.textArea{
+    height: 7rem;
+    width: 100%;
+    font-size: 1.4rem;
+}
+
+.rejectBtn{
+    background-color: var(--context-color);
+    width: 13rem;
+}
+
+.saveBtn{
+    background-color: var(--green-color);
+}
+
+.input{
+    font-size: 1.4rem;
+}
+
+.oldPriceInput{
+    margin: 0 0 0 2rem;
+    font-size: 1.4rem;
+}
+
+.priceInput{
+    width: 4rem;
+    font-size: 1.4rem;
+}
+
+.btnContainer{
+    margin: 1rem 0 0 0;
+    padding: 1rem;
+    background-color: var(--dark-default-color);
+}
+
+.productPage{
+    display: flex;
+    background-color: var(--dark-default-color);
+    padding: 1rem;
+}
+
+.checkBox{
+    height: 1.4rem;
+    width: 1.4rem;
+}
+
+.headerProduct{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerProductItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.removeImageBtn{
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--context-color);
+    text-decoration: underline;
+    font-size: 1rem;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+.removeImageBtn:hover{
+    color:var(--text-color);
+    transition: .2s;
+    cursor: pointer;
+}
+
+.changeImageContainer{
+    margin: 0.5rem 0 0 0;
+    display: flex;
+}
+
+.image{
+    max-height: 22rem;
+    max-width: 22rem;
+}
+
+.imageContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.productContainer{
+    width: 100%;
+    margin: 0 0 0 1rem;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+.ul > li{
+    font-size: 1.2rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.priceContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.oldPrice{
+    margin: 0 0 0 0.35rem;
+    font-size: 1rem;
+    text-decoration: line-through;
+}
+
+.newPrice{
+    margin: 0 0 0 0.5rem;
+    color: var(--context-color);
+    font-size: 1.4rem;
+}
+
+.productFooter{
+    margin-top: auto;
+}
+
+.down{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.down:hover{
+    text-shadow: 1px 1px 15px var(--text-color);
+    transition: .2s;
+}
+
+.up{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.up:hover{
+    transition: .2s;
+    text-shadow: 1px 1px 15px var(--text-color);
+}
+
+.countContainer{
+    margin: 0 1rem 0 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.buyButton{
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color:var(--green-color);
+    text-decoration: underline;
+    transition: .2s;
+}
+
+.buyButton:hover{
+    cursor: pointer;
+    color: var(--text-color);
+    transition: .2s;
+}
+
+.editBtn{
+    width: 10rem;
+}

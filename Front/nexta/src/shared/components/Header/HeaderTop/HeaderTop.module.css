@@ -22,4 +22,5 @@
 
 .storeContainer{
     display: flex;
+    align-items: flex-end;
 }

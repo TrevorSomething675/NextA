@@ -1,20 +1,29 @@
 import { useState } from 'react';
-import AdminOrders from '../../components/AdminOrders/AdminOrders';
 import { AdminOrderSearch } from '../../components/AdminOrderSearch/AdminOrderSearch';
 import styles from './AdminOrdersPage.module.css';
-import GetAllOrdersResponse from '../../../../models/admin/GetAllOrders/GetAllOrdersResponse';
+import { AdminOrderItem } from '../../components/AdminOrderItem/AdminOrderItem';
+import { UserOrder } from '../../../../models/order/UserOrder';
 
 const AdminOrdersPage = () => {
-    const [ordersResponse, setOrdersResponse] = useState({} as GetAllOrdersResponse);
+    const [orders, setOrdersResponse] = useState<UserOrder[]>([]);
 
-    const handleOrdersResponse = (ordersResponse:GetAllOrdersResponse) => {
-        setOrdersResponse(ordersResponse);
+    const handleOrdersResponse = (orders:UserOrder[]) => {
+        setOrdersResponse(orders);
     }
 
     return (
         <div className={styles.container}>
             <AdminOrderSearch onResponseChange={handleOrdersResponse} />
-            <AdminOrders response={ordersResponse} />
+            <div>
+                {orders !== undefined && orders?.map((order) =>
+                    <ul key={order.id}>
+                        <AdminOrderItem
+                            order={order}
+                            key={order.id}
+                        />
+                    </ul>
+                )}
+            </div>
         </div>
     );
 }

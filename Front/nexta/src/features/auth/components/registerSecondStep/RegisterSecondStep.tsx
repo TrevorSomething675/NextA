@@ -3,16 +3,13 @@ import { UserData } from "../../pages/AuthPage";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../../../services/AuthService";
-import { ErrorResponseModel } from "../../../../shared/models/ErrorResponseModel";
 import styles from './RegisterSecondStep.module.css';
 import { RegistrationRequest } from "../../models/registration";
 import authStore from "../../../../stores/AuthStore/authStore";
 import BasketService from "../../../../services/BasketService";
 import basket from "../../../../stores/basket";
-import { GetOrdersForUserRequest } from "../../../../http/models/order/GetOrdersForUserFilter";
 import OrderService from "../../../../services/OrderService";
 import orderStore from "../../../../stores/orderStore";
-import { GetBasketProductsRequest } from "../../../../http/models/basketProduct/GetBasketProducts";
 
 interface RegisterSecondStepProps{
     authUser: UserData,
@@ -121,36 +118,27 @@ export const RegisterSecondStep:React.FC<RegisterSecondStepProps> = ({authUser})
                 confirmPassword: authUser.confirmPassword!,
                 code: code
             }
-            var registerResponse = await AuthService.register(request);
+
+            var registerResponse = await AuthService.register(request)
+            if(!registerResponse.success){
+                setError(registerResponse.data.Message ?? '');
+            }
             if(registerResponse.success && registerResponse.status === 200){
                 authStore.setUserData(registerResponse.data.user);
-                const request: GetBasketProductsRequest = {
-                    userId: authStore.user.id ?? '',
-                    pageNumber: 1,
-                    pageSize: 8
-                }
 
-                const basketResponse = await BasketService.GetBasketProducts(request);
+                const basketResponse = await BasketService.GetBasketProducts(authUser.id!);
                 if(basketResponse.success && basketResponse.status === 200){
-                    basket.setBasketProducts(basketResponse.data.Products);
-                
-                    const ordersRequest:GetOrdersForUserRequest = {
-                        userId: authStore.user.id ?? '',
-                        pageSize: 8,
-                        pageNumber: 1
-                    }
-                    const orderResponse = await OrderService.GetOrdersForUser(ordersRequest);
+                    basket.setBasketItems(basketResponse.data.products);
+
+                    const orderResponse = await OrderService.GetOrdersForUser(authUser.id!);
                     if(orderResponse.success && orderResponse.status === 200){
-                        orderStore.setOrders(orderResponse?.data.data.items);
-                        orderStore.setTotalOrders(orderResponse?.data.totalCount);
+                        orderStore.setOrderItems(orderResponse?.data.data.items);
                     }
                     navigate('/');
                 }
             }
         }
         catch (error) {
-            const errorResponse = error as ErrorResponseModel;
-            setError(errorResponse.Message ?? 'Неверный код');
             inputRefs.current.forEach(input => {
                 if (input) input.value = '';
             });
@@ -189,7 +177,6 @@ export const RegisterSecondStep:React.FC<RegisterSecondStepProps> = ({authUser})
                         ))}
                     </div>
                     {hasError && <div className={styles.error}>{hasError}</div>}
-                    {errors?.code && <div className={styles.error}>Неверный код</div>}
                 </div>
                 <div>
                     <div className={styles.btnsContainer}>

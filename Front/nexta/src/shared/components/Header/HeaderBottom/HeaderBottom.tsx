@@ -9,10 +9,10 @@ export const HeaderBottom = observer(() => {
         <div className={styles.header}>
             <div>
                 <Link to='/' className={styles.headerItem}>
-                    Товары
+                    Главная
                 </Link>
                 <Link to='/Search' className={styles.headerItem}>
-                    Глабальный поиск
+                    Товары
                 </Link>
             </div>
             <div>

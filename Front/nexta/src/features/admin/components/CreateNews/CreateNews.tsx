@@ -25,19 +25,18 @@ const CreateNews: React.FC<CreateNewsProps> = ({ fetchData }) => {
         reader.onload = (event) => {
             const base64String = event.target?.result?.toString().split(',')[1];
             setPreviewImage(base64String!);
-            setValue('image.base64string', base64String);
-            setValue('image.name', name);
+            setValue('imageBase64String', base64String!);
+            setValue('imageName', name);
         }
         reader.readAsDataURL(file);
     }
 
     const submit: SubmitHandler<AddNewsForm> = async (data: AddNewsForm) => {
-        if(data.image === undefined) {
+        if(data.imageName === undefined) {
             setError('Необходимо добавить картинку для новости');
             return;
         }
-        data.image.bucket = 'news';
-        if(data.image === null){
+        if(data.imageName === null){
             setError('Картинка не должна быть пустой');
             return;
         }

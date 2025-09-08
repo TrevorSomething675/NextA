@@ -28,18 +28,18 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 			if (!validationResult.IsValid)
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var userDetails = await _basketProductRepository.GetRangeAsync(command.UserId, command.ProductIds, ct);
+			var basketProducts = await _basketProductRepository.GetRangeAsync(command.UserId, command.ProductIds, ct);
 			var order = await _orderRepository.AddAsync(new Order { UserId = command.UserId, CreatedDate = command.CreatedDate });
 
-			var orderDetails = new List<OrderProduct>();
+			var orderProducts = new List<OrderProduct>();
 
-			foreach (var detail in userDetails)
+			foreach (var product in basketProducts)
 			{
-				orderDetails.Add(new OrderProduct { OrderId = order.Id, ProductId = detail.ProductId, Count = detail.Count.Value });
+                orderProducts.Add(new OrderProduct { OrderId = order.Id, ProductId = product.ProductId, Count = product.Count.Value });
 			}
 
 			await Task.WhenAll(
-				_orderProductRepository.AddRangeAsync(orderDetails, ct), 
+				_orderProductRepository.AddRangeAsync(orderProducts, ct), 
 				_basketProductRepository.DeleteRangeAsync(command.UserId, command.ProductIds, ct));
 
 			return new CreateNewOrderCommandResponse(order.Id);

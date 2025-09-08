@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from "react";
-import { GetAdminDetailsFilter, GetAdminDetailsRequest, GetAdminDetailsResponse } from "../../models/GetAdminDetails";
+import { GetAdminProductsRequest, GetAdminProductsResponse } from "../../models/AdminProduct/GetAdminProducts";
 import AdminService from "../../../../services/AdminService";
-import SearchSvg from "../../../details/svgs/SearchSvg/SearchSvg";
 import styles from './AdminSearch.module.css';
+import SearchSvg from "../../svgs/SearchSvg/SearchSvg";
 
 interface GlobalSearchProps {
-    onResponseChange: (response: GetAdminDetailsResponse, searchTerm:string) => void;
+    onResponseChange: (response: GetAdminProductsResponse, searchTerm:string) => void;
     className?:string;
     onFetchReady?: (fetchData: (query:string, page:number) => void) => void;
 }
 
-const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({ 
+export const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({ 
         onResponseChange,
         className,
         onFetchReady
     }) => {
     const [isLoading, setLoading] = useState(false);
     const debounceTimeout = useRef<null | number>(null);
-    const [response, setResponse] = useState<GetAdminDetailsResponse>({} as GetAdminDetailsResponse);
+    const [response, setResponse] = useState<GetAdminProductsResponse>({} as GetAdminProductsResponse);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoading(true);
@@ -33,20 +33,17 @@ const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({
     };
 
     const fetchData = async (query: string, page: number = 1) => {
-        const filter: GetAdminDetailsFilter = {
-            pageNumber: page,
-            pageSize: 8,
-            searchTerm: query,
-            withHidden: true
-        };
-        const request: GetAdminDetailsRequest = {
-            filter
+        const request: GetAdminProductsRequest = {
+            searchTerm: query ?? '',
+            pageNumber: page ?? 1
         };
         try {
-            const response = await AdminService.GetAdminDetails(request);
-            const newResponse = response;
-            setResponse(newResponse);
-            onResponseChange(newResponse, query);
+            const response = await AdminService.GetAdminProducts(request);
+            if(response.success && response.status === 200){
+                const newResponse = response.data;
+                setResponse(newResponse);
+                onResponseChange(newResponse, query);
+            }
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
         }
@@ -73,11 +70,9 @@ const AdminGlobalSearch: React.FC<GlobalSearchProps> = ({
                 placeholder="Введите артикул или название запчасти"
                 onChange={handleInputChange}
             />
-        <div className={styles.loadingContainer}>
-            {isLoading && <img src="/loading.gif" className={styles.loading} />}
-        </div>
+            <div className={styles.loadingContainer}>
+                {isLoading && <img src="/loading.gif" className={styles.loading} />}
+            </div>
         </div>
     );
 };
-
-export default AdminGlobalSearch;

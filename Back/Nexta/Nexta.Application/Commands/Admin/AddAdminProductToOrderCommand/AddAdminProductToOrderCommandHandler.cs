@@ -22,21 +22,21 @@ namespace Nexta.Application.Commands.Admin.AddAdminProductToOrderCommand
             _mapper = mapper;
         }
 
-        public async Task<AddAdminProductToOrderCommandResponse> Handle(AddAdminProductToOrderCommand request, CancellationToken ct = default)
+        public async Task<AddAdminProductToOrderCommandResponse> Handle(AddAdminProductToOrderCommand command, CancellationToken ct = default)
         {
-            var validationResult = await _validator.ValidateAsync(request, ct);
+            var validationResult = await _validator.ValidateAsync(command, ct);
 
             if (!validationResult.IsValid)
                 throw new ValidationException(string.Join(',' ,validationResult.Errors));
 
-            var detailToAdd = new OrderProduct
+            var productToAdd = new OrderProduct
             {
-                OrderId = request.OrderId,
-                ProductId = request.ProductId,
-                Count = request.Count
+                OrderId = command.OrderId,
+                ProductId = command.ProductId,
+                Count = command.Count
             };
 
-            var createdOrderProduct = await _orderProductRepository.AddAsync(detailToAdd, ct);
+            var createdOrderProduct = await _orderProductRepository.AddAsync(productToAdd, ct);
             if (createdOrderProduct == null)
                 throw new BadRequestException("Не удалось добавить деталь");
 

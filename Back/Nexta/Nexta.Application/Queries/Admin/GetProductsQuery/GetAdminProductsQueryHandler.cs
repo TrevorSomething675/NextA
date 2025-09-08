@@ -19,9 +19,9 @@ namespace Nexta.Application.Queries.Admin.GetProductsQuery
 
 		public async Task<GetAdminProductsQueryResponse> Handle(GetAdminProductsQuery query, CancellationToken ct = default)
 		{
-			var details = _mapper.Map<PagedData<AdminProductResponse>>(await _productRepository.GetAllAsync(query.Filter, ct));
+			var products = _mapper.Map<PagedData<AdminProductResponse>>(await _productRepository.GetAllAsync(query.Filter, ct));
 
-			return new GetAdminProductsQueryResponse(details);
+			return new GetAdminProductsQueryResponse(products);
 		}
 	}
 }

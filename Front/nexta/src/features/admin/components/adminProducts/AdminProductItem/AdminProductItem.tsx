@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from './AdminDetailItem.module.css';
-import { Product, ProductStatus } from "../../../../../models/Product";
+import styles from './AdminProductItem.module.css';
+import { ProductStatus } from "../../../../../models/Product";
+import { AdminProduct } from "../../../models/AdminProduct";
+import authStore from "../../../../../stores/AuthStore/authStore";
+import { AddBasketProductRequest } from "../../../../../http/models/basketProduct/AddBasketProduct";
+import BasketService from "../../../../../services/BasketService";
+import { useNotifications } from "../../../../../shared/components/Notifications/Notifications";
+import basket from "../../../../../stores/basket";
 
-export const AdminProductItem:React.FC<{product:Product}> = ({product}) =>{
+export const AdminProductItem:React.FC<{product:AdminProduct}> = ({product}) =>{
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [count, setCount] = useState(1);
+        const { addNotification } = useNotifications();
+
     const navigate = useNavigate();
     const statusLabels = {
         [ProductStatus.Unknown]: 'Неизвестный статус',
@@ -39,26 +48,21 @@ export const AdminProductItem:React.FC<{product:Product}> = ({product}) =>{
     }
 
     const fetchData = async() =>{
-        /*
-        const request:AddBasketDetailRequest = {
+        const request:AddBasketProductRequest = {
             userId: authStore?.user?.id ?? '',
-            detailId: detail.id,
+            productId: product.id,
             countToPay: count
         };
-        const response = await BasketService.AddBasketDetail(request);
-        if(response)
+        const response = await BasketService.AddBasketProduct(request);
+        if(response.success && response.status === 200)
         {
-            const filter:GetBasketDetailsFilter = {
-                pageNumber: 1,
-                userId: authStore?.user?.id ?? ''
-            };
-            const getBasketDetailsRequest:GetBasketDetailsRequest = {
-                filter: filter
-            };
-            const result = await BasketService.GetBasketDetails(getBasketDetailsRequest);
-            basket.setBasketDetails(result.details);
+            addNotification({
+                header: `Товар ${response.data.basketProduct.name} добавлен в корзину`
+            });
+            basket.addBasketProduct(response.data.basketProduct)
+        } else if (!response.success && response.status === 409){
+            setIsModalOpen(true);
         }
-        */
     }
 
     const increment = () => {
