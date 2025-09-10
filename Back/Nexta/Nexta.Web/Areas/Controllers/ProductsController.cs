@@ -1,4 +1,5 @@
 ﻿using Nexta.Application.Commands.Admin.CreateAdminProductCommand;
+using Nexta.Application.Commands.Admin.UpdateAdminProductCommand;
 using Nexta.Application.Queries.Admin.GetProductsQuery;
 using Nexta.Application.Queries.Admin.GetProductQuery;
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Areas.Models;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.Commands.Admin.UpdateProductCommand;
 
 namespace Nexta.Web.Areas.Controllers
 {

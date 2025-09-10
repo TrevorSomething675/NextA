@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './Login.module.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LoginRequest } from '../../models/login';
+import { LoginRequest } from '../../../../http/models/auth/Login';
 import { AuthService } from '../../../../services/AuthService';
 import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
 import { AuthStep, UserData } from '../../pages/AuthPage';

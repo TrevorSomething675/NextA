@@ -2,11 +2,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './ChangePassword.module.css';
 import { observer } from 'mobx-react';
 import { useState } from 'react';
-import { ChangePasswordRequest } from '../../../auth/models/changePassword';
+import { ChangePasswordRequest } from '../../../../http/models/auth/ChangePassword';
 import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
 import Button from '../../../../shared/components/Button/Button';
 import authStore from '../../../../stores/AuthStore/authStore';
-import { AuthService } from '../../../../services/LegacyAuthService';
 import { useNavigate } from 'react-router-dom';
 import { useNotifications } from '../../../../shared/components/Notifications/Notifications';
 
@@ -21,6 +20,7 @@ export const ChangePassword = observer(() => {
     const submit: SubmitHandler<ChangePasswordRequest> = async (data: ChangePasswordRequest) => {
         data.email = authStore?.user?.email ?? '';
         data.userId = authStore?.user?.id ?? '';
+        /* TODO
         const response = AuthService.changePassword(data);
         response.then(() => {
             authStore.logout();
@@ -40,6 +40,7 @@ export const ChangePassword = observer(() => {
         .finally(() =>{
             setLoading(false);
         })
+        */
     }
 
     return <div className={styles.container}>

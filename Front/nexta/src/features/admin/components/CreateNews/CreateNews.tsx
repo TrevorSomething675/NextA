@@ -2,16 +2,16 @@ import { useState } from "react";
 import Image from "../../../../shared/components/Image/Image";
 import styles from './CreateNews.module.css';
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AddNewsForm } from "../../models/AddNews/AddNews";
 import AdminService from "../../../../services/AdminService";
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
+import { AddNewsRequest } from "../../../../http/models/news/AddNews";
 
 interface CreateNewsProps {
     fetchData: () => Promise<void>;
 }
 
 const CreateNews: React.FC<CreateNewsProps> = ({ fetchData }) => {
-    const { register, setValue, handleSubmit, formState: {errors}, reset } = useForm<AddNewsForm>();
+    const { register, setValue, handleSubmit, formState: {errors}, reset } = useForm<AddNewsRequest>();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const { addNotification } = useNotifications();
     const [error, setError] = useState<string>('');
@@ -31,7 +31,7 @@ const CreateNews: React.FC<CreateNewsProps> = ({ fetchData }) => {
         reader.readAsDataURL(file);
     }
 
-    const submit: SubmitHandler<AddNewsForm> = async (data: AddNewsForm) => {
+    const submit: SubmitHandler<AddNewsRequest> = async (data: AddNewsRequest) => {
         if(data.imageName === undefined) {
             setError('Необходимо добавить картинку для новости');
             return;

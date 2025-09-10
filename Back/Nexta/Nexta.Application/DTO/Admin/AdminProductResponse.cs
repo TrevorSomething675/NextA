@@ -1,4 +1,5 @@
-﻿using Nexta.Domain.Enums;
+﻿using Nexta.Application.DTO.Response;
+using Nexta.Domain.Enums;
 
 namespace Nexta.Application.DTO.Admin
 {
@@ -18,8 +19,6 @@ namespace Nexta.Application.DTO.Admin
 		public int OldPrice { get; init; }
 		public bool isVisible { get; init; }
 
-		public Guid? ImageId { get; init; }
-		public string? ImageName { get; init; }
-		public string? Base64String { get; init; }
+        public ProductImageResponse Image { get; init; }
 	}
 }

@@ -31,7 +31,7 @@ const OrderItem:React.FC<{order:UserOrder}> = ({order}) => {
         }
     }
 
-    const goToDetailPage = (id:string) => {
+    const goToProductPage = (id:string) => {
         navigate(`/Product/${id}`);
     }
 
@@ -71,7 +71,7 @@ const OrderItem:React.FC<{order:UserOrder}> = ({order}) => {
                 {order.orderProducts !== undefined && order?.orderProducts?.map((product) => 
                     <tr className={styles.tr} key={product.id}>
                         <td>
-                            <button onClick={() => goToDetailPage(product.id)} className={styles.button}>
+                            <button onClick={() => goToProductPage(product.id)} className={styles.button}>
                                 {product.name}
                             </button>
                         </td>

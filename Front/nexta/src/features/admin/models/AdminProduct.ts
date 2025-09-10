@@ -1,4 +1,5 @@
 import { ProductStatus } from "../../../models/Product"
+import { Image } from "../../../shared/entities/Image"
 
 export interface AdminProduct {
     id:string,
@@ -12,7 +13,5 @@ export interface AdminProduct {
     newPrice:number,
     oldPrice:number,
     isVisible:boolean,
-    imageId:string,
-    imageName:string,
-    base64String:string
+    image:Image
 }

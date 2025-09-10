@@ -7,7 +7,7 @@ using Nexta.Domain.Models.Images;
 using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
-using Nexta.Application.Commands.Admin.UpdateProductCommand;
+using Nexta.Application.Commands.Admin.UpdateAdminProductCommand;
 
 namespace Nexta.Application.Profiles
 {

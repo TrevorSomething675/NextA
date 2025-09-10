@@ -1,15 +1,14 @@
-import { AddAdminImageRequest } from "../features/admin/models/AddAdminImageRequest";
-import { AddAdminImageResponse } from "../features/admin/models/AddAdminImageResponse";
-import { AddNewsForm } from "../features/admin/models/AddNews/AddNews";
-import { AdminNewsResponse } from "../features/admin/models/News/AdminNewsResponse";
+import { AddAdminImageRequest, AddAdminImageResponse } from "../http/models/adminProduct/image/AddAdminImage";
+import { AdminNewsResponse } from "../http/models/adminNews/AdminNews";
 import api from "../http/api";
 import axios from 'axios';
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
-import { GetAdminProductResponse } from "../features/admin/models/AdminProduct/GetAdminProduct";
-import { GetAdminProductsRequest, GetAdminProductsResponse } from "../features/admin/models/AdminProduct/GetAdminProducts";
 import { ApiResponse } from "../http/BaseResponse";
-import { UpdateAdminProductRequest, UpdateAdminProductResponse } from "../features/admin/models/AdminProduct/UpdateAdminProduct";
-import { CreateAdminProductRequest, CreateAdminProductResponse } from "../features/admin/models/AdminProduct/CreateAdminProduct";
+import { GetAdminProductsRequest, GetAdminProductsResponse } from "../http/models/adminProduct/GetAdminProducts";
+import { GetAdminProductResponse } from "../http/models/adminProduct/GetAdminProduct";
+import { UpdateAdminProductRequest, UpdateAdminProductResponse } from "../http/models/adminProduct/UpdateAdminProduct";
+import { CreateAdminProductRequest, CreateAdminProductResponse } from "../http/models/adminProduct/CreateAdminProduct";
+import { AddNewsRequest } from "../http/models/news/AddNews";
 
 class AdminService{
     static async GetAdminProduct(id:string) : Promise<ApiResponse<GetAdminProductResponse, ErrorResponseModel>>{
@@ -80,19 +79,6 @@ class AdminService{
         }
     }
 
-    static async AddImageForDetail(request: AddAdminImageRequest){
-        try{
-            const response = await api.post<AddAdminImageResponse>('Admin/Image/Add', request);
-            return response.data;
-        } catch(error){
-            if(axios.isAxiosError(error) && error.response){
-                return error.response.data as AddAdminImageResponse
-            } else {
-                throw new Error('Сетевая ошибка или ошибка конфигурации');
-            }
-        }
-    }
-
     static async CreateAdminProduct(request: CreateAdminProductRequest) : Promise<ApiResponse<CreateAdminProductResponse, ErrorResponseModel>>{
         try{
             const response = await api.post<CreateAdminProductResponse>('Admin/Products/Add', request);
@@ -114,7 +100,7 @@ class AdminService{
         }
     }
 
-    static async AddNews(request: AddNewsForm){
+    static async AddNews(request: AddNewsRequest){
         try{
             const response = await api.post<AdminNewsResponse>('Admin/News/Add', request);
             return response.data;

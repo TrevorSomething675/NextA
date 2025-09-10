@@ -6,7 +6,7 @@ import { useNotifications } from "../../../../shared/components/Notifications/No
 import RightArrowSvg from "../../../../shared/svgs/RightArrowSvg/RightArrowSvg";
 import { OrderStatus, UserOrder } from "../../../../models/order/UserOrder";
 import OrderService from "../../../../services/OrderService";
-import { UpdateAdminOrderRequest } from "../../models/UpdateOrder/UpdateAdminOrderRequest";
+import { UpdateAdminOrderRequest } from "../../../../http/models/adminOrders/UpdateAdminOrder";
 import AdminOrderService from "../../../../services/AdminOrderService";
 import { AdminProduct } from "../../models/AdminProduct";
 import { AdminAddProductToOrderRightBar } from "../AdminAddProductToOrderRightBar/AdminAddProductToOrderRightBar";

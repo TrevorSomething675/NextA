@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { GetAdminProductsRequest, GetAdminProductsResponse } from "../../models/AdminProduct/GetAdminProducts";
 import AdminService from "../../../../services/AdminService";
 import styles from './AdminSearch.module.css';
-import SearchSvg from "../../svgs/SearchSvg/SearchSvg";
+import SearchSvg from "../../../../shared/svgs/SearchSvg/SearchSvg";
+import { GetAdminProductsRequest, GetAdminProductsResponse } from "../../../../http/models/adminProduct/GetAdminProducts";
 
 interface GlobalSearchProps {
     onResponseChange: (response: GetAdminProductsResponse, searchTerm:string) => void;

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../../../services/AuthService";
 import styles from './RegisterSecondStep.module.css';
-import { RegistrationRequest } from "../../models/registration";
+import { RegistrationRequest } from "../../../../http/models/auth/Registration";
 import authStore from "../../../../stores/AuthStore/authStore";
 import BasketService from "../../../../services/BasketService";
 import basket from "../../../../stores/basket";

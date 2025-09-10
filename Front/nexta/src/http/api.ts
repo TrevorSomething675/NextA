@@ -1,6 +1,6 @@
 import axios from 'axios';
 import authStore from '../stores/AuthStore/authStore';
-import { AuthService } from '../services/LegacyAuthService';
+import { AuthService } from '../services/AuthService';
 
 export const API_URL = 'https://localhost:7268';
 

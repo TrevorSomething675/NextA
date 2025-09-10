@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styles from './AdminAddProductToOrderRightBar.module.css';
-import { AddProductToOrderItem } from './AddDetailToOrderItem/AddProductToOrderItem';
 import Pagging from '../../../../shared/components/Pagging/Pagging';
 import Button from '../../../../shared/components/Button/Button';
 import { AdminGlobalSearch } from '../GlobalSearch/AdminSearch';
-import { GetAdminProductsResponse } from '../../models/AdminProduct/GetAdminProducts';
 import { AdminProduct } from '../../models/AdminProduct';
+import { GetAdminProductsResponse } from '../../../../http/models/adminProduct/GetAdminProducts';
+import { AddProductToOrderItem } from './AddDetailToOrderItem/AddProductToOrderItem';
 
 interface AdminAddProductToOrderRightBarProps {
     orderId: string;

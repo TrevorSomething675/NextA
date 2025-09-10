@@ -1,8 +1,8 @@
-import { CheckAuthRequest, CheckAuthResponse } from "../features/auth/models/checkAuth";
-import { IsRegisteredUserResponse } from "../features/auth/models/isRegister";
-import { LoginRequest, LoginResponse } from "../features/auth/models/login";
-import { RegistrationRequest, RegistrationResponse } from "../features/auth/models/registration";
-import { VerifyCodeRequest, VerifyCodeResponse } from "../features/auth/models/verifyCode";
+import { CheckAuthRequest, CheckAuthResponse } from "../http/models/auth/CheckAuth";
+import { IsRegisteredUserResponse } from "../http/models/auth/IsRegister";
+import { LoginRequest, LoginResponse } from "../http/models/auth/Login";
+import { RegistrationRequest, RegistrationResponse } from "../http/models/auth/Registration";
+import { VerifyCodeRequest, VerifyCodeResponse } from "../http/models/auth/VerifyCode";
 import api from "../http/api";
 import { ApiResponse } from "../http/BaseResponse";
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";

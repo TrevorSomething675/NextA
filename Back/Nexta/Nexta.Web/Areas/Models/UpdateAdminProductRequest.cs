@@ -17,7 +17,7 @@ namespace Nexta.Web.Areas.Models
 		public bool IsVisible { get; init; }
 
 
-        public PrdouctOperationType Type { get; init; }
+        public ProductOperationType Type { get; init; }
         public Guid? ImageId { get; set; }
         public string? ImageName { get; set; }
         public string? ImageBase64String { get; set; }

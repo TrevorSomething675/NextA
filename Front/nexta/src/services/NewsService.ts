@@ -1,10 +1,10 @@
-import { GetNewsResponse } from "../features/news/models/NewsResponse";
+import { GetNewsResponse } from "../http/models/adminNews/GetNews";
 import api from "../http/api";
 import axios from 'axios';
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
-import { AddNewsForm } from "../features/admin/models/AddNews/AddNews";
-import { DeleteNewsResponse } from "../features/admin/models/DeleteNews/DeleteNewsResponse";
 import { ApiResponse } from "../http/BaseResponse";
+import { AddNewsRequest } from "../http/models/news/AddNews";
+import { DeleteNewsResponse } from "../http/models/news/DeleteNews";
 
 class NewsService{
     static async Get() : Promise<ApiResponse<GetNewsResponse, ErrorResponseModel>>{
@@ -38,7 +38,7 @@ class NewsService{
     }
     static async Add(){
         try{
-            const response = await api.post<AddNewsForm>('Admin/News/Add');
+            const response = await api.post<AddNewsRequest>('Admin/News/Add');
             return response.data
         } catch(error){
             throw new Error('Сетевая ошибка или ошибка конфигурации');

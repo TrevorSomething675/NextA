@@ -4,21 +4,21 @@ import styles from './AdminProductSearchItem.module.css';
 
 export const SearchItem:React.FC<{product:AdminProduct}> = ({product}) =>{
     const navigate = useNavigate();
-    const goToDetailPage = () => {
+    const goToProductPage = () => {
         navigate(`/Product/${product.id}`);
     };
 
-    return <div className={styles.container} onClick={goToDetailPage}>
-        <div className={styles.detailItem}>
+    return <div className={styles.container} onClick={goToProductPage}>
+        <div>
             {product.name}
         </div>
-        <div className={styles.detailItem}>
+        <div>
             {product.article}
         </div>
-        <div className={styles.detailItem}>
+        <div>
             Кол-во, шт: {product.count}
         </div>
-        <div className={styles.detailItem}>
+        <div>
             <span className={product.oldPrice ? styles.newPrice : styles.defaultPrice}>
                 {product.newPrice} руб.
             </span>

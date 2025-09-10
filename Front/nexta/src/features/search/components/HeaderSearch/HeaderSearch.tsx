@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './HeaderSearch.module.css';
 import { useNavigate } from 'react-router-dom';
-import SearchSvg from '../../../admin/svgs/SearchSvg/SearchSvg';
+import SearchSvg from '../../../../shared/svgs/SearchSvg/SearchSvg';
 import ProductsService from '../../../../services/ProductService';
 import { GetProductsResponse } from '../../../../http/models/product/GetProducts';
 import { SearchItem } from '../HeaderSearchItem/HeaderSearchItem';

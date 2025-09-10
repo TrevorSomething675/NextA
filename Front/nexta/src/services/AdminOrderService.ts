@@ -1,12 +1,11 @@
 import api from "../http/api";
-import { UpdateAdminOrderResponse } from "../features/admin/models/UpdateOrder/UpdateAdminOrderResponse";
-import { UpdateAdminOrderRequest } from "../features/admin/models/UpdateOrder/UpdateAdminOrderRequest";
-import { GetAdminOrdersRequest, GetAdminOrdersResponse } from "../features/admin/models/AdminOrder/GetAdminOrders";
+import { UpdateAdminOrderRequest, UpdateAdminOrderResponse } from "../http/models/adminOrders/UpdateAdminOrder";
+import { GetAdminOrdersRequest, GetAdminOrdersResponse } from "../http/models/adminOrders/GetAdminOrders";
 import { ApiResponse } from "../http/BaseResponse";
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
 import axios from "axios";
 import qs from "qs";
-import {DeleteAdminProductFromOrderResponse } from "../features/admin/models/DeleteAdminProductFromOrder/DeleteAdminProductFromOrder";
+import {DeleteAdminProductFromOrderResponse } from "../http/models/adminOrders/DeleteAdminProductFromOrder";
 
 class AdminOrderService{
     static async DeleteProductFromOrder(orderId:string, productId:string) : Promise<ApiResponse<DeleteAdminProductFromOrderResponse, ErrorResponseModel>>{

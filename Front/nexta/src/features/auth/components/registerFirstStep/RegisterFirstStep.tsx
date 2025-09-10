@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { RegistrationRequest } from "../../models/registration";
+import { RegistrationRequest } from "../../../../http/models/auth/Registration";
 import { AuthStep, UserData } from "../../pages/AuthPage"
 import { useState } from "react";
 import { AuthService } from "../../../../services/AuthService";

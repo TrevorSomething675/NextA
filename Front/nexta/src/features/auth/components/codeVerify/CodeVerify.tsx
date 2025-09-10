@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../../../services/AuthService";
-import { VerifyCodeRequest } from "../../models/verifyCode";
+import { VerifyCodeRequest } from "../../../../http/models/auth/VerifyCode";
 import { UserData } from "../../pages/AuthPage";
 import { ErrorResponseModel } from "../../../../shared/models/ErrorResponseModel";
 import styles from './CodeVerify.module.css';

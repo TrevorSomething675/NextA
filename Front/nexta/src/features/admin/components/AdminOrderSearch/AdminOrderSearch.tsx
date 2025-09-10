@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import SearchSvg from "../../svgs/SearchSvg/SearchSvg";
+import SearchSvg from "../../../../shared/svgs/SearchSvg/SearchSvg";
 import styles from './AdminOrderSearch.module.css';
 import AdminOrderService from "../../../../services/AdminOrderService";
-import { GetAdminOrdersRequest, GetAdminOrdersResponse } from "../../models/AdminOrder/GetAdminOrders";
+import { GetAdminOrdersRequest, GetAdminOrdersResponse } from "../../../../http/models/adminOrders/GetAdminOrders";
 import { UserOrder } from "../../../../models/order/UserOrder";
 
 interface OrderSearchProps {

@@ -5,12 +5,12 @@ import styles from './HeaderSearchItem.module.css';
 export const SearchItem: React.FC<{ product: Product }> = ({ product }) => {
     const navigate = useNavigate();
     
-    const goToDetailPage = () => {
+    const goToProductPage = () => {
         navigate(`/Product/${product.id}`);
     };
 
     return (
-        <div className={styles.container} onClick={goToDetailPage}>
+        <div className={styles.container} onClick={goToProductPage}>
             <div className={styles.searchProducts}>
                 <div className={styles.name}>
                     {product.name}

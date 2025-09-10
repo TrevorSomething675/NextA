@@ -1,5 +1,4 @@
 import { CreateNewOrderRequest, CreateNewOrderResponse } from "../http/models/order/CreateNewOrderRequest";
-import { GetLegacyOrdersForUserRequest, GetLegacyOrdersForUserResponse } from "../http/models/order/GetLegacyOrders";
 import { GetOrdersForUserResponse } from "../http/models/order/GetOrdersForUser";
 import api from "../http/api";
 import axios from 'axios';
@@ -14,32 +13,6 @@ class OrderService{
                     userId: userId,
                     pageSize: pageSize,
                     pageNumber: pageNumber
-                }
-            });
-            return {
-                success: true,
-                data: response.data,
-                status: response.status
-            }
-        } catch(error){
-            if(axios.isAxiosError(error) && error.response){
-                return {
-                    success: false,
-                    data: error.response.data as ErrorResponseModel,
-                    status: error.response.status
-                };
-            } else {
-                throw new Error('Сетевая ошибка или ошибка конфигурации');
-            }
-        }
-    }
-    static async GetLegacyOrdersForUser(request:GetLegacyOrdersForUserRequest) : Promise<ApiResponse<GetLegacyOrdersForUserResponse, ErrorResponseModel>>{
-        try{
-            const response = await api.get<GetOrdersForUserResponse>('Orders/GetLegacyOrdersForUser', {
-                params: {
-                    userId: request.userId,
-                    pageSize: request.pageSize,
-                    pageNumber: request.pageNumber
                 }
             });
             return {

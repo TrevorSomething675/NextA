@@ -3,7 +3,7 @@ import styles from './SearchProducts.module.css';
 import { useSearchProductsStore } from "../../../../stores/SearchProductsStore/searchProductsStore";
 import { GetProductsResponse } from "../../../../http/models/product/GetProducts";
 import ProductsService from "../../../../services/ProductService";
-import SearchSvg from "../../../admin/svgs/SearchSvg/SearchSvg";
+import SearchSvg from "../../../../shared/svgs/SearchSvg/SearchSvg";
 import authStore from "../../../../stores/AuthStore/authStore";
 
 interface Props {

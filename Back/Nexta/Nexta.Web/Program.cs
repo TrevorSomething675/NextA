@@ -22,7 +22,6 @@ var services = builder.Services;
 
 services.AddAppOptions(builder.Configuration);
 services.AddAppMapper();
-//await services.AddAppMinio(builder.Configuration);
 services.AddAppRepositories();
 services.AddAppAuth(builder.Configuration);
 services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(AssemblyMarker))!));

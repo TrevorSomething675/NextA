@@ -1,11 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CreateAdminProductRequest } from "../../../models/AdminProduct/CreateAdminProduct";
 import { useState } from "react";
 import { useNotifications } from "../../../../../shared/components/Notifications/Notifications";
 import AdminService from "../../../../../services/AdminService";
 import styles from './CreateAdminProduct.module.css';
 import Button from "../../../../../shared/components/Button/Button";
 import Image from "../../../../../shared/components/Image/Image";
+import { CreateAdminProductRequest } from "../../../../../http/models/adminProduct/CreateAdminProduct";
 
 export const CreateAdminProduct = () => {
     const { handleSubmit, setValue, register } = useForm<CreateAdminProductRequest>();

@@ -7,7 +7,7 @@ import authStore from '../../../../../stores/AuthStore/authStore';
 import CheckSvg from '../../../../../shared/svgs/CheckSvg/CheckSvg';
 import TrashSvg from '../../../../../shared/svgs/TrashSvg/TrashSvg';
 import { useNotifications } from '../../../../../shared/components/Notifications/Notifications';
-import { UserBasketProduct, UserBasketProductStatus } from '../../../../../models/UserBasketProduct';
+import { UserBasketProduct } from '../../../../../models/UserBasketProduct';
 import { UpdateBasketProductRequest } from '../../../../../http/models/basketProduct/UpdateBasketProduct';
 import basket from '../../../../../stores/basket';
 
@@ -16,14 +16,6 @@ const BasketItem:React.FC<{product:UserBasketProduct}> = observer(({product}) =>
     const [legacyCount, setLegacyCount] = useState(product.count);
     const navigate = useNavigate();
     const {addNotification} = useNotifications();
-
-    const statusLabels = {
-        [UserBasketProductStatus.Unknown]: 'Неизвестный статус',
-        [UserBasketProductStatus.Accepted]: 'Принят',
-        [UserBasketProductStatus.AtWork]: 'В работе',
-        [UserBasketProductStatus.Rejected]: 'Отказ',
-        [UserBasketProductStatus.Waiting]: 'Ожидает'
-    };
 
     const goToProductPage = () => {
         navigate(`/Product/${product.productId}`);

@@ -24,6 +24,10 @@ export const BasketSidebarItem:React.FC<{product: UserBasketProduct}> = ({produc
         product.count = safe;
     };
 
+    const goToProductPage = (id:string) => {
+        navigate(`/Product/${id}`);
+    }
+
     const increment = () => {
         setCount(count => count + 1);
     };
@@ -62,7 +66,7 @@ export const BasketSidebarItem:React.FC<{product: UserBasketProduct}> = ({produc
     };
 
     return <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={styles.header} onClick={() => goToProductPage(product.productId)}>
             <div className={styles.headerItem}>
                 {product.name}
             </div>

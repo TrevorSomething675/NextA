@@ -47,7 +47,7 @@ const BasketBody = observer(() => {
             </tbody>
         </table>) 
         : 
-        (<div className={styles.noBasketDetails}>
+        (<div className={styles.noBasketProducts}>
             Ваша корзина пуста.
         </div>)}
     </div> 

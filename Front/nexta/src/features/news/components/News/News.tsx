@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import NewsService from "../../../../services/NewsService";
 import styles from './News.module.css';
 import Image from "../../../../shared/components/Image/Image";
-import { GetNewsResponse } from "../../models/NewsResponse";
+import { GetNewsResponse } from "../../../../http/models/adminNews/GetNews";
 
 const News = () => {
     const [newsResponse, setNewsResponse] = useState({} as GetNewsResponse);

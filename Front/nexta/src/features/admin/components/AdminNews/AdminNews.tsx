@@ -1,5 +1,5 @@
 import NewsService from "../../../../services/NewsService";
-import { GetNewsResponse } from "../../../news/models/NewsResponse";
+import { GetNewsResponse } from "../../../../http/models/adminNews/GetNews";
 import Image from "../../../../shared/components/Image/Image";
 import styles from './AdminNews.module.css';
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
