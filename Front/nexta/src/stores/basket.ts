@@ -1,37 +1,88 @@
-import { makeAutoObservable } from "mobx";
-import { Detail } from "../shared/entities/Detail";
+import { UserBasketProduct } from "../models/UserBasketProduct";
+import { makeAutoObservable, runInAction } from "mobx";
 
 class BasketStore {
-    details: Detail[] = [];
+    items: UserBasketProduct[] = [];
+    isVisibleBasket = false;
+
     constructor() {
         makeAutoObservable(this);
     }
+
+    private num(v: unknown, def = 0) {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : def;
+    }
     
-get totalPrice() {
-    return this.details.reduce((sum, detail) => {
-        const userDetails = Array.isArray(detail.userDetails) ? detail.userDetails : [];
-        const userDetailsSum = userDetails.reduce((innerSum, userDet) => {
-            return innerSum + (userDet?.count ?? 0) * (detail?.newPrice ?? 0);
+    get totalPrice() {
+        return this.items.reduce((sum, item) => {
+            const price = this.num(item.newPrice, 0);
+            const count = this.num(item.count, 0);
+            return sum + price * count;
         }, 0);
-        return sum + userDetailsSum;
-    }, 0);
-    }
-    
-    setBasketDetails = (details: Detail[]) => {
-        this.details = details;
     }
 
-    deleteBasketDetail = (id: string) => {
-        this.details = this.details.filter(detail => detail.id !== id);
+    get totalCount() {
+        return this.items.reduce((sum, item) => sum + item.count, 0);
     }
 
-    addBasketDetail = (detail: Detail) => {
-        this.details.push(detail);
+    setVisibleBasket = (state:boolean) => {
+        this.isVisibleBasket = state;
     }
 
-    clear = () =>{
-        this.details = [];
+    addBasketProduct = (product: UserBasketProduct) => {
+        const existingItem = this.items.find(item => item.productId === product.productId)!;
+        
+        if (existingItem) {
+        existingItem.count += 1;
+        } else {
+            this.items.push(product);
+        }
     }
+
+    deleteBasketProduct = (id: string) => {
+        runInAction(() => {
+            this.items = this.items.filter(i => i.productId !== id);
+        });
+    }
+
+    changeProductCount = (id: string, newCount: number) => {
+        const n = this.num(newCount, 1);
+        const count = n > 0 ? Math.floor(n) : 1;
+        const item = this.items.find(i => i.productId === id);
+        if (item) item.count = count;
+    };
+
+    incrementCount = (id: string) => {
+        const item = this.items.find(item => item.productId === id);
+        if (item) {
+            item.count += 1;
+        }
+    }
+
+    decrementCount = (id: string) => {
+        const item = this.items.find(item => item.productId === id);
+        if (item && item.count > 1) {
+            item.count -= 1;
+        } else if (item) {
+            this.deleteBasketProduct(id);
+        }
+    }
+
+    clear = () => {
+        this.items = [];
+    }
+
+    setBasketItems = (items: UserBasketProduct[]) => {
+        this.items = items.map(it => ({
+        ...it,
+        newPrice: this.num(it.newPrice, 0),
+            count: (() => { 
+                const n = this.num(it.count, 1);
+                return n > 0 ? Math.floor(n) : 1;
+            })(),
+        }));
+    };
 }
 
 export default new BasketStore();

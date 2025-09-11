@@ -1,6 +1,6 @@
 import axios from 'axios';
 import authStore from '../stores/AuthStore/authStore';
-import { AuthService } from '../features/auth/services/AuthService';
+import { AuthService } from '../services/AuthService';
 
 export const API_URL = 'https://localhost:7268';
 
@@ -20,7 +20,6 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if(error.response?.status === 403){
-            console.log('start')
             authStore.isAdmin = false;
 
             window.location.href = '/error';

@@ -1,43 +1,48 @@
 import { useState } from 'react';
 import styles from './Login.module.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LoginRequest } from '../../models/login';
+import { LoginRequest } from '../../../../http/models/auth/Login';
+import { AuthService } from '../../../../services/AuthService';
 import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
-import { AuthService } from '../../services/AuthService';
-import authStore from '../../../../stores/AuthStore/authStore';
-import { AuthUser } from '../../../../stores/AuthStore/models/AuthUser';
+import { AuthStep, UserData } from '../../pages/AuthPage';
 
-const Login:React.FC<{changeAuthStatus:any, changeCodeVerifyStatus: (data: AuthUser) => void}> = ({changeAuthStatus, changeCodeVerifyStatus}) => {
+interface RegisterSecondStepProps{
+    handleChangeAuth: (step: AuthStep, user:UserData) => void;
+}
+
+const Login:React.FC<RegisterSecondStepProps> = ({handleChangeAuth}) => {
     const { register, handleSubmit, formState: {errors} } = useForm<LoginRequest>();
     const [hasError, setError] = useState('');
     const [isLoading, setLoading] = useState(false);
 
-    const handlerChangeFormStatus = () => {
-        changeAuthStatus();
+    const handleToRegister = () => {
+        handleChangeAuth('registerFirstStep', {} as UserData);
     }
 
     const submit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
         try{
             setLoading(true);
             const response = await AuthService.login(data);
-            if(response){
+            if(response.success && response.status === 200){
+
                 await AuthService.sendVerificationCode(data.email);
-                const authUser:AuthUser = {
-                    id: response.user.id,
-                    email: response.user.email,
-                    firstName: response.user.firstName,
-                    lastName: response.user.lastName,
-                    middleName: response.user.middleName,
-                    role: response.user.role,
-                    phone: response.user.phone,
-                    accessToken: null
+                const userData:UserData = {
+                    id: response.data.user.id!,
+                    email: response.data.user.email ?? '',
+                    firstName: response.data.user.firstName ?? '',
+                    lastName: response.data.user.lastName ?? '',
+                    middleName: response.data.user.middleName ?? '',
+                    password: data.password,
+                    
                 };
-                changeCodeVerifyStatus(authUser);
-                authStore.firstStepAuthenticate(authUser);
+                handleChangeAuth('codeVerify', userData);
             }
+            else if (!response.success){
+                setError(response.data.Message ?? '');
+            } 
         } catch(error){
             const errorResponse = error as ErrorResponseModel;
-            setError(errorResponse.message ?? '');
+            setError(errorResponse.Message ?? '');
         } finally{
             setLoading(false);
         }
@@ -77,7 +82,7 @@ const Login:React.FC<{changeAuthStatus:any, changeCodeVerifyStatus: (data: AuthU
                             </p>)
                         }
                     </button>
-                    <button onClick={handlerChangeFormStatus} type='button' className={styles.toRegisterBtn}>Ещё не зарегистрированы?</button>
+                    <button onClick={handleToRegister} type='button' className={styles.toRegisterBtn}>Ещё не зарегистрированы?</button>
                 </div>
             </div>
         </form>

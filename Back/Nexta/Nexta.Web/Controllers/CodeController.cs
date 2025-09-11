@@ -1,7 +1,7 @@
 ﻿using Nexta.Application.Queries.Auth.SendVerificationCodeQuery;
-using Nexta.Application.Queries.Auth.VerifyCodeQuery;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Nexta.Application.Commands.Auth.VerifyCodeQuery;
 
 namespace Nexta.Web.Controllers
 {
@@ -23,8 +23,8 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-		public async Task<IResult> VerifyCode([FromBody] VerifyCodeQueryRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(VerifyCodeCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> VerifyCode([FromBody] VerifyCodeCommand request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);

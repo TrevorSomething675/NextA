@@ -1,0 +1,60 @@
+.container{
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    box-shadow: 0px 0px 0.4rem var(--shadow-color);
+    background-color: var(--default-color);
+    z-index: 100;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0rem 0rem 4rem 0rem;
+}
+
+.h2{
+    font-size: 2rem;
+}
+
+.thead{
+    background-color: var(--dark-default-color);
+}
+
+.tbody{
+    font-size: 1.1rem;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.table{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.tr > th{
+    padding: 1rem 1rem 1rem 1rem;
+    font-size: 1.3rem;
+}
+
+.search{
+    margin: 2rem
+}
+
+.searchContainer{
+    display: flex;
+    align-items: center;
+}
+
+.closeBtn{
+    background-color: var(--context-color);
+}
+
+.headerContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 3rem 0 3rem;
+}

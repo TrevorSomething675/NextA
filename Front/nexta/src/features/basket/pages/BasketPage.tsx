@@ -1,6 +1,6 @@
-import BasketBody from '../components/BasketBody/BasketBody';
-import BasketFooter from '../components/BasketFooter/BasketFooter';
-import BasketHeader from '../components/BasketHeader/BasketHeader';
+import BasketBody from '../components/Basket/BasketBody/BasketBody';
+import BasketFooter from '../components/Basket/BasketFooter/BasketFooter';
+import BasketHeader from '../components/Basket/BasketHeader/BasketHeader';
 import styles from './BasketPage.module.css';
 import { observer } from "mobx-react";
 

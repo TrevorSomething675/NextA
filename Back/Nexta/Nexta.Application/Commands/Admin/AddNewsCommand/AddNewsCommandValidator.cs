@@ -2,7 +2,7 @@
 
 namespace Nexta.Application.Commands.Admin.AddNewsCommand
 {
-    public class AddNewsCommandValidator : AbstractValidator<AddNewsCommandRequest>
+    public class AddNewsCommandValidator : AbstractValidator<AddNewsCommand>
     {
         public AddNewsCommandValidator()
         {

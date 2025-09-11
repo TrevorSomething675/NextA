@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import NewsService from "../../../../services/NewsService";
 import styles from './News.module.css';
 import Image from "../../../../shared/components/Image/Image";
-import { GetNewsResponse } from "../../models/NewsResponse";
+import { GetNewsResponse } from "../../../../http/models/adminNews/GetNews";
 
 const News = () => {
     const [newsResponse, setNewsResponse] = useState({} as GetNewsResponse);
@@ -28,9 +28,11 @@ const News = () => {
     }, [isLoading, newsResponse, currentSlide]);
 
     const fetchData = async () => {
-        const news = await NewsService.GetNews();
-        setNewsResponse(news);
-        setIsLoading(false);
+        const response = await NewsService.Get();
+        if(response.success && response.status === 200){
+            setNewsResponse(response.data);
+            setIsLoading(false);
+        }
     };
 
     const stopAutoSlide = () => {

@@ -1,6 +1,5 @@
 .container {
-    flex-direction: column;
-    flex-grow: 1;
+    width: 1440px;
 }
 
 .h2{

@@ -1,0 +1,74 @@
+.container {
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+.searchProducts{
+    gap: 0.5rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr 1fr 1fr;
+    cursor: pointer;
+    transition: .2s;
+    border-radius: 1rem;
+}
+
+.searchProducts:hover {
+    transition: .2s;
+    background-color: var(--dark-default-color);
+}
+
+.productItemDescription {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    color: var(--light-text-color);
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    max-height: 2.4em;
+}
+
+.priceContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    text-align: center;
+    justify-content: flex-start;
+    min-width: 4rem;
+    width: 100%;
+}
+
+.article {
+    justify-content: center;
+    width: 100%;
+}
+
+.count {
+    justify-content: center;
+}
+
+.price {
+    justify-content: flex-end;
+}
+
+.oldPrice {
+    font-size: 0.8rem;
+    text-decoration: line-through;
+}
+
+.newPrice {
+    color: var(--context-color);
+    font-weight: 600;
+    margin: 0 0.25rem 0 0;
+}
+
+.defaultPrice {
+    color: var(--text-color);
+}

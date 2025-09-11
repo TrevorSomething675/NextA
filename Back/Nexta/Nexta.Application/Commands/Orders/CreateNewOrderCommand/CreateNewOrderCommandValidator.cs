@@ -2,11 +2,11 @@
 
 namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 {
-    public class CreateNewOrderCommandValidator : AbstractValidator<CreateNewOrderCommandRequest>
+    public class CreateNewOrderCommandValidator : AbstractValidator<CreateNewOrderCommand>
     {
         public CreateNewOrderCommandValidator() 
         {
-            RuleFor(r => r.DetailIds)
+            RuleFor(r => r.ProductIds)
                 .NotEmpty()
                 .WithMessage("В корзине нет позиций");
 

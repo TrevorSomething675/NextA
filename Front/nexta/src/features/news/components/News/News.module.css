@@ -58,7 +58,7 @@
     top: 50%;
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.8);
-    color: var(--light-white-color);
+    color: var(--dark-default-color);
     border: none;
     padding: 10px;
     cursor: pointer;
@@ -74,7 +74,7 @@
 
 .sliderButton:hover {
     transition: .2s;
-    color: var(--red-color);
+    color: var(--context-color);
 }
 
 .sliderButton:first-child {

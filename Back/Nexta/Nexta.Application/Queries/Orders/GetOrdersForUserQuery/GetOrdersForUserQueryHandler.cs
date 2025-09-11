@@ -1,13 +1,14 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models.DataModels;
+using Nexta.Application.DTO.Response;
+using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {
-	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQueryRequest, GetOrdersForUserQueryResponse>
+	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQuery, GetOrdersForUserQueryResponse>
 	{
 		private readonly IOrderRepository _orderRepository;
 		private readonly IMapper _mapper;
@@ -18,14 +19,16 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 			_mapper = mapper;
 		}
 
-		public async Task<GetOrdersForUserQueryResponse> Handle(GetOrdersForUserQueryRequest request, CancellationToken ct = default)
+		public async Task<GetOrdersForUserQueryResponse> Handle(GetOrdersForUserQuery query, CancellationToken ct = default)
 		{
-			request.Filter.Statuses = GetOrderStatuses();
+			query.Filter.Statuses = GetOrderStatuses();
 
-			var orders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetOrdersAsync(request.Filter, ct));
-			var totalCount = await _orderRepository.CountOrdersAsync(request.Filter.UserId, ct);
+			var orders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(query.Filter, ct));
+			var totalCount = await _orderRepository.CountOrdersAsync(query.Filter.UserId!.Value, ct);
 
-			return new GetOrdersForUserQueryResponse(orders, totalCount);
+			var responseOrders = _mapper.Map<PagedData<OrderResponse>>(orders);
+
+			return new GetOrdersForUserQueryResponse(responseOrders, totalCount);
 		}
 
 		private List<OrderStatus> GetOrderStatuses()
@@ -34,7 +37,6 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 			{
 				OrderStatus.Accepted,
 				OrderStatus.InProgress,
-				OrderStatus.Canceled,
 				OrderStatus.Ready
 			};
 

@@ -5,7 +5,6 @@ class AuthStore {
     user:AuthUser = {} as AuthUser
     isAuthenticated:boolean = false
     error:string = ''
-    readyToAuth:boolean = false
     isAdmin = false
 
     constructor(){
@@ -26,12 +25,10 @@ class AuthStore {
         try{
             this.user = user;
             this.isAuthenticated = false;
-            this.readyToAuth = true;
         }
         catch(error) {
             this.user = user;
             this.isAuthenticated = false;
-            this.readyToAuth = false;
 
             if(error instanceof Error){
                 this.error = error.message;
@@ -42,14 +39,22 @@ class AuthStore {
         }
     }
 
+    setUserData = (user:AuthUser) => {
+        this.user = user;
+        this.isAuthenticated = true;
+        this.user.role = user.role
+        this.setRole(user.role ?? 'User');
+        this.isAdmin = user.role === 'Admin';
+    }
+
     secondStepAuthenticate = async (user: AuthUser) => {
         try{
             this.user = user;
             this.isAuthenticated = true;
-            this.readyToAuth = false;
             this.user.role = user.role
-            this.setRole(user.role ?? 'User');
             this.isAdmin = user.role === 'Admin';
+            
+            this.setRole(user.role ?? 'User');
         }
         catch(error){
             if(error instanceof Error){
@@ -80,16 +85,6 @@ class AuthStore {
         this.isAuthenticated = localStorage.getItem('isAuth')?.toLowerCase() === "true" ? true : false
         this.isAdmin = localStorage.getItem('role') === 'Admin';
         this.user = user;
-    }
-
-    private setAuthData = (user:AuthUser) => {
-        localStorage.setItem('userId', user.id ?? '');
-        localStorage.setItem('email', user.email ?? '');
-        localStorage.setItem('firstName', user.firstName ?? '');
-        localStorage.setItem('middleName', user.middleName ?? '');
-        localStorage.setItem('lastName', user.lastName ?? '');
-        localStorage.setItem('phone', user.phone?.toString() ?? '');
-        localStorage.setItem('accessToken', user.accessToken ?? '');
     }
 }
 

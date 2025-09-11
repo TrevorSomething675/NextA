@@ -2,8 +2,8 @@
 
 namespace Nexta.Application.Commands.Admin.DeleteNewsCommand
 {
-    public class DeleteNewsCommandRequest : IRequest<DeleteNewsCommandResponse>
+    public class DeleteNewsCommandRequest(Guid id) : IRequest<DeleteNewsCommandResponse>
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; init; } = id;
     }
 }

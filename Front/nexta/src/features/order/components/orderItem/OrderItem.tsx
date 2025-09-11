@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { Order, OrderStatus } from "../../../../shared/entities/Order";
 import styles from './OrderItem.module.css';
+import { OrderStatus, UserOrder } from "../../../../models/order/UserOrder";
 
-const OrderItem:React.FC<{order:Order}> = ({order}) => {
+const OrderItem:React.FC<{order:UserOrder}> = ({order}) => {
     const navigate = useNavigate();
     const statusLabel = {
         [OrderStatus.Unknown]: 'Неизвестный статус',
@@ -31,14 +31,17 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
         }
     }
 
-    const goToDetailPage = (id:string) => {
-        navigate(`/Detail/${id}`);
+    const goToProductPage = (id:string) => {
+        navigate(`/Product/${id}`);
     }
 
     return <li className={styles.li}>
         <div className={styles.orderHeader} style={{backgroundColor:getColorForStatus(order.status)}}>
             <h2 className={styles.h2}>
                 Заказ №: [{order?.id}]
+            </h2>
+            <h2 className={styles.h2}>
+                Дата оформления {order?.createdDate}
             </h2>
         </div>
         <table className={styles.table}>
@@ -65,26 +68,26 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
                 </tr>
             </thead>
             <tbody>
-                {order.orderDetails !== undefined && order.orderDetails.map((orderDetail) => 
-                    <tr className={styles.tr} key={orderDetail.detail.id}>
+                {order.orderProducts !== undefined && order?.orderProducts?.map((product) => 
+                    <tr className={styles.tr} key={product.id}>
                         <td>
-                            <button onClick={() => goToDetailPage(orderDetail.detail.id)} className={styles.button}>
-                                {orderDetail.detail.name}
+                            <button onClick={() => goToProductPage(product.id)} className={styles.button}>
+                                {product.name}
                             </button>
                         </td>
                         <td>
-                            {orderDetail.detail.article}
+                            {product.article}
                         </td>
                         <td>
-                            {orderDetail.detail.description}
+                            {product.description}
                         </td>
                         <td>
                             <span className={styles.newPrice}>
-                                {orderDetail.detail.newPrice * orderDetail.count} руб.
+                                {product.newPrice * product.count} руб.
                             </span>
-                            {(orderDetail.detail.oldPrice !== undefined && orderDetail.detail.oldPrice != 0) &&
+                            {(product.oldPrice !== undefined && product.oldPrice != 0) &&
                                 <span className={styles.oldPrice}>
-                                    {orderDetail.detail.oldPrice * orderDetail.count} руб.
+                                    {product.oldPrice * product.count} руб.
                                 </span>
                             }
                         </td>
@@ -92,7 +95,7 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
                             x
                         </td>
                         <td>
-                            {orderDetail.count}
+                            {product.count}
                         </td>
                     </tr>
                 )}
@@ -107,14 +110,14 @@ const OrderItem:React.FC<{order:Order}> = ({order}) => {
             </div>
             <div>
                 <span className={styles.orderQuestion}>Есть вопросы по заказу?</span>
-                <span className={styles.number}>+7 915-562-95-13</span>
+                <span className={styles.number}>+7 (915) 562-95-13</span>
             </div>
             <div>
                 <span className={styles.totalSumText}>
                     К оплате: 
                 </span>
                 <span className={styles.totalSum}>
-                    {(order.orderDetails.reduce((total, orderDetail) => total + (orderDetail.count * orderDetail.detail.newPrice), 0))} руб.
+                    {(order?.orderProducts?.reduce((total, product) => total + (product.count * product.newPrice), 0))} руб.
                 </span>
             </div>
         </div>

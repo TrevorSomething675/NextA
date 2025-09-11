@@ -2,8 +2,9 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: sans-serif;
   font-weight: 700!important;
+  color:var(--text-color);
 }
 
 ul {
@@ -21,13 +22,12 @@ ul {
 .page-body {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   width: 100%;
-  margin: 0 auto 0 auto;
-  max-width: 1400px;
+  background: linear-gradient(180deg, var(--default-color) 0%, var(--dark-default-color) 100%);
 }
 
 a {
-  color: var(--dark-grey-color);
+  color: var(--text-color);
   text-decoration: none;
 }

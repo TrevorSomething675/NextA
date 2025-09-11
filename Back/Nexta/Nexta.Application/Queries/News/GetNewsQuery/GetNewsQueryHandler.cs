@@ -1,7 +1,7 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Application.DTO.Response;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.News.GetNewsQuery
 {
@@ -16,7 +16,7 @@ namespace Nexta.Application.Queries.News.GetNewsQuery
 			_mapper = mapper;
 		}
 
-		public async Task<GetNewsQueryResponse> Handle(GetNewsQueryRequest request, CancellationToken ct = default)
+		public async Task<GetNewsQueryResponse> Handle(GetNewsQueryRequest query, CancellationToken ct = default)
 		{
 			var news = await _newsRepository.GetAllAsync(ct);
 

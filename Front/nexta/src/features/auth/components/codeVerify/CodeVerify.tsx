@@ -1,26 +1,24 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { AuthService } from "../../../../services/AuthService";
+import { VerifyCodeRequest } from "../../../../http/models/auth/VerifyCode";
+import { UserData } from "../../pages/AuthPage";
+import { ErrorResponseModel } from "../../../../shared/models/ErrorResponseModel";
 import styles from './CodeVerify.module.css';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthService } from '../../services/AuthService';
-import { VerifyCodeRequest } from '../../models/verifyCode';
-import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
-import authStore from '../../../../stores/AuthStore/authStore';
-import { AuthUser } from '../../../../stores/AuthStore/models/AuthUser';
-import orderStore from '../../../../stores/orderStore';
-import basket from '../../../../stores/basket';
-import { GetBasketDetailsFilter, GetBasketDetailsRequest } from '../../../basket/models/GetBasketDetails';
-import { GetOrdersForUserFilter, GetOrdersForUserRequest } from '../../../order/models/GetOrdersForUserFilter';
-import BasketService from '../../../basket/services/BasketService';
-import OrderService from '../../../../services/OrderService';
+import authStore from "../../../../stores/AuthStore/authStore";
 
 const CODE_LENGTH = 6;
 
+interface CodeVerifyProps{
+    authUser: UserData
+}
+
 type CodeInputs = {
-  code: string[];
+    code: string[];
 };
 
-const CodeVerify: React.FC<{ firstStepUser: AuthUser}> = ({ firstStepUser }) => {
+const CodeVerify: React.FC<CodeVerifyProps> = ({ authUser}) => {
     const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<CodeInputs>({
         defaultValues: {
             code: Array(CODE_LENGTH).fill('')
@@ -74,7 +72,7 @@ const CodeVerify: React.FC<{ firstStepUser: AuthUser}> = ({ firstStepUser }) => 
 
         setIsDisabled(true);
         setCountdown(30);
-        AuthService.sendVerificationCode(firstStepUser.email!);
+        AuthService.sendVerificationCode(authUser.email!);
     }
 
     const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -108,49 +106,21 @@ const CodeVerify: React.FC<{ firstStepUser: AuthUser}> = ({ firstStepUser }) => 
         const existRole = localStorage.getItem('role');
 
         const request: VerifyCodeRequest = {
-            email: firstStepUser.email!,
+            email: authUser.email!,
             code: code,
             role: existRole ?? 'User'
         };
         setLoading(true);
         try {
             const response = await AuthService.verifyCode(request);
-            if(response && authStore.readyToAuth){
-            await authStore.secondStepAuthenticate(firstStepUser);
-                const filter:GetBasketDetailsFilter = {
-                    pageNumber: 1,
-                    userId: authStore.user.id ?? ''
-                };
-                const request:GetBasketDetailsRequest = {
-                    filter: filter
-                };
-                const basketResult = await BasketService.GetBasketDetails(request);
-                if(basketResult){
-                    basket.setBasketDetails(basketResult.details);
-                } else {
-                    console.error('Ошибка на странице BasketPage');
-                };
-                
-                const ordersFilter:GetOrdersForUserFilter = {
-                    userId: authStore.user.id ?? '',
-                    pageSize: 8,
-                    pageNumber: 1
-                }
-                const ordersRequest:GetOrdersForUserRequest = {
-                    filter:ordersFilter
-                };
-
-                const orderResponse = await OrderService.GetOrdersForUser(ordersRequest);
-                if(orderResponse !== undefined){
-                    orderStore.setOrders(orderResponse?.data.items);
-                    orderStore.setTotalOrders(orderResponse?.totalCount);
-                }
+            if(response.success && response.status === 200){
+                authStore.setUserData(response.data.user);
                 navigate('/');
             }
         }
         catch (error) {
             const errorResponse = error as ErrorResponseModel;
-            setError(errorResponse.message ?? 'Неверный код');
+            setError(errorResponse.Message ?? 'Неверный код');
             inputRefs.current.forEach(input => {
                 if (input) input.value = '';
             });

@@ -1,50 +1,48 @@
-﻿using Nexta.Domain.Abstractions.Services;
+﻿using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Domain.Abstractions.Services;
 using Nexta.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
-using Nexta.Domain.Abstractions.Repositories;
 
 namespace Nexta.Application.Commands.Account.ChangePasswordCommand
 {
-    public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommandRequest, Unit>
+    public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
     {
-        private readonly IValidator<ChangePasswordCommandRequest> _validator;
+        private readonly IValidator<ChangePasswordCommand> _validator;
         private readonly IUserRepository _userRepository;
         private readonly IHashService _hashService;
 
         public ChangePasswordCommandHandler(IHashService hashService, 
-            IValidator<ChangePasswordCommandRequest> validator, IUserRepository userRepository)
+            IValidator<ChangePasswordCommand> validator, IUserRepository userRepository)
         {
             _userRepository = userRepository;
             _hashService = hashService;
             _validator = validator;
         }
 
-        public async Task<Unit> Handle(ChangePasswordCommandRequest request, CancellationToken ct = default)
+        public async Task<Unit> Handle(ChangePasswordCommand command, CancellationToken ct = default)
         {
-            var validationResult = await _validator.ValidateAsync(request, ct);
+            var validationResult = await _validator.ValidateAsync(command, ct);
 
             if(!validationResult.IsValid)
                 throw new BadRequestException(string.Join(", ", validationResult.Errors));
 
-            var user = await _userRepository.GetAsync(request.UserId, ct);
+            var user = await _userRepository.GetAsync(command.UserId, ct);
             if (user == null)
                 throw new NotFoundException("Пользователь не найден");
 
-            if (!_hashService.Validate(request.LegacyPassword, user.PasswordHash))
+            if (!_hashService.Validate(command.LegacyPassword, user.PasswordHash))
                 throw new BadRequestException("Неверный пароль");
 
-            var newPassword = _hashService.Generate(request.Password);
-            user.PasswordHash = newPassword;
+            var newPasswordHash = _hashService.Generate(command.Password);
+            user.PasswordHash = newPasswordHash;
 
             var result = await _userRepository.UpdateAsync(user, ct);
 
-            if(request == null)
+            if(command == null)
                 throw new BadRequestException("Не удалось обновить пользователя");
 
             return Unit.Value;
         }
     }
 }
-
-//070602

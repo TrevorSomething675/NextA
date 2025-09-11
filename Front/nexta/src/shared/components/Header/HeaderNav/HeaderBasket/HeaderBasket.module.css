@@ -1,17 +1,29 @@
 .container {
+    text-shadow: 1px 1px 15px var(--text-color);
+    color: var(--light-default-color);
+    margin: 0 0.8rem 0 0.8rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .headerItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin: 0 0 0 0.25rem;
+    transition: .2s;
 }
 
-.headerText{
-    color: var(--dark-white-color);
+.headerItem:hover{
+    transition: .2s;
+    color: var(--super-dark-default-color);
+    cursor: pointer;
 }
 
-.headerCount{
-    color:var(--black-color);
+.text{
+    text-wrap: nowrap;
+}
+
+.svg{
+    max-width: 1.8rem;
 }

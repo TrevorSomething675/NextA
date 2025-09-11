@@ -2,8 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../../../../shared/components/Button/Button';
 import authStore from '../../../../stores/AuthStore/authStore';
 import styles from './ConfirmPhone.module.css';
-import { ConfirmPhoneFormRequest } from '../../models/ConfirmPhoneForm';
-import { AuthService } from '../../../auth/services/AuthService';
+import { ConfirmPhoneFormRequest } from '../../../../http/models/auth/ConfirmPhone';
 import { observer } from 'mobx-react';
 import { TrueSvg } from '../../../../shared/svgs/TrueSvg/TrueSvg';
 import { FalseSvg } from '../../../../shared/svgs/FalseSvg/FalseSvg';
@@ -13,14 +12,16 @@ export const ConfirmPhone = observer(() => {
 
     const submit: SubmitHandler<ConfirmPhoneFormRequest> = async (data: ConfirmPhoneFormRequest) => {
         data.email = authStore.user.email ?? '';
+        /*
         const response = await AuthService.confirmPhone(data);
         
         if(response.success && response.status === 200){
             localStorage.setItem('phone', response.data.phone);
             authStore.user.phone = response.data.phone;
         } else if (!response.success && response?.status === 400){
-            console.error(response.data.message);
+            console.error(response.data.Message);
         }
+        */
     }
 
     return <form className={styles.container} onSubmit={handleSubmit(submit)}>

@@ -1,0 +1,128 @@
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    width: 84rem;
+}
+
+.header{
+    border-bottom: solid var(--context-color) 2px;
+    padding: 0 1rem 1rem 1rem;
+}
+
+.modalContent {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0px 0px 0.4rem var(--shadow-color);
+    position: relative;
+    width: 20;
+}
+
+.down{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.down:hover{
+    text-shadow: 1px 1px 15px var(--text-color);
+    transition: .2s;
+}
+
+.up{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.up:hover{
+    transition: .2s;
+    text-shadow: 1px 1px 15px var(--text-color);
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 2.5rem;
+    transition: .2s;
+}
+
+.closeButton:hover{
+    background-color: var(--dark-default-color);
+    border-radius: 5rem;
+    transition: .2s;
+}
+
+.productContainer{
+    display: flex;
+    padding: 1rem;
+}
+
+.image{
+    height: 24rem;
+    width: 24rem;
+}
+
+.imageContainer{
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ul > li{
+    font-size: 1.2rem;
+    margin: 0.5rem 0 0 0;
+    text-wrap: wrap;
+}
+
+.productFooter{
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.productData{
+    text-align: start;
+    padding: 0 1rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 24rem;
+    flex-grow: 1;
+}
+
+.priceContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.oldPrice{
+    margin: 0 0 0 0.35rem;
+    font-size: 1rem;
+    text-decoration: line-through;
+}
+
+.newPrice{
+    margin: 0 0 0 0.5rem;
+    color: var(--context-color);
+    font-size: 1.4rem;
+}
+
+.updateButton{
+    background-color: var(--green-color)!important;
+    width: 12rem!important;
+}

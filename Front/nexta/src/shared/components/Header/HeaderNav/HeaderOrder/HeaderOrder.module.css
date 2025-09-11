@@ -2,16 +2,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-shadow: 1px 1px 15px var(--text-color);
+    color: var(--dark-default-color);
+    margin: 0 0.8rem 0 0.8rem;
 }
 
-.orderItem{
-    margin: 0 0 0 0.25rem;
+.headerItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: .2s;
 }
 
-.orderText{
-    color: var(--dark-white-color);
+.headerItem:hover{
+    transition: .2s;
+    color: var(--super-dark-default-color);
+    cursor: pointer;
 }
 
-.orderCount{
-    color:var(--black-color);
+.text{
+    text-wrap: nowrap;
+}
+
+.svg{
+    max-width: 1.8rem;
+    stroke-width: 1.1;
+    stroke-linecap: "round";
+    stroke-linejoin: "round";
 }

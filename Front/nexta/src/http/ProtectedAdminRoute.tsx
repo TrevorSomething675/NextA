@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../features/auth/services/AuthService";
 import authStore from "../stores/AuthStore/authStore";
+import { AuthService } from "../services/AuthService";
 
 export const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -10,8 +10,10 @@ export const ProtectedAdminRoute = ({ children }: { children: React.ReactNode })
     useEffect(() => {
         const checkAdminAccess = async () => {
         try {
-            const response = await AuthService.isAuth();
-            setIsAuthorized(true);
+            const response = await AuthService.checkAuth();
+            if(response.success && response.status === 200){
+                setIsAuthorized(true);
+            }
         } catch (error) {
             authStore.setAdminStatus(false);
             console.warn(error);

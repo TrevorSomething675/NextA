@@ -8,7 +8,7 @@ namespace Nexta.Domain.Abstractions.Repositories
     {
         Task<Order> GetOrderAsync(Guid orderId, CancellationToken ct = default);
         Task<PagedData<Order>> GetOrdersAsync(GetOrdersFilter filter, CancellationToken ct = default);
-        Task<PagedData<Order>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default);
+        //Task<PagedData<Order>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default);
 
         Task<Order> AddAsync(Order orderToAdd, CancellationToken ct = default);
         Task<Guid> UpdateAsync(Order order, CancellationToken ct = default);

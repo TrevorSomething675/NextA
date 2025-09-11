@@ -4,8 +4,8 @@ using Nexta.Application.DTO.Response;
 
 namespace Nexta.Application.Queries.Admin.SearchOrderQuery
 {
-    public class SearchOrderQueryResponse : BasePagedResponse<OrderDetailResponse>
+    public class SearchOrderQueryResponse : BasePagedResponse<OrderProductResponse>
     {
-        public SearchOrderQueryResponse(PagedData<OrderDetailResponse> data) : base(data) { }
+        public SearchOrderQueryResponse(PagedData<OrderProductResponse> data) : base(data) { }
     }
 }

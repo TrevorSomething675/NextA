@@ -11,7 +11,7 @@ namespace Nexta.Application.Profiles
     {
         public NewsProfile() 
         {
-            CreateMap<AddNewsCommandRequest, News>();
+            CreateMap<AddNewsCommand, News>();
             CreateMap<NewsImageRequest, NewsImage>();
             CreateMap<News, NewsResponse>();
             CreateMap<NewsImage, NewsImageResponse>();

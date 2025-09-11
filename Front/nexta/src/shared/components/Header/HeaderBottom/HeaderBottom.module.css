@@ -1,0 +1,25 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 2.5rem;
+}
+    
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1440px;
+    height: 100%;
+}
+
+.headerItem{
+    margin: 0 0.5rem 0 0.5rem;
+    text-decoration: underline;
+    transition: .2s;
+}
+
+.headerItem:hover{
+    color: var(--context-color);
+    transition: .2s;
+}

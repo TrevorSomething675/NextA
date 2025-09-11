@@ -1,4 +1,4 @@
 export interface ErrorResponseModel{
-    message?:string,
+    Message?:string,
     statusCode:number
 }

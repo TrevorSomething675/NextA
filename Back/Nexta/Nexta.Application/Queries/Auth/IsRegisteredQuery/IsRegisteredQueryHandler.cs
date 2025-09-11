@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
 {
-	public class IsRegisteredQueryHandler : IRequestHandler<IsRegisteredQueryRequest, Unit>
+	public class IsRegisteredQueryHandler : IRequestHandler<IsRegisteredQuery, Unit>
 	{
 		private readonly IUserRepository _userRepository;
 
@@ -13,9 +13,9 @@ namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
 			_userRepository = userRepository;
 		}
 
-		public async Task<Unit> Handle(IsRegisteredQueryRequest request, CancellationToken ct = default)
+		public async Task<Unit> Handle(IsRegisteredQuery query, CancellationToken ct = default)
 		{
-			var user = await _userRepository.GetByEmailAsync(request.Email, ct);
+			var user = await _userRepository.GetByEmailAsync(query.Email, ct);
 			if (user == null)
 				throw new NotFoundException("Пользователь не найден");
 

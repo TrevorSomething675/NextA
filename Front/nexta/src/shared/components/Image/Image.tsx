@@ -19,7 +19,7 @@ const Image: React.FC<Props> = ({ isBase64Image, srcImage, base64String, classNa
         return base64String ? (
             <img src={`data:image/jpeg;base64,${base64String}`} className={combinedClassName} />
         ) : (
-            <img src="/defaultImage.jpg" className={combinedClassName} />
+            srcImage ? <img src={srcImage} className={combinedClassName} /> : <img src="/defaultImage.jpg"className={combinedClassName} />
         );
     }
 

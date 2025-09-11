@@ -2,7 +2,7 @@
 
 namespace Nexta.Application.Commands.Auth.LoginCommand
 {
-    public class LoginCommandValidator : AbstractValidator<LoginCommandRequest>
+    public class LoginCommandValidator : AbstractValidator<LoginCommand>
     {
         public LoginCommandValidator()
         {

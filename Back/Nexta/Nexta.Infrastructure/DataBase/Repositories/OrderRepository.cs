@@ -53,8 +53,8 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			{
 				var orderEntity = await context.Orders
 					.AsNoTracking()
-					.Include(o => o.OrderDetails)
-					.Include(o => o.Details)
+					.Include(o => o.OrderProducts)
+					.Include(o => o.Products)
 					.FirstOrDefaultAsync(ct);
 
 				var order = _mapper.Map<Order>(orderEntity);
@@ -63,7 +63,8 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<PagedData<Order>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default)
+		/*
+		public async Task<PagedData<Order>> GetAllOrdersAsync(GetAllOrdersFilter filter, CancellationToken ct = default) //Переделать
 		{
 			await using(var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
@@ -76,7 +77,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 					.Where(o => filter.Statuses.Contains(o.Status));
 
 				var orders = await query
-					.Include(o => o.OrderDetails)!.ThenInclude(od => od.Detail)
+					.Include(o => o.Products)
 					.Skip((filter.PageNumber - 1) * filter.PageSize)
 					.Take(filter.PageSize)
 					.ToListAsync(ct);
@@ -91,19 +92,24 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 				return pagedOrders;
 			}
 		}
+		*/
 
-		public async Task<PagedData<Order>> GetOrdersAsync(GetOrdersFilter filter, CancellationToken ct = default)
+		public async Task<PagedData<Order>> GetOrdersAsync(GetOrdersFilter filter, CancellationToken ct = default) // TO DO. Сделать по нормальному, неверно считается количество
 		{
 			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
 			{
-				var query = context.Orders
+                var searchTerm = filter.SearchTerm.ToLower() ?? "";
+
+                var query = context.Orders
 					.AsNoTracking()
-					.Where(o => o.UserId == filter.UserId)
+					.Include(o => o.User)
+                    .WithSearchTerm(searchTerm)
+                    .Where(o => (filter.UserId != null) ? o.UserId == filter.UserId : true)
 					.Where(o => filter.Statuses.Contains(o.Status))
 					.AsNoTracking();
 
 				var orders = await query
-					.Include(o => o.OrderDetails)!.ThenInclude(od => od.Detail)
+					.Include(o => o.OrderProducts)!.ThenInclude(op => op.Product)
 					.Skip((filter.PageNumber - 1) * filter.PageSize)
 					.Take(filter.PageSize)
 					.ToListAsync(ct);

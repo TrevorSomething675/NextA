@@ -1,0 +1,24 @@
+.container {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    width: 1440px;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0rem 0rem 4rem 0rem;
+}
+
+.h2{
+    margin: 3rem 0 3rem 0;
+    font-size: 2rem;
+}
+
+.tr > th{
+    padding: 1rem 1rem 1rem 1rem;
+    font-size: 1.3rem;
+}

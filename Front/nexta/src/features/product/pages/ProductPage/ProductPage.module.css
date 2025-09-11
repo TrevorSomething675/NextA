@@ -1,0 +1,133 @@
+.container{
+    margin: 3rem 0 0 0;
+    display: flex;
+    width: 1440px;
+    flex-direction: column;
+}
+
+.h2{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.headerProduct{
+    width: 66%;
+}
+
+.bodyProduct{
+    display: flex;
+    margin: 1rem 0 0 0;
+    padding: 1rem;
+    box-shadow: 0px 0px 0.4rem var(--shadow-color);
+    border-radius: 1rem;
+}
+
+.image{
+    max-height: 20rem;
+    max-width: 20rem;
+    border-radius: 0.5rem;
+}
+
+.imageContainer{
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.productContainer{
+    width: 100%;
+    margin: 0 0 0 1rem;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+.ul > li{
+    font-size: 1.2rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.priceContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.oldPrice{
+    margin: 0 0 0 0.35rem;
+    font-size: 1rem;
+    text-decoration: line-through;
+}
+
+.newPrice{
+    margin: 0 0 0 0.5rem;
+    color: var(--context-color);
+    font-size: 1.4rem;
+}
+
+.productFooter{
+    margin-top: auto;
+}
+
+.down{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.down:hover{
+    text-shadow: 1px 1px 15px var(--text-color);
+    transition: .2s;
+}
+
+.up{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.up:hover{
+    transition: .2s;
+    text-shadow: 1px 1px 15px var(--text-color);
+}
+
+.countContainer{
+    margin: 0 1rem 0 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.buyButton{
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color:var(--green-color);
+    text-decoration: underline;
+    transition: .2s;
+}
+
+.buyButton:hover{
+    cursor: pointer;
+    color: var(--text-color);
+    transition: .2s;
+}
+
+.rightBar{
+    position: absolute;
+    right: 0;
+    top: 10rem;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}

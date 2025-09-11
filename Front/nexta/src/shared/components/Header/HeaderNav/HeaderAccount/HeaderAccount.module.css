@@ -5,9 +5,9 @@
 }
 
 .accountText{
-    color: var(--dark-white-color);
+    color: var(--dark-default-color);
 }
 
 .accountCount{
-    color:var(--black-color);
+    color:var(--text-color);
 }

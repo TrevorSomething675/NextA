@@ -1,0 +1,44 @@
+.container {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    max-width: 90rem;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0rem 4rem 0rem;
+}
+
+.createProduct{
+    margin: 3rem 0 3rem 0;
+    font-size: 2rem;
+}
+
+.h2{
+    margin: 3rem 0 0 0;
+    font-size: 2rem;
+}
+
+.thead{
+    background-color: var(--dark-default-color);
+}
+
+.tbody{
+    font-size: 1.1rem;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.table{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.tr > th{
+    padding: 1rem 1rem 1rem 1rem;
+    font-size: 1.3rem;
+}

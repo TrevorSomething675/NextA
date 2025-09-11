@@ -8,7 +8,7 @@ namespace Nexta.Infrastructure.Profiles
     {
         public ImageProfile()
         {
-            CreateMap<DetailImage, DetailImageEntity>().ReverseMap();
+            CreateMap<ProductImage, ProductImageEntity>().ReverseMap();
         }
     }
 }

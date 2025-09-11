@@ -1,9 +1,9 @@
 import { observer } from "mobx-react";
-import LegacyOrders from "../../order/components/legacyOrders/LegacyOrders";
 import styles from './AccountPage.module.css';
 import { ChangePassword } from "../components/changePassword/ChangePassword";
 import { UserInfo } from "../components/userInfo/UserInfo";
 import { ConfirmPhone } from "../components/confirmPhone/ConfirmPhone";
+import Orders from "../../order/components/orders/Orders";
 
 const AccountPage = observer(() => {
     return <div className={styles.container}>
@@ -17,7 +17,7 @@ const AccountPage = observer(() => {
             </div>
             <div className={styles.legacyOrdersContainer}>
                 <h2 className={styles.h2}>История заказов</h2>
-                <LegacyOrders />
+                <Orders />
             </div>
         </div>
 });

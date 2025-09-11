@@ -1,32 +1,29 @@
 import NewsService from "../../../../services/NewsService";
-import { GetNewsResponse } from "../../../news/models/NewsResponse";
+import { GetNewsResponse } from "../../../../http/models/adminNews/GetNews";
 import Image from "../../../../shared/components/Image/Image";
 import styles from './AdminNews.module.css';
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
-import { DeleteNewsRequest } from "../../models/DeleteNews/DeleteNewsRequest";
 
 interface AdminNewsProps {
     newsResponse: GetNewsResponse;
     isLoading: boolean;
-    fetchData: () => Promise<void>;
+    onNewsDelete: (id: string) => void;
 }
 
-const AdminNews: React.FC<AdminNewsProps> = ({ newsResponse, isLoading, fetchData }) => {
+const AdminNews: React.FC<AdminNewsProps> = ({ 
+    newsResponse, 
+    isLoading, 
+    onNewsDelete
+}) => {
     const { addNotification } = useNotifications();
 
     const handleDelete = async (id: string) => {
-        const request: DeleteNewsRequest = {
-            id: id
-        };
-
-        try {
-            await NewsService.Delete(request);
+        const response = await NewsService.Delete(id);
+        if(response.success && response.status === 200){
             addNotification({
                 'header': 'Новость успешно удалена'
             });
-            await fetchData();
-        } catch (error) {
-            
+            onNewsDelete(id);
         }
     }
 

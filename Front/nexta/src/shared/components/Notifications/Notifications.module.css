@@ -9,11 +9,11 @@
 
 .notificationContainer {
     position: relative;
-    background-color: var(--light-white-color);
+    background-color: var(--dark-default-color);
     padding: 1rem;
     border-radius: 1rem;
     width: 30rem;
-    box-shadow: 0px 0px 0.8rem var(--dark-color);
+    box-shadow: 0px 0px 0.8rem var(--shadow-color);
     margin: 0.5rem 0 0 0;
     opacity: 1;
     transition: all 0.3s ease;
@@ -33,7 +33,7 @@
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
-    color: var(--dark-color);
+    color: var(--light-text-color);
     padding: 0.2rem 0.5rem;
     border-radius: 50%;
     transition: background-color 0.2s;

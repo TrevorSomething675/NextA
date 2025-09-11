@@ -16,6 +16,6 @@
 }
 
 .button:hover{
-    color: var(--red-color);
+    color: var(--context-color);
     transition: .3s;
 }

@@ -1,19 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import SearchSvg from "../../../details/svgs/SearchSvg/SearchSvg";
+import SearchSvg from "../../../../shared/svgs/SearchSvg/SearchSvg";
 import styles from './AdminOrderSearch.module.css';
-import GetAllOrdersResponse from "../../../../models/admin/GetAllOrders/GetAllOrdersResponse";
-import GetAllOrdersFilter from "../../../../models/admin/GetAllOrders/GetAllOrdersFilter";
-import GetAllOrdersRequest from "../../../../models/admin/GetAllOrders/GetAllOrdersRequest";
-import AdminOrderService from "../../services/AdminOrderService";
+import AdminOrderService from "../../../../services/AdminOrderService";
+import { GetAdminOrdersRequest, GetAdminOrdersResponse } from "../../../../http/models/adminOrders/GetAdminOrders";
+import { UserOrder } from "../../../../models/order/UserOrder";
 
 interface OrderSearchProps {
-    onResponseChange: (response: GetAllOrdersResponse) => void;
+    onResponseChange: (orders: UserOrder[]) => void;
 }
 
 export const AdminOrderSearch: React.FC<OrderSearchProps> = ({ onResponseChange }) => {
     const [isLoading, setLoading] = useState(false);
     const debounceTimeout = useRef<null | number>(null);
-    const [response, setResponse] = useState<GetAllOrdersResponse>({} as GetAllOrdersResponse);
+    const [response, setResponse] = useState<GetAdminOrdersResponse>({} as GetAdminOrdersResponse);
     const [selectedStatuses, setSelectedStatuses] = useState<number[]>([0, 1, 2, 3, 4]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showStatusDropdown, setShowStatusDropdown] = useState(false);
@@ -55,18 +54,17 @@ export const AdminOrderSearch: React.FC<OrderSearchProps> = ({ onResponseChange 
 
     const fetchData = async (query: string, statuses: number[]) => {
         try {
-            const filter: GetAllOrdersFilter = {
+            const request: GetAdminOrdersRequest = {
                 searchTerm: query ?? '',
                 pageSize: 8,
                 statuses: statuses,
                 pageNumber: 1
             };
-            const request: GetAllOrdersRequest = {
-                filter: filter
+            const response = await AdminOrderService.GetOrders(request);
+            if(response.success && response.status === 200){
+                setResponse(response.data);
+                onResponseChange(response.data.data.items);
             }
-            const response = await AdminOrderService.GetAllOrders(request);
-            setResponse(response);
-            onResponseChange(response);
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
         }

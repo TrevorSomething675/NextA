@@ -1,0 +1,138 @@
+.tr > td{
+    padding: 0.55rem 0 0.55rem 0;
+}
+
+.button{
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    transition: .2s;
+    text-decoration: underline;
+}
+
+.description{
+    max-width: 32rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.button:hover{
+    color:var(--context-color);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.buttonsContainer{
+    min-width: 80px;
+}
+
+.removeBasketBtn{
+    padding: 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 1.2rem;
+    transition: .2s;
+    color:var(--context-color);
+}
+
+.removeBasketBtn:hover{
+    color: var(--text-color);
+    transition: .2s;
+}
+
+.updateBasketBtn{
+    padding: 0 0.25rem 0 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    transition: .2s;
+    color:var(--violet-color);
+}
+
+.updateBasketBtn:hover{
+    color: var(--dark-default-color);
+    transition: .2s;
+}
+
+.updateBasketBtn::after, .removeBasketBtn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.1s;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.updateBasketBtn:hover::after, .removeBasketBtn:hover::after {
+    opacity: 1;
+}
+
+.oldPrice{
+    margin: 0 0 0 0.35rem;
+    font-size: 0.9rem;
+    text-decoration: line-through;
+}
+
+.newPrice{
+    color: var(--context-color);
+}
+
+.down{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.down:hover{
+    text-shadow: 1px 1px 15px var(--text-color);
+    transition: .2s;
+}
+
+.up{
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.up:hover{
+    transition: .2s;
+    text-shadow: 1px 1px 15px var(--text-color);
+}
+
+.countInput{
+    text-align: center;
+    font-size: 1rem;
+    flex-direction: row;
+    background: none;
+    border: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}

@@ -1,11 +1,11 @@
 .li{
     margin: 0.8rem 0 0.8rem 0;
     font-size: 1.2rem;
-    color: var(--black-color);
-    border: 1px var(--dark-white-color) solid;
+    color: var(--text-color);
+    border: 1px var(--dark-default-color) solid;
     border-radius: 0.5rem;
     padding: 0.8rem;
-    background-color: var(--white-color);
+    background-color: var(--default-color);
     width: 24rem;
     text-align: center;
 }
@@ -18,7 +18,7 @@
 
 .error{
     text-decoration: underline;
-    color: var(--red-color);
+    color: var(--context-color);
 }
 
 .ul{
