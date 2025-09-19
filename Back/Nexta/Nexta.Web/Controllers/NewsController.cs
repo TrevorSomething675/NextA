@@ -5,7 +5,7 @@ using MediatR;
 namespace Nexta.Web.Controllers
 {
 	[Route("[controller]")]
-	public class NewsController : Controller
+	public class NewsController : ControllerBase
     {
 		private readonly IMediator _mediator;
 
@@ -21,5 +21,5 @@ namespace Nexta.Web.Controllers
 			var response = await _mediator.Send(new GetNewsQueryRequest(), ct);
 			return Results.Ok(response);
 		}
-	}
+    }
 }

@@ -45,6 +45,12 @@ class AuthStore {
         this.user.role = user.role
         this.setRole(user.role ?? 'User');
         this.isAdmin = user.role === 'Admin';
+        localStorage.setItem('firstName', user.firstName ?? '');
+        localStorage.setItem('lastName', user.lastName ?? '');
+        localStorage.setItem('middleName', user.middleName ?? '');
+        localStorage.setItem('phone', user.phone ?? '');
+        localStorage.setItem('role', user.role ?? '');
+        localStorage.setItem('email', user.email ?? '');
     }
 
     secondStepAuthenticate = async (user: AuthUser) => {

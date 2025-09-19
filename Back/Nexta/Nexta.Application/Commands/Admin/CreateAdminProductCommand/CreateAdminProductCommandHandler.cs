@@ -8,18 +8,18 @@ namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
     public class CreateAdminProductCommandHandler : IRequestHandler<CreateAdminProductCommand, CreateAdminProductCommandResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IProductRepository _productRepository;
+        private readonly IProductsRepository _productsRepository;
 
-        public CreateAdminProductCommandHandler(IProductRepository productRepository, IMapper mapper)
+        public CreateAdminProductCommandHandler(IProductsRepository productsRepository, IMapper mapper)
         {
-            _productRepository = productRepository;
+            _productsRepository = productsRepository;
             _mapper = mapper;
         }
 
         public async Task<CreateAdminProductCommandResponse> Handle(CreateAdminProductCommand command, CancellationToken ct = default)
         {
             var product = _mapper.Map<Product>(command);
-            var createdProductId = await _productRepository.CreateAsync(product, ct);
+            var createdProductId = await _productsRepository.CreateAsync(product, ct);
 
             return new CreateAdminProductCommandResponse(createdProductId);
         }

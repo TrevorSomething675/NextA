@@ -1,4 +1,5 @@
-﻿using Nexta.Application.Enums;
+﻿using Nexta.Application.DTO.Request;
+using Nexta.Application.Enums;
 
 namespace Nexta.Web.Areas.Models
 {
@@ -16,8 +17,12 @@ namespace Nexta.Web.Areas.Models
 
 		public bool IsVisible { get; init; }
 
+        public string? Category { get; set; }
 
         public ProductOperationType Type { get; init; }
+
+        public List<ProductAttributeRequest>? Attributes { get; init; }
+
         public Guid? ImageId { get; set; }
         public string? ImageName { get; set; }
         public string? ImageBase64String { get; set; }

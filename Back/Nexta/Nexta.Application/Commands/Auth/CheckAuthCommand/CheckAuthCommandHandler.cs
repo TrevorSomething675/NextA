@@ -10,15 +10,15 @@ namespace Nexta.Application.Commands.Auth.CheckAuthCommand
 	public class CheckAuthCommandHandler : IRequestHandler<CheckAuthCommand, CheckAuthCommandResponse>
 	{
 		private readonly IMapper _mapper;
-		private readonly IUserRepository _userRepository;
+		private readonly IUsersRepository _usersRepository;
 		private readonly IJwtTokenService _jwtTokenService;
 		private readonly IValidator<CheckAuthCommand> _validator;
 
-		public CheckAuthCommandHandler(IUserRepository userRepository, IMapper mapper, 
+		public CheckAuthCommandHandler(IUsersRepository usersRepository, IMapper mapper, 
 			IValidator<CheckAuthCommand> validator, IJwtTokenService jwtTokenService)
 		{
 			_jwtTokenService = jwtTokenService;
-			_userRepository = userRepository;
+			_usersRepository = usersRepository;
 			_validator = validator;
 			_mapper = mapper;
 		}
@@ -29,7 +29,7 @@ namespace Nexta.Application.Commands.Auth.CheckAuthCommand
 			if(!validationResult.IsValid)
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var user = await _userRepository.GetByEmailAsync(command.Email, ct);
+			var user = await _usersRepository.GetByEmailAsync(command.Email, ct);
 
 			if(user == null)
 				throw new UnauthorizedAccessException("Пользователь не найден");

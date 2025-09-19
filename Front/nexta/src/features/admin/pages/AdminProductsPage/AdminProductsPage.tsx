@@ -29,7 +29,7 @@ export const AdminProductsPage = () => {
         setIsLoading(true);
         try {
             const isAdmin:boolean = authStore.isAdmin;
-            const response = await ProductsService.Get(searchTerm, pageSize, pageNumber, isAdmin);
+            const response = await ProductsService.Get(searchTerm, '', pageSize, pageNumber, isAdmin);
 
             if (response.success && response.status === 200) {
                 setSearchTerm(searchTerm);

@@ -25,6 +25,11 @@ const AdminSubHeader = () => {
                     Новости
                 </Link>
             </div>
+            <div className={styles.subHeaderItem}>
+                <Link className={styles.link} to='/Admin/Categories'>
+                    Категории
+                </Link>
+            </div>
         </div>
     </div>
 }

@@ -10,6 +10,7 @@ import { AddBasketProductRequest } from "../../../../http/models/basketProduct/A
 import authStore from "../../../../stores/AuthStore/authStore";
 import BasketService from "../../../../services/BasketService";
 import basket from "../../../../stores/basket";
+import { ProductAttributes } from "../../components/ProductAttributes/ProductAttributes";
 
 const statusLabels = {
     [ProductStatus.Unknown]: 'Неизвестный статус',
@@ -35,13 +36,17 @@ export const ProductPage = () => {
         }
         fetch();
     }, [id]);
-
+    
     const increment = () => {
-        setCount(count => count + 1);
+        if(count < 10){
+            setCount(count => count + 1);
+        }
     };
 
     const decrement = () => {
-        setCount(count => Math.max(1, count - 1));
+        if(count > 0){
+            setCount(count => Math.max(1, count - 1));
+        }
     };
         
     const handleProductCountChange = (newCount: number) => {
@@ -68,61 +73,70 @@ export const ProductPage = () => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
         
-        if (!isNaN(value) && value >= 1) {
+        if (!isNaN(value) && value >= 1 && value <= 10) {
             setCount(value);
         } else {
             setCount(1);
         }
     };
-
         
     if(product) {
         return <div className={styles.container}>
-            <h2 className={styles.h2}>
-                Товар {product?.article}
-            </h2>
-
-            <div className={styles.bodyProduct}>
-                <div className={styles.imageContainer}>
-                    <Image isBase64Image={true} base64String={product?.image?.base64String} className={styles.image} />
+            <div className={styles.cardContainer}>
+                <h2 className={styles.h2}>
+                    Товар {product?.article}
+                </h2>
+                <div className={styles.headerProduct}>
+                    <div className={styles.imageContainer}>
+                        <Image isBase64Image={true} base64String={product?.image?.base64String} className={styles.image} />
+                    </div>
+                    <div className={styles.productContainer}>
+                        <ul className={styles.ul}>
+                            <li> - {product.name}</li>
+                            <li> - {product.description}</li>
+                            <li> - {statusLabels[product.status]}</li>
+                            <li> - Осталось на складе: {product.count}</li>
+                        </ul>
+                    </div>
                 </div>
-                <div className={styles.productContainer}>
-                    <ul className={styles.ul}>
-                        <li> - {product.name}</li>
-                        <li> - {product.description}</li>
-                        <li> - {statusLabels[product.status]}</li>
-                        <li> - Осталось на складе: {product.count}</li>
-                    </ul>
-                    <div className={styles.productFooter}>
-                        <div className={styles.priceContainer}>
-                            <div className={styles.countContainer}>
-                                <div>
-                                    <button type="button" className={styles.down} onClick={decrement}>◄</button>
-                                    <input
-                                        value={count}
-                                        type="number"
-                                        name="quantity"
-                                        min="1"
-                                        max="10"
-                                        step="1"
-                                        className={styles.countInput}
-                                        onChange={handleInputChange}
-                                        />
-                                    <button type="button" className={styles.up} onClick={increment}>►</button>
-                                </div>
-                                <span className={styles.newPrice}>
-                                    {product.newPrice * count} руб.
-                                </span>
-                                {(product.oldPrice !== undefined && product.oldPrice != 0) &&
-                                    <span className={styles.oldPrice}>
-                                        {product.oldPrice * count} руб.
-                                    </span>
-                                }
-                            </div>
-                            <button className={styles.buyButton} onClick={handleAddToBasket}>
-                                В корзину
-                            </button>
+                <div>
+                    {product.attributes && product?.attributes?.length > 0 && <div>
+                        <h3 className={styles.h3}>Характеристики</h3>
+                        <div className={styles.productAttributes}>
+                            <ProductAttributes attributes={product.attributes} />
                         </div>
+                    </div>}
+                </div>
+                <div className={styles.productFooter}>
+                    <div className={styles.priceContainer}>
+                        <div className={styles.countContainer}>
+                            <div>
+                                <button type="button" className={styles.down} onClick={decrement}>◄</button>
+                                <input
+                                    value={count}
+                                    type="number"
+                                    name="quantity"
+                                    min="1"
+                                    max="10"
+                                    step="1"
+                                    className={styles.countInput}
+                                    onChange={handleInputChange}
+                                    />
+                                <button type="button" className={styles.up} onClick={increment}>►</button>
+                            </div>
+                            <span className={styles.newPrice}>
+                                {product.newPrice * count} руб.
+                            </span>                            {(product.oldPrice !== undefined && product.oldPrice != 0) &&
+                                <span className={styles.oldPrice}>
+                                    {product.oldPrice * count} руб.
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <button className={styles.buyButton} onClick={handleAddToBasket}>
+                            В корзину
+                        </button>
                     </div>
                 </div>
                 <div className={styles.rightBar}>

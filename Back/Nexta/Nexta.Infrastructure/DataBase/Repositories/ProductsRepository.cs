@@ -10,7 +10,7 @@ using AutoMapper;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
-    public class ProductsRepository : IProductRepository
+    public class ProductsRepository : IProductsRepository
     {
         private readonly IDbContextFactory<MainContext> _dbContextFactory;
         private readonly IMapper _mapper;
@@ -26,9 +26,10 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
                 var productEntity = await context.Products.AsNoTracking()
-                    .Include(d => d.Image)
-                    .Include(d => d.BasketProducts)
-                    .FirstOrDefaultAsync(d => d.Id == id, ct);
+                    .Include(p => p.Attributes)
+                    .Include(p => p.Image)
+                    .Include(p => p.BasketProducts)
+                    .FirstOrDefaultAsync(p => p.Id == id, ct);
 
                 var product = _mapper.Map<Product>(productEntity);
 
@@ -41,11 +42,15 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
                 var searchTerm = filter.SearchTerm.ToLower() ?? "";
+                var category = filter.Category.ToLower() ?? "";
 
                 var query = context.Products
+                    .Include(p => p.Attributes)
                     .Include(p => p.Image)
+                    .WithOrderByTerm(category)
+                    .WithCategoryTerm(category)
                     .WithSearchTerm(searchTerm)
-                    .Where(d => d.IsVisible || filter.WithHidden)
+                    .Where(p => p.IsVisible || filter.WithHidden)
                     .AsNoTracking();
 
                 var productEntities = await query
@@ -70,7 +75,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             {
                 var productEntities = await context.Products
                     .AsNoTracking()
-                    .Where(d => productIds.Contains(d.Id))
+                    .Where(p => productIds.Contains(p.Id))
                     .ToListAsync(ct);
 
                 var products = _mapper.Map<List<Product>>(productEntities);
@@ -98,8 +103,8 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             {
                 var productEntities = await context.Products
                     .AsNoTracking()
-                    .Where(d => d.BasketProducts.Any(ud => ud.UserId == filter.UserId))
-                    .Include(d => d.BasketProducts.Where(ud => ud.UserId == filter.UserId))
+                    .Where(p => p.BasketProducts.Any(up => up.UserId == filter.UserId))
+                    .Include(p => p.BasketProducts.Where(up => up.UserId == filter.UserId))
                     .ToListAsync(ct);
 
                 var products = _mapper.Map<List<Product>>(productEntities);
@@ -113,20 +118,25 @@ namespace Nexta.Infrastructure.DataBase.Repositories
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
                 var productEntity = await context.Products
-                    .Include(d => d.Image)
+                    .Include(p => p.Attributes)
+                    .Include(p => p.Image)
                     .FirstOrDefaultAsync(d => d.Id == product.Id, ct);
 
                 if (productEntity == null)
                     throw new NotFoundException("Деталь не найдена");
 
-                productEntity.Name = product.Name ?? product.Name;
-                productEntity.Article = product.Article ?? product.Article;
-                productEntity.Description = product.Description ?? product.Description;
+                productEntity.Name = product.Name ?? productEntity.Name;
+                productEntity.Article = product.Article ?? productEntity.Article;
+                productEntity.Description = product.Description ?? productEntity.Description;
                 productEntity.Status = product.Status;
                 productEntity.Count = product.Count;
                 productEntity.NewPrice = product.NewPrice;
                 productEntity.OldPrice = product.OldPrice;
                 productEntity.IsVisible = product.IsVisible;
+                productEntity.Category = product.Category;
+
+                if (product.Attributes != null)
+                    productEntity.Attributes = CreateProductAttributeEntities(product);
 
                 if (DateOnly.TryParse(product.OrderDate, out var orderDate))
                     productEntity.OrderDate = orderDate;
@@ -138,6 +148,22 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 
                 return _mapper.Map<Product>(productEntity);
             }
+        }
+        private List<ProductAttributeEntity> CreateProductAttributeEntities(Product product)
+        {
+            var result = new List<ProductAttributeEntity>();
+
+            foreach (var attribute in product.Attributes)
+            {
+                var attributeEntity = new ProductAttributeEntity
+                {
+                    Key = attribute.Key,
+                    Value = attribute.Value
+                };
+
+                result.Add(attributeEntity);
+            }
+            return result;
         }
     }
 }

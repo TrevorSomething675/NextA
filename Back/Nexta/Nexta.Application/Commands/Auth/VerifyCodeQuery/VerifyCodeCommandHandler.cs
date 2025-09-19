@@ -13,15 +13,15 @@ namespace Nexta.Application.Commands.Auth.VerifyCodeQuery
         private readonly IVerificationCodeService _verificationCodeService;
         private readonly IValidator<VerifyCodeCommand> _validator;
         private readonly IJwtTokenService _jwtTokenService;
-        private readonly IUserRepository _userRepository;
+        private readonly IUsersRepository _usersRepository;
         private readonly IMapper _mapper;
 
 		public VerifyCodeCommandHandler(IVerificationCodeService verificationCodeService, IMapper mapper,
-			IValidator<VerifyCodeCommand> validator, IUserRepository userRepository, IJwtTokenService jwtTokenService)
+			IValidator<VerifyCodeCommand> validator, IUsersRepository usersRepository, IJwtTokenService jwtTokenService)
         {
             _verificationCodeService = verificationCodeService;
             _jwtTokenService = jwtTokenService;
-            _userRepository = userRepository;
+            _usersRepository = usersRepository;
             _validator = validator;
             _mapper = mapper;
         }
@@ -36,7 +36,7 @@ namespace Nexta.Application.Commands.Auth.VerifyCodeQuery
             if (!verifyResult)
                 throw new BadRequestException("Неверный код");
 
-            var user = _mapper.Map<UserResponse>(await _userRepository.GetByEmailAsync(command.Email, ct));
+            var user = _mapper.Map<UserResponse>(await _usersRepository.GetByEmailAsync(command.Email, ct));
             if (user == null)
                 throw new BadRequestException("Неверный пользователь");
             

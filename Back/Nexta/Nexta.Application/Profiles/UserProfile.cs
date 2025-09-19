@@ -1,7 +1,8 @@
-﻿using Nexta.Domain.Models;
-using AutoMapper;
-using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.Commands.Account.UpdateAccountCommand;
 using Nexta.Application.Commands.Auth.RegisterCommand;
+using Nexta.Application.DTO.Response;
+using Nexta.Domain.Models;
+using AutoMapper;
 
 namespace Nexta.Application.Profiles
 {
@@ -11,6 +12,7 @@ namespace Nexta.Application.Profiles
         {
             CreateMap<RegisterCommand, User>();
             CreateMap<User, UserResponse>();
+            CreateMap<UpdateAccountCommand, User>();
         }
     }
 }

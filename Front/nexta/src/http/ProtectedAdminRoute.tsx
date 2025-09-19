@@ -16,7 +16,6 @@ export const ProtectedAdminRoute = ({ children }: { children: React.ReactNode })
             }
         } catch (error) {
             authStore.setAdminStatus(false);
-            console.warn(error);
             navigate('/Error');
         } finally {
             //navigate('/Error');

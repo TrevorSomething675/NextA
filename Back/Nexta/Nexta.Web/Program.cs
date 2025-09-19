@@ -4,7 +4,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nexta.Application;
 using Nexta.Application.Services;
@@ -258,7 +257,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				Count = 2,
 				NewPrice = 24053,
 				OldPrice = 28700,
-				IsVisible = true
+				IsVisible = true,
+                Category = "Øèíà"
 			};
             var detail81 = new ProductEntity
             {
@@ -271,7 +271,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
                 Count = 2,
                 NewPrice = 24053,
                 OldPrice = 28700,
-                IsVisible = true
+                IsVisible = true,
+                Category = "Øèíà"
             };
             var detail9 = new ProductEntity
             {
@@ -282,8 +283,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
 				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 				Count = 1,
-				NewPrice = 5960
-			};
+				NewPrice = 5960,
+                Category = "Øèíà"
+            };
             var detail91 = new ProductEntity
             {
                 Name = "Øèíà-1",
@@ -293,7 +295,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
                 OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
                 DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
                 Count = 1,
-                NewPrice = 5960
+                NewPrice = 5960,
+                Category = "Øèíà"
             };
             var detail10 = new ProductEntity
             {
@@ -306,8 +309,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				Count = 2,
 				NewPrice = 9924,
 				OldPrice = 11098,
-				IsVisible = false
-			};
+				IsVisible = false,
+                Category = "Øèíà"
+            };
             var detail101 = new ProductEntity
             {
                 Name = "Øèíà-1",
@@ -319,7 +323,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
                 Count = 2,
                 NewPrice = 9924,
                 OldPrice = 11098,
-                IsVisible = false
+                IsVisible = false,
+                Category = "Øèíà"
             };
             var detail11 = new ProductEntity
             {
@@ -331,8 +336,9 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
 				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
 				Count = 4,
 				NewPrice = 9276,
-				IsVisible = true
-			};
+				IsVisible = true,
+                Category = "Øèíà"
+            };
             var detail111 = new ProductEntity
             {
                 Name = "Øèíà-1",
@@ -343,7 +349,8 @@ using (var context = services.BuildServiceProvider().GetRequiredService<MainCont
                 DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
                 Count = 4,
                 NewPrice = 9276,
-                IsVisible = true
+                IsVisible = true,
+                Category = "Øèíà"
             };
             var detail12 = new ProductEntity
             {

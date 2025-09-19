@@ -9,6 +9,8 @@ namespace Nexta.Infrastructure.DataBase.Entities
         public string Description { get; set; } = null!;
         public ProductStatus Status { get; set; }
 
+        public string? Category { get; set; }
+
         public DateOnly OrderDate { get; set; }
         public DateOnly DeliveryDate { get; set; }
 
@@ -16,9 +18,11 @@ namespace Nexta.Infrastructure.DataBase.Entities
         public int NewPrice { get; set; }
         public int? OldPrice { get; set; }
 
-        public List<BasketProductEntity>? BasketProducts { get; set; }
-        public List<OrderProductEntity>? OrderProducts { get; set; }
-        public List<OrderEntity>? Orders { get; set; }
+        public ICollection<BasketProductEntity> BasketProducts { get; set; } = new List<BasketProductEntity>();
+        public ICollection<OrderProductEntity> OrderProducts { get; set; } = new List<OrderProductEntity>();
+        public ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
+
+        public ICollection<ProductAttributeEntity> Attributes { get; set; } = new List<ProductAttributeEntity>();
 
         public bool IsVisible { get; set; } = false;
 

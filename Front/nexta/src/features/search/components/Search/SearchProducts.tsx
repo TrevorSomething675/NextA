@@ -34,7 +34,7 @@ export const SearchProducts:React.FC<Props> = ({className}) => {
     const fetchData = async (query:string) => {
         setLoading(true);
         const isAdmin = authStore.isAdmin;
-        const response = await ProductsService.Get(query, 8, 1, isAdmin);
+        const response = await ProductsService.Get(query, '', 8, 1, isAdmin);
         if(response.success && response.status === 200){
             setSearchTerm(query);
             setResponse(response.data);

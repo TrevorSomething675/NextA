@@ -3,11 +3,11 @@ import styles from './ChangePassword.module.css';
 import { observer } from 'mobx-react';
 import { useState } from 'react';
 import { ChangePasswordRequest } from '../../../../http/models/auth/ChangePassword';
-import { ErrorResponseModel } from '../../../../shared/models/ErrorResponseModel';
 import Button from '../../../../shared/components/Button/Button';
 import authStore from '../../../../stores/AuthStore/authStore';
 import { useNavigate } from 'react-router-dom';
 import { useNotifications } from '../../../../shared/components/Notifications/Notifications';
+import { AuthService } from '../../../../services/AuthService';
 
 
 export const ChangePassword = observer(() => {
@@ -18,29 +18,32 @@ export const ChangePassword = observer(() => {
     const { addNotification } = useNotifications();
 
     const submit: SubmitHandler<ChangePasswordRequest> = async (data: ChangePasswordRequest) => {
+        setLoading(true);
+
         data.email = authStore?.user?.email ?? '';
         data.userId = authStore?.user?.id ?? '';
-        /* TODO
-        const response = AuthService.changePassword(data);
-        response.then(() => {
-            authStore.logout();
-            authStore.setAdminStatus(false);
-            AuthService.logout();
-            
-            addNotification({
-                header: 'Пароль успешно изменён',
-                body: 'Пожалуйста, выполните вход в систему повторно, чтобы мы смогли обновить информацию.'
-            })
-            navigate('/Auth')
-        })
-        .catch(error => {
-            const errorResponse = error as ErrorResponseModel;
-            setError(errorResponse.Message ?? '');
-        })
-        .finally(() =>{
+
+        try{
+            const response = await AuthService.ChangePassword(data);
+            if(response.success && response.status === 200){
+                authStore.logout();
+                authStore.setAdminStatus(false);
+                AuthService.logout();
+                setError('');
+                
+                addNotification({
+                    header: 'Пароль успешно изменён',
+                    body: 'Пожалуйста, выполните вход в систему повторно, чтобы мы смогли обновить информацию.'
+                })
+                navigate('/Auth')
+            } else if(!response.success) {
+                setError(response.data.Message ?? '');
+            }
             setLoading(false);
-        })
-        */
+        }
+        finally{
+            setLoading(false);
+        }
     }
 
     return <div className={styles.container}>

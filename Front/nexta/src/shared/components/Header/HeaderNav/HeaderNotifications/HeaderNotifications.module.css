@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 1px 1px 15px var(--text-color);
+    color: var(--dark-default-color);
+    margin: 0 0.8rem 0 0.8rem;
+}
+
+.headerItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: .2s;
+}
+
+.headerItem:hover{
+    transition: .2s;
+    color: var(--super-dark-default-color);
+    cursor: pointer;
+}
+
+.text{
+    text-wrap: nowrap;
+}
+
+.svg{
+    margin: 0 0 0.125rem 0;
+    max-width: 1.8rem;
+    fill: currentColor;
+}

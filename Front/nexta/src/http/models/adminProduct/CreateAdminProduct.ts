@@ -6,6 +6,7 @@ export interface CreateAdminProductRequest{
     description:string,
     status:ProductStatus,
     count:number,
+    category?:string,
     newPrice:number,
     oldPrice?:number | null,
     isVisible:boolean,

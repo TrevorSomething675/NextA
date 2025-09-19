@@ -21,7 +21,6 @@ export const CreateAdminProduct = () => {
         reader.onload = (event) => {
             if(event.target?.result) {
                 const base64string = event.target.result.toString().split(',')[1];
-                console.warn(base64string);
                 setValue('imageName', file.name);
                 setValue('ImageBase64String', base64string);
                 setImage(base64string);
@@ -92,20 +91,23 @@ export const CreateAdminProduct = () => {
                 <ul className={styles.ul}>
                     <li className={styles.headerProduct}>
                         <span className={styles.headerProductItem}>
-                            Название: <input className={styles.input} {...register('name')}/>
+                            Название: <input className={styles.input} {...register('name')} />
                         </span>
                         <span className={styles.headerProductItem}>
                             Видимый товар? 
-                            <input 
-                                type="checkbox" 
-                                className={styles.checkBox} 
+                            <input
+                                type="checkbox"
+                                className={styles.checkBox}
                                 checked={isVisible}
-                                onChange={() => setVisible(!isVisible)} 
+                                onChange={() => setVisible(!isVisible)}
                             />
                         </span>
                     </li>
                     <li className={styles.il}>
-                        Артикул: <input className={styles.input} {...register('article')}/>
+                        Категория: <input className={styles.input} {...register('category')} />
+                    </li>
+                    <li className={styles.il}>
+                        Артикул: <input className={styles.input} {...register('article')} />
                     </li>
                     <li className={styles.il}>
                         <textarea className={styles.textArea} {...register('description')} />

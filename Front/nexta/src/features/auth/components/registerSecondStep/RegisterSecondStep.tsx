@@ -105,51 +105,63 @@ export const RegisterSecondStep:React.FC<RegisterSecondStepProps> = ({authUser})
     };
 
     const submit: SubmitHandler<CodeInputs> = async (data) => {
-        const code = data.code.join('');
+    const code = data.code.join('');
 
-        setLoading(true);
-        try {
-            const request: RegistrationRequest = {
-                email: authUser.email!,
-                firstName: authUser.firstName!,
-                middleName: authUser.middleName!,
-                lastName: authUser.lastName!,
-                password: authUser.password!,
-                confirmPassword: authUser.confirmPassword!,
-                code: code
+    setLoading(true);
+    try {
+        const request: RegistrationRequest = {
+            email: authUser.email!,
+            firstName: authUser.firstName!,
+            middleName: authUser.middleName!,
+            lastName: authUser.lastName!,
+            password: authUser.password!,
+            confirmPassword: authUser.confirmPassword!,
+            code: code
+        };
+
+        const registerResponse = await AuthService.register(request);
+
+            if (!registerResponse.success) {
+                setError(registerResponse.data.Message ?? 'Неверный код');
+                reset({ code: Array(CODE_LENGTH).fill('') });
+
+                inputRefs.current.forEach(input => {
+                    if (input) input.value = '';
+                });
+
+                inputRefs.current[0]?.focus();
+                return;
             }
 
-            var registerResponse = await AuthService.register(request)
-            if(!registerResponse.success){
-                setError(registerResponse.data.Message ?? '');
-            }
-            if(registerResponse.success && registerResponse.status === 200){
+            if (registerResponse.success && registerResponse.status === 200) {
                 authStore.setUserData(registerResponse.data.user);
 
                 const basketResponse = await BasketService.GetBasketProducts(authUser.id!);
-                if(basketResponse.success && basketResponse.status === 200){
+                if (basketResponse.success && basketResponse.status === 200) {
                     basket.setBasketItems(basketResponse.data.products);
 
                     const orderResponse = await OrderService.GetOrdersForUser(authUser.id!);
-                    if(orderResponse.success && orderResponse.status === 200){
+                    if (orderResponse.success && orderResponse.status === 200) {
                         orderStore.setOrderItems(orderResponse?.data.data.items);
                     }
                     navigate('/');
                 }
             }
-        }
-        catch (error) {
+        } catch (error) {
+            setError('Произошла ошибка при отправке кода');
+
+            reset({ code: Array(CODE_LENGTH).fill('') });
+
             inputRefs.current.forEach(input => {
                 if (input) input.value = '';
             });
+
             inputRefs.current[0]?.focus();
-        }
-        finally {
-            reset();
+        } finally {
             setLoading(false);
-        };
-    }
-    
+        }
+    };
+        
     return (
         <div className={styles.container}>
             <form className={styles.form} onSubmit={handleSubmit(submit)}>

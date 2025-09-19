@@ -7,6 +7,8 @@ import api from "../http/api";
 import { ApiResponse } from "../http/BaseResponse";
 import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
 import axios from 'axios';
+import { ChangePasswordRequest } from "../http/models/auth/ChangePassword";
+import { AccessRecoverySecondStepRequest } from "../http/models/auth/AccessRecovery";
 
 export class AuthService{
     private static readonly AUTH_ENPOINTS = {
@@ -16,8 +18,55 @@ export class AuthService{
         ISREGISTERUSER: 'Auth/IsRegisterUser',
         SENDVERIFICATIONCODE: 'Code/SendVerificationCode',
         VERIFYCODE: 'Code/VerifyCode',
-        CHANGEPASSWORD: 'Account/ChangePassword',
-        CHANGEPHONE: 'Account/ConfirmPhone'
+        CHANGEPASSWORD: 'Accounts/ChangePassword',
+        CHANGEPHONE: 'Accounts/ConfirmPhone',
+        ACCESSRECOVERY: 'Accounts/AccessRecovery'
+    }
+
+    static async accessRecovery(data: AccessRecoverySecondStepRequest) : Promise<ApiResponse<string, ErrorResponseModel>>{
+        try {
+            const response = await api.post(this.AUTH_ENPOINTS.ACCESSRECOVERY, data);
+            
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            }
+        }
+        catch(error) {
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
+
+    static async ChangePassword(data: ChangePasswordRequest) : Promise<ApiResponse<string, ErrorResponseModel>>{
+        try {
+            const response = await api.post(this.AUTH_ENPOINTS.CHANGEPASSWORD, data);
+            
+            return {
+                success: true,
+                data: response.data,
+                status: response.status
+            }
+        }
+        catch(error) {
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
     }
 
     static async login(data: LoginRequest) : Promise<ApiResponse<LoginResponse, ErrorResponseModel>>{
@@ -117,6 +166,7 @@ export class AuthService{
             }
         }
     }
+
     static async verifyCode(request:VerifyCodeRequest) : Promise<ApiResponse<VerifyCodeResponse, ErrorResponseModel>>{
         try{
             const response = await api.post(this.AUTH_ENPOINTS.VERIFYCODE, request);
@@ -167,7 +217,7 @@ export class AuthService{
             }
         }
     }
-    static async checkAuth(){
+    static async checkAuth() : Promise<ApiResponse<CheckAuthResponse, ErrorResponseModel>>{
         try{
             const request: CheckAuthRequest = {
                 email: localStorage.getItem('email') ?? '',

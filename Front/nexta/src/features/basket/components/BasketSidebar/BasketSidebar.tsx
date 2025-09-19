@@ -87,12 +87,17 @@ export const BasketSidebar = observer(() => {
                 ref={sidebarRef}
                 className={`${styles.container} ${isClosing ? styles["container-exit"] : ""}`}
             >
-                <h2 className={styles.h2}>Ваши заказы</h2>
+                <h2 className={styles.h2}>Ваша корзина</h2>
                 <div className={styles.body}>
-                    {basket.items?.map((product) => (
+                    {(basket?.items?.length !== 0) ?
+                    basket.items?.map((product) => (
                         <BasketSidebarItem key={product.productId} product={product} />
-                    ))}
+                    ))
+                    : (<div className={styles.noBasketProducts}>
+                        Ваша корзина пуста.
+                    </div>)}
                 </div>
+                {(basket.totalPrice !==0) && 
                 <div className={styles.resultPriceContainer}>
                     <div className={styles.priceText}>
                         Итого: 
@@ -100,7 +105,7 @@ export const BasketSidebar = observer(() => {
                     <div>
                         {basket.totalPrice} руб.
                     </div>
-                </div>
+                </div>}
                 <div className={styles.footer}>
                     <Button content="Оформить заказ" className={styles.createOrder} onClick={HandleCreateOrder} />
                     <Button content="Перейти в корзину" className={styles.toBasket} onClick={HandleGoToBasket}/>

@@ -5,9 +5,12 @@
 }
 
 .h2{
-    text-align: center;
-    font-size: 2rem;
     margin: 3rem 0 3rem 0;
+    font-size: 2rem;
+    text-decoration: underline 0.15rem var(--context-color);
+    text-align: center;
+    text-underline-offset: 0.2rem;
+    flex-shrink: 0;
 }
 
 .legacyOrdersContainer{

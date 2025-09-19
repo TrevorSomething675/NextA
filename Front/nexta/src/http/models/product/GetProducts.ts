@@ -6,6 +6,7 @@ export interface GetProductsRequest{
     withHidden: boolean,
     pageNumber:number,
     pageSize?:number,
+    category?:string | null
 }
 
 export interface GetProductsResponse{

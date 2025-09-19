@@ -6,16 +6,16 @@ namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
 {
 	public class IsRegisteredQueryHandler : IRequestHandler<IsRegisteredQuery, Unit>
 	{
-		private readonly IUserRepository _userRepository;
+		private readonly IUsersRepository _usersRepository;
 
-		public IsRegisteredQueryHandler(IUserRepository userRepository)
+		public IsRegisteredQueryHandler(IUsersRepository usersRepository)
 		{
-			_userRepository = userRepository;
+			_usersRepository = usersRepository;
 		}
 
 		public async Task<Unit> Handle(IsRegisteredQuery query, CancellationToken ct = default)
 		{
-			var user = await _userRepository.GetByEmailAsync(query.Email, ct);
+			var user = await _usersRepository.GetByEmailAsync(query.Email, ct);
 			if (user == null)
 				throw new NotFoundException("Пользователь не найден");
 

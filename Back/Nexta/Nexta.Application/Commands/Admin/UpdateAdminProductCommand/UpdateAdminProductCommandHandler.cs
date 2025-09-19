@@ -1,22 +1,22 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Application.DTO.Admin;
 using Nexta.Application.Enums;
-using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models;
+using AutoMapper;
+using MediatR;
 
 namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand
 {
 	public class UpdateAdminProductCommandHandler : IRequestHandler<UpdateAdminProductCommand, UpdateAdminProductCommandResponse>
 	{
 		private readonly IProductImageRepository _productImageRepository;
-		private readonly IProductRepository _productRepository;
+		private readonly IProductsRepository _productsRepository;
 		private readonly IMapper _mapper;
 
-		public UpdateAdminProductCommandHandler(IProductRepository productRepository, IMapper mapper, IProductImageRepository productImageRepository)
+		public UpdateAdminProductCommandHandler(IProductsRepository productRepository, IMapper mapper, IProductImageRepository productImageRepository)
 		{
 			_productImageRepository = productImageRepository;
-			_productRepository = productRepository;
+			_productsRepository = productRepository;
 			_mapper = mapper;
 		}
 
@@ -24,7 +24,7 @@ namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand
 		{
 			var productToUpdate = _mapper.Map<Product>(command);
 
-			var updatedDbProduct = await _productRepository.UpdateAsync(productToUpdate, ct);
+			var updatedDbProduct = await _productsRepository.UpdateAsync(productToUpdate, ct);
 
 			switch (command.Type)
 			{	/*

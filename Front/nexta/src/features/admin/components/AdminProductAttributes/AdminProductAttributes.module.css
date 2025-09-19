@@ -1,0 +1,77 @@
+.container {
+    font-size: 14px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.attributeItem {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    /* 
+        auto     — ширина под ключ
+        1fr      — точки (занимают всё оставшееся)
+        auto     — инпут (под значение)
+        auto     — кнопка удаления
+    */
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.key {
+    white-space: nowrap;
+    font-weight: 500;
+    padding-right: 8px;
+}
+
+.dots {
+    height: 1px;
+    border-top: 1px dotted #888;
+    align-self: center;
+}
+
+.input {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 120px;
+}
+
+.removeButton {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.removeButton:hover {
+    color: #e74c3c;
+}
+
+.addButton {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background-color: #f8f8f8;
+    border: 1px dashed #ccc;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.addButton:hover {
+    background-color: #eee;
+}

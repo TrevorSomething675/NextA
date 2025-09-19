@@ -6,22 +6,22 @@ namespace Nexta.Application.Commands.Account.ConfirmPhoneCommand
 {
     public class ConfirmPhoneCommandHandler : IRequestHandler<ConfirmPhoneCommand, ConfirmPhoneCommandResponse>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUsersRepository _usersRepository;
 
-        public ConfirmPhoneCommandHandler(IUserRepository userRepository)
+        public ConfirmPhoneCommandHandler(IUsersRepository usersRepository)
         {
-            _userRepository = userRepository;
+            _usersRepository = usersRepository;
         }
 
         public async Task<ConfirmPhoneCommandResponse> Handle(ConfirmPhoneCommand command, CancellationToken ct = default)
         {
-            var user = await _userRepository.GetByEmailAsync(command.Email, ct);
+            var user = await _usersRepository.GetByEmailAsync(command.Email, ct);
 
             if (user == null)
                 throw new NotFoundException("Пользователь не найден");
 
             user.Phone = command.Phone;
-            var updatedUser = await _userRepository.UpdateAsync(user, ct);
+            var updatedUser = await _usersRepository.UpdateAsync(user, ct);
 
             if (updatedUser?.Phone == null)
                 throw new BadRequestException("Не удалось обновить номер");

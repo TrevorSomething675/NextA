@@ -1,4 +1,3 @@
-import { AddAdminImageRequest, AddAdminImageResponse } from "../http/models/adminProduct/image/AddAdminImage";
 import { AdminNewsResponse } from "../http/models/adminNews/AdminNews";
 import api from "../http/api";
 import axios from 'axios';

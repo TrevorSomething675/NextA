@@ -15,7 +15,7 @@ export const ProductsContainer:React.FC<{pageNumber?: number}> = () => {
 
     const fetchData = async (searchTerm:string = '',  pageNumber?:number, pageSize?:number) => {
             const isAdmin:boolean = authStore.isAdmin;
-            const response = await ProductsService.Get(searchTerm, pageSize, pageNumber, isAdmin);
+            const response = await ProductsService.Get(searchTerm, '', pageSize, pageNumber, isAdmin);
             if(response.success && response.status === 200){
                 setResponse(response.data);
             }

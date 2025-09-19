@@ -65,6 +65,12 @@
     overflow-y: auto;
 }
 
+.noBasketProducts{
+    margin: 2rem 0 0 0;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
 .footer {
     display: flex;
     align-items: center;

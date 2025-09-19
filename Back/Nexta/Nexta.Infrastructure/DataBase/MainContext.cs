@@ -21,6 +21,11 @@ namespace Nexta.Infrastructure.DataBase
 
 		public DbSet<ProductEntity> Products { get; set; }
 		public DbSet<ProductImageEntity> ProductImages { get; set; }
+		public DbSet<ProductAttributeEntity> ProductAttributes { get; set; }
+
+        public DbSet<ProductCategoryEntity> ProductCategories { get; set; }
+
+        public DbSet<NotificationEntity> Notifications { get; set; }
 
 		public MainContext(IOptions<DataBaseOptions> options)
 		{

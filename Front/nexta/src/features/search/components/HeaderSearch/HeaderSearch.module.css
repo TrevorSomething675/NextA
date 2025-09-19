@@ -166,6 +166,11 @@
     color: var(--text-secondary-color);
 }
 
+.categoriesContainer{
+    display: flex;
+    padding: 0.5rem;
+}
+
 .headerName { justify-content: flex-start; }
 .headerArticle { justify-content: center; }
 .headerCount { justify-content: center; }
@@ -174,4 +179,21 @@
 .resultsContainer {
     max-height: 300px;
     overflow-y: auto;
+}
+
+.categoryItem{
+    font-weight: 700;
+    font-size: 0.94rem;
+    background: none;
+    margin: 0 0.25rem 0 0.25rem;
+    border: 1px solid var(--text-color);
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.categoryItem:hover{
+    color: var(--context-color);
+    transition: .2s;
 }

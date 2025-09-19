@@ -1,7 +1,7 @@
 ﻿using Nexta.Application.Queries.Auth.SendVerificationCodeQuery;
+using Nexta.Application.Commands.Auth.VerifyCodeQuery;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Nexta.Application.Commands.Auth.VerifyCodeQuery;
 
 namespace Nexta.Web.Controllers
 {
@@ -29,5 +29,5 @@ namespace Nexta.Web.Controllers
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);
 		}
-	}
+    }
 }

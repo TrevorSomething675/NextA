@@ -19,12 +19,15 @@ const Login:React.FC<RegisterSecondStepProps> = ({handleChangeAuth}) => {
         handleChangeAuth('registerFirstStep', {} as UserData);
     }
 
+    const handleToFirstStepRecovery = () => {
+        handleChangeAuth('accessRecoveryFirstStep', {} as UserData);
+    }
+
     const submit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
         try{
             setLoading(true);
             const response = await AuthService.login(data);
             if(response.success && response.status === 200){
-
                 await AuthService.sendVerificationCode(data.email);
                 const userData:UserData = {
                     id: response.data.user.id!,
@@ -33,7 +36,6 @@ const Login:React.FC<RegisterSecondStepProps> = ({handleChangeAuth}) => {
                     lastName: response.data.user.lastName ?? '',
                     middleName: response.data.user.middleName ?? '',
                     password: data.password,
-                    
                 };
                 handleChangeAuth('codeVerify', userData);
             }
@@ -50,7 +52,7 @@ const Login:React.FC<RegisterSecondStepProps> = ({handleChangeAuth}) => {
     
     return <div className={styles.container}>
         <form className={styles.form} onSubmit={handleSubmit(submit)}>
-            <h2 className={styles.h2}>Вход</h2>
+            <h2 className={styles.h2}>Авторизация</h2>
             <div>
                 <label
                     className={styles.label}
@@ -67,9 +69,10 @@ const Login:React.FC<RegisterSecondStepProps> = ({handleChangeAuth}) => {
                 <input id='password' type='password' className={styles.input} {...register('password', {
                     required: 'Введите пароль',
                 })} />
+                <button className={styles.accessRecoveryBtn} onClick={handleToFirstStepRecovery}>Восстановить доступ</button>
                 {errors?.password && <div className={styles.error}>{errors.password?.message}</div>}
                 {hasError && 
-                <div className={styles.error}> 
+                <div className={styles.error}>
                     {hasError} 
                 </div>}
                 <div className={styles.btnsContainer}>

@@ -10,6 +10,8 @@ namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
         public string Description { get; set; } = null!;
         public int Status { get; set; }
 
+        public string? Category { get; set; }
+
         public string? OrderDate { get; set; }
         public string? DeliveryDate { get; set; }
 

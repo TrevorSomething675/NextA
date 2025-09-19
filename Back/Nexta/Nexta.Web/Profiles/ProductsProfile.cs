@@ -12,12 +12,14 @@ namespace Nexta.Web.Profiles
         public ProductsProfile()
         {
             CreateMap<GetProductsRequest, GetProductsFilter>()
-                .ForMember(src => src.SearchTerm, opt => opt.MapFrom(x => x.SearchTerm ?? ""));
+                .ForMember(src => src.SearchTerm, opt => opt.MapFrom(x => x.SearchTerm ?? ""))
+                .ForMember(src => src.Category, opt => opt.MapFrom(x => x.Category ?? ""));
+
             CreateMap<GetProductsRequest, GetProductsQuery>()
                 .ForMember(src => src.Filter, opt => opt.MapFrom(x => x));
 
             CreateMap<GetAdminProductsRequest, GetProductsFilter>();
-            CreateMap<GetAdminProductsQuery, GetAdminProductsQuery>()
+            CreateMap<GetAdminProductsRequest, GetAdminProductsQuery>()
                 .ForMember(src => src.Filter, opt => opt.MapFrom(x => x));
         }
     }

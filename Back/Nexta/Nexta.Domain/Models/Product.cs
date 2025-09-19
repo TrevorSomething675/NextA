@@ -11,6 +11,8 @@ namespace Nexta.Domain.Models
         public string Description { get; set; } = null!;
         public ProductStatus Status { get; set; }
 
+        public string? Category { get; set; }
+
         public string? OrderDate { get; set; }
         public string? DeliveryDate { get; set; }
 
@@ -23,6 +25,8 @@ namespace Nexta.Domain.Models
         public List<BasketProduct>? BasketProducts { get; set; }
         public List<OrderProduct>? OrderProducts { get; set; }
         public List<Order>? Orders { get; set; }
+
+        public List<ProductAttribute>? Attributes { get; init; }
 
         public Guid? ImageId { get; set; }
         public ProductImage? Image { get; set; }

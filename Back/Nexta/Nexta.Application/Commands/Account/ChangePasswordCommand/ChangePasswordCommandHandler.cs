@@ -9,13 +9,13 @@ namespace Nexta.Application.Commands.Account.ChangePasswordCommand
     public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
     {
         private readonly IValidator<ChangePasswordCommand> _validator;
-        private readonly IUserRepository _userRepository;
+        private readonly IUsersRepository _usersRepository;
         private readonly IHashService _hashService;
 
         public ChangePasswordCommandHandler(IHashService hashService, 
-            IValidator<ChangePasswordCommand> validator, IUserRepository userRepository)
+            IValidator<ChangePasswordCommand> validator, IUsersRepository usersRepository)
         {
-            _userRepository = userRepository;
+            _usersRepository = usersRepository;
             _hashService = hashService;
             _validator = validator;
         }
@@ -27,7 +27,7 @@ namespace Nexta.Application.Commands.Account.ChangePasswordCommand
             if(!validationResult.IsValid)
                 throw new BadRequestException(string.Join(", ", validationResult.Errors));
 
-            var user = await _userRepository.GetAsync(command.UserId, ct);
+            var user = await _usersRepository.GetAsync(command.UserId, ct);
             if (user == null)
                 throw new NotFoundException("Пользователь не найден");
 
@@ -37,9 +37,9 @@ namespace Nexta.Application.Commands.Account.ChangePasswordCommand
             var newPasswordHash = _hashService.Generate(command.Password);
             user.PasswordHash = newPasswordHash;
 
-            var result = await _userRepository.UpdateAsync(user, ct);
+            var result = await _usersRepository.UpdateAsync(user, ct);
 
-            if(command == null)
+            if(result == null)
                 throw new BadRequestException("Не удалось обновить пользователя");
 
             return Unit.Value;

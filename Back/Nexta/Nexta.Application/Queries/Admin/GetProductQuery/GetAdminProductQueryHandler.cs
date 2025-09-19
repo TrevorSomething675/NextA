@@ -7,18 +7,18 @@ namespace Nexta.Application.Queries.Admin.GetProductQuery
 {
 	public class GetAdminProductQueryHandler : IRequestHandler<GetAdminProductQuery, GetAdminProductQueryResponse>
 	{
-		private readonly IProductRepository _productRepository;
+		private readonly IProductsRepository _productsRepository;
 		private readonly IMapper _mapper;
 
-		public GetAdminProductQueryHandler(IProductRepository productRepository, IMapper mapper)
+		public GetAdminProductQueryHandler(IProductsRepository productsRepository, IMapper mapper)
 		{
-			_productRepository = productRepository;
+			_productsRepository = productsRepository;
 			_mapper = mapper;
 		}
 
 		public async Task<GetAdminProductQueryResponse> Handle(GetAdminProductQuery request, CancellationToken ct = default)
 		{
-			var product = _mapper.Map<AdminProductResponse>(await _productRepository.GetAsync(request.ProductId, ct));
+			var product = _mapper.Map<AdminProductResponse>(await _productsRepository.GetAsync(request.ProductId, ct));
 
 			return new GetAdminProductQueryResponse(product);
 		}

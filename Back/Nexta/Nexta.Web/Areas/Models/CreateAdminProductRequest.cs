@@ -10,6 +10,8 @@
         public string? OrderDate { get; set; }
         public string? DeliveryDate { get; set; }
 
+        public string? Category { get; set; }
+
         public int Count { get; set; }
         public int NewPrice { get; set; }
         public int? OldPrice { get; set; }

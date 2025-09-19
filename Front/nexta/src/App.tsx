@@ -26,11 +26,20 @@ import { AdminProductPage } from "./features/admin/pages/AdminProductPage/AdminP
 import { AdminProductsPage } from "./features/admin/pages/AdminProductsPage/AdminProductsPage"
 import { BasketSidebar } from "./features/basket/components/BasketSidebar/BasketSidebar"
 import { observer } from "mobx-react"
+import { AdminCategoryPage } from "./features/admin/pages/AdminCategoryPage/AdminCategoryPage"
+import CategoryService from "./services/CategoryService"
+import { useCategoriesStore } from "./stores/categoriesStore"
 
 const App = observer(() => {
+  const { setCategories } = useCategoriesStore();
   useEffect(() => {
     const fetchData = async() => {
-      await AuthService.checkAuth();
+      const authResponse = await AuthService.checkAuth();
+      if(authResponse.success && authResponse.status === 200){
+        authStore.setUserData(authResponse.data.user);
+      } else {
+        await AuthService.logout();
+      }
 
       const userId = authStore.user.id ?? '';
       const basketResponse = await BasketService.GetBasketProducts(userId);
@@ -47,8 +56,15 @@ const App = observer(() => {
     if(authStore.isAuthenticated){
       fetchData();
     }
+    fetchCategories();
   }, []);
-    
+
+  const fetchCategories = async () => {
+    const categoriesResponse = await CategoryService.Get();
+    if(categoriesResponse.success && categoriesResponse.status === 200){
+      setCategories(categoriesResponse.data.categories);
+    }
+  }
 
   return <div className='page-container'>
       <NotificationsProvider>
@@ -65,6 +81,11 @@ const App = observer(() => {
               <Route path="Product/:id" element={<ProductPage />} />
               <Route path="Account" element={<AccountPage />} />
               <Route path="Order" element={<OrderPage />} />
+              <Route path="Admin/Categories" element={
+                <ProtectedAdminRoute>
+                  <AdminCategoryPage />
+                </ProtectedAdminRoute>
+              } />
               <Route path="Admin/Orders" element={
                 <ProtectedAdminRoute>
                   <AdminOrdersPage />

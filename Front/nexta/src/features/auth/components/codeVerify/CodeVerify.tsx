@@ -7,6 +7,7 @@ import { UserData } from "../../pages/AuthPage";
 import { ErrorResponseModel } from "../../../../shared/models/ErrorResponseModel";
 import styles from './CodeVerify.module.css';
 import authStore from "../../../../stores/AuthStore/authStore";
+import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
 
 const CODE_LENGTH = 6;
 
@@ -24,6 +25,7 @@ const CodeVerify: React.FC<CodeVerifyProps> = ({ authUser}) => {
             code: Array(CODE_LENGTH).fill('')
         }
     });
+    const { addNotification } = useNotifications();
     const [hasError, setError] = useState('');
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
@@ -115,6 +117,9 @@ const CodeVerify: React.FC<CodeVerifyProps> = ({ authUser}) => {
             const response = await AuthService.verifyCode(request);
             if(response.success && response.status === 200){
                 authStore.setUserData(response.data.user);
+                addNotification({
+                    header: 'Успешная авторизация!'
+                });
                 navigate('/');
             }
         }
@@ -169,7 +174,12 @@ const CodeVerify: React.FC<CodeVerifyProps> = ({ authUser}) => {
                                 (<span className={styles.p}>Отправить</span>)
                             }
                         </button>
-                        <button className={styles.sendCodeAgainBtn} onClick={handleSendCodeAgain} type='button'>
+                        <button 
+                            className={`${styles.sendCodeAgainBtn} ${isDisabled ? styles.disabled : ''}`} 
+                            onClick={handleSendCodeAgain}
+                            type='button'
+                            disabled={isDisabled}
+                        >
                             {isDisabled ? `Повторная отправка: ${countdown}` : 'Отправить код повторно'}
                         </button>
                     </div>

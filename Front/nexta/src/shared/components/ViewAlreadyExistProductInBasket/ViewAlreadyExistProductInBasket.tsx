@@ -18,9 +18,9 @@ interface ViewAlreadyExistProductInBasketProps {
 }
 
 export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductInBasketProps> = ({ 
-        isOpen, 
-        onClose, 
-        product, 
+        isOpen,
+        onClose,
+        product,
         productCount,
         onCountChange
     }) => {
@@ -35,18 +35,24 @@ export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductIn
         [ProductStatus.InStock]: 'Есть на складе',
         [ProductStatus.OutOfStock]: 'Нет на складе',
     };
-
-    const increment = () => {
-        onCountChange(productCount + 1);
-    };
-
+    
     const decrement = () => {
-        onCountChange(Math.max(1, productCount - 1));
+        if(productCount > 0){
+            onCountChange(Math.max(1, productCount - 1));
+        }
+    };
+    
+    const increment = () => {
+        if(productCount < 10){
+            onCountChange(productCount + 1);
+        }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
-        onCountChange(!isNaN(value) && value >= 1 ? value : 1);
+        if(value > 0 && value <= 10){
+            onCountChange(!isNaN(value) && value >= 1 ? value : 1);
+        }
     };
 
     const handleUpdateProduct = async() => {

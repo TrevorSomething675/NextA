@@ -1,8 +1,23 @@
 .container{
-    margin: 3rem 0 0 0;
     display: flex;
-    width: 1440px;
     flex-direction: column;
+    align-items: center;
+    max-width: 1440px;
+    width: 100%;
+}
+
+.mainProductContainer{
+    margin: 3rem 0 0 0;
+    box-shadow: 0px 0px 0.4rem var(--shadow-color);
+    background-color: var(--default-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    width: 80%;
+}
+
+.addAttributeBtn{
+    width: 16rem;
+    background-color: var(--green-color);
 }
 
 .h2{
@@ -16,10 +31,6 @@
 
 .bodyProduct{
     display: flex;
-    margin: 1rem 0 0 0;
-    padding: 1rem;
-    box-shadow: 0px 0px 0.4rem var(--shadow-color);
-    border-radius: 1rem;
 }
 
 .image{
@@ -63,7 +74,9 @@
 }
 
 .productFooter{
-    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    margin: 3rem 0 0 0;
 }
 
 .down{
@@ -166,6 +179,15 @@
 }
 
 .textarea {
-    width: 100%;
-    height: 60px;
+    width: auto;
+    height: 10rem;
+}
+
+.attributesContainer{
+    text-align: center;
+    padding: 2rem;
+}
+
+.heading{
+    margin: 1rem 0 3rem 0;
 }

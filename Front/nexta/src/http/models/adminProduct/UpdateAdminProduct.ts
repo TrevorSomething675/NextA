@@ -1,4 +1,5 @@
 import { ProductStatus } from "../../../models/Product"
+import { ProductAttribute } from "../../../shared/entities/ProductAttribute"
 
 export interface UpdateAdminProductRequest{
     id:string,
@@ -8,12 +9,14 @@ export interface UpdateAdminProductRequest{
     status:ProductStatus,
     count?:number,
     newPrice:number,
+    category:string,
     oldPrice?:number,
     isVisible:boolean,
     type?:ProductOperationType,
     imageId?:string,
     imageName?:string,
-    imageBase64String?:string
+    imageBase64String?:string,
+    attributes:ProductAttribute[],
 }
 
 export enum ProductOperationType {
@@ -31,6 +34,7 @@ export interface UpdateAdminProductResponse{
     status:ProductStatus,
     count?:number,
     newPrice:number,
+    category:string,
     oldPrice?:number,
     isVisible:boolean,
     imageId?:string,

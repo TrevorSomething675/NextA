@@ -12,6 +12,8 @@ import { AddBasketProductRequest } from '../../../../http/models/basketProduct/A
 import Image from '../../../../shared/components/Image/Image';
 import { ViewAlreadyExistProductInBasket } from '../../../../shared/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket';
 import { ProductOperationType, UpdateAdminProductRequest } from '../../../../http/models/adminProduct/UpdateAdminProduct';
+import { ProductAttributes } from '../../../product/components/ProductAttributes/ProductAttributes';
+import { AdminProductAttributes } from '../../components/AdminProductAttributes/AdminProductAttributes';
 
 export const AdminProductPage = () => {
     const statusLabels = {
@@ -34,13 +36,13 @@ export const AdminProductPage = () => {
             if (id !== undefined) {
                 const response = await AdminService.GetAdminProduct(id);
                 if (response.success && response.status === 200) {
-                    console.warn(response);
                     const fetchedProduct = response.data.product;
                     setProduct(fetchedProduct);
                     setOriginalProduct(JSON.parse(JSON.stringify(fetchedProduct)));
                 }
             }
         };
+        console.warn(product);
         fetchProduct();
     }, [id]);
 
@@ -129,10 +131,6 @@ export const AdminProductPage = () => {
             const hasCurrentImage = !!product.image?.base64String;
             const isImageRemoved = hasOriginalImage && !hasCurrentImage;
 
-            console.warn(isImageRemoved);
-            console.error(hasOriginalImage);
-            console.error(hasCurrentImage);
-
             const isImageNew = !hasOriginalImage && hasCurrentImage;
             const isImageUpdated = hasOriginalImage && hasCurrentImage;
 
@@ -145,6 +143,8 @@ export const AdminProductPage = () => {
             } else {
                 imageOperation = ProductOperationType.Nothing;
             }
+
+            console.warn(product);
 
             const request: UpdateAdminProductRequest = {
                 id: product.id,
@@ -159,6 +159,8 @@ export const AdminProductPage = () => {
                 imageId: product.image?.id ?? undefined,
                 imageName: product.image?.name ?? undefined,
                 imageBase64String: product.image?.base64String ?? undefined,
+                category: product.category,
+                attributes: product.attributes
             };
 
             if (imageOperation !== undefined) {
@@ -185,183 +187,214 @@ export const AdminProductPage = () => {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.h2}>
-                Товар {product.article}
-                {!isEditing ? (
-                    <button className={styles.editButton} onClick={startEditing}>
-                        Редактировать
-                    </button>
-                ) : (
-                    <div className={styles.editActions}>
-                        <button className={styles.cancelButton} onClick={cancelEditing} disabled={isLoading}>
-                            Отменить
+            <div className={styles.mainProductContainer}>
+                <h2 className={styles.h2}>
+                    Товар {product.article}
+                    {!isEditing ? (
+                        <button className={styles.editButton} onClick={startEditing}>
+                            Редактировать
                         </button>
-                        <button className={styles.saveButton} onClick={saveChanges} disabled={isLoading}>
-                            {isLoading ? 'Сохранение...' : 'Сохранить'}
-                        </button>
-                    </div>
-                )}
-            </h2>
-
-            <div className={styles.bodyProduct}>
-                <div className={styles.imageContainer}>
-                    <Image isBase64Image={true} base64String={product.image?.base64String} className={styles.image} />
-                    {isEditing && (
-                        <div className={styles.imageActions}>
-                            <input type="file" accept="image/*" onChange={handleImageUpload} />
-                            <button type="button" onClick={handleRemoveImage} className={styles.removeImageButton}>
-                                Удалить изображение
+                    ) : (
+                        <div className={styles.editActions}>
+                            <button className={styles.cancelButton} onClick={cancelEditing} disabled={isLoading}>
+                                Отменить
+                            </button>
+                            <button className={styles.saveButton} onClick={saveChanges} disabled={isLoading}>
+                                {isLoading ? 'Сохранение...' : 'Сохранить'}
                             </button>
                         </div>
                     )}
-                </div>
+                </h2>
 
-                <div className={styles.productContainer}>
-                    <ul className={styles.ul}>
-                        <li>
-                            Название:{' '}
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={product.name}
-                                    onChange={e => handleFieldChange('name', e.target.value)}
-                                    className={styles.input}
-                                />
-                            ) : (
-                                product.name
-                            )}
-                        </li>
-                        <li>
-                            Артикул:{' '}
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={product.article}
-                                    onChange={e => handleFieldChange('article', e.target.value)}
-                                    className={styles.input}
-                                />
-                            ) : (
-                                product.article
-                            )}
-                        </li>
-                        <li>
-                            Описание:{' '}
-                            {isEditing ? (
-                                <textarea
-                                    value={product.description}
-                                    onChange={e => handleFieldChange('description', e.target.value)}
-                                    className={styles.textarea}
-                                />
-                            ) : (
-                                product.description
-                            )}
-                        </li>
-                        <li>
-                            Статус:{' '}
-                            {isEditing ? (
-                                <select
-                                    value={product.status}
-                                    onChange={e => handleFieldChange('status', Number(e.target.value))}
-                                    className={styles.select}
-                                >
-                                    {Object.keys(ProductStatus)
-                                        .filter(key => isNaN(Number(key)))
-                                        .map(key => (
-                                            <option key={key} value={ProductStatus[key as keyof typeof ProductStatus]}>
-                                                {statusLabels[ProductStatus[key as keyof typeof ProductStatus]]}
-                                            </option>
-                                        ))}
-                                </select>
-                            ) : (
-                                statusLabels[product.status]
-                            )}
-                        </li>
-                        <li>
-                            На складе: {isEditing ? (
-                                <input
-                                    type="number"
-                                    value={product.count}
-                                    onChange={e => handleFieldChange('count', Number(e.target.value))}
-                                    min="0"
-                                    className={styles.input}
-                                />
-                            ) : (
-                                `${product.count} шт.`
-                            )}
-                        </li>
-                        <li>
-                            Цена со скидкой:{' '}
-                            <input
-                                type="number"
-                                value={product.newPrice}
-                                onChange={e => handleFieldChange('newPrice', Number(e.target.value))}
-                                min="0"
-                                step="0.01"
-                                disabled={!isEditing}
-                                className={isEditing ? styles.input : ''}
-                            />{' '}
-                            руб.
-                        </li>
-                        <li>
-                            Старая цена:{' '}
-                            <input
-                                type="number"
-                                value={product.oldPrice || ''}
-                                onChange={e =>
-                                    handleFieldChange('oldPrice', e.target.value === '' ? 0 : Number(e.target.value))
-                                }
-                                placeholder="Без скидки"
-                                min="0"
-                                step="0.01"
-                                disabled={!isEditing}
-                                className={isEditing ? styles.input : ''}
-                            />{' '}
-                            руб.
-                        </li>
-                        <li>
-                            Видимость:{' '}
-                            {isEditing ? (
-                                <label className={styles.checkboxLabel}>
-                                    <input
-                                        type="checkbox"
-                                        checked={product.isVisible}
-                                        onChange={e => handleFieldChange('isVisible', e.target.checked)}
-                                    />
-                                    Отображается в каталоге
-                                </label>
-                            ) : (
-                                product.isVisible ? 'Да' : 'Нет'
-                            )}
-                        </li>
-                    </ul>
-
-                    <div className={styles.productFooter}>
-                        <div className={styles.priceContainer}>
-                            <div>
-                                <button type="button" className={styles.down} onClick={decrement}>◄</button>
-                                <input
-                                    value={count}
-                                    type="number"
-                                    name="quantity"
-                                    min="1"
-                                    max="10"
-                                    step="1"
-                                    className={styles.countInput}
-                                    onChange={handleInputChange}
-                                />
-                                <button type="button" className={styles.up} onClick={increment}>►</button>
+                <div className={styles.bodyProduct}>
+                    <div className={styles.imageContainer}>
+                        <Image isBase64Image={true} base64String={product.image?.base64String} className={styles.image} />
+                        {isEditing && (
+                            <div className={styles.imageActions}>
+                                <input type="file" accept="image/*" onChange={handleImageUpload} />
+                                <button type="button" onClick={handleRemoveImage} className={styles.removeImageButton}>
+                                    Удалить изображение
+                                </button>
                             </div>
-                            <span className={styles.newPrice}>{product.newPrice * count} руб.</span>
+                        )}
+                    </div>
+
+                    <div className={styles.productContainer}>
+                        <ul className={styles.ul}>
+                            <li>
+                                Название:{' '}
+                                {isEditing ? (
+                                    <input
+                                        type="text"
+                                        value={product.name}
+                                        onChange={e => handleFieldChange('name', e.target.value)}
+                                        className={styles.input}
+                                    />
+                                ) : (
+                                    product.name
+                                )}
+                            </li>
+                            <li>
+                                Артикул:{' '}
+                                {isEditing ? (
+                                    <input
+                                        type="text"
+                                        value={product.article}
+                                        onChange={e => handleFieldChange('article', e.target.value)}
+                                        className={styles.input}
+                                    />
+                                ) : (
+                                    product.article
+                                )}
+                            </li>
+                            <li>
+                                Категория:{' '}
+                                {isEditing ? (
+                                    <input
+                                        type="text"
+                                        value={product.category}
+                                        onChange={e => handleFieldChange('category', e.target.value)}
+                                        className={styles.input}
+                                    />
+                                ) : (
+                                    product.category
+                                )}
+                            </li>
+                            <li>
+                                Описание:{' '}
+                                {isEditing ? (
+                                    <textarea
+                                        value={product.description}
+                                        onChange={e => handleFieldChange('description', e.target.value)}
+                                        className={styles.textarea}
+                                    />
+                                ) : (
+                                    product.description
+                                )}
+                            </li>
+                            <li>
+                                Статус:{' '}
+                                {isEditing ? (
+                                    <select
+                                        value={product.status}
+                                        onChange={e => handleFieldChange('status', Number(e.target.value))}
+                                        className={styles.select}
+                                    >
+                                        {Object.keys(ProductStatus)
+                                            .filter(key => isNaN(Number(key)))
+                                            .map(key => (
+                                                <option key={key} value={ProductStatus[key as keyof typeof ProductStatus]}>
+                                                    {statusLabels[ProductStatus[key as keyof typeof ProductStatus]]}
+                                                </option>
+                                            ))}
+                                    </select>
+                                ) : (
+                                    statusLabels[product.status]
+                                )}
+                            </li>
+                            <li>
+                                На складе: {isEditing ? (
+                                    <input
+                                        type="number"
+                                        value={product.count}
+                                        onChange={e => handleFieldChange('count', Number(e.target.value))}
+                                        min="0"
+                                        className={styles.input}
+                                    />
+                                ) : (
+                                    `${product.count} шт.`
+                                )}
+                            </li>
+                            <li>
+                                Цена со скидкой:{' '}
+                                <input
+                                    type="number"
+                                    value={product.newPrice}
+                                    onChange={e => handleFieldChange('newPrice', Number(e.target.value))}
+                                    min="0"
+                                    step="0.01"
+                                    disabled={!isEditing}
+                                    className={isEditing ? styles.input : ''}
+                                />{' '}
+                                руб.
+                            </li>
+                            <li>
+                                Старая цена:{' '}
+                                <input
+                                    type="number"
+                                    value={product.oldPrice || ''}
+                                    onChange={e =>
+                                        handleFieldChange('oldPrice', e.target.value === '' ? 0 : Number(e.target.value))
+                                    }
+                                    placeholder="Без скидки"
+                                    min="0"
+                                    step="0.01"
+                                    disabled={!isEditing}
+                                    className={isEditing ? styles.input : ''}
+                                />{' '}
+                                руб.
+                            </li>
+                            <li>
+                                Видимость:{' '}
+                                {isEditing ? (
+                                    <label className={styles.checkboxLabel}>
+                                        <input
+                                            type="checkbox"
+                                            checked={product.isVisible}
+                                            onChange={e => handleFieldChange('isVisible', e.target.checked)}
+                                        />
+                                        Отображается в каталоге
+                                    </label>
+                                ) : (
+                                    product.isVisible ? 'Да' : 'Нет'
+                                )}
+                            </li>
+                        </ul>
+                </div>
+            </div>
+            <div className={styles.attributesContainer}>
+                <h2 className={styles.heading}>Характеристики</h2>
+                    {isEditing ? (
+                        <div>
+                            <AdminProductAttributes
+                                attributes={product.attributes}
+                                productId={product.id}
+                                onChange={(updatedAttributes) =>
+                                setProduct(prev => ({ ...prev, attributes: updatedAttributes }))
+                                }
+                            />
+                        </div>
+                    ) : (
+                    <div>
+                        <ProductAttributes attributes={product.attributes} />
+                    </div>
+                )}
+            </div>
+                <div className={styles.productFooter}>
+                    <div className={styles.priceContainer}>
+                        <div>
+                            <button type="button" className={styles.down} onClick={decrement}>◄</button>                            
+                            <input
+                                value={count}
+                                type="number"                                    
+                                name="quantity"
+                                min="1"
+                                max="10"
+                                step="1"
+                                className={styles.countInput}
+                                onChange={handleInputChange}
+                            />
+                            <button type="button" className={styles.up} onClick={increment}>►</button>
+                        </div>
+                        <span className={styles.newPrice}>{product.newPrice * count} руб.</span>
                             {product.oldPrice > 0 && (
                                 <span className={styles.oldPrice}>{product.oldPrice * count} руб.</span>
                             )}
-                            <button className={styles.buyButton} onClick={handleAddToBasket}>
-                                В корзину
-                            </button>
-                        </div>
                     </div>
+                    <button className={styles.buyButton} onClick={handleAddToBasket}>
+                        В корзину
+                    </button>
                 </div>
-
                 <div className={styles.rightBar}>
                     <ViewAlreadyExistProductInBasket
                         isOpen={isModalOpen}

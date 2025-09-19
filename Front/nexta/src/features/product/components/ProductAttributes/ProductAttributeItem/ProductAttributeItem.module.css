@@ -1,0 +1,21 @@
+.container{
+    display: flex;
+    align-items: end;
+    min-height: 24px; 
+}
+
+.key {
+    flex-shrink: 0;
+    font-weight: 500;
+}
+
+.dots {
+    flex-grow: 1;
+    border-top: 1px dotted var(--text-color);
+    height: 1px;
+}
+
+.value {
+    flex-shrink: 0;
+    font-weight: 400;
+}

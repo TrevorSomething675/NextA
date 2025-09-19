@@ -4,7 +4,7 @@ import { Product } from '../../../../models/Product';
 
 export const SearchProductsContainer: React.FC<{ products?: Product[] }> = ({ products }) => {
     if (!products || products.length === 0) {
-        return <div>Ничего не найдено</div>;
+        return <div className={styles.notFound}>Ничего не найдено</div>;
     }
 
     return (

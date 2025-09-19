@@ -7,6 +7,7 @@ import { GetProductsResponse } from '../../../../http/models/product/GetProducts
 import { SearchItem } from '../HeaderSearchItem/HeaderSearchItem';
 import { useSearchProductsStore } from '../../../../stores/SearchProductsStore/searchProductsStore';
 import authStore from '../../../../stores/AuthStore/authStore';
+import { useCategoriesStore } from '../../../../stores/categoriesStore';
 
 interface Props {
     className?:string
@@ -17,16 +18,19 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const debounceTimeout = useRef<null | number>(null);
-    const { setProducts, setSearchTerm, searchTerm, products } = useSearchProductsStore();
+    const { setProducts, setSearchTerm, setTotalPageCount, searchTerm, products } = useSearchProductsStore();
     const [response, setResponse] = useState<GetProductsResponse>({} as GetProductsResponse);
     const [isLoading, setLoading] = useState(false);
     const navigator = useNavigate();
-
-    const [inFocus, setFocus] = useState(false); 
+    const { categories } = useCategoriesStore();
+    const [notFound, setNotFound] = useState<boolean>(false);
+    
+    const [inFocus, setFocus] = useState(false);
 
     const handleFocus = () =>{
         setFocus(true);
     };
+    
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoading(true);
         const value = e.target.value;
@@ -45,25 +49,37 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
             goToSearchPage();
         }
     }
+    
     const goToSearchPage = () => {
         navigator('/Search');
     }
 
-    const fetchData = async (query:string) => {
+    const fetchData = async (query:string, category:string = '') => {
         setLoading(true);
         const isAdmin = authStore.isAdmin;
-        const response = await ProductsService.Get(query, 8, 1, isAdmin);
+        const response = await ProductsService.Get(query, category, 8, 1, isAdmin);
+        console.warn(response);
         if(response.success && response.status === 200){
             setSearchTerm(query);
             setResponse(response.data);
             setProducts(response.data.data.items);
+            setTotalPageCount(response.data.data.pageCount);
+
+            if(response.data.data.items.length === 0){
+                setNotFound(true);
+            } else{
+                setNotFound(false);
+            }
         }
         setLoading(false);
     };
 
+    const handleSearchOnCategory = async(category:string) => {
+        fetchData('', category);
+    }
     
     useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+        const handleClickOutside = (event: MouseEvent) => {
         if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
             setFocus(false);
         }
@@ -93,16 +109,21 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
             </div>
         </div>
 
-        {inFocus && (products?.length > 0 || searchTerm !== '') && (
+        {inFocus && (
             <div className={styles.autoCompleteSearch}>
+            {searchTerm === '' &&  <div className={styles.categoriesContainer}>
+                {categories.map((category) => 
+                    <button key={category.name} className={styles.categoryItem} onClick={() => handleSearchOnCategory(category.name)}>{category.name}</button>
+                )}
+            </div>}
                 <div className={styles.resultsContainer}>
                     {products?.map((product) => (
-                        <SearchItem key={product.id} product={product}/>
+                        <SearchItem key={product.id} product={product} />
                     ))}
                 </div>
                     
                 <div className={styles.autoCompleteFooter}>
-                    {(products.length === 0) && (
+                    {notFound && (
                         <div className={styles.redColor}>
                             Ничего не найдено
                         </div>

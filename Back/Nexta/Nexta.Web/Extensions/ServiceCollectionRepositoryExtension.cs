@@ -8,13 +8,15 @@ namespace Nexta.Web.Extensions
 		public static  IServiceCollection AddAppRepositories(this IServiceCollection services)
 		{
 			services
-				.AddScoped<IUserRepository, UserRepository>()
-				.AddScoped<IProductRepository, ProductsRepository>()
+				.AddScoped<IUsersRepository, UsersRepository>()
+				.AddScoped<IProductsRepository, ProductsRepository>()
 				.AddScoped<IBasketProductRepository, BasketProductRepository>()
 				.AddScoped<IOrderRepository, OrderRepository>()
 				.AddScoped<IOrderProductRepository, OrderProductRepository>()
 				.AddScoped<INewsImageRepository, NewsImageRepository>()
 				.AddScoped<IProductImageRepository, ProductImageRepository>()
+				.AddScoped<INotificationsRepository, NotificationsRepository>()
+				.AddScoped<ICategoriesRepository, CategoriesRepository>()
 				.AddScoped<INewsRepository, NewsRepository>();
 
 			return services;

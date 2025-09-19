@@ -22,6 +22,10 @@ namespace Nexta.Infrastructure.Services
 				message.From.Add(new MailboxAddress(_options.FromName, _options.FromAddress));
 				message.To.Add(new MailboxAddress(toName ?? string.Empty, toEmail));
 				message.Subject = subject;
+				message.Body = new TextPart("html")
+				{
+					Text = body
+				};
 
 				using (var client = new SmtpClient())
 				{

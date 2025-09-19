@@ -11,8 +11,11 @@
 
 		public string PasswordHash { get; set; } = null!;
 		public string Role { get; set; } = "User";
-		public List<BasketProductEntity>? BasketProducts { get; set; }
 
-		public List<OrderEntity>? Orders { get; set; }
+		public ICollection<BasketProductEntity> BasketProducts { get; set; } = new List<BasketProductEntity>();
+
+		public ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
+
+		public ICollection<NotificationEntity> Notifications { get; set; } = new List<NotificationEntity>();
 	}
 }

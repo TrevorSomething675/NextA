@@ -12,21 +12,27 @@ const SearchPage = () => {
     const [productsResponse, setProductsResponse] = useState<GetProductsResponse>({} as GetProductsResponse);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [legacySearchTerm, setLegacySearchTerm] = useState<string>('');
+    const [legacyCategoryTerm, setLegacyCategoryTerm] = useState<string>('');
 
-    const { setProducts, setSearchTerm, setTotalPageCount, products, searchTerm, totalPageCount } = useSearchProductsStore();
+    const { setProducts, setSearchTerm, setTotalPageCount, setCategory, products, searchTerm, totalPageCount, category } = useSearchProductsStore();
 
-    const fetchProducts = async (searchTerm: string, pageNumber: number) => {
+    const fetchProducts = async (searchTerm: string, category:string = '', pageNumber: number) => {
 
-        if(legacySearchTerm != searchTerm){
+        if(legacySearchTerm != searchTerm || legacyCategoryTerm != category){
             setLegacySearchTerm(searchTerm);
+            setLegacyCategoryTerm(category);
             setPage(1);
             pageNumber = 1;
         }
 
         setIsLoading(true);
         try {
-            const response = await ProductsService.Get(searchTerm, pageSize, pageNumber);
+            const response = await ProductsService.Get(searchTerm, category, pageSize, pageNumber);
+            console.warn(response);
+            console.error(totalPageCount);
             if (response.success && response.status === 200) {
+                console.warn()
+                setCategory(category);
                 setSearchTerm(searchTerm);
                 setProductsResponse(response.data);
                 setTotalPageCount(response.data.data.pageCount);
@@ -42,11 +48,11 @@ const SearchPage = () => {
     };
 
     useEffect(() => {
-        fetchProducts(searchTerm, page);
-    }, [searchTerm, page]);
+        fetchProducts(searchTerm, category, page);
+    }, [searchTerm, category, page]);
 
     const handlePageChange = (pageNumber: number) => {
-        fetchProducts(searchTerm, pageNumber);
+        fetchProducts(searchTerm, category, pageNumber);
     };
 
     return (

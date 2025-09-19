@@ -3,7 +3,8 @@ import { PagedData } from "../../../shared/models/PagedDataT"
 
 export interface GetAdminProductsRequest{
     searchTerm:string,
-    pageNumber:number
+    pageNumber:number,
+    withCategory?:string
 }
 
 export interface GetAdminProductsResponse{

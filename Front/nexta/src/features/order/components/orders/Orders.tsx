@@ -23,7 +23,6 @@ const Orders = observer(() => {
     const fetchData = async (userId:string, pageSize?:number, pageNumber?:number) => {
         const response = await OrderService.GetOrdersForUser(userId, pageSize, pageNumber);
         if(response.success && response.status === 200){
-            console.warn(response.data);
             setResponse(response.data);
         }
     }

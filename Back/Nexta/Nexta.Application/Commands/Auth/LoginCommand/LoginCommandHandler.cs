@@ -12,14 +12,14 @@ namespace Nexta.Application.Commands.Auth.LoginCommand
 	{
 		private readonly IValidator<LoginCommand> _validator;
 		private readonly IHashService _passwordHashService;
-		private readonly IUserRepository _userRepository;
+		private readonly IUsersRepository _usersRepository;
 		private readonly IMapper _mapper;
 
-		public LoginCommandHandler(IHashService passwordHashService, IUserRepository userRepository,
+		public LoginCommandHandler(IHashService passwordHashService, IUsersRepository usersRepository,
 			IMapper mapper, IValidator<LoginCommand> validator)
 		{
 			_passwordHashService = passwordHashService;
-			_userRepository = userRepository;
+			_usersRepository = usersRepository;
 			_validator = validator;
 			_mapper = mapper;
 		}
@@ -30,7 +30,7 @@ namespace Nexta.Application.Commands.Auth.LoginCommand
 			if (!validationResult.IsValid)
 				throw new BadRequestException(string.Join(", ", validationResult.Errors));
 
-			var user = await _userRepository.GetByEmailAsync(command.Email, ct);
+			var user = await _usersRepository.GetByEmailAsync(command.Email, ct);
 
 			if (user == null)
 				throw new NotFoundException("Пользователь не зарегистрирован");

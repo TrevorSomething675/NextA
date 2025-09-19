@@ -4,5 +4,6 @@
     {
         public string SearchTerm { get; set; } = string.Empty;
         public bool WithHidden { get; set; } = false;
+        public string Category { get; set; } = string.Empty;
     }
 }
