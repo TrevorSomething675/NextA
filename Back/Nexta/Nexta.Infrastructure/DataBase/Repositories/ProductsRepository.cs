@@ -50,6 +50,7 @@ namespace Nexta.Infrastructure.DataBase.Repositories
                     .WithOrderByTerm(category)
                     .WithCategoryTerm(category)
                     .WithSearchTerm(searchTerm)
+                    .WithPriceTerm(filter.MinPrice, filter.MaxPrice)
                     .Where(p => p.IsVisible || filter.WithHidden)
                     .AsNoTracking();
 
@@ -63,9 +64,9 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 
                 var pagedProductEntities = new PagedData<ProductEntity>(productEntities, productEntities.Count, pageCount);
 
-                var pagedProducts = _mapper.Map<PagedData<ProductEntity>, PagedData<Product>>(pagedProductEntities);
+                var result = _mapper.Map<PagedData<Product>>(pagedProductEntities);
 
-                return pagedProducts;
+                return result;
             }
         }
 

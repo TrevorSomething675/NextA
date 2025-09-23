@@ -26,3 +26,12 @@
     padding: 1rem 1rem 1rem 1rem;
     font-size: 1.3rem;
 }
+
+.productsContainer{
+    min-width: 100%;
+    display: flex;
+}
+
+.sideBarContainer{
+    width: 20%;
+}

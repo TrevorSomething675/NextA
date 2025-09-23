@@ -1,4 +1,6 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Domain.Models.DataModels;
+using Nexta.Domain.Filters.Users;
+using Nexta.Domain.Models;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {
@@ -6,9 +8,10 @@ namespace Nexta.Domain.Abstractions.Repositories
     {
 		Task<User?> GetByEmailAsync(string email, CancellationToken ct = default);
 		Task<User?> GetAsync(Guid id, CancellationToken ct = default);
-		Task<List<User>> GetAllAsync(CancellationToken ct = default);
+		Task<PagedData<User>> GetAllAsync(GetAdminUsersFilter filter, CancellationToken ct = default);
 
 		Task<User> AddAsync(User user, CancellationToken ct = default);
 		Task<User> UpdateAsync(User user, CancellationToken ct = default);
+		Task<Guid> DeleteAsync(Guid id, CancellationToken ct = default);
 	}
 }

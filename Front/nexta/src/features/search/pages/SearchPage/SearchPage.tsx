@@ -1,60 +1,79 @@
 import { useEffect, useState } from "react";
 import styles from './SearchPage.module.css';
-import { GetProductsResponse } from "../../../../http/models/product/GetProducts";
 import { SearchProductsContainer } from "../../../product/components/SearchProductsContainer/SearchProductsContainer";
 import ProductsService from "../../../../services/ProductService";
 import Pagging from "../../../../shared/components/Pagging/Pagging";
 import { useSearchProductsStore } from "../../../../stores/SearchProductsStore/searchProductsStore";
+import { SearchSidebar } from "../../components/SearchSidebar/SearchSidebar";
 
 const SearchPage = () => {
-    const [page, setPage] = useState<number>(1);
-    const [pageSize] = useState<number>(12);
-    const [productsResponse, setProductsResponse] = useState<GetProductsResponse>({} as GetProductsResponse);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [legacySearchTerm, setLegacySearchTerm] = useState<string>('');
-    const [legacyCategoryTerm, setLegacyCategoryTerm] = useState<string>('');
 
-    const { setProducts, setSearchTerm, setTotalPageCount, setCategory, products, searchTerm, totalPageCount, category } = useSearchProductsStore();
+    const { 
+        products,
+        searchTerm,
+        category,
+        totalPageCount,
+        priceFilters,
+        page,
+        isPriceRangeImmediate,
+        setProducts,
+        setSearchTerm,
+        setTotalPageCount,
+        setCategory,
+        setPage,
+        clearImmediatePriceUpdate,
+    } = useSearchProductsStore();
 
-    const fetchProducts = async (searchTerm: string, category:string = '', pageNumber: number) => {
+    const [debouncedPriceFilters, setDebouncedPriceFilters] = useState(priceFilters);
 
-        if(legacySearchTerm != searchTerm || legacyCategoryTerm != category){
-            setLegacySearchTerm(searchTerm);
-            setLegacyCategoryTerm(category);
-            setPage(1);
-            pageNumber = 1;
+    useEffect(() => {
+        if (isPriceRangeImmediate) {
+            setDebouncedPriceFilters(priceFilters);
+            clearImmediatePriceUpdate();
+            return;
         }
 
+        const timeoutId = setTimeout(() => {
+            setDebouncedPriceFilters(priceFilters);
+        }, 1000);
+
+        return () => clearTimeout(timeoutId);
+    }, [priceFilters, isPriceRangeImmediate]);
+
+    const fetchProducts = async () => {
         setIsLoading(true);
         try {
-            const response = await ProductsService.Get(searchTerm, category, pageSize, pageNumber);
-            console.warn(response);
-            console.error(totalPageCount);
+            const response = await ProductsService.Get(
+                searchTerm,
+                category,
+                9,
+                page,
+                false,
+                debouncedPriceFilters.min,
+                debouncedPriceFilters.max
+            );
             if (response.success && response.status === 200) {
-                console.warn()
                 setCategory(category);
                 setSearchTerm(searchTerm);
-                setProductsResponse(response.data);
                 setTotalPageCount(response.data.data.pageCount);
                 setProducts(response.data.data.items);
-            } else {
-                setProductsResponse({} as GetProductsResponse);
             }
         } catch (error) {
-            console.error('Ошибка при получении данных:', error);
-            setProductsResponse({} as GetProductsResponse);
+            console.error('Ошибка:', error);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
     };
 
     useEffect(() => {
-        fetchProducts(searchTerm, category, page);
-    }, [searchTerm, category, page]);
+        fetchProducts();
+    }, [searchTerm, category, page, debouncedPriceFilters]);
 
     const handlePageChange = (pageNumber: number) => {
-        fetchProducts(searchTerm, category, pageNumber);
+        setPage(pageNumber);
     };
-
+    
     return (
         <div className={styles.container}>
             <h2 className={styles.h2}>Глобальный поиск</h2>
@@ -63,7 +82,13 @@ const SearchPage = () => {
                 <div>Загрузка...</div>
             ) : (
                 <>
-                    <SearchProductsContainer products={products} />
+                    <div className={styles.productsContainer}>
+                        <div className={styles.sideBarContainer}>
+                            <SearchSidebar />
+                        </div>
+                        
+                        <SearchProductsContainer products={products} />
+                    </div>
                     <Pagging
                         pageCount={totalPageCount || 0}
                         onPageNumberChange={handlePageChange}

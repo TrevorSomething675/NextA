@@ -1,5 +1,4 @@
-﻿using MailKit.Search;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Nexta.Infrastructure.DataBase.Entities;
 
 namespace Nexta.Infrastructure.Extensions
@@ -22,6 +21,41 @@ namespace Nexta.Infrastructure.Extensions
                 query = query.OrderBy(q => categoryTerm);
             }
 
+            return query;
+        }
+
+        public static IQueryable<UserEntity> WithSearchTerm(this IQueryable<UserEntity> query, string searchTerm)
+        {
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(u =>
+                    EF.Functions.Like(u.Email.ToLower(), $"{searchTerm}") ||
+                    EF.Functions.Like(u.Email.ToLower(), $"{searchTerm}%") ||
+                    EF.Functions.Like(u.Email.ToLower(), $"%{searchTerm}") ||
+
+                    EF.Functions.Like(u.FirstName.ToLower(), $"{searchTerm}%") ||
+                    EF.Functions.Like(u.FirstName.ToLower(), $"%{searchTerm}") ||
+                    EF.Functions.Like(u.FirstName.ToLower(), $"%{searchTerm}") ||
+
+                    EF.Functions.Like(u.MiddleName.ToLower(), $"{searchTerm}%") ||
+                    EF.Functions.Like(u.MiddleName.ToLower(), $"%{searchTerm}") ||
+                    EF.Functions.Like(u.MiddleName.ToLower(), $"%{searchTerm}") ||
+
+                    EF.Functions.Like(u.LastName.ToLower(), $"{searchTerm}%") ||
+                    EF.Functions.Like(u.LastName.ToLower(), $"%{searchTerm}") ||
+                    EF.Functions.Like(u.LastName.ToLower(), $"%{searchTerm}"));
+            }
+            return query;
+        }
+
+        public static IQueryable<ProductEntity> WithPriceTerm(this IQueryable<ProductEntity> query, int? minPrice, int? maxPrice)
+        {
+            if (minPrice != null && maxPrice != null)
+            {
+                query = query.Where(d => 
+                    minPrice <= d.NewPrice &&
+                    d.NewPrice <= maxPrice);
+            }
             return query;
         }
 

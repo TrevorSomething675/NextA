@@ -7,7 +7,6 @@ import { GetProductsResponse } from '../../../../http/models/product/GetProducts
 import { SearchItem } from '../HeaderSearchItem/HeaderSearchItem';
 import { useSearchProductsStore } from '../../../../stores/SearchProductsStore/searchProductsStore';
 import authStore from '../../../../stores/AuthStore/authStore';
-import { useCategoriesStore } from '../../../../stores/categoriesStore';
 
 interface Props {
     className?:string
@@ -18,11 +17,10 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const debounceTimeout = useRef<null | number>(null);
-    const { setProducts, setSearchTerm, setTotalPageCount, searchTerm, products } = useSearchProductsStore();
+    const { setProducts, setSearchTerm, setTotalPageCount, setCategory, searchTerm, products } = useSearchProductsStore();
     const [response, setResponse] = useState<GetProductsResponse>({} as GetProductsResponse);
     const [isLoading, setLoading] = useState(false);
     const navigator = useNavigate();
-    const { categories } = useCategoriesStore();
     const [notFound, setNotFound] = useState<boolean>(false);
     
     const [inFocus, setFocus] = useState(false);
@@ -58,8 +56,8 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
         setLoading(true);
         const isAdmin = authStore.isAdmin;
         const response = await ProductsService.Get(query, category, 8, 1, isAdmin);
-        console.warn(response);
         if(response.success && response.status === 200){
+            setCategory('');
             setSearchTerm(query);
             setResponse(response.data);
             setProducts(response.data.data.items);
@@ -94,9 +92,9 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
 
     return <div className={container} ref={containerRef}>
         <div className={styles.searchHeader}>
-            <div className={styles.searchSvgContainer}>
+            <button className={styles.searchSvgContainer} onClick={goToSearchPage}>
                 <SearchSvg />
-            </div>
+            </button>
             <input
                 className={styles.searchInput}
                 placeholder="Введите артикул или название запчасти"
@@ -109,13 +107,8 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
             </div>
         </div>
 
-        {inFocus && (
+        {inFocus && searchTerm !== '' && products.length > 0 && (
             <div className={styles.autoCompleteSearch}>
-            {searchTerm === '' &&  <div className={styles.categoriesContainer}>
-                {categories.map((category) => 
-                    <button key={category.name} className={styles.categoryItem} onClick={() => handleSearchOnCategory(category.name)}>{category.name}</button>
-                )}
-            </div>}
                 <div className={styles.resultsContainer}>
                     {products?.map((product) => (
                         <SearchItem key={product.id} product={product} />

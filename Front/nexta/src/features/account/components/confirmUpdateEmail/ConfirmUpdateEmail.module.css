@@ -1,14 +1,28 @@
-.confirmForm{
+.confirmForm {
     border-radius: 1rem;
     padding: 1rem 2rem 1rem 2rem;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.8);
     z-index: 101;
     width: 26rem;
     background-color: var(--default-color);
-    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.confirmForm.open {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+
+.confirmForm.closed {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+    pointer-events: none;
 }
 
 .h2{

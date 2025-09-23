@@ -2,8 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Exceptions;
+using Nexta.Domain.Filters.Users;
 using Nexta.Domain.Models;
+using Nexta.Domain.Models.DataModels;
 using Nexta.Infrastructure.DataBase.Entities;
+using Nexta.Infrastructure.Extensions;
 
 namespace Nexta.Infrastructure.DataBase.Repositories
 {
@@ -40,14 +43,29 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 			}
 		}
 
-		public async Task<List<User>> GetAllAsync(CancellationToken ct = default)
+		public async Task<PagedData<User>> GetAllAsync(GetAdminUsersFilter filter, CancellationToken ct = default)
 		{
 			await using (var context = await _contextFactory.CreateDbContextAsync(ct))
 			{
-				var userEntities = await context.Users.AsNoTracking().ToListAsync(ct);
-				var users = _mapper.Map<List<User>>(userEntities);
+				var searchTerm = filter.SearchTerm.ToLower() ?? "";
 
-				return users;
+				var query = context.Users
+					.AsNoTracking()
+					.WithSearchTerm(searchTerm);
+
+				var userEntities = await query
+					.Skip((filter.PageNumber - 1) * filter.PageSize)
+					.Take(filter.PageSize)
+					.ToListAsync(ct);
+
+                var countProducts = await query.CountAsync(ct);
+                var pageCount = (int)Math.Ceiling((double)countProducts / filter.PageSize);
+
+				var pagedUserEntities = new PagedData<UserEntity>(userEntities, userEntities.Count, pageCount);
+
+				var result = _mapper.Map<PagedData<User>>(pagedUserEntities);
+
+				return result;
 			}
 		}
 
@@ -89,6 +107,19 @@ namespace Nexta.Infrastructure.DataBase.Repositories
 
 				return updatedUser;
             }
+        }
+
+        public async Task<Guid> DeleteAsync(Guid id, CancellationToken ct = default)
+        {
+			await using (var context = await _contextFactory.CreateDbContextAsync(ct))
+			{
+				var userToDelete = await context.Users.FirstOrDefaultAsync(u => u.Id == id, ct);
+
+				var result = context.Users.Remove(userToDelete);
+				await context.SaveChangesAsync(ct);
+
+				return result.Entity.Id;
+			}
         }
     }
 }

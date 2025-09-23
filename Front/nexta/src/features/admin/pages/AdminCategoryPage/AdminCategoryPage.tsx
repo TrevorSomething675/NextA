@@ -1,4 +1,4 @@
-import { CategoriesContainer } from '../../../categoeries/components/CategoriesContainer/CategoriesContainer';
+import { CategoriesContainer } from '../../../categories/components/CategoriesContainer/CategoriesContainer';
 import { AdminAddCategory } from '../../components/AdminAddCategory/AdminAddCategory';
 import { AdminDeleteCategory } from '../../components/AdminDeleteCategory/AdminDeleteCategory';
 import styles from './AdminCategoryPage.module.css';
