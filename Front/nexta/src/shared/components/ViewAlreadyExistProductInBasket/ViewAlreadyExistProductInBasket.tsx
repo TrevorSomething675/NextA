@@ -18,17 +18,19 @@ interface ViewAlreadyExistProductInBasketProps {
 }
 
 export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductInBasketProps> = ({ 
-        isOpen,
-        onClose,
-        product,
-        productCount,
-        onCountChange
-    }) => {
+    isOpen,
+    onClose,
+    product,
+    productCount,
+    onCountChange
+}) => {
     const { addNotification } = useNotifications();
     
     useEffect(() => {
-        onCountChange(productCount ?? 1);
-    }, [productCount]);
+        if (isOpen) {
+            onCountChange(productCount ?? 1);
+        }
+    }, [isOpen, productCount]);
 
     const statusLabels = {
         [ProductStatus.Unknown]: 'Неизвестный статус',
@@ -74,10 +76,8 @@ export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductIn
         }
     }
 
-    if (!isOpen) return null;
-    
     return (
-        <div className={styles.modal}>
+        <div className={`${styles.modal} ${isOpen ? styles.open : styles.closed}`}>
             <div className={styles.modalContent}>
                 <div className={styles.header}>
                     <button className={styles.closeButton} onClick={onClose}>×</button>

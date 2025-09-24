@@ -3,7 +3,7 @@ import styles from './CategoriesContainer.module.css';
 import { Category } from '../../../../models/Category';
 import CategoryService from '../../../../services/CategoryService';
 import { useNotifications } from '../../../../shared/components/Notifications/Notifications';
-import { CategoryItem } from '../Category/CategoryItem';
+import { CategoryItem } from '../CategoryItem/CategoryItem';
 
 export const CategoriesContainer = () => {
     const {addNotification} = useNotifications();

@@ -6,7 +6,9 @@ import { GetProductResponse } from "../http/models/product/GetProduct";
 import { ApiResponse } from "../http/BaseResponse";
 
 class ProductsService{
-    static async Get(searchTerm:string = '', category:string = '', pageSize?:number, pageNumber?:number, withHidden: boolean = false) : Promise<ApiResponse<GetProductsResponse, ErrorResponseModel>>{
+    static async Get(searchTerm:string = '', category:string = '', pageSize?:number, pageNumber?:number, withHidden: boolean = false,
+        minPrice?:number, maxPrice?:number
+    ) : Promise<ApiResponse<GetProductsResponse, ErrorResponseModel>>{
         try{
             const response = await api.get<GetProductsResponse>('Products/Get', {
                 params: {
@@ -14,7 +16,9 @@ class ProductsService{
                     pageSize,
                     pageNumber,
                     withHidden,
-                    category
+                    category,
+                    minPrice,
+                    maxPrice
                 }
             });
             return {

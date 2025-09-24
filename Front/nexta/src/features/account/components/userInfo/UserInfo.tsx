@@ -55,7 +55,7 @@ export const UserInfo = observer(() => {
     }
 
     return <div className={styles.container}>
-        {isModalOpen && <div className={styles.overlay} />}
+        {isModalOpen && <div className={`${styles.overlay} ${styles.open}`} />}
         <h2 className={styles.h2}>Ваши данные</h2>
         <form className={styles.form} onSubmit={handleSubmit(submit)}>
             <div className={styles.userContainer}>
@@ -67,7 +67,7 @@ export const UserInfo = observer(() => {
                     <li className={styles.li}>Фамилия:
                         <input className={styles.input} {...register('lastName')} />
                     </li>
-                    <li className={styles.li}>Отчество: 
+                    <li className={styles.li}>Отчество:
                         <input className={styles.input} {...register('middleName')} />
                     </li>
                 </ul>
@@ -87,8 +87,10 @@ export const UserInfo = observer(() => {
                 <Button content='Обновить профиль' className={styles.submitBtn} type='submit' />
             </div>
         </form>
-        {isModalOpen && (
-            <ConfirmUpdateEmail onClose={closeModal} email={email}/>
-        )}
+        <ConfirmUpdateEmail 
+            onClose={closeModal}
+            email={email}
+            isOpen={isModalOpen}
+        />
     </div>
 });

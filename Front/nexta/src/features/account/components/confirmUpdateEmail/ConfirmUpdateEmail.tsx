@@ -11,9 +11,10 @@ import { AuthService } from '../../../../services/AuthService';
 interface ConfirmUpdateEmailProps {
     onClose: () => void;
     email:string;
+    isOpen: boolean;
 }
 
-export const ConfirmUpdateEmail = ({ onClose, email }: ConfirmUpdateEmailProps) => {
+export const ConfirmUpdateEmail = ({ onClose, email, isOpen }: ConfirmUpdateEmailProps) => {
     const { register, handleSubmit, formState: { errors } } = useForm<ConfirmUpdateEmailRequest>();
     const { addNotification } = useNotifications();
     const [hasError, setError] = useState('');
@@ -62,7 +63,7 @@ export const ConfirmUpdateEmail = ({ onClose, email }: ConfirmUpdateEmailProps) 
     }
 
     return (
-        <div className={styles.confirmForm}>
+        <div className={`${styles.confirmForm} ${isOpen ? styles.open : styles.closed}`}>
             <button
                 type="button"
                 className={styles.closeButton}

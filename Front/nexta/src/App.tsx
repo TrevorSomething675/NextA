@@ -29,6 +29,8 @@ import { observer } from "mobx-react"
 import { AdminCategoryPage } from "./features/admin/pages/AdminCategoryPage/AdminCategoryPage"
 import CategoryService from "./services/CategoryService"
 import { useCategoriesStore } from "./stores/categoriesStore"
+import { AdminUsersPage } from "./features/admin/pages/AdminUsersPage/AdminUsersPage"
+import { HeaderTop } from "./shared/components/Header/HeaderTop/HeaderTop"
 
 const App = observer(() => {
   const { setCategories } = useCategoriesStore();
@@ -69,6 +71,7 @@ const App = observer(() => {
   return <div className='page-container'>
       <NotificationsProvider>
         <BrowserRouter>
+          <HeaderTop />
           <Header />
           <div className='page-body'>
             {basket.isVisibleBasket && <BasketSidebar />}
@@ -104,6 +107,11 @@ const App = observer(() => {
               <Route path="Admin/Product/:id" element={
                 <ProtectedAdminRoute>
                   <AdminProductPage />
+                </ProtectedAdminRoute>
+              } />
+              <Route path="Admin/Users" element={
+                <ProtectedAdminRoute>
+                  <AdminUsersPage />
                 </ProtectedAdminRoute>
               } />
             </Routes>
