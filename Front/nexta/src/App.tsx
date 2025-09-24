@@ -30,6 +30,7 @@ import { AdminCategoryPage } from "./features/admin/pages/AdminCategoryPage/Admi
 import CategoryService from "./services/CategoryService"
 import { useCategoriesStore } from "./stores/categoriesStore"
 import { AdminUsersPage } from "./features/admin/pages/AdminUsersPage/AdminUsersPage"
+import { HeaderTop } from "./shared/components/Header/HeaderTop/HeaderTop"
 
 const App = observer(() => {
   const { setCategories } = useCategoriesStore();
@@ -70,6 +71,7 @@ const App = observer(() => {
   return <div className='page-container'>
       <NotificationsProvider>
         <BrowserRouter>
+          <HeaderTop />
           <Header />
           <div className='page-body'>
             {basket.isVisibleBasket && <BasketSidebar />}

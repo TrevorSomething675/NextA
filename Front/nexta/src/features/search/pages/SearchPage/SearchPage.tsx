@@ -77,7 +77,7 @@ const SearchPage = () => {
     return (
         <div className={styles.container}>
             <h2 className={styles.h2}>Глобальный поиск</h2>
-
+            
             {isLoading ? (
                 <div>Загрузка...</div>
             ) : (
