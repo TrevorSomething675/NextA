@@ -18,7 +18,7 @@ class BasketService{
             };
         } catch(error) {
             if (axios.isAxiosError(error) && error.response) {
-                return { 
+                return {
                     success: false,
                     data: error.response.data as ErrorResponseModel,
                     status: error.response.status

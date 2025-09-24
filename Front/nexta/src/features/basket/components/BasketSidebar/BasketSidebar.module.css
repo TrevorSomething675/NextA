@@ -2,7 +2,7 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-    z-index: 999;
+    z-index: 1211;
     background-color: var(--default-color);
     width: 30rem;
     height: 100%;
@@ -19,7 +19,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.2);
-    z-index: 998;
+    z-index: 1111;
     pointer-events: auto;
 }
 

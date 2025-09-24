@@ -42,6 +42,7 @@ export const SearchSidebar = () => {
         </div>
         <Button content='Сбросить фильтр' 
             className={styles.resetFilter} 
-            onClick={handleResetFilters}/>
+            onClick={handleResetFilters}
+        />
     </div>
 }

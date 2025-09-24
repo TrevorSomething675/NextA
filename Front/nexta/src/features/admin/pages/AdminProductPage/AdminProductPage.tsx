@@ -14,6 +14,7 @@ import { ViewAlreadyExistProductInBasket } from '../../../../shared/components/V
 import { ProductOperationType, UpdateAdminProductRequest } from '../../../../http/models/adminProduct/UpdateAdminProduct';
 import { ProductAttributes } from '../../../product/components/ProductAttributes/ProductAttributes';
 import { AdminProductAttributes } from '../../components/AdminProductAttributes/AdminProductAttributes';
+import ProductsService from '../../../../services/ProductService';
 
 export const AdminProductPage = () => {
     const statusLabels = {
@@ -42,12 +43,15 @@ export const AdminProductPage = () => {
                 }
             }
         };
-        console.warn(product);
         fetchProduct();
     }, [id]);
 
     const increment = () => setCount(prev => prev + 1);
     const decrement = () => setCount(prev => Math.max(1, prev - 1));
+
+    const handleDeleteProduct = (id:string) => {
+        
+    }
 
     const handleProductCountChange = (newCount: number) => {
         setCount(newCount);
@@ -144,8 +148,6 @@ export const AdminProductPage = () => {
                 imageOperation = ProductOperationType.Nothing;
             }
 
-            console.warn(product);
-
             const request: UpdateAdminProductRequest = {
                 id: product.id,
                 name: product.name,
@@ -188,6 +190,7 @@ export const AdminProductPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.mainProductContainer}>
+                <button className={styles.deleteBtn} onClick={() => handleDeleteProduct(product.id)}>Удалить</button>
                 <h2 className={styles.h2}>
                     Товар {product.article}
                     {!isEditing ? (

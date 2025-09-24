@@ -191,3 +191,19 @@
 .heading{
     margin: 1rem 0 3rem 0;
 }
+
+.deleteBtn{
+    font-size: 1.4rem;
+    background-color: var(--context-color);
+    color: var(--default-color);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: .2s;
+}
+
+.deleteBtn:hover{
+    cursor: pointer;
+    color: var(--text-color);
+    transition: .2s;
+}
