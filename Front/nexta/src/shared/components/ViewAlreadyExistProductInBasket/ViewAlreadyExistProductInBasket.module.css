@@ -3,7 +3,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
-    z-index: 101;
+    z-index: 999;
     width: 84rem;
     opacity: 0;
     pointer-events: none;
