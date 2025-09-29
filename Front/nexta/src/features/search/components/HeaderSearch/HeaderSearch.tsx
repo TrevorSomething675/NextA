@@ -17,7 +17,7 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const debounceTimeout = useRef<null | number>(null);
-    const { setProducts, setSearchTerm, setTotalPageCount, setCategory, searchTerm, products } = useSearchProductsStore();
+    const { setProducts, setSearchTerm, setTotalPageCount, setCategory, setPage, searchTerm, products } = useSearchProductsStore();
     const [response, setResponse] = useState<GetProductsResponse>({} as GetProductsResponse);
     const [isLoading, setLoading] = useState(false);
     const navigator = useNavigate();
@@ -44,6 +44,7 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if(e.key === 'Enter'){
+            setPage(1);
             goToSearchPage();
         }
     }
@@ -71,10 +72,6 @@ export const HeaderSearch:React.FC<Props> = ({className}) => {
         }
         setLoading(false);
     };
-
-    const handleSearchOnCategory = async(category:string) => {
-        fetchData('', category);
-    }
     
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

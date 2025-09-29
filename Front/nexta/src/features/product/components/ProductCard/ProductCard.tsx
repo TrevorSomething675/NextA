@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Image from '../../../../shared/components/Image/Image';
 import styles from './ProductCard.module.css';
-import { useNavigate } from 'react-router-dom';
 import authStore from '../../../../stores/AuthStore/authStore';
 import BasketService from '../../../../services/BasketService';
 import basket from '../../../../stores/basket';

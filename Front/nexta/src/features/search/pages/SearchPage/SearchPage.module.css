@@ -30,8 +30,15 @@
 .productsContainer{
     min-width: 100%;
     display: flex;
+    margin: 0 0 1rem 0;
 }
 
 .sideBarContainer{
     width: 20%;
+}
+
+.scrollBtn{
+    background-color: var(--context-color);
+    width: 12rem;
+    margin: 0 0 1rem 0;
 }
