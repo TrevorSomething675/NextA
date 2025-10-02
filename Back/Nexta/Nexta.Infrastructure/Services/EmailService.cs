@@ -33,7 +33,7 @@ namespace Nexta.Infrastructure.Services
 						_options.SmtpServer,
 						_options.Port,
 						_options.EnableSsl ? MailKit.Security.SecureSocketOptions.StartTls : MailKit.Security.SecureSocketOptions.None,
-						ct);
+						ct); 
 
 					await client.AuthenticateAsync(_options.Username, _options.Password, ct);
 					await client.SendAsync(message, ct);

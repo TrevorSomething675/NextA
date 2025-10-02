@@ -17,7 +17,7 @@ namespace Nexta.Application.Queries.Categories.GetCategoriesQuery
             _mapper = mapper;
         }
 
-        public async Task<GetCategoriesQueryResponse> Handle(GetCategoriesQuery request, CancellationToken ct)
+        public async Task<GetCategoriesQueryResponse> Handle(GetCategoriesQuery query, CancellationToken ct)
         {
             var dbCategories = await _categoriesRepository.GetAsync(ct);
             var categories = _mapper.Map<List<ProductCategory>>(dbCategories);
