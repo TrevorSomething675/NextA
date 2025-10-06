@@ -43,7 +43,7 @@ export const HeaderBottom = observer(() => {
             <div>
                 Бесплатный подбор: +7 (915) 562-95-13
             </div>
-            <div>
+            <div className={styles.headerRightPanel}>
                 {authStore.isAuthenticated &&
                     <>
                         <Link to='/Account' className={styles.headerItem}>
