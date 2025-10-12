@@ -8,6 +8,8 @@ import { ErrorResponseModel } from "../../../../shared/models/ErrorResponseModel
 import styles from './CodeVerify.module.css';
 import authStore from "../../../../stores/AuthStore/authStore";
 import { useNotifications } from "../../../../shared/components/Notifications/Notifications";
+import basket from "../../../../stores/basket";
+import BasketService from "../../../../services/BasketService";
 
 const CODE_LENGTH = 6;
 
@@ -120,6 +122,11 @@ const CodeVerify: React.FC<CodeVerifyProps> = ({ authUser}) => {
                 addNotification({
                     header: 'Успешная авторизация!'
                 });
+                const userId = authStore.user.id ?? '';
+                const basketResponse = await BasketService.GetBasketProducts(userId);
+                if(basketResponse.success && basketResponse.status === 200){
+                    basket.setBasketItems(basketResponse.data.products);
+                }
                 navigate('/');
             }
         }

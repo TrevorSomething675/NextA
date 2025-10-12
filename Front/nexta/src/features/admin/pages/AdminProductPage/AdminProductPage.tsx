@@ -14,7 +14,6 @@ import { ViewAlreadyExistProductInBasket } from '../../../../shared/components/V
 import { ProductOperationType, UpdateAdminProductRequest } from '../../../../http/models/adminProduct/UpdateAdminProduct';
 import { ProductAttributes } from '../../../product/components/ProductAttributes/ProductAttributes';
 import { AdminProductAttributes } from '../../components/AdminProductAttributes/AdminProductAttributes';
-import ProductsService from '../../../../services/ProductService';
 
 export const AdminProductPage = () => {
     const statusLabels = {

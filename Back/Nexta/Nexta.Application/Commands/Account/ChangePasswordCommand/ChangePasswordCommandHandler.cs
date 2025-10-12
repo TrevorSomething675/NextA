@@ -12,7 +12,7 @@ namespace Nexta.Application.Commands.Account.ChangePasswordCommand
         private readonly IUsersRepository _usersRepository;
         private readonly IHashService _hashService;
 
-        public ChangePasswordCommandHandler(IHashService hashService, 
+        public ChangePasswordCommandHandler(IHashService hashService,
             IValidator<ChangePasswordCommand> validator, IUsersRepository usersRepository)
         {
             _usersRepository = usersRepository;

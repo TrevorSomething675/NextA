@@ -6,7 +6,6 @@
     flex-direction: column;
     background-color: var(--light-default-color);
     position: sticky;
-    z-index: 900;
     top: 6rem;
     left: 0;
 }
