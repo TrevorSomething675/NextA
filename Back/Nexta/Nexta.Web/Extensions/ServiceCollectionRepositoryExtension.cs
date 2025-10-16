@@ -1,5 +1,5 @@
-﻿using Nexta.Infrastructure.DataBase.Repositories;
-using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Infrastructure.Persistence.Repositories;
 
 namespace Nexta.Web.Extensions
 {
@@ -13,7 +13,6 @@ namespace Nexta.Web.Extensions
 				.AddScoped<IBasketProductRepository, BasketProductRepository>()
 				.AddScoped<IOrderRepository, OrderRepository>()
 				.AddScoped<IOrderProductRepository, OrderProductRepository>()
-				.AddScoped<INewsImageRepository, NewsImageRepository>()
 				.AddScoped<IProductImageRepository, ProductImageRepository>()
 				.AddScoped<INotificationsRepository, NotificationsRepository>()
 				.AddScoped<ICategoriesRepository, CategoriesRepository>()

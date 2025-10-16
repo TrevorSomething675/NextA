@@ -1,8 +1,8 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Application.DTO.Response;
-using Nexta.Domain.Models.DataModels;
 using AutoMapper;
 using MediatR;
+using Nexta.Domain.Base;
 
 namespace Nexta.Application.Queries.Products.GetProductsQuery
 {

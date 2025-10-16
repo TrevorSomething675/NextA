@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Enums;
-using Nexta.Domain.Models;
+using Nexta.Domain.Models.Basket;
 
 namespace Nexta.Application.DTO.Response
 {

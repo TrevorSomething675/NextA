@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Domain.Models.Basket;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {

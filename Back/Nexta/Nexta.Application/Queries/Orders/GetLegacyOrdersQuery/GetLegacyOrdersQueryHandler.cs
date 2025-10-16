@@ -1,9 +1,9 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models.DataModels;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
 using Nexta.Application.DTO.Response;
+using Nexta.Domain.Base;
 
 namespace Nexta.Application.Queries.Orders.GetLegacyOrdersQuery
 {

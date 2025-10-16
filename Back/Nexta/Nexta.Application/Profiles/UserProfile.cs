@@ -1,10 +1,10 @@
 ﻿using Nexta.Application.Commands.Account.UpdateAccountCommand;
 using Nexta.Application.Commands.Auth.RegisterCommand;
-using Nexta.Domain.Models.DataModels;
 using Nexta.Application.DTO.Response;
 using Nexta.Application.DTO.Admin;
-using Nexta.Domain.Models;
 using AutoMapper;
+using Nexta.Domain.Base;
+using Nexta.Domain.Models.User;
 
 namespace Nexta.Application.Profiles
 {

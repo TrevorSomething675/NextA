@@ -6,8 +6,7 @@ using Nexta.Application.DTO.Request;
 using Nexta.Application.DTO.Response;
 using Nexta.Application.Queries.Admin.GetProductsQuery;
 using Nexta.Domain.Filters.Products;
-using Nexta.Domain.Models;
-using Nexta.Domain.Models.Images;
+using Nexta.Domain.Models.Product;
 using Nexta.Web.Areas.Models;
 
 namespace Nexta.Web.Profiles.Admin

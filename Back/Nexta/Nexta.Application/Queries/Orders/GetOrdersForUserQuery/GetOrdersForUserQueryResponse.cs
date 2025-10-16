@@ -1,6 +1,6 @@
-﻿using Nexta.Domain.Models.DataModels;
-using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Response;
 using Nexta.Application.Common;
+using Nexta.Domain.Base;
 
 namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {

@@ -1,10 +1,10 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Exceptions;
-using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
 using Nexta.Application.DTO.Response;
+using Nexta.Domain.Models.Basket;
 
 namespace Nexta.Application.Commands.Basket.AddBasketProductCommand
 {

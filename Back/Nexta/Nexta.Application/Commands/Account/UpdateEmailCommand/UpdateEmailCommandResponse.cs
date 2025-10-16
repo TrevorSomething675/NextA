@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Models;
+﻿using Nexta.Domain.Models.User;
 
 namespace Nexta.Application.Commands.Account.UpdateEmailCommand
 {

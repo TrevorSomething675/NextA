@@ -1,7 +1,7 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;
+using Nexta.Domain.Models.User;
 
 namespace Nexta.Application.Commands.Account.UpdateAccountCommand
 {

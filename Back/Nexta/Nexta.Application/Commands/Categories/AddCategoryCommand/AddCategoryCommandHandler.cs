@@ -3,7 +3,7 @@ using FluentValidation;
 using MediatR;
 using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Exceptions;
-using Nexta.Domain.Models;
+using Nexta.Domain.Models.Product;
 
 namespace Nexta.Application.Commands.Categories.AddCategoryCommand
 {

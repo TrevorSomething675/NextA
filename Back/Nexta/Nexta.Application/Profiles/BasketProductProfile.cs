@@ -1,7 +1,7 @@
 ﻿using Nexta.Application.Commands.Basket.UpdateBasketProductCommand;
 using Nexta.Application.DTO.Response;
-using Nexta.Domain.Models;
 using AutoMapper;
+using Nexta.Domain.Models.Basket;
 
 namespace Nexta.Application.Profiles
 {

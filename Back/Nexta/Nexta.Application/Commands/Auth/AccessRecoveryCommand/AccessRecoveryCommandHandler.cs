@@ -1,10 +1,10 @@
-﻿using FluentValidation;
-using MediatR;
-using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
-using Nexta.Domain.Constants;
+using Nexta.Domain.Models.User;
 using Nexta.Domain.Exceptions;
-using Nexta.Domain.Models;
+using Nexta.Domain.Constants;
+using FluentValidation;
+using MediatR;
 
 namespace Nexta.Application.Commands.Auth.AccessRecoveryCommand
 {
@@ -44,29 +44,15 @@ namespace Nexta.Application.Commands.Auth.AccessRecoveryCommand
 
             var passwordHash = _passwordHashService.Generate(command.Password);
 
-            CreateUserToRegister(ref dbUser, passwordHash!);
+            dbUser.ChangePassword(passwordHash);
+            dbUser.AddNotification(
+                    "Пароль бы успешно обновлён.",
+                    NotificationKeys.WarningScamAccessRecovery);
 
             await _usersRepository.UpdateAsync(dbUser, ct);
             await _emailService.SendEmailAsync(dbUser.Email!, "", "Пароль бы успешно обновлён.", NotificationKeys.WarningScamAccessRecovery, ct);
 
             return Unit.Value;
-        }
-
-        private User CreateUserToRegister(ref User user, string passwordHash)
-        {
-            user.PasswordHash = passwordHash;
-
-            var notification = new Notification
-            {
-                IsRead = false,
-                Header = "Пароль бы успешно обновлён.",
-                Message = NotificationKeys.WarningScamAccessRecovery,
-                IsTemporary = false,
-            };
-
-            user.Notifications.Add(notification);
-
-            return user;
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Filters.Users;
-using Nexta.Domain.Models;
+﻿using Nexta.Domain.Filters.Users;
+using Nexta.Domain.Base;
+using Nexta.Domain.Models.User;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {

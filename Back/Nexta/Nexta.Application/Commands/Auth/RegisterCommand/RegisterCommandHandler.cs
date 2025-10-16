@@ -7,6 +7,7 @@ using Nexta.Domain.Models;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
+using Nexta.Domain.Models.User;
 
 namespace Nexta.Application.Commands.Auth.RegisterCommand
 {
@@ -49,42 +50,16 @@ namespace Nexta.Application.Commands.Auth.RegisterCommand
 
 			var passwordHash = _passwordHashService.Generate(command.Password);
 
-			var user = _mapper.Map<User>(command);
-			var userToCreate = CreateUserToRegister(user, passwordHash!);
+			var user = new User(command.FirstName, command.MiddleName, command.Email ,command.LastName, passwordHash);
+			user.AddNotification("Успешная регистрация!", NotificationKeys.CompleteRegistration);
 
-			var createdUser = _mapper.Map<UserResponse>(await _usersRepository.AddAsync(userToCreate, ct));
+			var createdUser = _mapper.Map<UserResponse>(await _usersRepository.AddAsync(user, ct));
 			var accessToken = _jwtTokenService.CreateAccessToken(createdUser.Email!, createdUser.Role);
 
 			await _emailService.SendEmailAsync(createdUser.Email, "", "Успешная регистрация!", NotificationKeys.CompleteRegistration, ct);
 
 
             return new RegisterCommandResponse(createdUser, accessToken);
-		}
-
-		private User CreateUserToRegister(User user, string passwordHash)
-		{
-			var userToCreate = new User
-			{
-				FirstName = user.FirstName,
-				LastName = user.LastName,
-				MiddleName = user.MiddleName,
-				Email = user.Email,
-				Phone = user.Phone,
-				PasswordHash = passwordHash,
-				Role = "User"
-			};
-
-			var notification = new Notification
-			{
-				IsRead = false,
-				Header = "Успешная регистрация!",
-				Message = NotificationKeys.CompleteRegistration,
-				IsTemporary = false,
-			};
-
-			userToCreate.Notifications.Add(notification);
-
-			return userToCreate;
 		}
 	}
 }

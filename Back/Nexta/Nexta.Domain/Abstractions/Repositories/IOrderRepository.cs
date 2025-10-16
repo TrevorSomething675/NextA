@@ -1,6 +1,6 @@
-﻿using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Filters;
-using Nexta.Domain.Models;
+﻿using Nexta.Domain.Filters;
+using Nexta.Domain.Base;
+using Nexta.Domain.Models.Order;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {

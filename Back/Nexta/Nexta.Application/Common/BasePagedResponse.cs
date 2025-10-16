@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Models.DataModels;
+﻿using Nexta.Domain.Base;
 
 namespace Nexta.Application.Common
 {

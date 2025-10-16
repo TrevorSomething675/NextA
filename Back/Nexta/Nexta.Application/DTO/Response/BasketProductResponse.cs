@@ -1,6 +1,4 @@
-﻿using Nexta.Domain.Enums;
-
-namespace Nexta.Application.DTO.Response
+﻿namespace Nexta.Application.DTO.Response
 {
     public class BasketProductResponse
     {
@@ -12,7 +10,6 @@ namespace Nexta.Application.DTO.Response
         public string Article { get; set; }
         public string Name { get; set; }
 
-        public BasketProductStatus Status { get; set; }
         public int NewPrice { get; set; }
         public int OldPrice { get; set; }
     }

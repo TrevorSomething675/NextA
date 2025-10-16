@@ -1,5 +1,4 @@
-﻿using Nexta.Domain.Enums;
-using MediatR;
+﻿using MediatR;
 
 namespace Nexta.Application.Commands.Basket.UpdateBasketProductCommand
 {
@@ -9,6 +8,5 @@ namespace Nexta.Application.Commands.Basket.UpdateBasketProductCommand
         public Guid ProductId { get; init; }
         public DateOnly? DeliveryDate { get; init; }
         public int? Count { get; init; }
-        public BasketProductStatus? Status { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models;
 using FluentValidation;
 using MediatR;
+using Nexta.Domain.Models.Order;
 
 namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 {

@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Nexta.Infrastructure.DataBase.Entities;
+using Nexta.Domain.Models.Order;
+using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.User;
 
 namespace Nexta.Infrastructure.Extensions
 {
     public static class ServiceCollectionRepositoryExtension
     {
-        public static IQueryable<ProductEntity> WithCategoryTerm(this IQueryable<ProductEntity> query, string categoryTerm)
+        public static IQueryable<Product> WithCategoryTerm(this IQueryable<Product> query, string categoryTerm)
         {
             if (!string.IsNullOrEmpty(categoryTerm))
             {
@@ -14,7 +16,7 @@ namespace Nexta.Infrastructure.Extensions
             return query;
         }
 
-        public static IQueryable<ProductEntity> WithOrderByTerm(this IQueryable<ProductEntity> query, string categoryTerm)
+        public static IQueryable<Product> WithOrderByTerm(this IQueryable<Product> query, string categoryTerm)
         {
             if (!string.IsNullOrEmpty(categoryTerm))
             {
@@ -24,7 +26,7 @@ namespace Nexta.Infrastructure.Extensions
             return query;
         }
 
-        public static IQueryable<UserEntity> WithSearchTerm(this IQueryable<UserEntity> query, string searchTerm)
+        public static IQueryable<User> WithSearchTerm(this IQueryable<User> query, string searchTerm)
         {
             if (!string.IsNullOrEmpty(searchTerm))
             {
@@ -48,7 +50,7 @@ namespace Nexta.Infrastructure.Extensions
             return query;
         }
 
-        public static IQueryable<ProductEntity> WithPriceTerm(this IQueryable<ProductEntity> query, int? minPrice, int? maxPrice)
+        public static IQueryable<Product> WithPriceTerm(this IQueryable<Product> query, int? minPrice, int? maxPrice)
         {
             if (minPrice != null && maxPrice != null)
             {
@@ -59,7 +61,7 @@ namespace Nexta.Infrastructure.Extensions
             return query;
         }
 
-        public static IQueryable<ProductEntity> WithSearchTerm(this IQueryable<ProductEntity> query, string searchTerm)
+        public static IQueryable<Product> WithSearchTerm(this IQueryable<Product> query, string searchTerm)
 		{
 			if (!string.IsNullOrEmpty(searchTerm))
 			{
@@ -74,7 +76,7 @@ namespace Nexta.Infrastructure.Extensions
 			return query;
 		}
 
-        public static IQueryable<OrderEntity> WithSearchTerm(this IQueryable<OrderEntity> query, string searchTerm)
+        public static IQueryable<Notification> WithSearchTerm(this IQueryable<Notification> query, string searchTerm)
         {
             if (!string.IsNullOrEmpty(searchTerm))
             {
@@ -82,42 +84,6 @@ namespace Nexta.Infrastructure.Extensions
                     EF.Functions.Like(o.Id.ToString().ToLower(), $"{searchTerm}") ||
                     EF.Functions.Like(o.Id.ToString().ToLower(), $"{searchTerm}%") ||
                     EF.Functions.Like(o.Id.ToString().ToLower(), $"%{searchTerm}") ||
-
-                    EF.Functions.Like(o.User.FirstName.ToLower(), $"{searchTerm}") ||
-                    EF.Functions.Like(o.User.FirstName.ToLower(), $"{searchTerm}%") ||
-                    EF.Functions.Like(o.User.FirstName.ToLower(), $"%{searchTerm}") ||
-
-                    EF.Functions.Like(o.User.MiddleName.ToLower(), $"%{searchTerm}") ||
-                    EF.Functions.Like(o.User.MiddleName.ToLower(), $"%{searchTerm}%") ||
-                    EF.Functions.Like(o.User.MiddleName.ToLower(), $"%{searchTerm}") ||
-
-                    EF.Functions.Like(o.User.LastName.ToLower(), $"%{searchTerm}") ||
-                    EF.Functions.Like(o.User.LastName.ToLower(), $"%{searchTerm}%") ||
-                    EF.Functions.Like(o.User.LastName.ToLower(), $"%{searchTerm}"));
-            }
-            return query;
-        }
-
-        public static IQueryable<NotificationEntity> WithSearchTerm(this IQueryable<NotificationEntity> query, string searchTerm)
-        {
-            if (!string.IsNullOrEmpty(searchTerm))
-            {
-                query = query.Where(o =>
-                    EF.Functions.Like(o.Id.ToString().ToLower(), $"{searchTerm}") ||
-                    EF.Functions.Like(o.Id.ToString().ToLower(), $"{searchTerm}%") ||
-                    EF.Functions.Like(o.Id.ToString().ToLower(), $"%{searchTerm}") ||
-
-                    EF.Functions.Like(o.User.FirstName.ToLower(), $"{searchTerm}") ||
-                    EF.Functions.Like(o.User.FirstName.ToLower(), $"{searchTerm}%") ||
-                    EF.Functions.Like(o.User.FirstName.ToLower(), $"%{searchTerm}") ||
-
-                    EF.Functions.Like(o.User.MiddleName.ToLower(), $"%{searchTerm}") ||
-                    EF.Functions.Like(o.User.MiddleName.ToLower(), $"%{searchTerm}%") ||
-                    EF.Functions.Like(o.User.MiddleName.ToLower(), $"%{searchTerm}") ||
-
-                    EF.Functions.Like(o.User.LastName.ToLower(), $"%{searchTerm}") ||
-                    EF.Functions.Like(o.User.LastName.ToLower(), $"%{searchTerm}%") ||
-                    EF.Functions.Like(o.User.LastName.ToLower(), $"%{searchTerm}"));
             }
             return query;
         }

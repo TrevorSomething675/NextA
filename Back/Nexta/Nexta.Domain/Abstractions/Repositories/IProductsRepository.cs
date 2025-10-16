@@ -1,6 +1,6 @@
-﻿using Nexta.Domain.Models.DataModels;
-using Nexta.Domain.Filters.Products;
-using Nexta.Domain.Models;
+﻿using Nexta.Domain.Filters.Products;
+using Nexta.Domain.Base;
+using Nexta.Domain.Models.Product;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {

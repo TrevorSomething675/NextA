@@ -1,7 +1,7 @@
 ﻿using Nexta.Application.DTO.Request;
 using Nexta.Application.DTO.Response;
-using Nexta.Domain.Models;
 using AutoMapper;
+using Nexta.Domain.Models.Product;
 
 namespace Nexta.Application.Profiles
 {

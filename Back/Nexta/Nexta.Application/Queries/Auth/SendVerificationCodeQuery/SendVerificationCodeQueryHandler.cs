@@ -23,8 +23,8 @@ namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
             if (!validationResult.IsValid)
                 throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-            var result = _verificationService.SetVerificationCode(request.Email);
-            var subject = CreateSubject(result.Code);
+            var code = _verificationService.SetVerificationCode(request.Email);
+            var subject = CreateSubject(code);
 
 			await _emailService.SendEmailAsync(request.Email, "", subject, "", ct);
 

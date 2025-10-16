@@ -1,9 +1,9 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models.DataModels;
 using Nexta.Application.DTO.Response;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Models;
+using Nexta.Domain.Base;
+using Nexta.Domain.Models.Order;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {

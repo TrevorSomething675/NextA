@@ -1,13 +1,12 @@
 ﻿using Nexta.Application.Commands.Admin.CreateAdminProductCommand;
 using Nexta.Application.DTO.Response;
-using Nexta.Domain.Models.DataModels;
 using Nexta.Application.DTO.Request;
 using Nexta.Application.DTO.Admin;
-using Nexta.Domain.Models.Images;
-using Nexta.Domain.Models;
 using Nexta.Domain.Enums;
 using AutoMapper;
 using Nexta.Application.Commands.Admin.UpdateAdminProductCommand;
+using Nexta.Domain.Base;
+using Nexta.Domain.Models.Product;
 
 namespace Nexta.Application.Profiles
 {

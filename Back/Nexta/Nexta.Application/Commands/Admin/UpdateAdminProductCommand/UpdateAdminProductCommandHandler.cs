@@ -1,9 +1,9 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Application.DTO.Admin;
 using Nexta.Application.Enums;
-using Nexta.Domain.Models;
 using AutoMapper;
 using MediatR;
+using Nexta.Domain.Models.Product;
 
 namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand
 {

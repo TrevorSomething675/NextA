@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Models.Images;
+﻿using Nexta.Domain.Models.Product;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {

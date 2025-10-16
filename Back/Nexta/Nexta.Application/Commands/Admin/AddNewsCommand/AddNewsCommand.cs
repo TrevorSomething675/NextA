@@ -1,5 +1,4 @@
-﻿using Nexta.Application.DTO.Request;
-using MediatR;
+﻿using MediatR;
 
 namespace Nexta.Application.Commands.Admin.AddNewsCommand
 {
@@ -7,6 +6,5 @@ namespace Nexta.Application.Commands.Admin.AddNewsCommand
     {
 		public string? Header { get; set; }
 		public string? Description { get; set; }
-        public NewsImageRequest? Image { get; init; }
     }
 }
