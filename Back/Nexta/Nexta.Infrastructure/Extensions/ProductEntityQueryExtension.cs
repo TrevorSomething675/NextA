@@ -26,6 +26,27 @@ namespace Nexta.Infrastructure.Extensions
             return query;
         }
 
+        /*
+        public static IQueryable<Order> WithSearchTerm(this IQueryable<Order> query, string searchTerm, IQueryable<User> users)
+        {
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+
+                query =
+                    from o in query
+                    join u in users on o.UserId equals u.Id
+                    where
+                        EF.Functions.Like(u.Email.ToLower(), $"%{searchTerm}%") ||
+                        EF.Functions.Like(u.FirstName.ToLower(), $"%{searchTerm}%") ||
+                        EF.Functions.Like(u.LastName.ToLower(), $"%{searchTerm}%")
+                    select o;
+            }
+
+            return query;
+        }
+        */
+
         public static IQueryable<User> WithSearchTerm(this IQueryable<User> query, string searchTerm)
         {
             if (!string.IsNullOrEmpty(searchTerm))
@@ -47,6 +68,7 @@ namespace Nexta.Infrastructure.Extensions
                     EF.Functions.Like(u.LastName.ToLower(), $"%{searchTerm}") ||
                     EF.Functions.Like(u.LastName.ToLower(), $"%{searchTerm}"));
             }
+
             return query;
         }
 
@@ -83,7 +105,7 @@ namespace Nexta.Infrastructure.Extensions
                 query = query.Where(o =>
                     EF.Functions.Like(o.Id.ToString().ToLower(), $"{searchTerm}") ||
                     EF.Functions.Like(o.Id.ToString().ToLower(), $"{searchTerm}%") ||
-                    EF.Functions.Like(o.Id.ToString().ToLower(), $"%{searchTerm}") ||
+                    EF.Functions.Like(o.Id.ToString().ToLower(), $"%{searchTerm}"));
             }
             return query;
         }

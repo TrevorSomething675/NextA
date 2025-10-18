@@ -9,7 +9,7 @@ namespace Nexta.Application.Commands.Admin.AddAdminProductToOrderCommand
             RuleFor(r => r.ProductId)
                 .NotEmpty().WithMessage("Id позиции пустой");
 
-            RuleFor(r => r.OrderId)
+            RuleFor(r => r.UserId)
                 .NotEmpty().WithMessage("Id пользователя пустой");
         }
     }

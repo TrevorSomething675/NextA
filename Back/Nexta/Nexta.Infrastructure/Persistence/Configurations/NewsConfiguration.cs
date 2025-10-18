@@ -1,17 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Infrastructure.Persistence.Entities;
+using Nexta.Domain.Models.News;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {
-    public class NewsConfiguration : IEntityTypeConfiguration<NewsEntity>
+    public class NewsConfiguration : IEntityTypeConfiguration<News>
     {
-        public void Configure(EntityTypeBuilder<NewsEntity> builder)
+        public void Configure(EntityTypeBuilder<News> builder)
         {
-            builder.HasOne(n => n.Image)
-                .WithOne(i => i.News)
-                .HasForeignKey<NewsImageEntity>(i => i.Id)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.ToTable("News");
+
+            builder.HasKey(n => n.Id);
+
+            builder.Property(n => n.Base64String)
+                .IsRequired();
+
+            builder.Property(n => n.Header)
+                .IsRequired(false);
+
+            builder.Property(n => n.Description)
+                .IsRequired(false);
         }
     }
 }

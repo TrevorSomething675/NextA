@@ -8,9 +8,9 @@ namespace Nexta.Application.Queries.Products.GetProductByIdQuery
     public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdQueryResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IProductsRepository _productsRepository;
+        private readonly IProductsRepositoryL _productsRepository;
 
-        public GetProductByIdQueryHandler(IProductsRepository productsRepository, IMapper mapper)
+        public GetProductByIdQueryHandler(IProductsRepositoryL productsRepository, IMapper mapper)
         {
             _productsRepository = productsRepository;
             _mapper = mapper;

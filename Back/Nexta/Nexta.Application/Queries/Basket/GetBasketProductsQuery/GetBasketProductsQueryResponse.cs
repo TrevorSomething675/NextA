@@ -1,9 +1,9 @@
-﻿using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Basket;
 
 namespace Nexta.Application.Queries.Basket.GetBasketProductsQuery
 {
-    public class GetBasketProductsQueryResponse(List<BasketProductResponse> products)
+    public class GetBasketProductsQueryResponse
     {
-		public List<BasketProductResponse>? Products { get; init; } = products;
+        public BasketDto Basket { get; }
 	}
 }

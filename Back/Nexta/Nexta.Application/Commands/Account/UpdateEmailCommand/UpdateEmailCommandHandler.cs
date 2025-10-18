@@ -38,7 +38,7 @@ namespace Nexta.Application.Commands.Account.UpdateEmailCommand
             if(dbUser.Email != command.LegacyEmail)
                 throw new NotFoundException("Ошибка валидации"); // сделано специально
 
-            dbUser.Email = command.Email;
+            dbUser.ChangeEmail(command.Email);
 
             var updateUser = await _usersRepository.UpdateAsync(dbUser, ct);
 

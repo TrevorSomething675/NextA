@@ -34,8 +34,8 @@ namespace Nexta.Application.Commands.Account.ChangePasswordCommand
             if (!_hashService.Validate(command.LegacyPassword, user.PasswordHash))
                 throw new BadRequestException("Неверный пароль");
 
-            var newPasswordHash = _hashService.Generate(command.Password);
-            user.PasswordHash = newPasswordHash;
+            var passwordHash = _hashService.Generate(command.Password);
+            user.ChangePassword(passwordHash);
 
             var result = await _usersRepository.UpdateAsync(user, ct);
 

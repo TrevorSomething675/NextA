@@ -8,10 +8,10 @@ namespace Nexta.Application.Queries.Products.GetProductsQuery
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, GetProductsQueryResponse>
     {
-        private readonly IProductsRepository _productsRepository;
+        private readonly IProductsRepositoryL _productsRepository;
         private readonly IMapper _mapper;
 
-        public GetProductsQueryHandler(IProductsRepository productsRepository, IMapper mapper)
+        public GetProductsQueryHandler(IProductsRepositoryL productsRepository, IMapper mapper)
         {
             _productsRepository = productsRepository;
             _mapper = mapper;

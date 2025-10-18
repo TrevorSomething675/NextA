@@ -9,10 +9,10 @@ namespace Nexta.Web.Extensions
 		{
 			services
 				.AddScoped<IUsersRepository, UsersRepository>()
-				.AddScoped<IProductsRepository, ProductsRepository>()
+				.AddScoped<IProductsRepositoryL, ProductsRepositoryL>()
 				.AddScoped<IBasketProductRepository, BasketProductRepository>()
-				.AddScoped<IOrderRepository, OrderRepository>()
-				.AddScoped<IOrderProductRepository, OrderProductRepository>()
+				.AddScoped<IOrderRepositoryL, OrderRepositoryL>()
+				.AddScoped<IOrderProductRepositoryL, OrderProductRepositoryL>()
 				.AddScoped<IProductImageRepository, ProductImageRepository>()
 				.AddScoped<INotificationsRepository, NotificationsRepository>()
 				.AddScoped<ICategoriesRepository, CategoriesRepository>()

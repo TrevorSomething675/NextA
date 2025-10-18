@@ -1,22 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Infrastructure.Persistence.Entities;
+using Nexta.Domain.Models.Basket;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {
-    internal class BasketProductConfiguration : IEntityTypeConfiguration<BasketProductEntity>
+    internal class BasketProductConfiguration : IEntityTypeConfiguration<BasketItem>
     {
-        public void Configure(EntityTypeBuilder<BasketProductEntity> builder)
+        public void Configure(EntityTypeBuilder<BasketItem> builder)
         {
-            builder.HasOne(ud => ud.User)
-                .WithMany(u => u.BasketProducts)
-                .HasForeignKey(ud => ud.UserId);
+            builder.HasKey(b => b.Id);
 
-            builder.HasOne(ud => ud.Product)
-                .WithMany(d => d.BasketProducts)
-                .HasForeignKey(ud => ud.ProductId);
+            builder.Property(b => b.Count)
+                .IsRequired();
 
-            builder.HasKey(ud => new { ud.UserId, ud.ProductId});
+            builder.Property(b => b.ProductId)
+                .IsRequired();
         }
     }
 }

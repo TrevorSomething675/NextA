@@ -1,46 +1,35 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Application.DTO.Product;
+using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
-using Nexta.Domain.Enums;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Response;
-using Nexta.Domain.Models.Basket;
 
 namespace Nexta.Application.Commands.Basket.AddBasketProductCommand
 {
-	public class AddBasketProductCommandHandler : IRequestHandler<AddBasketProductCommand, AddBasketProductCommandResponse>
+	public class AddBasketProductCommandHandler : IRequestHandler<AddBasketProductCommand, ProductDto>
 	{
-		private readonly IBasketProductRepository _basketProductRepository;
 		private readonly IMapper _mapper;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public AddBasketProductCommandHandler(IBasketProductRepository basketProductRepository, IMapper mapper)
+		public AddBasketProductCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
 		{
-			_basketProductRepository = basketProductRepository;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
-		public async Task<AddBasketProductCommandResponse> Handle(AddBasketProductCommand command, CancellationToken ct)
+		public async Task<ProductDto> Handle(AddBasketProductCommand command, CancellationToken ct)
 		{
-			var basketProduct = await _basketProductRepository.GetAsync(command.UserId, command.ProductId, ct);
+            var basket = await _unitOfWork.Baskets.GetByUserIdAsync(command.UserId, ct);
 
-			if (basketProduct != null)
+			if (basket.Products.Select(p => p.Id).Contains(command.ProductId))
 				throw new ConflictException("Деталь уже в корзине");
 
-			var basketProductToCreate = new BasketProduct
-			{ 
-				UserId = command.UserId,
-				ProductId = command.ProductId,
-				Count = command.CountToPay,
-				Status = BasketProductStatus.AtWork,
-			};
+			basket.AddProduct(command.ProductId, command.CountToPay);
+			await _unitOfWork.SaveChangesAsync(ct);
 
-			var createdBasketProduct = _mapper.Map<BasketProduct>(await _basketProductRepository.AddAsync(basketProductToCreate, ct));
+			var product = _unitOfWork.Products.GetAsync(command.ProductId, ct);
+			var response = _mapper.Map<ProductDto>(product);
 
-			if (createdBasketProduct == null)
-				throw new BadRequestException("Деталь не получилось добавить");
-
-			var basketResponse = _mapper.Map<BasketProductResponse>(createdBasketProduct);
-
-			return new AddBasketProductCommandResponse(basketResponse);
-		}
+			return response;
+        }
 	}
 }

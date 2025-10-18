@@ -1,28 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Infrastructure.Persistence.Entities;
+using Nexta.Domain.Models.Order;
+using Nexta.Domain.Models.User;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {
-	public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
+	public class OrderConfiguration : IEntityTypeConfiguration<Order>
 	{
-		public void Configure(EntityTypeBuilder<OrderEntity> builder)
+		public void Configure(EntityTypeBuilder<Order> builder)
 		{
-			builder.HasOne(o => o.User)
-				.WithMany(u => u.Orders)
-				.HasForeignKey(o => o.UserId);
+			builder.HasKey(o => o.Id);
 
-			builder.HasMany(o => o.Products)
-				.WithMany(d => d.Orders)
-				.UsingEntity<OrderProductEntity>(
-					e => e.HasOne(od => od.Product)
-						.WithMany(d => d.OrderProducts)
-						.HasForeignKey(od => od.ProductId),
-					e => e.HasOne(od => od.Order)
-						.WithMany(o => o.OrderProducts)
-						.HasForeignKey(od => od.OrderId),
-					e => e.HasKey(od => new { od.OrderId, od.ProductId})
-				);
+			builder.Property(o => o.Status)
+				.HasConversion<string>()
+				.IsRequired();
+
+			builder.Property(o => o.CreatedDate)
+				.IsRequired();
+
+			builder.HasOne(typeof(User), "Id")
+				.WithOne()
+				.HasForeignKey("UserId")
+				.OnDelete(DeleteBehavior.Cascade);
+
+			builder.HasOne(typeof(OrderItem), "_products")
+				.WithMany()
+				.HasForeignKey("UserId")
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

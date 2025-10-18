@@ -9,8 +9,8 @@ namespace Nexta.Application.Profiles
     {
         public ProductCategoryProfile()
         {
-            CreateMap<ProductCategory, ProductCategoryResponse>();
-            CreateMap<AddCategoryCommand, ProductCategory>();
+            CreateMap<Category, ProductCategoryResponse>();
+            CreateMap<AddCategoryCommand, Category>();
         }
     }
 }

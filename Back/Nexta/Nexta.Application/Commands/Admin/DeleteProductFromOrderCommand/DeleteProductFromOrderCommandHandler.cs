@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
@@ -7,12 +7,12 @@ namespace Nexta.Application.Commands.Admin.DeleteProductFromOrderCommand
 {
 	public class DeleteProductFromOrderCommandHandler : IRequestHandler<DeleteProductFromOrderCommand, DeleteProductFromOrderCommandResponse>
 	{
-		private readonly IOrderProductRepository _orderProductRepository;
 		private readonly IValidator<DeleteProductFromOrderCommand> _validator;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public DeleteProductFromOrderCommandHandler(IOrderProductRepository orderProductRepository, IValidator<DeleteProductFromOrderCommand> validator)
+		public DeleteProductFromOrderCommandHandler(IValidator<DeleteProductFromOrderCommand> validator, IUnitOfWork unitOfWork)
 		{
-			_orderProductRepository = orderProductRepository;
+			_unitOfWork = unitOfWork;
 			_validator = validator;
 		}
 
@@ -22,9 +22,11 @@ namespace Nexta.Application.Commands.Admin.DeleteProductFromOrderCommand
 			if (!validationResult.IsValid)
 				throw new BadRequestException(string.Join(',', validationResult.Errors));
 
-			var deletedOrderProduct = await _orderProductRepository.DeleteAsync(request.OrderId, request.ProductId, ct);
+			var orders = await _unitOfWork.Orders.GetAsync(request.OrderId, ct);
+			orders.DeleteProduct(request.ProductId);
+			_unitOfWork.Orders.Update(orders);
 
-			return new DeleteProductFromOrderCommandResponse(deletedOrderProduct.OrderId, deletedOrderProduct.ProductId);
+			return new DeleteProductFromOrderCommandResponse(request.OrderId, request.ProductId);
 		}
 	}
 }

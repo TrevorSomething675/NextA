@@ -10,10 +10,10 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {
 	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQuery, GetOrdersForUserQueryResponse>
 	{
-		private readonly IOrderRepository _orderRepository;
+		private readonly IOrderRepositoryL _orderRepository;
 		private readonly IMapper _mapper;
 
-		public GetOrdersForUserQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+		public GetOrdersForUserQueryHandler(IOrderRepositoryL orderRepository, IMapper mapper)
 		{
 			_orderRepository = orderRepository;
 			_mapper = mapper;

@@ -8,18 +8,18 @@ using Nexta.Infrastructure.Persistence.Entities;
 
 namespace Nexta.Infrastructure.Persistence.Repositories
 {
-    public class OrderProductRepository : IOrderProductRepository
+    public class OrderProductRepositoryL : IOrderProductRepositoryL
     {
         private readonly IDbContextFactory<MainContext> _dbContextFactory;
         private readonly IMapper _mapper;
 
-        public OrderProductRepository(IDbContextFactory<MainContext> dbContextFactory, IMapper mapper)
+        public OrderProductRepositoryL(IDbContextFactory<MainContext> dbContextFactory, IMapper mapper)
         {
             _dbContextFactory = dbContextFactory;
             _mapper = mapper;
         }
 
-        public async Task<OrderProduct> AddAsync(OrderProduct orderProduct, CancellationToken ct = default)
+        public async Task<OrderItem> AddAsync(OrderItem orderProduct, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
@@ -27,13 +27,13 @@ namespace Nexta.Infrastructure.Persistence.Repositories
                 var createdOrderProduct = context.OrderProducts.Add(orderProductEntity);
                 await context.SaveChangesAsync(ct);
 
-                var result = _mapper.Map<OrderProduct>(createdOrderProduct);
+                var result = _mapper.Map<OrderItem>(createdOrderProduct);
 
                 return result;
             }
         }
 
-        public async Task AddRangeAsync(List<OrderProduct> orderProductToAdd, CancellationToken ct = default)
+        public async Task AddRangeAsync(List<OrderItem> orderProductToAdd, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
@@ -43,7 +43,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task<OrderProduct> DeleteAsync(Guid orderId, Guid productId, CancellationToken ct = default)
+        public async Task<OrderItem> DeleteAsync(Guid orderId, Guid productId, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
@@ -53,13 +53,13 @@ namespace Nexta.Infrastructure.Persistence.Repositories
 
                 var deletedOrderProductEntity = context.OrderProducts.Remove(orderProductToDelete);
                 await context.SaveChangesAsync(ct);
-                var deletedOrderProduct = _mapper.Map<OrderProduct>(deletedOrderProductEntity.Entity);
+                var deletedOrderProduct = _mapper.Map<OrderItem>(deletedOrderProductEntity.Entity);
 
                 return deletedOrderProduct;
             }
         }
 
-        public async Task DeleteRangeAsync(List<OrderProduct> orderProductToDelete, CancellationToken ct = default)
+        public async Task DeleteRangeAsync(List<OrderItem> orderProductToDelete, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
@@ -70,7 +70,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task ReplaceOrderProductAsync(Guid orderId, List<OrderProduct> orderProducts, CancellationToken ct = default)
+        public async Task ReplaceOrderProductAsync(Guid orderId, List<OrderItem> orderProducts, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {
@@ -86,7 +86,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task<OrderProduct> UpdateAsync(OrderProduct orderProductToUpdate, CancellationToken ct = default)
+        public async Task<OrderItem> UpdateAsync(OrderItem orderProductToUpdate, CancellationToken ct = default)
         {
             await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
             {

@@ -1,33 +1,32 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions;
+using Nexta.Domain.Models.Order;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Models.Order;
 
 namespace Nexta.Application.Commands.Admin.UpdateOrderCommand
 {
 	public class UpdateAdminOrderCommandHandler : IRequestHandler<UpdateAdminOrderCommand, UpdateAdminOrderCommandResponse>
 	{
-		private readonly IOrderProductRepository _orderProductRepository;
-		private readonly IOrderRepository _orderRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 
-		public UpdateAdminOrderCommandHandler(IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IMapper mapper)
+		public UpdateAdminOrderCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
 		{
-			_orderProductRepository = orderProductRepository;
-			_orderRepository = orderRepository;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
 		public async Task<UpdateAdminOrderCommandResponse> Handle(UpdateAdminOrderCommand request, CancellationToken ct = default)
 		{
-			var orderToUpdate = _mapper.Map<Order>(request);
+			var order = await _unitOfWork.Orders.GetAsyncByUserId(request.UserId);
 
-			var updatedOrderId = await _orderRepository.UpdateAsync(orderToUpdate);
+			order.UpdateStatus(request.Status);
+			order.ReplaceProducts(_mapper.Map<List<OrderItem>>(request.OrderProducts));
 
-			if(orderToUpdate.OrderProducts != null)
-				await _orderProductRepository.ReplaceOrderProductAsync(updatedOrderId, orderToUpdate.OrderProducts);
+			var result = _unitOfWork.Orders.Update(order);
+			await _unitOfWork.SaveChangesAsync(ct);
 
-			return new UpdateAdminOrderCommandResponse(updatedOrderId);
+			return new UpdateAdminOrderCommandResponse(result.Id);
 		}
 	}
 }

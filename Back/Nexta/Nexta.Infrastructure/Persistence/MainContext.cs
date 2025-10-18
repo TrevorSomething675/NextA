@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Nexta.Infrastructure.Persistence.Configurations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Nexta.Domain.Models.Basket;
+using Nexta.Domain.Models.News;
+using Nexta.Domain.Models.Order;
+using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.User;
 using Nexta.Domain.Options;
-using Nexta.Infrastructure.Persistence.Configurations;
-using Nexta.Infrastructure.Persistence.Entities;
 
 namespace Nexta.Infrastructure.Persistence
 {
@@ -10,22 +14,21 @@ namespace Nexta.Infrastructure.Persistence
 	{
 		private readonly DataBaseOptions _options;
 
-		public DbSet<UserEntity> Users { get; set; }
-		public DbSet<BasketProductEntity> BasketProducts { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<Basket> Basket { get; set; }
 
-		public DbSet<OrderEntity> Orders { get; set; }
-		public DbSet<OrderProductEntity> OrderProducts { get; set; }
+		public DbSet<Order> Orders { get; set; }
+		public DbSet<OrderItem> OrderProducts { get; set; }
 
-		public DbSet<NewsEntity> News { get; set; }
-		public DbSet<NewsImageEntity> NewsImages { get; set; }
+		public DbSet<News> News { get; set; }
 
-		public DbSet<ProductEntity> Products { get; set; }
-		public DbSet<ProductImageEntity> ProductImages { get; set; }
-		public DbSet<ProductAttributeEntity> ProductAttributes { get; set; }
+		public DbSet<Product> Products { get; set; }
+		public DbSet<ProductImage> ProductImages { get; set; }
+		public DbSet<ProductAttribute> ProductAttributes { get; set; }
 
-        public DbSet<ProductCategoryEntity> ProductCategories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-        public DbSet<NotificationEntity> Notifications { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
 		public MainContext(IOptions<DataBaseOptions> options)
 		{
@@ -60,7 +63,6 @@ namespace Nexta.Infrastructure.Persistence
 			modelBuilder.ApplyConfiguration(new ProductConfiguration());
 			modelBuilder.ApplyConfiguration(new BasketProductConfiguration());
 			modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
-
 		}
 	}
 }

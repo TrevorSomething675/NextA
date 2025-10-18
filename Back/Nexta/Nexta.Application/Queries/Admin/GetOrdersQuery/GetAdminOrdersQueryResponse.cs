@@ -1,11 +1,11 @@
-﻿using Nexta.Application.Common;
-using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Order;
+using Nexta.Application.Common;
 using Nexta.Domain.Base;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {
-	public class GetAdminOrdersQueryResponse : BasePagedResponse<OrderResponse>
+	public class GetAdminOrdersQueryResponse : BasePagedResponse<OrderDto>
 	{
-		public GetAdminOrdersQueryResponse(PagedData<OrderResponse> data) : base(data) { }
+		public GetAdminOrdersQueryResponse(PagedData<OrderDto> data) : base(data) { }
 	}
 }

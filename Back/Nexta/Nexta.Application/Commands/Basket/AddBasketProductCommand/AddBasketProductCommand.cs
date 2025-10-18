@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Nexta.Application.DTO.Product;
+using MediatR;
 
 namespace Nexta.Application.Commands.Basket.AddBasketProductCommand
 {
-    public class AddBasketProductCommand : IRequest<AddBasketProductCommandResponse>
+    public class AddBasketProductCommand : IRequest<ProductDto>
     {
         public Guid UserId { get; set; }
         public Guid ProductId { get; set; }

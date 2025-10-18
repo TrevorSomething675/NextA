@@ -1,29 +1,28 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Order;
+using Nexta.Domain.Abstractions;
+using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Base;
-using Nexta.Domain.Models.Order;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {
 	public class GetAdminOrdersQueryHandler : IRequestHandler<GetAdminOrdersQuery, GetAdminOrdersQueryResponse>
 	{
-		private readonly IOrderRepository _orderRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 
-		public GetAdminOrdersQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+		public GetAdminOrdersQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
 		{
-			_orderRepository = orderRepository;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
 		public async Task<GetAdminOrdersQueryResponse> Handle(GetAdminOrdersQuery query, CancellationToken ct = default)
 		{
-			var pagedOrders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(query.Filter, ct));
-			var responseOrders = _mapper.Map<PagedData<OrderResponse>>(pagedOrders);
+			var orders = await _unitOfWork.Orders.GetOrdersByFullNameAsync(query.Filter, ct);
+			var response = _mapper.Map<PagedData<OrderDto>>(orders);
 
-			return new GetAdminOrdersQueryResponse(responseOrders);
+			return new GetAdminOrdersQueryResponse(response);
 		}
 	}
 }

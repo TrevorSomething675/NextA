@@ -20,7 +20,7 @@ namespace Nexta.Application.Commands.Account.ConfirmPhoneCommand
             if (user == null)
                 throw new NotFoundException("Пользователь не найден");
 
-            user.Phone = command.Phone;
+            user.ChangePhone(command.Phone);
             var updatedUser = await _usersRepository.UpdateAsync(user, ct);
 
             if (updatedUser?.Phone == null)

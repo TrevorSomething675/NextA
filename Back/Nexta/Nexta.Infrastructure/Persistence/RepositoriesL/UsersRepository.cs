@@ -6,42 +6,33 @@ using Nexta.Domain.Exceptions;
 using Nexta.Domain.Filters.Users;
 using Nexta.Domain.Models.User;
 using Nexta.Infrastructure.Extensions;
-using Nexta.Infrastructure.Persistence;
-using Nexta.Infrastructure.Persistence.Entities;
 
 namespace Nexta.Infrastructure.Persistence.Repositories
 {
 	public class UsersRepository : IUsersRepository
 	{
-		private readonly IDbContextFactory<MainContext> _contextFactory;
 		private readonly IMapper _mapper;
+		private readonly MainContext _context;
 
-		public UsersRepository(IDbContextFactory<MainContext> contextFactory, IMapper mapper)
+		public UsersRepository(IMapper mapper, MainContext context)
 		{
-			_contextFactory = contextFactory;
+			_context = context;
 			_mapper = mapper;
 		}
 
 		public async Task<User?> GetByEmailAsync(string email, CancellationToken ct = default)
 		{
-			await using (var context = await _contextFactory.CreateDbContextAsync(ct))
-			{
-				var userEntity = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email, ct);
-				var user = _mapper.Map<User>(userEntity);
+			var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
 
-				return user;
-			}
+			return user;
 		}
 
 		public async Task<User?> GetAsync(Guid id, CancellationToken ct = default)
 		{
-			await using(var context = await _contextFactory.CreateDbContextAsync(ct))
-			{
-				var userEntity = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id, ct);
-				var user = _mapper.Map<User>(userEntity);
+			var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == id, ct);
+			var user = _mapper.Map<User>(userEntity);
 
-				return user;
-			}
+			return user;
 		}
 
 		public async Task<PagedData<User>> GetAllAsync(GetAdminUsersFilter filter, CancellationToken ct = default)

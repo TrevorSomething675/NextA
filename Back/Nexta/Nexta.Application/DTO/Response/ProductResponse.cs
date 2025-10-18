@@ -23,6 +23,6 @@ namespace Nexta.Application.DTO.Response
 
         public ProductImageResponse? Image { get; init; }
         public List<ProductAttributeResponse> Attributes { get; init; } = new List<ProductAttributeResponse>();
-        public List<BasketProduct>? BasketProducts { get; set; }
+        public List<BasketItem>? BasketProducts { get; set; }
     }
 }

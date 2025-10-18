@@ -57,6 +57,22 @@ namespace Nexta.Domain.Models.User
             PasswordHash = passwordHash;
         }
 
+        public void ChangeEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentNullException("Email is required", nameof(email));
+
+            Email = email;
+        }
+
+        public void ChangePhone(string phone)
+        {
+            if (string.IsNullOrWhiteSpace(phone))
+                throw new ArgumentNullException("Phone number is required", nameof(phone));
+
+            Phone = phone;
+        }
+
         public void AddNotification(string header, string message)
         {
             var notification = new Notification(header, message, Id);

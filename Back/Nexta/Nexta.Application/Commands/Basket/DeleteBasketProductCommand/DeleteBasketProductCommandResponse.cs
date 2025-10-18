@@ -1,8 +1,7 @@
 ﻿namespace Nexta.Application.Commands.Basket.DeleteBasketProductCommand
 {
-    public class DeleteBasketProductCommandResponse(Guid userId, Guid productId)
+    public class DeleteBasketProductCommandResponse(Guid basketId)
     {
-		public Guid UserId { get; set; } = userId;
-		public Guid ProductId { get; set; } = productId;
+		public Guid BasketId { get; private set; } = basketId;
 	}
 }

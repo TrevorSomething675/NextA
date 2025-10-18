@@ -7,10 +7,10 @@ namespace Nexta.Application.Queries.Admin.GetProductQuery
 {
 	public class GetAdminProductQueryHandler : IRequestHandler<GetAdminProductQuery, GetAdminProductQueryResponse>
 	{
-		private readonly IProductsRepository _productsRepository;
+		private readonly IProductsRepositoryL _productsRepository;
 		private readonly IMapper _mapper;
 
-		public GetAdminProductQueryHandler(IProductsRepository productsRepository, IMapper mapper)
+		public GetAdminProductQueryHandler(IProductsRepositoryL productsRepository, IMapper mapper)
 		{
 			_productsRepository = productsRepository;
 			_mapper = mapper;

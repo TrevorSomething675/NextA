@@ -1,27 +1,26 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Exceptions;
+﻿using Nexta.Domain.Abstractions;
 using MediatR;
 
 namespace Nexta.Application.Commands.Basket.DeleteBasketProductCommand
 {
 	public class DeleteBasketProductCommandHandler : IRequestHandler<DeleteBasketProductCommand, DeleteBasketProductCommandResponse>
 	{
-		private readonly IBasketProductRepository _basketProductRepository;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public DeleteBasketProductCommandHandler(IBasketProductRepository basketProductRepository)
+		public DeleteBasketProductCommandHandler(IUnitOfWork unitOfWork)
 		{
-			_basketProductRepository = basketProductRepository;
+			_unitOfWork = unitOfWork;
 		}
 
 		public async Task<DeleteBasketProductCommandResponse> Handle(DeleteBasketProductCommand command, CancellationToken ct)
 		{
-			var basketProduct = await _basketProductRepository.GetAsync(command.UserId, command.ProductId, ct);
-			if (basketProduct == null)
-				throw new NotFoundException("В корзине нет такой детали");
+			var basket = await _unitOfWork.Baskets.GetByUserIdAsync(command.UserId, ct);
+            basket.RemoveProduct(command.ProductId);
+			var result = _unitOfWork.Baskets.Update(basket);
 
-			var deletedBasketProduct = await _basketProductRepository.DeleteAsync(basketProduct, ct);
+			await _unitOfWork.SaveChangesAsync(ct);
 
-			return new DeleteBasketProductCommandResponse(deletedBasketProduct.UserId, deletedBasketProduct.ProductId);
+			return new DeleteBasketProductCommandResponse(result.Id);
 		}
 	}
 }

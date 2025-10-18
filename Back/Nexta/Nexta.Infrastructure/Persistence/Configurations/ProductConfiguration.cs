@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Models.Product;
-using Nexta.Domain.Enums;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {
@@ -29,6 +28,9 @@ namespace Nexta.Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.Category)
                 .IsRequired(false).HasMaxLength(100);
+
+            builder.Property(p => p.IsVisible)
+                .HasDefaultValue(false);
 
             builder.Property(p => p.Count)
                 .IsRequired();

@@ -9,8 +9,8 @@ namespace Nexta.Application.Profiles
     {
         public OrderProductProfile()
         {
-            CreateMap<OrderProductsRequest, OrderProduct>();
-            CreateMap<OrderProduct, OrderProductResponse>()
+            CreateMap<OrderProductsRequest, OrderItem>();
+            CreateMap<OrderItem, OrderProductResponse>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(x => x.ProductId))
                 .ForMember(src => src.Name, opt => opt.MapFrom(x => x.Product!.Name))
                 .ForMember(src => src.Article, opt => opt.MapFrom(x => x.Product!.Article))

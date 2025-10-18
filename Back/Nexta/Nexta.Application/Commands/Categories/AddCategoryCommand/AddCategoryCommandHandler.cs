@@ -28,7 +28,7 @@ namespace Nexta.Application.Commands.Categories.AddCategoryCommand
             if (!validationResult.IsValid)
                 throw new BadRequestException(string.Join(", ", validationResult.Errors));
 
-            var category = _mapper.Map<ProductCategory>(command);
+            var category = _mapper.Map<Category>(command);
             var createdCategoryId = await _categoriesRepository.AddAsync(category, ct);
 
             return new AddCategoryCommandResponse(createdCategoryId);

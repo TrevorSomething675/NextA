@@ -1,28 +1,30 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Application.DTO.Basket;
+using Nexta.Domain.Abstractions;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Models.Basket;
 
 namespace Nexta.Application.Commands.Basket.UpdateBasketProductCommand
 {
-	public class UpdateBasketProductCommandHandler : IRequestHandler<UpdateBasketProductCommand, UpdateBasketProductCommandResponse>
+	public class UpdateBasketProductCommandHandler : IRequestHandler<UpdateBasketProductCommand, BasketItemDto>
 	{
-		private readonly IBasketProductRepository _basketProductRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 
-		public UpdateBasketProductCommandHandler(IBasketProductRepository basketProductRepository, IMapper mapper)
+		public UpdateBasketProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
 		{
-			_basketProductRepository = basketProductRepository;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
-		public async Task<UpdateBasketProductCommandResponse> Handle(UpdateBasketProductCommand command, CancellationToken ct )
+		public async Task<BasketItemDto> Handle(UpdateBasketProductCommand command, CancellationToken ct)
 		{
-			var basketProduct = _mapper.Map<BasketProduct>(command);
-			var updatedBasketProduct = await _basketProductRepository.UpdateAsync(basketProduct, ct);
-			var result = _mapper.Map<UpdateBasketProductCommandResponse>(updatedBasketProduct);
+			var basket = await _unitOfWork.Baskets.GetByUserIdAsync(command.UserId, ct);
+			basket.UpdateProduct(command.ProductId, command.Count);
+			await _unitOfWork.SaveChangesAsync(ct);
 
-			return result;
+			var response = new BasketItemDto(command.ProductId, command.Count);
+
+			return response;
 		}
 	}
 }

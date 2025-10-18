@@ -1,27 +1,33 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using AutoMapper;
+﻿using Nexta.Domain.Models.Product;
+using Nexta.Domain.Abstractions;
 using MediatR;
-using Nexta.Domain.Models.Product;
 
 namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
 {
     public class CreateAdminProductCommandHandler : IRequestHandler<CreateAdminProductCommand, CreateAdminProductCommandResponse>
     {
-        private readonly IMapper _mapper;
-        private readonly IProductsRepository _productsRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateAdminProductCommandHandler(IProductsRepository productsRepository, IMapper mapper)
+        public CreateAdminProductCommandHandler(IUnitOfWork unitOfWork)
         {
-            _productsRepository = productsRepository;
-            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CreateAdminProductCommandResponse> Handle(CreateAdminProductCommand command, CancellationToken ct = default)
         {
-            var product = _mapper.Map<Product>(command);
-            var createdProductId = await _productsRepository.CreateAsync(product, ct);
+            var product = new Product(
+                    command.Name,
+                    command.Article,
+                    command.Description,
+                    command.Count,
+                    command.NewPrice,
+                    command.OldPrice,
+                    command.IsVisible
+                );
+            
+            var createdProduct = await _unitOfWork.Products.AddAsync(product, ct);
 
-            return new CreateAdminProductCommandResponse(createdProductId);
+            return new CreateAdminProductCommandResponse(createdProduct.Id);
         }
     }
 }

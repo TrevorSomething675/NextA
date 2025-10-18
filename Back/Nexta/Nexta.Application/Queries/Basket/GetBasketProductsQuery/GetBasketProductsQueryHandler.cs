@@ -1,26 +1,29 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
+using Nexta.Application.DTO.Basket;
 using AutoMapper;
 using MediatR;
 
 namespace Nexta.Application.Queries.Basket.GetBasketProductsQuery
 {
-	public class GetBasketProductsQueryHandler : IRequestHandler<GetBasketProductsQuery, GetBasketProductsQueryResponse>
+	public class GetBasketProductsQueryHandler : IRequestHandler<GetBasketProductsQuery, BasketDto>
 	{
-		private readonly IBasketProductRepository _basketProductRepository;
+		private readonly IBasketRepository _basketRepository;
+		private readonly IProductsRepositoryL _productsRepository;
 		private readonly IMapper _mapper;
 
-		public GetBasketProductsQueryHandler(IBasketProductRepository basketProductRepository, IMapper mapper)
+		public GetBasketProductsQueryHandler(IBasketRepository basketRepository, IProductsRepositoryL productsRepository, IMapper mapper)
 		{
-			_basketProductRepository = basketProductRepository;
+			_productsRepository = productsRepository;
+            _basketRepository = basketRepository;
 			_mapper = mapper;
 		}
 
-		public async Task<GetBasketProductsQueryResponse> Handle(GetBasketProductsQuery query, CancellationToken ct = default)
+		public async Task<BasketDto> Handle(GetBasketProductsQuery query, CancellationToken ct = default)
 		{
-			var products = _mapper.Map<List<BasketProductResponse>>(await _basketProductRepository.GetAllAsync(query.UserId, ct));
+			var basket = await _basketRepository.GetByUserIdAsync(query.UserId, ct);
+			var response = _mapper.Map<BasketDto>(basket);
 
-			return new GetBasketProductsQueryResponse(products);
+			return response;
 		}
 	}
 }

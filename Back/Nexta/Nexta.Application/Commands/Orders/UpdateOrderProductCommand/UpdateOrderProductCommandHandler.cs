@@ -1,29 +1,31 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Order;
+using Nexta.Domain.Abstractions;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Models.Order;
 
 namespace Nexta.Application.Commands.Orders.UpdateOrderProductCommand
 {
-	public class UpdateOrderProductCommandHandler : IRequestHandler<UpdateOrderProductCommand, UpdateOrderProductCommandResponse>
+	public class UpdateOrderProductCommandHandler : IRequestHandler<UpdateOrderProductCommand, OrderItemDto>
 	{
-		private readonly IOrderProductRepository _orderProductRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 
-		public UpdateOrderProductCommandHandler(IOrderProductRepository orderProductRepository, IMapper mapper) 
+		public UpdateOrderProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) 
 		{
-			_orderProductRepository = orderProductRepository;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
-		public async Task<UpdateOrderProductCommandResponse> Handle(UpdateOrderProductCommand command, CancellationToken ct = default)
+		public async Task<OrderItemDto> Handle(UpdateOrderProductCommand command, CancellationToken ct = default)
 		{
-			var orderProduct = _mapper.Map<OrderProduct>(command);
-			var updatedOrderProduct = await _orderProductRepository.UpdateAsync(orderProduct, ct);
-			var result = _mapper.Map<OrderProductResponse>(updatedOrderProduct);
+			var order = await _unitOfWork.Orders.GetAsync(command.OrderId, ct);
+			order.UpdateProduct(command.ProductId, command.Count);
+			await _unitOfWork.SaveChangesAsync(ct);
 
-			return new UpdateOrderProductCommandResponse(result);
-		}
+			var productItem = _unitOfWork.Products.GetAsync(command.ProductId, ct);
+			var response = _mapper.Map<OrderItemDto>(productItem);
+
+			return response;
+        }
 	}
 }

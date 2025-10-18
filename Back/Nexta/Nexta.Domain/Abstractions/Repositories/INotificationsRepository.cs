@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Filters.Notifications;
-using Nexta.Domain.Base;
 using Nexta.Domain.Models.User;
+using Nexta.Domain.Base;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {

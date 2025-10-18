@@ -1,22 +1,16 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Exceptions;
-using AutoMapper;
-using Nexta.Infrastructure.Persistence;
-using Nexta.Infrastructure.Persistence.Entities;
 using Nexta.Domain.Models.News;
 
 namespace Nexta.Infrastructure.Persistence.Repositories
 {
 	public class NewsRepository : INewsRepository
 	{
-		private readonly IDbContextFactory<MainContext> _dbContextFactory;
-		private readonly IMapper _mapper;
+		private readonly MainContext _context;
 
-		public NewsRepository(IDbContextFactory<MainContext> dbContextFactory, IMapper mapper)
+		public NewsRepository(MainContext context)
 		{
-			_dbContextFactory = dbContextFactory;
-			_mapper = mapper;
+			_context = context;
 		}
 
 		public Task<News> GetByIdAsync(Guid id, CancellationToken ct = default)
@@ -26,68 +20,26 @@ namespace Nexta.Infrastructure.Persistence.Repositories
 
 		public async Task<List<News>> GetAllAsync(CancellationToken ct = default)
 		{
-			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
-			{
-				var newsEntities = await context.News
-					.Include(n => n.Image)
-					.ToListAsync(ct);
-
-				var news = _mapper.Map<List<News>>(newsEntities);
-				return news;
-			}
+			var news = await _context.News.ToListAsync(ct);
+			return news;
 		}
 
 		public async Task<News> AddAsync(News news, CancellationToken ct = default)
 		{
-			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
-			{
-				var existingNews = await context.News.FirstOrDefaultAsync(n => n.Id == news.Id, ct);
-
-				if (existingNews != null)
-					throw new ConflictException($"Новость: [{news.Header}] с id: [{news.Id}] уже существует.");
-
-				var newsEntity = _mapper.Map<NewsEntity>(news);
-				var createdNews = await context.News.AddAsync(newsEntity, ct);
-				await context.SaveChangesAsync(ct);
-
-				var result = _mapper.Map<News>(createdNews.Entity);
-				return result;
-			}
+			var result = await _context.News.AddAsync(news, ct);
+			return result.Entity;
 		}
 		
-		public async Task<Guid> DeleteAsync(Guid id, CancellationToken ct = default)
+		public Guid DeleteAsync(News news, CancellationToken ct = default)
 		{
-			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
-			{
-				var existingNews = await context.News.FirstOrDefaultAsync(n => n.Id == id, ct);
-
-				if (existingNews == null)
-					throw new NotFoundException($"Новость с Id: [{id}] не найдена.");
-
-				context.News.Remove(existingNews);
-				await context.SaveChangesAsync(ct);
-
-				return id;
-			}
+			var result = _context.News.Remove(news);
+			return result.Entity.Id;
 		}
 
-		public async Task<Guid> UpdateAsync(News news, CancellationToken ct = default)
+		public Guid Update(News news, CancellationToken ct = default)
 		{
-			await using (var context = await _dbContextFactory.CreateDbContextAsync(ct))
-			{
-				var existingNews = await context.News.FirstOrDefaultAsync(n => n.Id == news.Id, ct);
-
-				if (existingNews == null)
-					throw new NotFoundException($"Новость с Id: [{news.Id}] не найдена.");
-
-				if (news.Header != null) existingNews.Header = news.Header;
-				if (news.Description != null) existingNews.Description = news.Description;
-
-				context.News.Update(existingNews);
-				await context.SaveChangesAsync(ct);
-
-				return existingNews.Id;
-			}
+			var result = _context.News.Update(news);
+			return result.Entity.Id;
 		}
 	}
 }

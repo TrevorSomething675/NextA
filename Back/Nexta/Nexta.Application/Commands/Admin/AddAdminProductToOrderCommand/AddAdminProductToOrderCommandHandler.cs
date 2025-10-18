@@ -1,48 +1,40 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
-using Nexta.Domain.Exceptions;
-using Nexta.Domain.Models;
+using Nexta.Application.DTO.Product;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
 
 namespace Nexta.Application.Commands.Admin.AddAdminProductToOrderCommand
 {
-    public class AddAdminProductToOrderCommandHandler : IRequestHandler<AddAdminProductToOrderCommand, AddAdminProductToOrderCommandResponse>
+    public class AddAdminProductToOrderCommandHandler : IRequestHandler<AddAdminProductToOrderCommand, ProductDto>
     {
         private readonly IValidator<AddAdminProductToOrderCommand> _validator;
-        private readonly IOrderProductRepository _orderProductRepository;
+        private readonly IProductsRepository _productsRepository;
+        private readonly IOrdersRepository _ordersRepository;
         private readonly IMapper _mapper;
 
-        public AddAdminProductToOrderCommandHandler(IValidator<AddAdminProductToOrderCommand> validator, 
-            IOrderProductRepository orderProductRepository, IMapper mapper)
+        public AddAdminProductToOrderCommandHandler(IValidator<AddAdminProductToOrderCommand> validator,
+            IOrdersRepository ordersRepository, IProductsRepository productsRepository, IMapper mapper)
         {
-            _orderProductRepository = orderProductRepository;
+            _productsRepository = productsRepository;
+            _ordersRepository = ordersRepository;
             _validator = validator;
             _mapper = mapper;
         }
 
-        public async Task<AddAdminProductToOrderCommandResponse> Handle(AddAdminProductToOrderCommand command, CancellationToken ct = default)
+        public async Task<ProductDto> Handle(AddAdminProductToOrderCommand command, CancellationToken ct = default)
         {
             var validationResult = await _validator.ValidateAsync(command, ct);
 
             if (!validationResult.IsValid)
                 throw new ValidationException(string.Join(',' ,validationResult.Errors));
 
-            var productToAdd = new OrderProduct
-            {
-                OrderId = command.OrderId,
-                ProductId = command.ProductId,
-                Count = command.Count
-            };
+            var order = await _ordersRepository.GetAsyncByUserId(command.UserId, ct);
+            order.AddProduct(command.ProductId, command.Count);
 
-            var createdOrderProduct = await _orderProductRepository.AddAsync(productToAdd, ct);
-            if (createdOrderProduct == null)
-                throw new BadRequestException("Не удалось добавить деталь");
+            var product = await _productsRepository.GetAsync(command.ProductId, ct);
 
-            var result = _mapper.Map<OrderProductResponse>(createdOrderProduct);
-
-            return new AddAdminProductToOrderCommandResponse(result);
+            return _mapper.Map<ProductDto>(product);
         }
     }
 }

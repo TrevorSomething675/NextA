@@ -1,22 +1,24 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions;
 using MediatR;
 
 namespace Nexta.Application.Commands.Orders.DeleteOrderCommand
 {
-	public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, DeleteOrderCommandResponse>
+	public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, Guid>
 	{
-		private readonly IOrderRepository _orderRepository;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public DeleteOrderCommandHandler(IOrderRepository orderRepository)
+		public DeleteOrderCommandHandler(IUnitOfWork unitOfWork)
 		{
-			_orderRepository = orderRepository;
+			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<DeleteOrderCommandResponse> Handle(DeleteOrderCommand command, CancellationToken cancellationToken)
+		public async Task<Guid> Handle(DeleteOrderCommand command, CancellationToken ct)
 		{
-			var orderId = await _orderRepository.DeleteAsync(command.OrderId);
+			var order = await _unitOfWork.Orders.GetAsync(command.OrderId, ct);
+			_unitOfWork.Orders.Delete(order);
+			await _unitOfWork.SaveChangesAsync(ct);
 
-			return new DeleteOrderCommandResponse(orderId);
+			return order.Id;
 		}
 	}
 }

@@ -9,10 +9,10 @@ namespace Nexta.Application.Queries.Orders.GetLegacyOrdersQuery
 {
 	public class GetLegacyOrdersQueryHandler : IRequestHandler<GetLegacyOrdersQuery, GetLegacyOrdersQueryResponse>
 	{
-		private readonly IOrderRepository _orderRepository;
+		private readonly IOrderRepositoryL _orderRepository;
 		private readonly IMapper _mapper;
 
-		public GetLegacyOrdersQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+		public GetLegacyOrdersQueryHandler(IOrderRepositoryL orderRepository, IMapper mapper)
 		{
 			_orderRepository = orderRepository;
 			_mapper = mapper;
