@@ -17,7 +17,7 @@ namespace Nexta.Infrastructure.Persistence
             INotificationsRepository notifications,
             IProductsRepository products,
             IUsersRepository users
-        )
+            )
         {
             _context = context;
             Orders = orders;

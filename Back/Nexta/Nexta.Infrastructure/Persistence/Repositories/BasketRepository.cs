@@ -1,4 +1,5 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Specification.Abstractions;
+using Nexta.Domain.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Models.Basket;
 
@@ -19,11 +20,11 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return result;
         }
 
-        public async Task<Basket?> GetByUserIdAsync(Guid userId, CancellationToken ct = default)
+        public async Task<Basket?> GetByUserIdAsync(ISpecification<Basket> spec, CancellationToken ct = default)
         {
             var result = await _context.Basket
-                .Include(b => b.Products)
-                .FirstOrDefaultAsync(b => b.UserId == userId, ct);
+                .Include(b => spec.Includes)
+                .FirstOrDefaultAsync(spec.Creteria, ct);
             return result;
         }
 

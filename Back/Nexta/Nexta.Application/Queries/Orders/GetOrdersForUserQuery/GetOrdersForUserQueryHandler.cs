@@ -1,46 +1,38 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Order;
+using Nexta.Domain.Specification;
+using Nexta.Domain.Abstractions;
 using Nexta.Domain.Enums;
+using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Base;
-using Nexta.Domain.Models.Order;
 
 namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {
 	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQuery, GetOrdersForUserQueryResponse>
 	{
-		private readonly IOrderRepositoryL _orderRepository;
 		private readonly IMapper _mapper;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public GetOrdersForUserQueryHandler(IOrderRepositoryL orderRepository, IMapper mapper)
+		public GetOrdersForUserQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
 		{
-			_orderRepository = orderRepository;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
 		public async Task<GetOrdersForUserQueryResponse> Handle(GetOrdersForUserQuery query, CancellationToken ct = default)
 		{
-			query.Filter.Statuses = GetOrderStatuses();
+			var spec = new OrderByStatusSpecification(
+				query.Filter.UserId,
+                [OrderStatus.Accepted, OrderStatus.InProgress, OrderStatus.Ready],
+				query.Filter.PageNumber,
+				query.Filter.PageSize);
 
-			var orders = _mapper.Map<PagedData<Order>>(await _orderRepository.GetOrdersAsync(query.Filter, ct));
-			var totalCount = await _orderRepository.CountOrdersAsync(query.Filter.UserId!.Value, ct);
+			var orders = await _unitOfWork.Orders.GetPagedAsync(spec, ct);
+			var count = await _unitOfWork.Orders.CountAsync(ct);
 
-			var responseOrders = _mapper.Map<PagedData<OrderResponse>>(orders);
+			var orderDtos = _mapper.Map<PagedData<OrderDto>>(orders);
 
-			return new GetOrdersForUserQueryResponse(responseOrders, totalCount);
-		}
-
-		private List<OrderStatus> GetOrderStatuses()
-		{
-			var statuses = new List<OrderStatus>
-			{
-				OrderStatus.Accepted,
-				OrderStatus.InProgress,
-				OrderStatus.Ready
-			};
-
-			return statuses;
+			return new GetOrdersForUserQueryResponse(orderDtos, count);
 		}
 	}
 }

@@ -1,26 +1,27 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Admin;
+﻿using Nexta.Application.DTO.Product;
+using Nexta.Domain.Abstractions;
 using AutoMapper;
 using MediatR;
 
 namespace Nexta.Application.Queries.Admin.GetProductQuery
 {
-	public class GetAdminProductQueryHandler : IRequestHandler<GetAdminProductQuery, GetAdminProductQueryResponse>
+	public class GetAdminProductQueryHandler : IRequestHandler<GetAdminProductQuery, AdminProductDto>
 	{
-		private readonly IProductsRepositoryL _productsRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 
-		public GetAdminProductQueryHandler(IProductsRepositoryL productsRepository, IMapper mapper)
+		public GetAdminProductQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
 		{
-			_productsRepository = productsRepository;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
-		public async Task<GetAdminProductQueryResponse> Handle(GetAdminProductQuery request, CancellationToken ct = default)
+		public async Task<AdminProductDto> Handle(GetAdminProductQuery request, CancellationToken ct = default)
 		{
-			var product = _mapper.Map<AdminProductResponse>(await _productsRepository.GetAsync(request.ProductId, ct));
+			var product = await _unitOfWork.Products.GetAsync(request.ProductId, ct);
+			var response = _mapper.Map<AdminProductDto>(product);
 
-			return new GetAdminProductQueryResponse(product);
-		}
+			return response;
+        }
 	}
 }

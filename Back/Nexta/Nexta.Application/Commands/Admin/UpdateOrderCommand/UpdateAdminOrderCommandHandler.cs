@@ -18,7 +18,7 @@ namespace Nexta.Application.Commands.Admin.UpdateOrderCommand
 
 		public async Task<UpdateAdminOrderCommandResponse> Handle(UpdateAdminOrderCommand request, CancellationToken ct = default)
 		{
-			var order = await _unitOfWork.Orders.GetAsyncByUserId(request.UserId);
+			var order = await _unitOfWork.Orders.GetAsync(request.OrderId);
 
 			order.UpdateStatus(request.Status);
 			order.ReplaceProducts(_mapper.Map<List<OrderItem>>(request.OrderProducts));

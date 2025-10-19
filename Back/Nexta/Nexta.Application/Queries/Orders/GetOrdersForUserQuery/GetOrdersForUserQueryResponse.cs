@@ -1,12 +1,12 @@
-﻿using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Order;
 using Nexta.Application.Common;
 using Nexta.Domain.Base;
 
 namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {
-    public class GetOrdersForUserQueryResponse : BasePagedResponse<OrderResponse>
+    public class GetOrdersForUserQueryResponse : BasePagedResponse<OrderDto>
     {
-		public GetOrdersForUserQueryResponse(PagedData<OrderResponse> data, int totalCount) : base(data)
+		public GetOrdersForUserQueryResponse(PagedData<OrderDto> data, int totalCount) : base(data)
 		{
 			TotalCount = totalCount;
 		}

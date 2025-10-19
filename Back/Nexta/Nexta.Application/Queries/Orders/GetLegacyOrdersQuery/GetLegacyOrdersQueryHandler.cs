@@ -1,41 +1,40 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Application.DTO.Order;
+using Nexta.Domain.Specification;
+using Nexta.Domain.Abstractions;
 using Nexta.Domain.Enums;
+using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Response;
-using Nexta.Domain.Base;
 
 namespace Nexta.Application.Queries.Orders.GetLegacyOrdersQuery
 {
-	public class GetLegacyOrdersQueryHandler : IRequestHandler<GetLegacyOrdersQuery, GetLegacyOrdersQueryResponse>
+	public class GetLegacyOrdersQueryHandler : IRequestHandler<GetLegacyOrdersQuery, PagedData<OrderDto>>
 	{
-		private readonly IOrderRepositoryL _orderRepository;
 		private readonly IMapper _mapper;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public GetLegacyOrdersQueryHandler(IOrderRepositoryL orderRepository, IMapper mapper)
+		public GetLegacyOrdersQueryHandler(IMapper mapper, IUnitOfWork unitOfWork)
 		{
-			_orderRepository = orderRepository;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
-		public async Task<GetLegacyOrdersQueryResponse> Handle(GetLegacyOrdersQuery query, CancellationToken ct)
+		public async Task<PagedData<OrderDto>> Handle(GetLegacyOrdersQuery query, CancellationToken ct)
 		{
-			query.Filter.Statuses = GetLegacyOrderStatuses();
+			var statuses = new OrderStatus[2] { OrderStatus.Complete, OrderStatus.Canceled };
 
-			var legacyOrders = _mapper.Map<PagedData<OrderResponse>>(await _orderRepository.GetOrdersAsync(query.Filter, ct));
+            var spec = new OrderByStatusSpecification(
+				query.Filter.UserId,
+				statuses,
+				query.Filter.PageNumber,
+				query.Filter.PageSize
+			);
 
-			return new GetLegacyOrdersQueryResponse(legacyOrders);
-		}
+			var orders = await _unitOfWork.Orders.GetPagedAsync(spec, ct);
 
-		private List<OrderStatus> GetLegacyOrderStatuses()
-		{
-			var statuses = new List<OrderStatus>
-			{
-				OrderStatus.Canceled,
-				OrderStatus.Complete
-			};
-
-			return statuses;
+			var response = _mapper.Map<PagedData<OrderDto>>(orders);
+			
+			return response;
 		}
 	}
 }
