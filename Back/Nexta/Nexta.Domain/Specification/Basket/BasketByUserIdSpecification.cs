@@ -7,7 +7,7 @@ namespace Nexta.Domain.Specification
         public BasketByUserIdSpecification(Guid userId)
         {
             Creteria = b => b.Id == userId;
-            AddInclude(b => b.Products);
+            AddInclude("Products");
         }
     }
 }

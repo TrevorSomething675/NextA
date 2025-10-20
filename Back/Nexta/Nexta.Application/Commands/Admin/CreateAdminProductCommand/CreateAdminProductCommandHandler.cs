@@ -19,6 +19,7 @@ namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
                     command.Name,
                     command.Article,
                     command.Description,
+                    Domain.Enums.ProductStatus.OutOfStock,
                     command.Count,
                     command.NewPrice,
                     command.OldPrice,

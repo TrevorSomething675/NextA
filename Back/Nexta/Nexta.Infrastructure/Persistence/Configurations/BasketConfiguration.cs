@@ -11,17 +11,14 @@ namespace Nexta.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(b => b.Id);
 
-            builder.Property(b => b.UserId)
-                .IsRequired();
-
-            builder.HasOne(typeof(BasketItem), "_products")
-                .WithMany()
+            builder.HasMany(b => b.Products)
+                .WithOne()
                 .HasForeignKey("BasketId")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(typeof(User), "Id")
+            builder.HasOne<User>()
                 .WithOne()
-                .HasForeignKey("UserId")
+                .HasForeignKey<Basket>(b => b.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

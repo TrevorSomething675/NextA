@@ -1,4 +1,5 @@
 ﻿using Nexta.Application.DTO.Product;
+using Nexta.Domain.Specification;
 using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
 using AutoMapper;
@@ -18,7 +19,8 @@ namespace Nexta.Application.Commands.Basket.AddBasketProductCommand
 		}
 		public async Task<ProductDto> Handle(AddBasketProductCommand command, CancellationToken ct)
 		{
-            var basket = await _unitOfWork.Baskets.GetByUserIdAsync(command.UserId, ct);
+			var spec = new BasketByUserIdSpecification(command.UserId);
+            var basket = await _unitOfWork.Baskets.GetByUserIdAsync(spec, ct);
 
 			if (basket.Products.Select(p => p.Id).Contains(command.ProductId))
 				throw new ConflictException("Деталь уже в корзине");

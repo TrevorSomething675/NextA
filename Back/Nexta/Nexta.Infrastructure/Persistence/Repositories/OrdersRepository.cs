@@ -34,29 +34,27 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return order;
         }
 
-        public async Task<PagedData<Order>> GetOrdersByFullNameAsync(GetOrdersFilter filter, CancellationToken ct = default)
+        public async Task<PagedData<Order>> GetOrdersByFullNameAsync(ISpecification<Order> spec, CancellationToken ct = default)
         {
-            var searchTerm = filter.SearchTerm?.ToLower() ?? "";
-
             var query = _context.Orders
                 .Include(o => o.Products)
                 .Where(o => _context.Users
-                    .Where(u =>
-                        EF.Functions.Like(u.Email.ToLower(), searchTerm) ||
-                        EF.Functions.Like(u.FirstName.ToLower(), searchTerm) ||
-                        EF.Functions.Like(u.MiddleName.ToLower(), searchTerm) ||
-                        EF.Functions.Like(u.LastName.ToLower(), searchTerm)
+                    .Where(u => !string.IsNullOrWhiteSpace(spec.SearchTerm) ? 
+                        EF.Functions.Like(u.Email.ToLower(), spec.SearchTerm) ||
+                        EF.Functions.Like(u.FirstName.ToLower(), spec.SearchTerm) ||
+                        EF.Functions.Like(u.MiddleName.ToLower(), spec.SearchTerm) ||
+                        EF.Functions.Like(u.LastName.ToLower(), spec.SearchTerm) : true
                     )
                 .Select(u => u.Id)
                 .Contains(o.UserId));
 
             var orders = await query
-                .Skip((filter.PageNumber - 1) * filter.PageSize)
-                .Take(filter.PageSize)
+                .Skip((spec.PageNumber - 1) * spec.PageSize)
+                .Take(spec.PageSize)
                 .ToListAsync(ct);
 
             var ordersCount = await query.CountAsync(ct);
-            var pageCount = (int)Math.Ceiling((double)ordersCount / filter.PageSize);
+            var pageCount = (int)Math.Ceiling((double)ordersCount / spec.PageSize);
 
             var pagedOrders = new PagedData<Order>(orders, orders.Count, pageCount);
 

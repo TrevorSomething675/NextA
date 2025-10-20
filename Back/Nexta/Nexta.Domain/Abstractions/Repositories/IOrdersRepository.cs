@@ -1,6 +1,5 @@
 ﻿using Nexta.Domain.Specification.Abstractions;
 using Nexta.Domain.Models.Order;
-using Nexta.Domain.Filters;
 using Nexta.Domain.Base;
 
 namespace Nexta.Domain.Abstractions.Repositories
@@ -9,7 +8,7 @@ namespace Nexta.Domain.Abstractions.Repositories
     {
         Task<Order?> GetAsync(Guid id, CancellationToken ct = default);
         Task<PagedData<Order>> GetPagedAsync(ISpecification<Order> spec, CancellationToken ct = default);
-        Task<PagedData<Order>> GetOrdersByFullNameAsync(GetOrdersFilter filter, CancellationToken ct = default);
+        Task<PagedData<Order>> GetOrdersByFullNameAsync(ISpecification<Order> spec, CancellationToken ct = default);
 
         Order Update(Order order);
         Task<Order?> AddAsync(Order order, CancellationToken ct = default);

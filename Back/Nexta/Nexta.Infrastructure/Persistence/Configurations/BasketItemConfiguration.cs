@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Models.Basket;
+using Nexta.Domain.Models.Product;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {
-    internal class BasketProductConfiguration : IEntityTypeConfiguration<BasketItem>
+    internal class BasketItemConfiguration : IEntityTypeConfiguration<BasketItem>
     {
         public void Configure(EntityTypeBuilder<BasketItem> builder)
         {
@@ -15,6 +16,11 @@ namespace Nexta.Infrastructure.Persistence.Configurations
 
             builder.Property(b => b.ProductId)
                 .IsRequired();
+
+            builder.HasOne<Product>()
+                .WithMany()
+                .HasForeignKey("ProductId")
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

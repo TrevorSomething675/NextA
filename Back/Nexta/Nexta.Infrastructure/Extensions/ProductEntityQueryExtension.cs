@@ -98,6 +98,16 @@ namespace Nexta.Infrastructure.Extensions
 			return query;
 		}
 
+        public static IQueryable<Product> WithIncludes(this IQueryable<Product> query, List<string> includes)
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return query;
+        }
+
         public static IQueryable<Notification> WithSearchTerm(this IQueryable<Notification> query, string searchTerm)
         {
             if (!string.IsNullOrEmpty(searchTerm))

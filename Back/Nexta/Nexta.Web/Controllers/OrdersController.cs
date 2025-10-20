@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Models.Orders;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Order;
 
 namespace Nexta.Web.Controllers
 {
@@ -55,7 +56,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPatch("[action]")]
-		[ProducesResponseType(typeof(UpdateOrderProductCommandResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(OrderItemDto), StatusCodes.Status200OK)]
 		public async Task<IResult> UpdateOrderProduct([FromBody] UpdateOrderProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<UpdateOrderProductCommand>(request);
@@ -65,7 +66,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpDelete("Delete/{OrderId}")]
-		[ProducesResponseType(typeof(DeleteOrderCommandResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
 		public async Task<IResult> Delete([FromRoute] Guid OrderId, CancellationToken ct = default)
 		{
 			var command = new DeleteOrderCommand(OrderId);

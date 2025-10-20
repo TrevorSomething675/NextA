@@ -34,6 +34,7 @@
             return Id.GetHashCode();
         }
 
+        /*
         public static bool operator ==(Entity? a, Entity? b)
         {
             if (a is null && b is null)
@@ -48,5 +49,6 @@
         {
             return !(a == b);
         }
+        */
     }
 }

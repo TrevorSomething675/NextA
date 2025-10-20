@@ -6,7 +6,9 @@ namespace Nexta.Domain.Specification
     {
         public ProductSpecification(int pageNumber, int pageSize)
         {
-            AddInclude(p => p.Images);
+            AddInclude("Images");
+            PageNumber = pageNumber;
+            PageSize = pageSize;
         }
     }
 }

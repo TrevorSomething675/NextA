@@ -1,5 +1,5 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Product;
+using Nexta.Domain.Abstractions;
 using AutoMapper;
 using MediatR;
 
@@ -7,20 +7,21 @@ namespace Nexta.Application.Queries.Products.GetProductByIdQuery
 {
     public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdQueryResponse>
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IProductsRepositoryL _productsRepository;
 
-        public GetProductByIdQueryHandler(IProductsRepositoryL productsRepository, IMapper mapper)
+        public GetProductByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _productsRepository = productsRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<GetProductByIdQueryResponse> Handle(GetProductByIdQuery query, CancellationToken ct = default)
         {
-            var product = _mapper.Map<ProductResponse>(await _productsRepository.GetAsync(query.Id, ct));
+            var product = await _unitOfWork.Products.GetAsync(query.Id, ct);
+            var productDto = _mapper.Map<ProductDto>(product);
 
-            return new GetProductByIdQueryResponse(product);
+            return new GetProductByIdQueryResponse(productDto);
         }
     }
 }

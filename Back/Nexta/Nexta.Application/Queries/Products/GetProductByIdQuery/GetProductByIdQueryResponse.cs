@@ -1,9 +1,9 @@
-﻿using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Product;
 
 namespace Nexta.Application.Queries.Products.GetProductByIdQuery
 {
-    public class GetProductByIdQueryResponse(ProductResponse product)
+    public class GetProductByIdQueryResponse(ProductDto product)
     {
-        public ProductResponse Product { get; init; } = product;
+        public ProductDto Product { get; init; } = product;
     }
 }

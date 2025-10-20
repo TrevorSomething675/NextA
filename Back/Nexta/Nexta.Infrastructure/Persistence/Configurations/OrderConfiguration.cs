@@ -18,15 +18,18 @@ namespace Nexta.Infrastructure.Persistence.Configurations
 			builder.Property(o => o.CreatedDate)
 				.IsRequired();
 
-			builder.HasOne(typeof(User), "Id")
-				.WithOne()
-				.HasForeignKey("UserId")
-				.OnDelete(DeleteBehavior.Cascade);
-
-			builder.HasOne(typeof(OrderItem), "_products")
+			builder.HasOne<User>()
 				.WithMany()
 				.HasForeignKey("UserId")
 				.OnDelete(DeleteBehavior.Cascade);
+
+			builder.HasMany(o => o.Products)
+				.WithOne()
+				.HasForeignKey("OrderId")
+				.OnDelete(DeleteBehavior.Cascade);
+
+			builder.Navigation(o => o.Products)
+				.UsePropertyAccessMode(PropertyAccessMode.Field);
 		}
 	}
 }

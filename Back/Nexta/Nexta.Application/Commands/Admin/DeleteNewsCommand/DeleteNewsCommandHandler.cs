@@ -1,20 +1,23 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions;
 using MediatR;
 
 namespace Nexta.Application.Commands.Admin.DeleteNewsCommand
 {
     public class DeleteNewsCommandHandler : IRequestHandler<DeleteNewsCommandRequest, DeleteNewsCommandResponse>
     {
-        private readonly INewsRepository _newsRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteNewsCommandHandler(INewsRepository newsRepository)
+        public DeleteNewsCommandHandler(IUnitOfWork unitOfWork)
         {
-            _newsRepository = newsRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<DeleteNewsCommandResponse> Handle(DeleteNewsCommandRequest request, CancellationToken ct = default)
         {
-            var deletedNewsId = await _newsRepository.DeleteAsync(request.Id, ct);
+            var news = await _unitOfWork.News.GetAsync(request.Id, ct);
+            var deletedNewsId = _unitOfWork.News.DeleteAsync(news, ct);
+
+            await _unitOfWork.SaveChangesAsync(ct);
 
             return new DeleteNewsCommandResponse(deletedNewsId);
         }

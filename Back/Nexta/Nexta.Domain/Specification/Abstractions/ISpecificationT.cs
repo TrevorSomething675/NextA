@@ -5,9 +5,10 @@ namespace Nexta.Domain.Specification.Abstractions
     public interface ISpecification<T>
     {
         Expression<Func<T, bool>> Creteria { get; }
-        List<Expression<Func<T, object>>> Includes { get; }
+        List<string> Includes { get; }
         Expression<Func<T, object>>? OrderBy { get; }
         Expression<Func<T, object>>? OrderByDescending { get; }
+        public string SearchTerm { get; }
 
         int PageNumber { get; }
         int PageSize { get; }

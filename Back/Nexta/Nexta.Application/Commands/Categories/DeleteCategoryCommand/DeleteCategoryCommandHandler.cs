@@ -1,20 +1,23 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions;
 using MediatR;
 
 namespace Nexta.Application.Commands.Categories.DeleteCategoryCommand
 {
     public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, Unit>
     {
-        private readonly ICategoriesRepository _categoriesRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteCategoryCommandHandler(ICategoriesRepository categoriesRepository)
+        public DeleteCategoryCommandHandler(IUnitOfWork unitOfWork)
         {
-            _categoriesRepository = categoriesRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(DeleteCategoryCommand command, CancellationToken ct)
         {
-            var deletedCategory = await _categoriesRepository.DeleteAsync(command.Name, ct);
+            var category = await _unitOfWork.Categories.GetAsync(command.Id, ct);
+            var deletedCategory = _unitOfWork.Categories.Delete(category, ct);
+
+            await _unitOfWork.SaveChangesAsync(ct);
 
             return Unit.Value;
         }

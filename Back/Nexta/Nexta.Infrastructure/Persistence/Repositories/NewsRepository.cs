@@ -13,9 +13,10 @@ namespace Nexta.Infrastructure.Persistence.Repositories
 			_context = context;
 		}
 
-		public Task<News> GetByIdAsync(Guid id, CancellationToken ct = default)
+		public async Task<News> GetAsync(Guid id, CancellationToken ct = default)
 		{
-			throw new NotImplementedException();
+			var news = await _context.News.FirstOrDefaultAsync(n => n.Id == id, ct);
+			return news;
 		}
 
 		public async Task<List<News>> GetAllAsync(CancellationToken ct = default)

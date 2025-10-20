@@ -41,24 +41,27 @@ namespace Nexta.Infrastructure.Persistence.Configurations
             builder.Property(p => p.OldPrice)
                 .IsRequired(false);
 
-            builder.HasMany(typeof(ProductImage), "_images")
-                .WithOne()
-                .HasForeignKey("ProductId")
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(typeof(ProductAttribute), "_attributes")
-                .WithOne()
-                .HasForeignKey("ProductId")
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.HasIndex(p => p.Category)
                 .HasDatabaseName("IX_Products_Category");
 
             builder.HasIndex(p => p.IsVisible)
                 .HasDatabaseName("IX_Products_IsVisible");
 
-            builder.Navigation("_attributes").UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Navigation("_images").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.HasMany(p => p.Images)
+                .WithOne()
+                .HasForeignKey("ProductId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Navigation(p => p.Images)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.HasMany(p => p.Attributes)
+                .WithOne()
+                .HasForeignKey("ProductId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Navigation(p => p.Attributes)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

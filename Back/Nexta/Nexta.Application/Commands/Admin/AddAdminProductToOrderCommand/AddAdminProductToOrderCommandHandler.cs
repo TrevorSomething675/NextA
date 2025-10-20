@@ -1,5 +1,5 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Product;
+﻿using Nexta.Application.DTO.Product;
+using Nexta.Domain.Abstractions;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
@@ -9,15 +9,13 @@ namespace Nexta.Application.Commands.Admin.AddAdminProductToOrderCommand
     public class AddAdminProductToOrderCommandHandler : IRequestHandler<AddAdminProductToOrderCommand, ProductDto>
     {
         private readonly IValidator<AddAdminProductToOrderCommand> _validator;
-        private readonly IProductsRepository _productsRepository;
-        private readonly IOrdersRepository _ordersRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public AddAdminProductToOrderCommandHandler(IValidator<AddAdminProductToOrderCommand> validator,
-            IOrdersRepository ordersRepository, IProductsRepository productsRepository, IMapper mapper)
+            IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _productsRepository = productsRepository;
-            _ordersRepository = ordersRepository;
+            _unitOfWork = unitOfWork;
             _validator = validator;
             _mapper = mapper;
         }
@@ -29,10 +27,11 @@ namespace Nexta.Application.Commands.Admin.AddAdminProductToOrderCommand
             if (!validationResult.IsValid)
                 throw new ValidationException(string.Join(',' ,validationResult.Errors));
 
-            var order = await _ordersRepository.GetAsyncByUserId(command.UserId, ct);
+            var order = await _unitOfWork.Orders.GetAsync(command.UserId, ct);
             order.AddProduct(command.ProductId, command.Count);
+            await _unitOfWork.SaveChangesAsync(ct);
 
-            var product = await _productsRepository.GetAsync(command.ProductId, ct);
+            var product = await _unitOfWork.Products.GetAsync(command.ProductId, ct);
 
             return _mapper.Map<ProductDto>(product);
         }

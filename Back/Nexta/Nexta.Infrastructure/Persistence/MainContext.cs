@@ -1,10 +1,10 @@
 ﻿using Nexta.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Nexta.Domain.Models.Product;
 using Nexta.Domain.Models.Basket;
 using Nexta.Domain.Models.News;
 using Nexta.Domain.Models.Order;
-using Nexta.Domain.Models.Product;
 using Nexta.Domain.Models.User;
 using Nexta.Domain.Options;
 
@@ -57,12 +57,12 @@ namespace Nexta.Infrastructure.Persistence
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.ApplyConfiguration(new UserConfiguration());
+			modelBuilder.ApplyConfiguration(new BasketConfiguration());
 			modelBuilder.ApplyConfiguration(new OrderConfiguration());
 			modelBuilder.ApplyConfiguration(new NewsConfiguration());
 			modelBuilder.ApplyConfiguration(new ProductConfiguration());
-			modelBuilder.ApplyConfiguration(new BasketProductConfiguration());
-			modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
+			modelBuilder.ApplyConfiguration(new BasketItemConfiguration());
+			modelBuilder.ApplyConfiguration(new OrderItemConfiguration());
 		}
 	}
 }

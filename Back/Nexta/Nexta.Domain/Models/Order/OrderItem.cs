@@ -8,6 +8,8 @@ namespace Nexta.Domain.Models.Order
         public int Count { get; private set; }
         public Guid ProductId { get; private set; }
 
+        private OrderItem() { }
+
         public OrderItem(Guid orderId, Guid productId, int count)
         {
             Count = count;

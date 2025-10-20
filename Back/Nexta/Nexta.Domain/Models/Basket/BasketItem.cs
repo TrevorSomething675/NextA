@@ -4,9 +4,11 @@ namespace Nexta.Domain.Models.Basket
 {
     public class BasketItem : Entity
     {
-        internal Guid BasketId { get; private set; }
+        public Guid BasketId { get; private set; }
         public Guid ProductId { get; private set; }
         public int Count { get; private set; }
+
+        private BasketItem() { }
 
         internal BasketItem(Guid basketId, Guid productId, int count)
         {

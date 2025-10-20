@@ -1,8 +1,8 @@
-﻿using Nexta.Domain.Models.Order;
+﻿using Nexta.Domain.Specification;
+using Nexta.Domain.Models.Order;
 using Nexta.Domain.Abstractions;
 using FluentValidation;
 using MediatR;
-using Microsoft.VisualBasic;
 
 namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 {
@@ -24,13 +24,15 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
 			if (!validationResult.IsValid)
 				throw new ValidationException(string.Join(", ", validationResult.Errors));
 
-			var order = new Order(command.UserId);
+			var order = new Order(command.UserId, Domain.Enums.OrderStatus.Accepted);
 			foreach (var productId in command.ProductIds)
 			{
 				order.AddProduct(productId);
 			}
 
-			var basket = await _unitOfWork.Baskets.GetByUserIdAsync(command.UserId, ct);
+			var spec = new BasketByUserIdSpecification(command.UserId);
+
+			var basket = await _unitOfWork.Baskets.GetByUserIdAsync(spec, ct);
 			basket.Clear();
 			var updatedOrder = await _unitOfWork.Orders.AddAsync(order, ct);
 

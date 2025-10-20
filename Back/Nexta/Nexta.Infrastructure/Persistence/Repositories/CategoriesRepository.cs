@@ -13,16 +13,16 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<Category> GetByName(string name, CancellationToken ct = default)
-        {
-            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Name == name, ct);
-            return category;
-        }
-
         public async Task<Guid> AddAsync(Category category, CancellationToken ct = default)
         {
             var result = await _context.Categories.AddAsync(category, ct);
             return result.Entity.Id;
+        }
+
+        public async Task<List<Category>> GetAllAsync(CancellationToken ct = default)
+        {
+            var result = await _context.Categories.ToListAsync(ct);
+            return result;
         }
 
         public Guid Delete(Category category, CancellationToken ct = default)
@@ -31,10 +31,10 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return category.Id;
         }
 
-        public async Task<List<Category>> GetAsync(CancellationToken ct = default)
+        public async Task<Category> GetAsync(Guid id, CancellationToken ct = default)
         {
-            var categories = await _context.Categories.ToListAsync(ct);
-            return categories;
+            var category = await _context.Categories.FirstOrDefaultAsync(ct);
+            return category;
         }
     }
 }

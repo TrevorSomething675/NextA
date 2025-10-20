@@ -3,10 +3,12 @@ using Nexta.Application.Commands.Basket.DeleteBasketProductCommand;
 using Nexta.Application.Commands.Basket.AddBasketProductCommand;
 using Nexta.Application.Queries.Basket.GetBasketProductsQuery;
 using Microsoft.AspNetCore.Authorization;
+using Nexta.Application.DTO.Product;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Models.Basket;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Basket;
 
 namespace Nexta.Web.Controllers
 {
@@ -34,7 +36,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(AddBasketProductCommandResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
 		public async Task<IResult> Add([FromBody] AddBasketProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<AddBasketProductCommand>(request);
@@ -44,7 +46,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPatch("[action]")]
-		[ProducesResponseType(typeof(UpdateBasketProductCommandResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(BasketItemDto), StatusCodes.Status200OK)]
 		public async Task<IResult> Update([FromBody] UpdateBasketProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<UpdateBasketProductCommand>(request);

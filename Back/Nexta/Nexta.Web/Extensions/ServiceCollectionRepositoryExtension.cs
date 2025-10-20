@@ -1,5 +1,7 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Infrastructure.Persistence.Repositories;
+﻿using Nexta.Infrastructure.Persistence.Repositories;
+using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Infrastructure.Persistence;
+using Nexta.Domain.Abstractions;
 
 namespace Nexta.Web.Extensions
 {
@@ -8,15 +10,14 @@ namespace Nexta.Web.Extensions
 		public static  IServiceCollection AddAppRepositories(this IServiceCollection services)
 		{
 			services
-				.AddScoped<IUsersRepository, UsersRepository>()
-				.AddScoped<IProductsRepositoryL, ProductsRepositoryL>()
-				.AddScoped<IBasketProductRepository, BasketProductRepository>()
-				.AddScoped<IOrderRepositoryL, OrderRepositoryL>()
-				.AddScoped<IOrderProductRepositoryL, OrderProductRepositoryL>()
-				.AddScoped<IProductImageRepository, ProductImageRepository>()
-				.AddScoped<INotificationsRepository, NotificationsRepository>()
+				.AddScoped<IUnitOfWork, UnitOfWork>()
+				.AddScoped<IOrdersRepository, OrdersRepository>()
+				.AddScoped<IBasketRepository, BasketRepository>()
 				.AddScoped<ICategoriesRepository, CategoriesRepository>()
-				.AddScoped<INewsRepository, NewsRepository>();
+				.AddScoped<INewsRepository, NewsRepository>()
+				.AddScoped<INotificationsRepository, NotificationsRepository>()
+				.AddScoped<IProductsRepository, ProductsRepository>()
+				.AddScoped<IUsersRepository, UsersRepository>();
 
 			return services;
 		}

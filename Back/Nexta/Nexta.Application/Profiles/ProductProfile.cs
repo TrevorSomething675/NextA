@@ -14,6 +14,7 @@ namespace Nexta.Application.Profiles
     {
         public ProductProfile() 
         {
+            /*
             CreateMap<Product, ProductResponse>();
             CreateMap<Product, AdminProductResponse>();
             CreateMap<PagedData<Product>, PagedData<AdminProductResponse>>();
@@ -28,6 +29,7 @@ namespace Nexta.Application.Profiles
             CreateMap<ImageRequest, ProductImage>();
 
             CreateMap<Product, OrderProductResponse>();
+            */
         }
     }
 }

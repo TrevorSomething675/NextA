@@ -1,13 +1,17 @@
-using System.Reflection;
+ï»¿using System.Reflection;
 using System.Text.Json.Serialization;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Nexta.Application;
 using Nexta.Application.Services;
 using Nexta.Domain.Abstractions.Services;
+using Nexta.Domain.Models.Basket;
+using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.User;
 using Nexta.Domain.Options;
 using Nexta.Infrastructure.Persistence;
 using Nexta.Infrastructure.Services;
@@ -20,6 +24,12 @@ var services = builder.Services;
 
 services.AddAppOptions(builder.Configuration);
 services.AddAppMapper();
+services.AddDbContext<MainContext>((serviceProvider, optionsBuilder) =>
+{
+    var dbOptions = serviceProvider.GetRequiredService<IOptions<DataBaseOptions>>().Value;
+
+    optionsBuilder.UseNpgsql(dbOptions.ConnectionString);
+});
 services.AddAppRepositories();
 services.AddAppAuth(builder.Configuration);
 services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(AssemblyMarker))!));
@@ -39,419 +49,315 @@ services.Configure<JsonOptions>(options =>
 	options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-services.AddDbContextFactory<MainContext>((serviceProvider, optionsBuilder) =>
-{
-    var dbOptions = serviceProvider.GetRequiredService<IOptions<DataBaseOptions>>().Value;
-
-    optionsBuilder.UseNpgsql(dbOptions.ConnectionString)
-        .EnableSensitiveDataLogging()
-        .EnableDetailedErrors()
-        .LogTo(
-            Console.WriteLine,
-            new[] {
-                DbLoggerCategory.Database.Command.Name,
-                DbLoggerCategory.Database.Transaction.Name,
-                DbLoggerCategory.Update.Name
-            },
-            LogLevel.Error,
-            DbContextLoggerOptions.DefaultWithLocalTime |
-            DbContextLoggerOptions.SingleLine);
-});
-
 using (var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
 {
     context.Database.EnsureCreated();
-	if(context.Users.FirstOrDefault() == null)
+    var userJij = context.Users.FirstOrDefault();
+	if(userJij == null)
 	{
 		context.Database.EnsureDeleted();
 		context.Database.EnsureCreated();
 		if (!context.Users.Any())
 		{
-			var user = new UserEntity
-			{
-				Email = "Test1@mail.ru",
-				FirstName = "TestFName1",
-				LastName = "TestLName1",
-				MiddleName = "TestMName1",
-				PasswordHash = "123123123Qq",
-			};
-			var detail = new ProductEntity
-			{
-				Name = "Ìîòîðíîå ìàñëî",
-				Article = "A000989210713MBR",
-				Description = "ÌÀÑËÎ ÌÎÒÎÐÍÎÅ 229.3/229",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 1,
-				NewPrice = 12091,
-				IsVisible = true
-			};
-            var detail1 = new ProductEntity
-            {
-                Name = "Ìîòîðíîå ìàñëî-1",
-                Article = "A000989210713MBR-1",
-                Description = "ÌÀÑËÎ ÌÎÒÎÐÍÎÅ 229.3/229-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 1,
-                NewPrice = 12091,
-                IsVisible = true
-            };
-            var detail2 = new ProductEntity
-            {
-				Name = "Ìîòîðíîå ìàñëî",
-				Article = "A000989220713MBR",
-				Description = "ÌÀÑËÎ ÌÎÒÎÐÍÎÅ 229.51 SAE",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 3,
-				NewPrice = 12264,
-				IsVisible = true
-			};
-            var detail21 = new ProductEntity
-            {
-                Name = "Ìîòîðíîå ìàñëî-1",
-                Article = "A000989220713MBR-1",
-                Description = "ÌÀÑËÎ ÌÎÒÎÐÍÎÅ 229.51 SAE-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 3,
-                NewPrice = 12264,
-                IsVisible = true
-            };
-            var detail3 = new ProductEntity
-            {
-				Name = "Ëîáîâîå ñòåêëî",
-				Article = "A1666705400MB",
-				Description = "ÑÒÅÊËÎ ÂÅÒÐÎÂÎÅ ÏÅÐÅÄÍÅÅ äëÿ Mercedes-Benz GLE",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 1,
-				NewPrice = 81296,
-				IsVisible = true
-			};
-            var detail31 = new ProductEntity
-            {
-                Name = "Ëîáîâîå ñòåêëî-1",
-                Article = "A1666705400MB-1",
-                Description = "ÑÒÅÊËÎ ÂÅÒÐÎÂÎÅ ÏÅÐÅÄÍÅÅ äëÿ Mercedes-Benz GLE-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 1,
-                NewPrice = 81296,
-                IsVisible = true
-            };
-            var detail4 = new ProductEntity
-            {
-				Name = "Ñâå÷à çàæèãàíèÿ",
-				Article = "Denso-K16RU11",
-				Description = "ÑÂÅ×À ÇÀÆÈÃÀÍÈß",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 5,
-				NewPrice = 218,
-				OldPrice = 320,
-				IsVisible = true
-			};
-            var detail41 = new ProductEntity
-            {
-                Name = "Ñâå÷à çàæèãàíèÿ-1",
-                Article = "Denso-K16RU11-1",
-                Description = "ÑÂÅ×À ÇÀÆÈÃÀÍÈß-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 5,
-                NewPrice = 218,
-                OldPrice = 320,
-                IsVisible = true
-            };
-            var detail5 = new ProductEntity
-            {
-				Name = "Ìàñëÿíûé ôèëüòð",
-				Article = "2630035505",
-				Description = "ÔÈËÜÒÐ ÌÀÑËßÍÛÉ",
-				Status = Nexta.Domain.Enums.ProductStatus.OutOfStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 2,
-				NewPrice = 507,
-				IsVisible = true
-			};
-            var detail51 = new ProductEntity
-            {
-                Name = "Ìàñëÿíûé ôèëüòð-1",
-                Article = "2630035505-1",
-                Description = "ÔÈËÜÒÐ ÌÀÑËßÍÛÉ-1",
-                Status = Nexta.Domain.Enums.ProductStatus.OutOfStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 2,
-                NewPrice = 507,
-                IsVisible = true
-            };
-            var detail6 = new ProductEntity
-            {
-				Name = "Î÷èñòèòåëü äâèãàòåëÿ",
-				Article = "Grass 116100",
-				Description = "Î÷èñòèòåëü äâèãàòåëÿ Motor Cleaner",
-				Status = Nexta.Domain.Enums.ProductStatus.OutOfStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 1,
-				NewPrice = 359,
-				IsVisible = true
-			};
-            var detail61 = new ProductEntity
-            {
-                Name = "Î÷èñòèòåëü äâèãàòåëÿ-1",
-                Article = "Grass 116100-1",
-                Description = "Î÷èñòèòåëü äâèãàòåëÿ Motor Cleaner-1",
-                Status = Nexta.Domain.Enums.ProductStatus.OutOfStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 1,
-                NewPrice = 359,
-                IsVisible = true
-            };
-            var detail7 = new ProductEntity
-            {
-				Name = "Ãåðìåòèê",
-				Article = "703141410",
-				Description = "Ãåðìåòèê-ïðîêëàäêà Reinzosil ñèëèêîí ñåðûé ýëàñòè÷",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 1,
-				NewPrice = 718,
-				IsVisible = true
-			};
-            var detail71 = new ProductEntity
-            {
-                Name = "Ãåðìåòèê-1",
-                Article = "703141410-1",
-                Description = "Ãåðìåòèê-ïðîêëàäêà Reinzosil ñèëèêîí ñåðûé ýëàñòè÷-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 1,
-                NewPrice = 718,
-                IsVisible = true
-            };
-            var detail8 = new ProductEntity
-            {
-				Name = "Øèíà",
-				Article = "526111",
-				Description = "Øèíà çèìíÿÿ íåøèïîâàííàÿ ëåãêîâàÿ 175/65R14 82T",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 2,
-				NewPrice = 24053,
-				OldPrice = 28700,
-				IsVisible = true,
-                Category = "Øèíà"
-			};
-            var detail81 = new ProductEntity
-            {
-                Name = "Øèíà-1",
-                Article = "526111-1",
-                Description = "Øèíà çèìíÿÿ íåøèïîâàííàÿ ëåãêîâàÿ 175/65R14 82T-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 2,
-                NewPrice = 24053,
-                OldPrice = 28700,
-                IsVisible = true,
-                Category = "Øèíà"
-            };
-            var detail9 = new ProductEntity
-            {
-				Name = "Øèíà",
-				Article = "457442784",
-				Description = "Àâòîøèíà R13 155/70 Cordiant Road Runner 75T (ëåòî)",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 1,
-				NewPrice = 5960,
-                Category = "Øèíà"
-            };
-            var detail91 = new ProductEntity
-            {
-                Name = "Øèíà-1",
-                Article = "457442784-1",
-                Description = "Àâòîøèíà R13 155/70 Cordiant Road Runner 75T (ëåòî)-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 1,
-                NewPrice = 5960,
-                Category = "Øèíà"
-            };
-            var detail10 = new ProductEntity
-            {
-				Name = "Øèíà",
-				Article = "1012050",
-				Description = "Øèíà ëåòíÿÿ ëåãêîâàÿ 175/65R14 82H",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 2,
-				NewPrice = 9924,
-				OldPrice = 11098,
-				IsVisible = false,
-                Category = "Øèíà"
-            };
-            var detail101 = new ProductEntity
-            {
-                Name = "Øèíà-1",
-                Article = "1012050-1",
-                Description = "Øèíà ëåòíÿÿ ëåãêîâàÿ 175/65R14 82H-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 2,
-                NewPrice = 9924,
-                OldPrice = 11098,
-                IsVisible = false,
-                Category = "Øèíà"
-            };
-            var detail11 = new ProductEntity
-            {
-				Name = "Øèíà",
-				Article = "1010711",
-				Description = "Àâòîøèíà R15 195/60 Hankook Optimo ME02 K424 88H (ëåòî)",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 4,
-				NewPrice = 9276,
-				IsVisible = true,
-                Category = "Øèíà"
-            };
-            var detail111 = new ProductEntity
-            {
-                Name = "Øèíà-1",
-                Article = "1010711-1",
-                Description = "Àâòîøèíà R15 195/60 Hankook Optimo ME02 K424 88H (ëåòî)-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 4,
-                NewPrice = 9276,
-                IsVisible = true,
-                Category = "Øèíà"
-            };
-            var detail12 = new ProductEntity
-            {
-				Name = "Êîìïðåññîð",
-				Article = "CA03014S",
-				Description = "Êîìïðåññîð X1 (30ë/ìèí, 7 ÀÒÌ, ñåðèÿ STANDARD)",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 7,
-				NewPrice = 3113,
-				IsVisible = true
-			};
-            var detail121 = new ProductEntity
-            {
-                Name = "Êîìïðåññîð-1",
-                Article = "CA03014S-1",
-                Description = "Êîìïðåññîð X1 (30ë/ìèí, 7 ÀÒÌ, ñåðèÿ STANDARD)-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 7,
-                NewPrice = 3113,
-                IsVisible = true
-            };
-            var detail13 = new ProductEntity
-            {
-				Name = "Ìàíîìåòð",
-				Article = "522200",
-				Description = "Ìàíîìåòð øèííûé ñòðåëî÷íûé â áëèñòåðå. Èçãîòîâëåí èç óäàðî-ïðî÷íîé ïëàñòìàññû. Äèàïàçîí " +
-				"èçìåðåíèÿ äàâëåíèÿ 10-50 PSI/ 0,5-3,5 êã/ñì2. Øàã èçìåðåíèÿ 1 PSI/ 0,1 êã/ñì2. Êíîïêà äëÿ ñáðîñà ïîêàçàíèé " +
-				"äàâëåíèÿ. Èãëà äëÿ ñáðîñà ëèøíåãî äàâëåíèÿ.",
-				Status = Nexta.Domain.Enums.ProductStatus.InStock,
-				OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-				Count = 2,
-				NewPrice = 216,
-				IsVisible = true
-			};
-            var detail131 = new ProductEntity
-            {
-                Name = "Ìàíîìåòð-1",
-                Article = "522200-1",
-                Description = "Ìàíîìåòð øèííûé ñòðåëî÷íûé â áëèñòåðå. Èçãîòîâëåí èç óäàðî-ïðî÷íîé ïëàñòìàññû. Äèàïàçîí " +
-                "èçìåðåíèÿ äàâëåíèÿ 10-50 PSI/ 0,5-3,5 êã/ñì2. Øàã èçìåðåíèÿ 1 PSI/ 0,1 êã/ñì2. Êíîïêà äëÿ ñáðîñà ïîêàçàíèé " +
-                "äàâëåíèÿ. Èãëà äëÿ ñáðîñà ëèøíåãî äàâëåíèÿ.-1",
-                Status = Nexta.Domain.Enums.ProductStatus.InStock,
-                OrderDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                DeliveryDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                Count = 2,
-                NewPrice = 216,
-                IsVisible = true
-            };
+            var user = new User(
+                "TestFName1",
+                "TestLName1",
+                "TestMName1",
+                "Test1@mail.ru",
+                "123123123Qq"
+            );
+			var detail = new Product(
+				"ÐœÐ¾Ñ‚Ð¾Ñ€Ð½Ð¾Ðµ Ð¼Ð°ÑÐ»Ð¾",
+				"A000989210713MBR",
+				"ÐœÐÐ¡Ð›Ðž ÐœÐžÐ¢ÐžÐ ÐÐžÐ• 229.3/229",
+				Nexta.Domain.Enums.ProductStatus.InStock,
+				1,
+				12091,
+                0,
+				true
+			);
+            var detail1 = new Product(
+                "ÐœÐ¾Ñ‚Ð¾Ñ€Ð½Ð¾Ðµ Ð¼Ð°ÑÐ»Ð¾-1",
+                "A000989210713MBR-1",
+                "ÐœÐÐ¡Ð›Ðž ÐœÐžÐ¢ÐžÐ ÐÐžÐ• 229.3/229-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                1,
+                12091,
+                0,
+                true
+            );
+            var detail2 = new Product(
+				"ÐœÐ¾Ñ‚Ð¾Ñ€Ð½Ð¾Ðµ Ð¼Ð°ÑÐ»Ð¾",
+				"A000989220713MBR",
+				"ÐœÐÐ¡Ð›Ðž ÐœÐžÐ¢ÐžÐ ÐÐžÐ• 229.51 SAE",
+				Nexta.Domain.Enums.ProductStatus.InStock,
+				3,
+				12264,
+                0,
+				true
+			);
+            var detail21 = new Product(
+                "ÐœÐ¾Ñ‚Ð¾Ñ€Ð½Ð¾Ðµ Ð¼Ð°ÑÐ»Ð¾-1",
+                "A000989220713MBR-1",
+                "ÐœÐÐ¡Ð›Ðž ÐœÐžÐ¢ÐžÐ ÐÐžÐ• 229.51 SAE-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                3,
+                12264,
+                0,
+                true
+            );
+            var detail3 = new Product(
+				"Ð›Ð¾Ð±Ð¾Ð²Ð¾Ðµ ÑÑ‚ÐµÐºÐ»Ð¾",
+				"A1666705400MB",
+				"Ð¡Ð¢Ð•ÐšÐ›Ðž Ð’Ð•Ð¢Ð ÐžÐ’ÐžÐ• ÐŸÐ•Ð Ð•Ð”ÐÐ•Ð• Ð´Ð»Ñ Mercedes-Benz GLE",
+				Nexta.Domain.Enums.ProductStatus.InStock,
+				1,
+				81296,
+                0,
+				true
+			);
+            var detail31 = new Product(
+                "Ð›Ð¾Ð±Ð¾Ð²Ð¾Ðµ ÑÑ‚ÐµÐºÐ»Ð¾-1",
+                "A1666705400MB-1",
+                "Ð¡Ð¢Ð•ÐšÐ›Ðž Ð’Ð•Ð¢Ð ÐžÐ’ÐžÐ• ÐŸÐ•Ð Ð•Ð”ÐÐ•Ð• Ð´Ð»Ñ Mercedes-Benz GLE-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                1,
+                81296,
+                null,
+                true
+            );
+
+            var detail4 = new Product(
+                "Ð¡Ð²ÐµÑ‡Ð° Ð·Ð°Ð¶Ð¸Ð³Ð°Ð½Ð¸Ñ",
+                "Denso-K16RU11",
+                "Ð¡Ð’Ð•Ð§Ð Ð—ÐÐ–Ð˜Ð“ÐÐÐ˜Ð¯",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                5,
+                218,
+                320,
+                true
+            );
+
+            var detail41 = new Product(
+                "Ð¡Ð²ÐµÑ‡Ð° Ð·Ð°Ð¶Ð¸Ð³Ð°Ð½Ð¸Ñ-1",
+                "Denso-K16RU11-1",
+                "Ð¡Ð’Ð•Ð§Ð Ð—ÐÐ–Ð˜Ð“ÐÐÐ˜Ð¯-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                5,
+                218,
+                320,
+                true
+            );
+
+            var detail5 = new Product(
+                "ÐœÐ°ÑÐ»ÑÐ½Ñ‹Ð¹ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€",
+                "2630035505",
+                "Ð¤Ð˜Ð›Ð¬Ð¢Ð  ÐœÐÐ¡Ð›Ð¯ÐÐ«Ð™",
+                Nexta.Domain.Enums.ProductStatus.OutOfStock,
+                2,
+                507,
+                null,
+                true
+            );
+
+            var detail51 = new Product(
+                "ÐœÐ°ÑÐ»ÑÐ½Ñ‹Ð¹ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€-1",
+                "2630035505-1",
+                "Ð¤Ð˜Ð›Ð¬Ð¢Ð  ÐœÐÐ¡Ð›Ð¯ÐÐ«Ð™-1",
+                Nexta.Domain.Enums.ProductStatus.OutOfStock,
+                2,
+                507,
+                null,
+                true
+            );
+
+            var detail6 = new Product(
+                "ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÐµÐ»ÑŒ Ð´Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»Ñ",
+                "Grass 116100",
+                "ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÐµÐ»ÑŒ Ð´Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»Ñ Motor Cleaner",
+                Nexta.Domain.Enums.ProductStatus.OutOfStock,
+                1,
+                359,
+                null,
+                true
+            );
+
+            var detail61 = new Product(
+                "ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÐµÐ»ÑŒ Ð´Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»Ñ-1",
+                "Grass 116100-1",
+                "ÐžÑ‡Ð¸ÑÑ‚Ð¸Ñ‚ÐµÐ»ÑŒ Ð´Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»Ñ Motor Cleaner-1",
+                Nexta.Domain.Enums.ProductStatus.OutOfStock,
+                1,
+                359,
+                null,
+                true
+            );
+
+            var detail7 = new Product(
+                "Ð“ÐµÑ€Ð¼ÐµÑ‚Ð¸Ðº",
+                "703141410",
+                "Ð“ÐµÑ€Ð¼ÐµÑ‚Ð¸Ðº-Ð¿Ñ€Ð¾ÐºÐ»Ð°Ð´ÐºÐ° Reinzosil ÑÐ¸Ð»Ð¸ÐºÐ¾Ð½ ÑÐµÑ€Ñ‹Ð¹ ÑÐ»Ð°ÑÑ‚Ð¸Ñ‡",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                1,
+                718,
+                null,
+                true
+            );
+
+            var detail71 = new Product(
+                "Ð“ÐµÑ€Ð¼ÐµÑ‚Ð¸Ðº-1",
+                "703141410-1",
+                "Ð“ÐµÑ€Ð¼ÐµÑ‚Ð¸Ðº-Ð¿Ñ€Ð¾ÐºÐ»Ð°Ð´ÐºÐ° Reinzosil ÑÐ¸Ð»Ð¸ÐºÐ¾Ð½ ÑÐµÑ€Ñ‹Ð¹ ÑÐ»Ð°ÑÑ‚Ð¸Ñ‡-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                1,
+                718,
+                null,
+                true
+            );
+
+            var detail8 = new Product(
+                "Ð¨Ð¸Ð½Ð°",
+                "526111",
+                "Ð¨Ð¸Ð½Ð° Ð·Ð¸Ð¼Ð½ÑÑ Ð½ÐµÑˆÐ¸Ð¿Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ð»ÐµÐ³ÐºÐ¾Ð²Ð°Ñ 175/65R14 82T",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                2,
+                24053,
+                28700,
+                true
+            );
+
+            var detail81 = new Product(
+                "Ð¨Ð¸Ð½Ð°-1",
+                "526111-1",
+                "Ð¨Ð¸Ð½Ð° Ð·Ð¸Ð¼Ð½ÑÑ Ð½ÐµÑˆÐ¸Ð¿Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ð»ÐµÐ³ÐºÐ¾Ð²Ð°Ñ 175/65R14 82T-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                2,
+                24053,
+                28700,
+                true
+            );
+
+            var detail9 = new Product(
+                "Ð¨Ð¸Ð½Ð°",
+                "457442784",
+                "ÐÐ²Ñ‚Ð¾ÑˆÐ¸Ð½Ð° R13 155/70 Cordiant Road Runner 75T (Ð»ÐµÑ‚Ð¾)",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                1,
+                5960,
+                null,
+                true
+            );
+
+            var detail91 = new Product(
+                "Ð¨Ð¸Ð½Ð°-1",
+                "457442784-1",
+                "ÐÐ²Ñ‚Ð¾ÑˆÐ¸Ð½Ð° R13 155/70 Cordiant Road Runner 75T (Ð»ÐµÑ‚Ð¾)-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                1,
+                5960,
+                null,
+                true
+            );
+
+            var detail10 = new Product(
+                "Ð¨Ð¸Ð½Ð°",
+                "1012050",
+                "Ð¨Ð¸Ð½Ð° Ð»ÐµÑ‚Ð½ÑÑ Ð»ÐµÐ³ÐºÐ¾Ð²Ð°Ñ 175/65R14 82H",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                2,
+                9924,
+                11098,
+                false
+            );
+
+            var detail101 = new Product(
+                "Ð¨Ð¸Ð½Ð°-1",
+                "1012050-1",
+                "Ð¨Ð¸Ð½Ð° Ð»ÐµÑ‚Ð½ÑÑ Ð»ÐµÐ³ÐºÐ¾Ð²Ð°Ñ 175/65R14 82H-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                2,
+                9924,
+                11098,
+                false
+            );
+
+            var detail11 = new Product(
+                "Ð¨Ð¸Ð½Ð°",
+                "1010711",
+                "ÐÐ²Ñ‚Ð¾ÑˆÐ¸Ð½Ð° R15 195/60 Hankook Optimo ME02 K424 88H (Ð»ÐµÑ‚Ð¾)",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                4,
+                9276,
+                null,
+                true
+            );
+
+            var detail111 = new Product(
+                "Ð¨Ð¸Ð½Ð°-1",
+                "1010711-1",
+                "ÐÐ²Ñ‚Ð¾ÑˆÐ¸Ð½Ð° R15 195/60 Hankook Optimo ME02 K424 88H (Ð»ÐµÑ‚Ð¾)-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                4,
+                9276,
+                null,
+                true
+            );
+
+            var detail12 = new Product(
+                "ÐšÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¾Ñ€",
+                "CA03014S",
+                "ÐšÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¾Ñ€ X1 (30Ð»/Ð¼Ð¸Ð½, 7 ÐÐ¢Ðœ, ÑÐµÑ€Ð¸Ñ STANDARD)",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                7,
+                3113,
+                null,
+                true
+            );
+
+            var detail121 = new Product(
+                "ÐšÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¾Ñ€-1",
+                "CA03014S-1",
+                "ÐšÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¾Ñ€ X1 (30Ð»/Ð¼Ð¸Ð½, 7 ÐÐ¢Ðœ, ÑÐµÑ€Ð¸Ñ STANDARD)-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                7,
+                3113,
+                null,
+                true
+            );
+
+            var detail13 = new Product(
+                "ÐœÐ°Ð½Ð¾Ð¼ÐµÑ‚Ñ€",
+                "522200",
+                "ÐœÐ°Ð½Ð¾Ð¼ÐµÑ‚Ñ€ ÑˆÐ¸Ð½Ð½Ñ‹Ð¹ ÑÑ‚Ñ€ÐµÐ»Ð¾Ñ‡Ð½Ñ‹Ð¹ Ð² Ð±Ð»Ð¸ÑÑ‚ÐµÑ€Ðµ. Ð˜Ð·Ð³Ð¾Ñ‚Ð¾Ð²Ð»ÐµÐ½ Ð¸Ð· ÑƒÐ´Ð°Ñ€Ð¾-Ð¿Ñ€Ð¾Ñ‡Ð½Ð¾Ð¹ Ð¿Ð»Ð°ÑÑ‚Ð¼Ð°ÑÑÑ‹. Ð”Ð¸Ð°Ð¿Ð°Ð·Ð¾Ð½ " +
+                "Ð¸Ð·Ð¼ÐµÑ€ÐµÐ½Ð¸Ñ Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ñ 10-50 PSI/ 0,5-3,5 ÐºÐ³/ÑÐ¼2. Ð¨Ð°Ð³ Ð¸Ð·Ð¼ÐµÑ€ÐµÐ½Ð¸Ñ 1 PSI/ 0,1 ÐºÐ³/ÑÐ¼2. ÐšÐ½Ð¾Ð¿ÐºÐ° Ð´Ð»Ñ ÑÐ±Ñ€Ð¾ÑÐ° Ð¿Ð¾ÐºÐ°Ð·Ð°Ð½Ð¸Ð¹ " +
+                "Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ñ. Ð˜Ð³Ð»Ð° Ð´Ð»Ñ ÑÐ±Ñ€Ð¾ÑÐ° Ð»Ð¸ÑˆÐ½ÐµÐ³Ð¾ Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ñ.",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                2,
+                216,
+                null,
+                true
+            );
+
+            var detail131 = new Product(
+                "ÐœÐ°Ð½Ð¾Ð¼ÐµÑ‚Ñ€-1",
+                "522200-1",
+                "ÐœÐ°Ð½Ð¾Ð¼ÐµÑ‚Ñ€ ÑˆÐ¸Ð½Ð½Ñ‹Ð¹ ÑÑ‚Ñ€ÐµÐ»Ð¾Ñ‡Ð½Ñ‹Ð¹ Ð² Ð±Ð»Ð¸ÑÑ‚ÐµÑ€Ðµ. Ð˜Ð·Ð³Ð¾Ñ‚Ð¾Ð²Ð»ÐµÐ½ Ð¸Ð· ÑƒÐ´Ð°Ñ€Ð¾-Ð¿Ñ€Ð¾Ñ‡Ð½Ð¾Ð¹ Ð¿Ð»Ð°ÑÑ‚Ð¼Ð°ÑÑÑ‹. Ð”Ð¸Ð°Ð¿Ð°Ð·Ð¾Ð½ " +
+                "Ð¸Ð·Ð¼ÐµÑ€ÐµÐ½Ð¸Ñ Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ñ 10-50 PSI/ 0,5-3,5 ÐºÐ³/ÑÐ¼2. Ð¨Ð°Ð³ Ð¸Ð·Ð¼ÐµÑ€ÐµÐ½Ð¸Ñ 1 PSI/ 0,1 ÐºÐ³/ÑÐ¼2. ÐšÐ½Ð¾Ð¿ÐºÐ° Ð´Ð»Ñ ÑÐ±Ñ€Ð¾ÑÐ° Ð¿Ð¾ÐºÐ°Ð·Ð°Ð½Ð¸Ð¹ " +
+                "Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ñ. Ð˜Ð³Ð»Ð° Ð´Ð»Ñ ÑÐ±Ñ€Ð¾ÑÐ° Ð»Ð¸ÑˆÐ½ÐµÐ³Ð¾ Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ñ.-1",
+                Nexta.Domain.Enums.ProductStatus.InStock,
+                2,
+                216,
+                null,
+                true
+            );
             if (context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru") == null)
 			{
 				context.Users.Add(user);
 				context.Products.AddRange(detail, detail2, detail3, detail4, detail5, detail6, detail7, detail8, detail9, detail10, detail11, detail12, detail13,
                     detail11, detail21, detail31, detail41, detail51, detail61, detail71, detail81, detail91, detail101, detail111, detail121, detail131);
 				context.SaveChanges();
-
-				var userEntity = context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru");
-				var detailEntity = context.Products.FirstOrDefault();
-
-				var userDetailEntity = new BasketProductEntity
-				{
-					Product = detailEntity,
-					User = userEntity
-				};
-
-
-				context.BasketProducts.Add(userDetailEntity);
-				context.SaveChanges();
-				var userEntity1 = context.Users.FirstOrDefault(u => u.Email == "Test1@mail.ru");
-				var order = new OrderEntity
-				{
-					Status = Nexta.Domain.Enums.OrderStatus.Accepted,
-					User = userEntity1
-				};
-
-				context.Orders.Add(order);
-				context.SaveChanges();
 			}
 		}
-	}
-}
-
-using(var context = services.BuildServiceProvider().GetRequiredService<MainContext>())
-{
-    if (context.Users.FirstOrDefault() == null)
-	{
-	    var createdOrder = context.Orders.FirstOrDefault();
-	
-		var createdDetail = context.Products.FirstOrDefault();
-	
-		var orderDetail1 = new OrderProductEntity
-		{
-			Product = createdDetail,
-			Order = createdOrder
-		};
-	
-		context.OrderProducts.Add(orderDetail1);
-		context.SaveChanges();
 	}
 }
 

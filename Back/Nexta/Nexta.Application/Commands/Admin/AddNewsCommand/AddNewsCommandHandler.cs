@@ -4,24 +4,25 @@ using FluentValidation;
 using AutoMapper;
 using MediatR;
 using Nexta.Domain.Models.News;
+using Nexta.Domain.Abstractions;
 
 namespace Nexta.Application.Commands.Admin.AddNewsCommand
 {
 	public class AddNewsCommandHandler : IRequestHandler<AddNewsCommand, AddNewsCommandResponse>
 	{
-		private readonly IValidator<AddNewsCommand> _validator;
-		private readonly INewsRepository _newsRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		
-		public AddNewsCommandHandler(INewsRepository newsRepository, IMapper mapper, IValidator<AddNewsCommand> validator)
+		public AddNewsCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
 		{
-			_newsRepository = newsRepository;
-			_validator = validator;
+			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
 		public async Task<AddNewsCommandResponse> Handle(AddNewsCommand request, CancellationToken ct = default)
 		{
+			throw new NotImplementedException();
+			/*
 			var validationResult = await _validator.ValidateAsync(request, ct);
 			if (!validationResult.IsValid)
 				throw new ValidationException(string.Join(',', validationResult.Errors));
@@ -33,6 +34,7 @@ namespace Nexta.Application.Commands.Admin.AddNewsCommand
 			var result = _mapper.Map<NewsResponse>(news);
 
 			return new AddNewsCommandResponse(result);
+			*/
 		}
 	}
 }

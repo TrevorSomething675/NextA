@@ -1,12 +1,11 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
+using Nexta.Application.DTO.Category;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Models.Product;
 
 namespace Nexta.Application.Queries.Categories.GetCategoriesQuery
 {
-    public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, GetCategoriesQueryResponse>
+    public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, List<CategoryDto>>
     {
         private readonly ICategoriesRepository _categoriesRepository;
         private readonly IMapper _mapper;
@@ -17,14 +16,13 @@ namespace Nexta.Application.Queries.Categories.GetCategoriesQuery
             _mapper = mapper;
         }
 
-        public async Task<GetCategoriesQueryResponse> Handle(GetCategoriesQuery query, CancellationToken ct)
+        public async Task<List<CategoryDto>> Handle(GetCategoriesQuery query, CancellationToken ct)
         {
-            var dbCategories = await _categoriesRepository.GetAsync(ct);
-            var categories = _mapper.Map<List<Category>>(dbCategories);
+            var categories = await _categoriesRepository.GetAllAsync(ct);
 
-            var categoriesResponse = _mapper.Map<List<ProductCategoryResponse>>(categories);
+            var response = _mapper.Map<List<CategoryDto>>(categories);
 
-            return new GetCategoriesQueryResponse(categoriesResponse);
+            return response;
         }
     }
 }

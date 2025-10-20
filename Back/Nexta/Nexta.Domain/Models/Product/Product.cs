@@ -12,8 +12,8 @@ namespace Nexta.Domain.Models.Product
         private Product() { }
         #pragma warning restore CS8618
 
-        public Product(string name, string article, string description, int? count,
-                int newPrice, int? oldPrice, bool? isVisible
+        public Product(string name, string article, string description, ProductStatus status, int? count,
+                int newPrice, int? oldPrice, bool isVisible = false
             )
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -22,7 +22,7 @@ namespace Nexta.Domain.Models.Product
                 throw new ArgumentNullException("Article is required", nameof(article));
             if (string.IsNullOrWhiteSpace(description))
                 throw new ArgumentNullException("Description is required", nameof(description));
-            if (newPrice != default)
+            if (newPrice == default)
                 throw new ArgumentNullException("NewPrice is required", nameof(newPrice));
 
             Id = Guid.NewGuid();
@@ -30,9 +30,10 @@ namespace Nexta.Domain.Models.Product
             Article = article;
             Description = description;
             Count = count ?? 0;
+            Status = status;
             NewPrice = newPrice;
             OldPrice = oldPrice;
-            IsVisible = isVisible ?? false;
+            IsVisible = isVisible;
         }
 
         public string Name { get; }

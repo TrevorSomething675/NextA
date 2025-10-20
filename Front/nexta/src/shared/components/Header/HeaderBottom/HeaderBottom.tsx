@@ -35,7 +35,7 @@ export const HeaderBottom = observer(() => {
     return <div className={styles.container}>
         <div className={styles.header}>
             <div className={styles.categories}>
-                {categories.slice(0, 5).map(category => 
+                {categories?.slice(0, 5).map(category => 
                     <button key={category.name} className={styles.headerItem} onClick={() => handleSearchOnCategory(category.name)}>
                         {category.name}
                     </button>)}
