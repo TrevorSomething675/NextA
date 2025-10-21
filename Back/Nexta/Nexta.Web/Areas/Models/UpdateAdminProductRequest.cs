@@ -1,5 +1,4 @@
 ﻿using Nexta.Application.DTO.Request;
-using Nexta.Application.Enums;
 
 namespace Nexta.Web.Areas.Models
 {
@@ -18,8 +17,6 @@ namespace Nexta.Web.Areas.Models
 		public bool IsVisible { get; init; }
 
         public string? Category { get; set; }
-
-        public ProductOperationType Type { get; init; }
 
         public List<ProductAttributeRequest>? Attributes { get; init; }
 

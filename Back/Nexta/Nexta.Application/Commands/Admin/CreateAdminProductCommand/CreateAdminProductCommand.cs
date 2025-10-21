@@ -1,9 +1,9 @@
-﻿using Nexta.Application.DTO.Request;
+﻿using Nexta.Application.DTO.Product;
 using MediatR;
 
 namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
 {
-    public class CreateAdminProductCommand : IRequest<CreateAdminProductCommandResponse>
+    public class CreateAdminProductCommand : IRequest<Guid>
     {
         public string Name { get; set; } = null!;
         public string Article { get; set; } = null!;
@@ -21,6 +21,6 @@ namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
 
         public bool IsVisible { get; set; }
 
-        public ImageRequest? Image { get; set; }
+        public ProductImageDto? Image { get; set; }
     }
 }

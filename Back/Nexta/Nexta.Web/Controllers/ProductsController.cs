@@ -1,7 +1,9 @@
 ﻿using Nexta.Application.Queries.Products.GetProductByIdQuery;
 using Nexta.Application.Queries.Products.GetProductsQuery;
+using Nexta.Application.DTO.Product;
 using Nexta.Web.Models.Products;
 using Microsoft.AspNetCore.Mvc;
+using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
 
@@ -20,7 +22,7 @@ namespace Nexta.Web.Controllers
         }
 
         [HttpGet("[action]/{id}")]
-        [ProducesResponseType(typeof(GetProductByIdQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
         public async Task<IResult> GetById([FromRoute] Guid id, CancellationToken ct = default)
         {
             var query = new GetProductByIdQuery(id);
@@ -30,7 +32,7 @@ namespace Nexta.Web.Controllers
         }
 
         [HttpGet("[action]")]
-        [ProducesResponseType(typeof(GetProductsQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedData<ProductDto>), StatusCodes.Status200OK)]
         public async Task<IResult> Get([FromQuery] GetProductsRequest request, CancellationToken ct = default)
         {
             var query = _mapper.Map<GetProductsQuery>(request);

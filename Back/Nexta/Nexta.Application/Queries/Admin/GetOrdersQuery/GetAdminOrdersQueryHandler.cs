@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 {
-	public class GetAdminOrdersQueryHandler : IRequestHandler<GetAdminOrdersQuery, GetAdminOrdersQueryResponse>
+	public class GetAdminOrdersQueryHandler : IRequestHandler<GetAdminOrdersQuery, PagedData<OrderDto>>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -18,14 +18,14 @@ namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 			_mapper = mapper;
 		}
 
-		public async Task<GetAdminOrdersQueryResponse> Handle(GetAdminOrdersQuery query, CancellationToken ct = default)
+		public async Task<PagedData<OrderDto>> Handle(GetAdminOrdersQuery query, CancellationToken ct = default)
 		{
 			var spec = new OrderByUserDataSpecification(query.Filter.SearchTerm, query.Filter.PageNumber, query.Filter.PageSize);
 
 			var orders = await _unitOfWork.Orders.GetOrdersByFullNameAsync(spec, ct);
 			var response = _mapper.Map<PagedData<OrderDto>>(orders);
 
-			return new GetAdminOrdersQueryResponse(response);
+			return response;
 		}
 	}
 }

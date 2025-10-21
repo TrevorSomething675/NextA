@@ -4,11 +4,12 @@ using Nexta.Application.Queries.Orders.GetOrdersForUserQuery;
 using Nexta.Application.Queries.Orders.GetLegacyOrdersQuery;
 using Nexta.Application.Commands.Orders.DeleteOrderCommand;
 using Microsoft.AspNetCore.Authorization;
+using Nexta.Application.DTO.Order;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Models.Orders;
+using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Order;
 
 namespace Nexta.Web.Controllers
 {
@@ -36,7 +37,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpGet("[action]")]
-		[ProducesResponseType(typeof(GetLegacyOrdersQueryResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(PagedData<OrderDto>), StatusCodes.Status200OK)]
 		public async Task<IResult> GetLegacyOrdersForUser([FromQuery] GetOrdersForUserRequest request, CancellationToken ct = default)
 		{
 			var query = _mapper.Map<GetLegacyOrdersQuery>(request);

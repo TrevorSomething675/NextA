@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Products.GetProductByIdQuery
 {
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdQueryResponse>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ProductDto>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -16,12 +16,12 @@ namespace Nexta.Application.Queries.Products.GetProductByIdQuery
             _mapper = mapper;
         }
 
-        public async Task<GetProductByIdQueryResponse> Handle(GetProductByIdQuery query, CancellationToken ct = default)
+        public async Task<ProductDto> Handle(GetProductByIdQuery query, CancellationToken ct = default)
         {
             var product = await _unitOfWork.Products.GetAsync(query.Id, ct);
-            var productDto = _mapper.Map<ProductDto>(product);
+            var response = _mapper.Map<ProductDto>(product);
 
-            return new GetProductByIdQueryResponse(productDto);
+            return response;
         }
     }
 }

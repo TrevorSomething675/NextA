@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Nexta.Application.Commands.Admin.UpdateOrderCommand
 {
-	public class UpdateAdminOrderCommandHandler : IRequestHandler<UpdateAdminOrderCommand, UpdateAdminOrderCommandResponse>
+	public class UpdateAdminOrderCommandHandler : IRequestHandler<UpdateAdminOrderCommand, Guid>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ namespace Nexta.Application.Commands.Admin.UpdateOrderCommand
 			_mapper = mapper;
 		}
 
-		public async Task<UpdateAdminOrderCommandResponse> Handle(UpdateAdminOrderCommand request, CancellationToken ct = default)
+		public async Task<Guid> Handle(UpdateAdminOrderCommand request, CancellationToken ct = default)
 		{
 			var order = await _unitOfWork.Orders.GetAsync(request.OrderId);
 
@@ -26,7 +26,7 @@ namespace Nexta.Application.Commands.Admin.UpdateOrderCommand
 			var result = _unitOfWork.Orders.Update(order);
 			await _unitOfWork.SaveChangesAsync(ct);
 
-			return new UpdateAdminOrderCommandResponse(result.Id);
+			return result.Id;
 		}
 	}
 }

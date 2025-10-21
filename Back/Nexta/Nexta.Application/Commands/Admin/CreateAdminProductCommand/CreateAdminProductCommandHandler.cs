@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
 {
-    public class CreateAdminProductCommandHandler : IRequestHandler<CreateAdminProductCommand, CreateAdminProductCommandResponse>
+    public class CreateAdminProductCommandHandler : IRequestHandler<CreateAdminProductCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -13,7 +13,7 @@ namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CreateAdminProductCommandResponse> Handle(CreateAdminProductCommand command, CancellationToken ct = default)
+        public async Task<Guid> Handle(CreateAdminProductCommand command, CancellationToken ct = default)
         {
             var product = new Product(
                     command.Name,
@@ -28,7 +28,7 @@ namespace Nexta.Application.Commands.Admin.CreateAdminProductCommand
             
             var createdProduct = await _unitOfWork.Products.AddAsync(product, ct);
 
-            return new CreateAdminProductCommandResponse(createdProduct.Id);
+            return createdProduct.Id;
         }
     }
 }

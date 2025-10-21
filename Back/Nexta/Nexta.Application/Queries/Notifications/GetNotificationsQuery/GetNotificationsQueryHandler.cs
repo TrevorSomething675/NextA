@@ -1,12 +1,12 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
+using Nexta.Application.DTO.User;
+using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Base;
 
 namespace Nexta.Application.Queries.Notifications.GetNotificationsQuery
 {
-    public class GetNotificationsQueryHandler : IRequestHandler<GetNotificationsQuery, GetNotificationsQueryResponse>
+    public class GetNotificationsQueryHandler : IRequestHandler<GetNotificationsQuery, PagedData<NotificationDto>>
     {
         private readonly INotificationsRepository _notificationsRepository;
         private readonly IMapper _mapper;
@@ -17,12 +17,12 @@ namespace Nexta.Application.Queries.Notifications.GetNotificationsQuery
             _mapper = mapper;
         }
 
-        public async Task<GetNotificationsQueryResponse> Handle(GetNotificationsQuery query, CancellationToken ct)
+        public async Task<PagedData<NotificationDto>> Handle(GetNotificationsQuery query, CancellationToken ct)
         {
             var notifications = await _notificationsRepository.GetAsync(query.Filter, ct);
-            var response = _mapper.Map<PagedData<NotificationResponse>>(notifications);
+            var response = _mapper.Map<PagedData<NotificationDto>>(notifications);
 
-            return new GetNotificationsQueryResponse(response);
+            return response;
         }
     }
 }

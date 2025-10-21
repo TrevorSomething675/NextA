@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Products.GetProductsQuery
 {
-    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, GetProductsQueryResponse>
+    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, PagedData<ProductDto>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,14 +18,14 @@ namespace Nexta.Application.Queries.Products.GetProductsQuery
             _mapper = mapper;
         }
 
-        public async Task<GetProductsQueryResponse> Handle(GetProductsQuery query, CancellationToken ct)
+        public async Task<PagedData<ProductDto>> Handle(GetProductsQuery query, CancellationToken ct)
         {
             var spec = new ProductSpecification(query.Filter.PageNumber, query.Filter.PageSize);
             var products = await _unitOfWork.Products.GetAllAsync(spec, ct);
 
             var response = _mapper.Map<PagedData<ProductDto>>(products);
 
-            return new GetProductsQueryResponse(response);
+            return response;
         }
     }
 }

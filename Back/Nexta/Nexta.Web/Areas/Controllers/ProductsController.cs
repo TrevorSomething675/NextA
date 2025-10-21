@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Areas.Models;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Product;
+using Nexta.Domain.Base;
 
 namespace Nexta.Web.Areas.Controllers
 {
@@ -26,7 +28,7 @@ namespace Nexta.Web.Areas.Controllers
 		}
 
 		[HttpGet("GetById/{id}")]
-		[ProducesResponseType(typeof(GetAdminProductQueryResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(AdminProductDto), StatusCodes.Status200OK)]
 		public async Task<IResult> GetById([FromRoute] Guid id, CancellationToken ct = default)
 		{
 			var query = new GetAdminProductQuery(id, true);
@@ -36,7 +38,7 @@ namespace Nexta.Web.Areas.Controllers
 		}
 
 		[HttpGet("[action]")]
-		[ProducesResponseType(typeof(GetAdminProductsQueryResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(PagedData<AdminProductDto>), StatusCodes.Status200OK)]
 		public async Task<IResult> Get([FromQuery] GetAdminProductsRequest request, CancellationToken ct = default)
 		{
 			var query = _mapper.Map<GetAdminProductsQuery>(request);

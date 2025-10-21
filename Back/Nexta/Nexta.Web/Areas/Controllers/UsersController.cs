@@ -1,8 +1,10 @@
 ﻿using Nexta.Application.Commands.Users.DeleteUserCommand;
 using Nexta.Application.Queries.Admin.GetUsersQuery;
 using Microsoft.AspNetCore.Authorization;
+using Nexta.Application.DTO.Admin;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Models.Users;
+using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
 
@@ -24,7 +26,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
         [HttpGet("Get")]
-        [ProducesResponseType(typeof(GetUsersQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedData<AdminUserResponse>), StatusCodes.Status200OK)]
         public async Task<IResult> Get([FromQuery] GetUsersRequest request, CancellationToken ct = default)
         {
             var query = _mapper.Map<GetUsersQuery>(request);
@@ -34,7 +36,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        [ProducesResponseType(typeof(GetUsersQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
         public async Task<IResult> Delete([FromRoute] Guid id, CancellationToken ct = default)
         {
             var command = new DeleteUserCommand(id);

@@ -3,8 +3,10 @@ using Nexta.Application.Commands.Admin.DeleteProductFromOrderCommand;
 using Nexta.Application.Commands.Admin.UpdateOrderCommand;
 using Nexta.Application.Queries.Admin.GetAllOrdersQuery;
 using Microsoft.AspNetCore.Authorization;
+using Nexta.Application.DTO.Order;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Areas.Models;
+using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
 
@@ -26,7 +28,7 @@ namespace Nexta.Web.Areas.Controllers
 		}
 
         [HttpGet("[action]")]
-        [ProducesResponseType(typeof(GetAdminOrdersQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedData<OrderDto>), StatusCodes.Status200OK)]
         public async Task<IResult> Get([FromQuery] GetAdminOrdersRequest request, CancellationToken ct = default)
         {
 			var query = _mapper.Map<GetAdminOrdersQuery>(request);

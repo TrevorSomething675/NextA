@@ -1,5 +1,4 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
@@ -8,7 +7,7 @@ using Nexta.Domain.Abstractions;
 
 namespace Nexta.Application.Commands.Admin.AddNewsCommand
 {
-	public class AddNewsCommandHandler : IRequestHandler<AddNewsCommand, AddNewsCommandResponse>
+	public class AddNewsCommandHandler : IRequestHandler<AddNewsCommand, News>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -19,7 +18,7 @@ namespace Nexta.Application.Commands.Admin.AddNewsCommand
 			_mapper = mapper;
 		}
 
-		public async Task<AddNewsCommandResponse> Handle(AddNewsCommand request, CancellationToken ct = default)
+		public async Task<News> Handle(AddNewsCommand request, CancellationToken ct = default)
 		{
 			throw new NotImplementedException();
 			/*

@@ -1,10 +1,9 @@
-﻿using Nexta.Application.DTO.Request;
-using Nexta.Application.Enums;
+﻿using Nexta.Application.DTO.Product;
 using MediatR;
 
 namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand
 {
-    public class UpdateAdminProductCommand : IRequest<UpdateAdminProductCommandResponse>
+    public class UpdateAdminProductCommand : IRequest<AdminProductDto>
     {
 		public Guid Id { get; init; }
 		public string Name { get; init; } = null!;
@@ -20,8 +19,7 @@ namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand
 
 		public bool IsVisible { get; init; }
 
-		public List<ProductAttributeRequest> Attributes { get; init; } = new List<ProductAttributeRequest>();
-		public ProductOperationType Type { get; init; }
-		public ProductImageRequest? Image { get; init; }
+		public List<ProductAttributeDto> Attributes { get; init; } = new List<ProductAttributeDto>();
+		public ProductImageDto? Image { get; init; }
 	}
 }

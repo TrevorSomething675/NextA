@@ -1,9 +1,7 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Abstractions.Services;
-using Nexta.Application.DTO.Response;
 using Nexta.Domain.Exceptions;
 using Nexta.Domain.Constants;
-using Nexta.Domain.Models;
 using FluentValidation;
 using AutoMapper;
 using MediatR;

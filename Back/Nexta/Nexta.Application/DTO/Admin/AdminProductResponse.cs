@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Response;
+﻿using Nexta.Application.DTO.Product;
 using Nexta.Domain.Enums;
 
 namespace Nexta.Application.DTO.Admin
@@ -22,7 +22,7 @@ namespace Nexta.Application.DTO.Admin
 		public bool IsVisible { get; init; }
 
 
-        public List<ProductAttributeResponse> Attributes { get; init; } = new List<ProductAttributeResponse>();
-        public ProductImageResponse Image { get; init; }
+        public List<ProductAttributeDto> Attributes { get; init; } = new List<ProductAttributeDto>();
+        public ProductImageDto Image { get; init; }
 	}
 }

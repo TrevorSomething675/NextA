@@ -1,10 +1,11 @@
 ﻿using MediatR;
+using Nexta.Application.DTO.Order;
 
 namespace Nexta.Application.Queries.Admin.SearchOrderQuery
 {
-    public class SearchOrderQueryHandler : IRequestHandler<SearchOrderQueryRequest, SearchOrderQueryResponse>
+    public class SearchOrderQueryHandler : IRequestHandler<SearchOrderQueryRequest, OrderDto>
     {
-        public async Task<SearchOrderQueryResponse> Handle(SearchOrderQueryRequest request, CancellationToken ct = default)
+        public async Task<OrderDto> Handle(SearchOrderQueryRequest request, CancellationToken ct = default)
         {
             throw new NotImplementedException();
         }

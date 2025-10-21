@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Product;
 
 namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand
 {
-	public class UpdateAdminProductCommandHandler : IRequestHandler<UpdateAdminProductCommand, UpdateAdminProductCommandResponse>
+	public class UpdateAdminProductCommandHandler : IRequestHandler<UpdateAdminProductCommand, AdminProductDto>
 	{
 		private readonly IMapper _mapper;
 
@@ -12,7 +13,7 @@ namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand
 			_mapper = mapper;
 		}
 
-		public async Task<UpdateAdminProductCommandResponse> Handle(UpdateAdminProductCommand command, CancellationToken ct = default)
+		public async Task<AdminProductDto> Handle(UpdateAdminProductCommand command, CancellationToken ct = default)
 		{
 			throw new Exception("UpdateAdminProductCommandHandler");
 			/*
