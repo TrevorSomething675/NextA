@@ -1,5 +1,4 @@
-﻿using Nexta.Domain.Validation;
-using Nexta.Domain.Base;
+﻿using Nexta.Domain.Base;
 
 namespace Nexta.Domain.Models.User
 {

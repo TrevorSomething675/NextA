@@ -1,4 +1,5 @@
 ﻿using Nexta.Application.Queries.Categories.GetCategoriesQuery;
+using Nexta.Application.DTO.Category;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using MediatR;
@@ -18,7 +19,7 @@ namespace Nexta.Web.Controllers
         }
 
         [HttpGet("[action]")]
-        [ProducesResponseType(typeof(GetCategoriesQueryResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CategoryDto>), StatusCodes.Status200OK)]
         public async Task<IResult> Get(CancellationToken ct = default)
         {
             var query = new GetCategoriesQuery();

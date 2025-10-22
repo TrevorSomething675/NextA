@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {
-	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQuery, GetOrdersForUserQueryResponse>
+	public class GetOrdersForUserQueryHandler : IRequestHandler<GetOrdersForUserQuery, PagedData<OrderDto>>
 	{
 		private readonly IMapper _mapper;
 		private readonly IUnitOfWork _unitOfWork;
@@ -19,7 +19,7 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 			_mapper = mapper;
 		}
 
-		public async Task<GetOrdersForUserQueryResponse> Handle(GetOrdersForUserQuery query, CancellationToken ct = default)
+		public async Task<PagedData<OrderDto>> Handle(GetOrdersForUserQuery query, CancellationToken ct = default)
 		{
 			var spec = new OrderByStatusSpecification(
 				query.Filter.UserId,
@@ -28,11 +28,10 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 				query.Filter.PageSize);
 
 			var orders = await _unitOfWork.Orders.GetPagedAsync(spec, ct);
-			var count = await _unitOfWork.Orders.CountAsync(ct);
 
-			var orderDtos = _mapper.Map<PagedData<OrderDto>>(orders);
+			var response = _mapper.Map<PagedData<OrderDto>>(orders);
 
-			return new GetOrdersForUserQueryResponse(orderDtos, count);
+			return response;
 		}
 	}
 }

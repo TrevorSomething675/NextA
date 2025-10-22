@@ -6,7 +6,7 @@
 
         public string Header { get; init; }
         public string Message { get; init; }
-        public bool IsReaded { get; init; }
+        public bool IsRead { get; init; }
 
         public DateTimeOffset CreatedDate { get; init; }
     }

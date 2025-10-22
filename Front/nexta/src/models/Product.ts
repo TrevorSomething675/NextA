@@ -1,5 +1,5 @@
-import { Image } from "../shared/entities/Image";
-import { ProductAttribute } from "../shared/entities/ProductAttribute";
+import { Image } from "../sharedLegacy/entities/Image";
+import { ProductAttribute } from "../sharedLegacy/entities/ProductAttribute";
 import { UserOrder } from "./order/UserOrder";
 import { UserBasketProduct } from "./UserBasketProduct";
 
@@ -8,17 +8,15 @@ export interface Product{
     name:string,
     article:string,
     description:string,
-    category:string,
     status: ProductStatus,
-    orderDate:string,
-    deliveryDate:string,
+    category:string,
     count:number,
+    oldPrice?:number,
     newPrice:number,
-    oldPrice:number,
-    basketProducts: UserBasketProduct[],
+    basketProducts:UserBasketProduct[],
     orders:UserOrder[],
     image:Image
-    attributes: ProductAttribute[]
+    attributes:ProductAttribute[]
 }
 
 export enum ProductStatus{

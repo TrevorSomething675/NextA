@@ -47,5 +47,14 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id, ct);
             return product;
         }
+
+        public async Task<List<Product>> GetByIdsAsync(List<Guid> productIds, CancellationToken ct = default)
+        {
+            var products = await _context.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToListAsync(ct);
+
+            return products;
+        }
     }
 }

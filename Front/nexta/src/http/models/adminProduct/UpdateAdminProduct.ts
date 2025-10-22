@@ -1,5 +1,5 @@
 import { ProductStatus } from "../../../models/Product"
-import { ProductAttribute } from "../../../shared/entities/ProductAttribute"
+import { ProductAttribute } from "../../../sharedLegacy/entities/ProductAttribute"
 
 export interface UpdateAdminProductRequest{
     id:string,

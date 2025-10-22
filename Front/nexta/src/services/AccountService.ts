@@ -1,7 +1,7 @@
 import axios from 'axios';
-import api from '../http/api';
-import { ApiResponse } from '../http/BaseResponse';
-import { ErrorResponseModel } from '../shared/models/ErrorResponseModel';
+import api from '../shared/http/api';
+import { ApiResponse } from '../shared/http/models/BaseResponse';
+import { ErrorResponseModel } from '../sharedLegacy/models/ErrorResponseModel';
 import { UpdateAccountRequest, UpdateAccountResponse } from '../http/models/account/UpdateAccount';
 import { ConfirmUpdateEmailRequest, ConfirmUpdateEmailResponse } from '../http/models/account/ConfirmUpdateEmail';
 

@@ -1,7 +1,7 @@
-import api from "../http/api";
+import api from "../shared/http/api";
 import axios from 'axios';
-import { ApiResponse } from "../http/BaseResponse";
-import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
+import { ApiResponse } from "../shared/http/models/BaseResponse";
+import { ErrorResponseModel } from "../sharedLegacy/models/ErrorResponseModel";
 import { GetCategoriesResponse } from "../http/models/categories/GetCategories";
 import { AddCategoryRequest } from "../http/models/categories/AddCategory";
 import { DeleteCategoryRequest } from "../http/models/categories/DeleteCategory";

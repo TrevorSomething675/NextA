@@ -1,11 +1,11 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Response;
+using Nexta.Application.Commands.News;
 using AutoMapper;
 using MediatR;
 
 namespace Nexta.Application.Queries.News.GetNewsQuery
 {
-	public class GetNewsQueryHandler : IRequestHandler<GetNewsQueryRequest, GetNewsQueryResponse>
+	public class GetNewsQueryHandler : IRequestHandler<GetNewsQueryRequest, List<NewsDto>>
 	{
 		private readonly INewsRepository _newsRepository;
 		private readonly IMapper _mapper;
@@ -16,13 +16,13 @@ namespace Nexta.Application.Queries.News.GetNewsQuery
 			_mapper = mapper;
 		}
 
-		public async Task<GetNewsQueryResponse> Handle(GetNewsQueryRequest query, CancellationToken ct = default)
+		public async Task<List<NewsDto>> Handle(GetNewsQueryRequest query, CancellationToken ct = default)
 		{
 			var news = await _newsRepository.GetAllAsync(ct);
 
-			var result = _mapper.Map<List<NewsResponse>>(news);
+			var response = _mapper.Map<List<NewsDto>>(news);
 
-			return new GetNewsQueryResponse(result);
-		}
+			return response;
+        }
 	}
 }

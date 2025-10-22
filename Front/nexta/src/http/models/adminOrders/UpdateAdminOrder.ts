@@ -1,4 +1,4 @@
-import { OrderProduct } from "../../../shared/entities/OrderProduct";
+import { OrderProduct } from "../../../sharedLegacy/entities/OrderProduct";
 
 export interface UpdateAdminOrderRequest{
     id:string,

@@ -263,7 +263,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsReaded")
+                    b.Property<bool>("IsRead")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Message")

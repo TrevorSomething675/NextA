@@ -1,12 +1,13 @@
 ﻿using Nexta.Application.Queries.Auth.IsRegisteredQuery;
+using Nexta.Application.Commands.Auth.CheckAuthCommand;
+using Nexta.Application.Commands.Auth.RegisterCommand;
 using Nexta.Application.Commands.Auth.LoginCommand;
 using Microsoft.AspNetCore.Authorization;
+using Nexta.Application.DTO.User;
 using Microsoft.AspNetCore.Mvc;
+using Nexta.Web.Models.Auth;
 using AutoMapper;
 using MediatR;
-using Nexta.Web.Models.Auth;
-using Nexta.Application.Commands.Auth.RegisterCommand;
-using Nexta.Application.Commands.Auth.CheckAuthCommand;
 
 namespace Nexta.Web.Controllers
 {
@@ -23,7 +24,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(LoginCommandResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
 		public async Task<IResult> Login([FromBody] LoginRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<LoginCommand>(request);

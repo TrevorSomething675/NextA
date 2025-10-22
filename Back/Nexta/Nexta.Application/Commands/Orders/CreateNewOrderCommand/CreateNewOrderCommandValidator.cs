@@ -6,7 +6,7 @@ namespace Nexta.Application.Commands.Orders.CreateNewOrderCommand
     {
         public CreateNewOrderCommandValidator() 
         {
-            RuleFor(r => r.ProductIds)
+            RuleFor(r => r.Products)
                 .NotEmpty()
                 .WithMessage("В корзине нет позиций");
 

@@ -1,4 +1,5 @@
 ﻿using Nexta.Application.Queries.News.GetNewsQuery;
+using Nexta.Application.Commands.News;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
@@ -15,7 +16,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpGet("[action]")]
-		[ProducesResponseType(typeof(GetNewsQueryResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(List<NewsDto>), StatusCodes.Status200OK)]
 		public async Task<IResult> Get(CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(new GetNewsQueryRequest(), ct);

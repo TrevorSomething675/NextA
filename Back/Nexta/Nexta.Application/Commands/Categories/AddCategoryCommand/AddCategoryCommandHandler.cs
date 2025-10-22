@@ -1,13 +1,13 @@
-﻿using AutoMapper;
-using FluentValidation;
-using MediatR;
-using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Exceptions;
+﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Models.Product;
+using Nexta.Domain.Exceptions;
+using FluentValidation;
+using AutoMapper;
+using MediatR;
 
 namespace Nexta.Application.Commands.Categories.AddCategoryCommand
 {
-    public class AddCategoryCommandHandler : IRequestHandler<AddCategoryCommand, AddCategoryCommandResponse>
+    public class AddCategoryCommandHandler : IRequestHandler<AddCategoryCommand, Guid>
     {
         private readonly ICategoriesRepository _categoriesRepository;
         private readonly IValidator<AddCategoryCommand> _validator;
@@ -21,7 +21,7 @@ namespace Nexta.Application.Commands.Categories.AddCategoryCommand
             _mapper = mapper;
         }
 
-        public async Task<AddCategoryCommandResponse> Handle(AddCategoryCommand command, CancellationToken ct)
+        public async Task<Guid> Handle(AddCategoryCommand command, CancellationToken ct)
         {
             var validationResult = await _validator.ValidateAsync(command, ct);
 
@@ -31,7 +31,7 @@ namespace Nexta.Application.Commands.Categories.AddCategoryCommand
             var category = _mapper.Map<Category>(command);
             var createdCategoryId = await _categoriesRepository.AddAsync(category, ct);
 
-            return new AddCategoryCommandResponse(createdCategoryId);
+            return createdCategoryId;
         }
     }
 }

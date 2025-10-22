@@ -4,11 +4,11 @@ using Nexta.Application.Commands.Basket.AddBasketProductCommand;
 using Nexta.Application.Queries.Basket.GetBasketProductsQuery;
 using Microsoft.AspNetCore.Authorization;
 using Nexta.Application.DTO.Product;
+using Nexta.Application.DTO.Basket;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Models.Basket;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Basket;
 
 namespace Nexta.Web.Controllers
 {
@@ -56,7 +56,7 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpDelete("[action]")]
-		[ProducesResponseType(typeof(DeleteBasketProductCommandResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
 		public async Task<IResult> Delete([FromQuery] DeleteBasketProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<DeleteBasketProductCommand>(request);

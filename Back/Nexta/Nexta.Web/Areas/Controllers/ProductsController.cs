@@ -48,7 +48,7 @@ namespace Nexta.Web.Areas.Controllers
 		}
 
         [HttpPost("[action]")]
-        [ProducesResponseType(typeof(CreateAdminProductCommandResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<IResult> Add([FromBody] CreateAdminProductRequest request, CancellationToken ct = default)
         {
 			var command = _mapper.Map<CreateAdminProductCommand>(request);
@@ -58,7 +58,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
 		[HttpPatch("[action]")]
-        [ProducesResponseType(typeof(UpdateAdminProductCommandResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AdminProductDto), StatusCodes.Status200OK)]
         public async Task<IResult> Update([FromBody] UpdateAdminProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<UpdateAdminProductCommand>(request);

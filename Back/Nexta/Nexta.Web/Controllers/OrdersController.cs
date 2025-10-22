@@ -1,7 +1,6 @@
 ﻿using Nexta.Application.Commands.Orders.UpdateOrderProductCommand;
 using Nexta.Application.Commands.Orders.CreateNewOrderCommand;
 using Nexta.Application.Queries.Orders.GetOrdersForUserQuery;
-using Nexta.Application.Queries.Orders.GetLegacyOrdersQuery;
 using Nexta.Application.Commands.Orders.DeleteOrderCommand;
 using Microsoft.AspNetCore.Authorization;
 using Nexta.Application.DTO.Order;
@@ -27,20 +26,10 @@ namespace Nexta.Web.Controllers
 		}
 
 		[HttpGet("[action]")]
-		[ProducesResponseType(typeof(GetOrdersForUserQueryResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> GetOrdersForUser([FromQuery] GetOrdersForUserRequest request, CancellationToken ct = default)
+		[ProducesResponseType(typeof(PagedData<OrderDto>), StatusCodes.Status200OK)]
+		public async Task<IResult> Get([FromQuery] GetOrdersForUserRequest request, CancellationToken ct = default)
 		{
 			var query = _mapper.Map<GetOrdersForUserQuery>(request);
-			var response = await _mediator.Send(query, ct);
-
-			return Results.Ok(response);
-		}
-
-		[HttpGet("[action]")]
-		[ProducesResponseType(typeof(PagedData<OrderDto>), StatusCodes.Status200OK)]
-		public async Task<IResult> GetLegacyOrdersForUser([FromQuery] GetOrdersForUserRequest request, CancellationToken ct = default)
-		{
-			var query = _mapper.Map<GetLegacyOrdersQuery>(request);
 			var response = await _mediator.Send(query, ct);
 
 			return Results.Ok(response);

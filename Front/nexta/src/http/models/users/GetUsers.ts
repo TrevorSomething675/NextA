@@ -1,5 +1,5 @@
 import { AdminUser } from "../../../models/AdminUser"
-import { PagedData } from "../../../shared/models/PagedDataT"
+import { PagedData } from "../../../sharedLegacy/models/PagedDataT"
 
 export interface GetUsersRequest{
     searchTerm?:string | null,

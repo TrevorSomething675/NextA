@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Nexta.Application.Commands.Basket.DeleteBasketProductCommand
 {
-	public class DeleteBasketProductCommandHandler : IRequestHandler<DeleteBasketProductCommand, DeleteBasketProductCommandResponse>
+	public class DeleteBasketProductCommandHandler : IRequestHandler<DeleteBasketProductCommand, Guid>
 	{
 		private readonly IUnitOfWork _unitOfWork;
 
@@ -13,17 +13,17 @@ namespace Nexta.Application.Commands.Basket.DeleteBasketProductCommand
 			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<DeleteBasketProductCommandResponse> Handle(DeleteBasketProductCommand command, CancellationToken ct)
+		public async Task<Guid> Handle(DeleteBasketProductCommand command, CancellationToken ct)
 		{
 			var spec = new BasketByUserIdSpecification(command.UserId);
 
 			var basket = await _unitOfWork.Baskets.GetByUserIdAsync(spec, ct);
             basket.RemoveProduct(command.ProductId);
-			var result = _unitOfWork.Baskets.Update(basket);
+			var response = _unitOfWork.Baskets.Update(basket);
 
 			await _unitOfWork.SaveChangesAsync(ct);
 
-			return new DeleteBasketProductCommandResponse(result.Id);
+			return response.Id;
 		}
 	}
 }

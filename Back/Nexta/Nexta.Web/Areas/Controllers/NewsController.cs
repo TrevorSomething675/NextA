@@ -1,10 +1,11 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Nexta.Application.Commands.Admin.DeleteNewsCommand;
 using Nexta.Application.Commands.Admin.AddNewsCommand;
-using Nexta.Application.Commands.Admin.DeleteNewsCommand;
+using Microsoft.AspNetCore.Authorization;
+using Nexta.Application.Commands.News;
+using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Areas.Models;
+using AutoMapper;
+using MediatR;
 
 namespace Nexta.Web.Areas.Controllers
 {
@@ -25,7 +26,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        [ProducesResponseType(typeof(DeleteNewsCommandResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<IResult> Delete([FromRoute] Guid id, CancellationToken ct = default)
         {
             var command = new DeleteNewsCommandRequest(id);
@@ -35,7 +36,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
         [HttpPost("[action]")]
-        [ProducesResponseType(typeof(AddNewsCommandResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NewsDto), StatusCodes.Status200OK)]
         public async Task<IResult> Add([FromBody] AddNewsRequest request, CancellationToken ct = default)
         {
             var command = _mapper.Map<AddNewsCommand>(request);

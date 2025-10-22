@@ -9,6 +9,7 @@ using Nexta.Web.Areas.Models;
 using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.DTO.Product;
 
 namespace Nexta.Web.Areas.Controllers
 {
@@ -38,7 +39,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
         [HttpPost("[action]")]
-        [ProducesResponseType(typeof(AddAdminProductToOrderCommandResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
         public async Task<IResult> Add([FromBody] AddAdminProductToOrderRequest request, CancellationToken ct = default)
         {
 			var command = _mapper.Map<AddAdminProductToOrderCommand>(request);
@@ -48,7 +49,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
 		[HttpPatch("[action]")]
-		[ProducesResponseType(typeof(UpdateAdminOrderCommandResponse), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
 		public async Task<IResult> Update([FromBody] UpdateAdminOrderRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<UpdateAdminOrderCommand>(request);

@@ -1,8 +1,8 @@
 import { GetNewsResponse } from "../http/models/adminNews/GetNews";
-import api from "../http/api";
+import api from "../shared/http/api";
 import axios from 'axios';
-import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
-import { ApiResponse } from "../http/BaseResponse";
+import { ErrorResponseModel } from "../sharedLegacy/models/ErrorResponseModel";
+import { ApiResponse } from "../shared/http/models/BaseResponse";
 import { AddNewsRequest } from "../http/models/news/AddNews";
 import { DeleteNewsResponse } from "../http/models/news/DeleteNews";
 

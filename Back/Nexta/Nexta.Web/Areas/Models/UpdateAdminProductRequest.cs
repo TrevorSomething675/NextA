@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Request;
+﻿using Nexta.Application.DTO.Product;
 
 namespace Nexta.Web.Areas.Models
 {
@@ -18,7 +18,7 @@ namespace Nexta.Web.Areas.Models
 
         public string? Category { get; set; }
 
-        public List<ProductAttributeRequest>? Attributes { get; init; }
+        public List<ProductAttributeDto>? Attributes { get; init; }
 
         public Guid? ImageId { get; set; }
         public string? ImageName { get; set; }

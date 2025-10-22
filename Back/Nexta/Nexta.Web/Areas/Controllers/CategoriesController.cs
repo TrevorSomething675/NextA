@@ -26,7 +26,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
         [HttpPost("[action]")]
-        [ProducesResponseType(typeof(AddNewsCommandResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<IResult> Add([FromBody] AddCategoryRequest request, CancellationToken ct = default)
         {
             var command = _mapper.Map<AddCategoryCommand>(request);
@@ -36,7 +36,7 @@ namespace Nexta.Web.Areas.Controllers
         }
 
         [HttpDelete("[action]")]
-        [ProducesResponseType(typeof(AddNewsCommandResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
         public async Task<IResult> Delete([FromQuery] DeleteCategoryRequest request, CancellationToken ct = default)
         {
             var command = _mapper.Map<DeleteCategoryCommand>(request);

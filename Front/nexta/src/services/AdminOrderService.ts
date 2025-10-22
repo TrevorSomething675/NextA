@@ -1,8 +1,8 @@
-import api from "../http/api";
+import api from "../shared/http/api";
 import { UpdateAdminOrderRequest, UpdateAdminOrderResponse } from "../http/models/adminOrders/UpdateAdminOrder";
 import { GetAdminOrdersRequest, GetAdminOrdersResponse } from "../http/models/adminOrders/GetAdminOrders";
-import { ApiResponse } from "../http/BaseResponse";
-import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
+import { ApiResponse } from "../shared/http/models/BaseResponse";
+import { ErrorResponseModel } from "../sharedLegacy/models/ErrorResponseModel";
 import axios from "axios";
 import qs from "qs";
 import {DeleteAdminProductFromOrderResponse } from "../http/models/adminOrders/DeleteAdminProductFromOrder";

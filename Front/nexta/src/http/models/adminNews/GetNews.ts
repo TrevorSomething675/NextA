@@ -1,4 +1,4 @@
-import { News } from "../../../shared/entities/News";
+import { News } from "../../../sharedLegacy/entities/News";
 
 export interface GetNewsResponse{
     news: News[]

@@ -13,7 +13,5 @@ namespace Nexta.Domain.Abstractions.Repositories
         Order Update(Order order);
         Task<Order?> AddAsync(Order order, CancellationToken ct = default);
         Order Delete(Order order);
-
-        Task<int> CountAsync(CancellationToken ct);
     }
 }

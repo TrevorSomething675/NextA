@@ -1,9 +1,8 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Specification.Abstractions;
+using Nexta.Domain.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Models.Order;
-using Nexta.Domain.Filters;
 using Nexta.Domain.Base;
-using Nexta.Domain.Specification.Abstractions;
 
 namespace Nexta.Infrastructure.Persistence.Repositories
 {
@@ -84,11 +83,6 @@ namespace Nexta.Infrastructure.Persistence.Repositories
         {
             var result = _context.Orders.Update(order);
             return result.Entity;
-        }
-
-        public async Task<int> CountAsync(CancellationToken ct = default)
-        {
-            return await _context.Orders.CountAsync(ct);
         }
     }
 }

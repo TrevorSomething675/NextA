@@ -1,5 +1,5 @@
-import { AdminProduct } from "../../../features/admin/models/AdminProduct"
-import { PagedData } from "../../../shared/models/PagedDataT"
+import { AdminProduct } from "../../../featuresLegacy/admin/models/AdminProduct"
+import { PagedData } from "../../../sharedLegacy/models/PagedDataT"
 
 export interface GetAdminProductsRequest{
     searchTerm:string,

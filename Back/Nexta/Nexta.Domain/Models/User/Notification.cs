@@ -8,7 +8,7 @@ namespace Nexta.Domain.Models.User
 
         public string Header { get; private set; }
         public string Message { get; private set; }
-        public bool IsReaded { get; private set; }
+        public bool IsRead { get; private set; }
         
         public DateTimeOffset CreatedDate { get; private set; }
 
@@ -16,7 +16,7 @@ namespace Nexta.Domain.Models.User
         {
             Header = header;
             UserId = userId;
-            IsReaded = false;
+            IsRead = false;
             Message = message;
             CreatedDate = DateTimeOffset.Now;
         }

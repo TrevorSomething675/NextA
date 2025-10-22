@@ -1,4 +1,5 @@
-﻿using Nexta.Application.DTO.Basket;
+﻿using Nexta.Application.DTO.Product;
+using Nexta.Application.DTO.Basket;
 using Nexta.Domain.Specification;
 using Nexta.Domain.Abstractions;
 using AutoMapper;
@@ -20,12 +21,22 @@ namespace Nexta.Application.Queries.Basket.GetBasketProductsQuery
 		public async Task<BasketDto> Handle(GetBasketProductsQuery query, CancellationToken ct = default)
 		{
 			var spec = new BasketByUserIdSpecification(query.UserId);
+			var basketDto = _mapper.Map<BasketDto>(await _unitOfWork.Baskets.GetByUserIdAsync(spec, ct));
 
-			var basket = await _unitOfWork.Baskets.GetByUserIdAsync(spec, ct);
+			var productIds = basketDto.Products.Select(p => p.ProductId).ToList();
+			var productDtos = _mapper.Map<List<ProductDto>>(await _unitOfWork.Products.GetByIdsAsync(productIds, ct));
 
-			var response = _mapper.Map<BasketDto>(basket);
+			var basketWithProducts = basketDto with
+			{
+				Products = basketDto.Products.Select(i => i with
+				{
+					Product = productDtos.FirstOrDefault(p => p.Id == i.ProductId)
+				})
+				.ToList()
+				.AsReadOnly()
+			};
 
-			return response;
+            return basketWithProducts;
 		}
 	}
 }

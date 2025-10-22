@@ -1,7 +1,7 @@
-import { ApiResponse } from "../http/BaseResponse";
-import api from "../http/api";
+import { ApiResponse } from "../shared/http/models/BaseResponse";
+import api from "../shared/http/api";
 import axios from 'axios';
-import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
+import { ErrorResponseModel } from "../sharedLegacy/models/ErrorResponseModel";
 import { GetNotificationsResponse } from "../http/models/notifications/GetNotifications";
 
 class NotificationService{

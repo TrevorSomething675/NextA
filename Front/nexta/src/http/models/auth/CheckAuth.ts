@@ -1,4 +1,4 @@
-import { User } from "../../../shared/entities/User"
+import { User } from "../../../sharedLegacy/entities/User"
 
 export interface CheckAuthRequest{
     email:string

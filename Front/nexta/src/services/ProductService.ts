@@ -1,9 +1,9 @@
-import api from "../http/api";
+import api from "../shared/http/api";
 import axios from 'axios';
 import { GetProductsResponse } from "../http/models/product/GetProducts";
-import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
+import { ErrorResponseModel } from "../sharedLegacy/models/ErrorResponseModel";
 import { GetProductResponse } from "../http/models/product/GetProduct";
-import { ApiResponse } from "../http/BaseResponse";
+import { ApiResponse } from "../shared/http/models/BaseResponse";
 
 class ProductsService{
     static async Get(searchTerm:string = '', category:string = '', pageSize?:number, pageNumber?:number, withHidden: boolean = false,

@@ -1,4 +1,4 @@
-import { Image } from "../../../shared/entities/Image";
+import { Image } from "../../../sharedLegacy/entities/Image";
 
 export interface AdminNewsResponse{
     header?:string,

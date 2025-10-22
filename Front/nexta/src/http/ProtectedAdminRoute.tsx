@@ -9,17 +9,17 @@ export const ProtectedAdminRoute = ({ children }: { children: React.ReactNode })
 
     useEffect(() => {
         const checkAdminAccess = async () => {
-        try {
-            const response = await AuthService.checkAuth();
-            if(response.success && response.status === 200){
-                setIsAuthorized(true);
+            try {
+                const response = await AuthService.checkAuth();
+                if(response.success && response.status === 200){
+                    setIsAuthorized(true);
+                }
+            } catch (error) {
+                authStore.setAdminStatus(false);
+                navigate('/Error');
+            } finally {
+                //navigate('/Error');
             }
-        } catch (error) {
-            authStore.setAdminStatus(false);
-            navigate('/Error');
-        } finally {
-            //navigate('/Error');
-        }
         };
 
         checkAdminAccess();

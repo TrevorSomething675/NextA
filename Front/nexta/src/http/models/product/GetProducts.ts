@@ -1,4 +1,4 @@
-import { PagedData } from "../../../shared/models/PagedDataT";
+import { PagedData } from "../../../sharedLegacy/models/PagedDataT";
 import { Product } from "../../../models/Product";
 
 export interface GetProductsRequest{
