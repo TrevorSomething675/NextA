@@ -9,6 +9,7 @@ using Nexta.Web.Models.Orders;
 using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
+using Nexta.Application.Commands.Orders.UpdateOrderStatusCommand;
 
 namespace Nexta.Web.Controllers
 {
@@ -55,7 +56,17 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpDelete("Delete/{OrderId}")]
+        [HttpPatch("[action]")]
+        [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
+        public async Task<IResult> UpdateStatus([FromBody] UpdateOrderStatusRequest request, CancellationToken ct = default)
+        {
+            var command = _mapper.Map<UpdateOrderStatusCommand>(request);
+            var response = await _mediator.Send(command, ct);
+
+            return Results.Ok(response);
+        }
+
+        [HttpDelete("Delete/{OrderId}")]
 		[ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
 		public async Task<IResult> Delete([FromRoute] Guid OrderId, CancellationToken ct = default)
 		{

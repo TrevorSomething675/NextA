@@ -60,6 +60,31 @@ export class OrderApi{
             }
         }
     }
+    static UpdateStatus = async(orderId:string, status:number):Promise<ApiResponse<OrderItem, ErrorResponseModel>> => {
+        try{
+            const request = {
+                orderId,
+                status
+            };
+            const response = await api.patch('Orders/UpdateStatus', request);
+            return {
+                success:true,
+                data:response.data,
+                status:response.status
+            }
+        }
+        catch(error){
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
     static UpdateOrderProduct = async(orderId:string, productId:string, count:number):Promise<ApiResponse<OrderItem, ErrorResponseModel>> => {
         try{
             const request = {

@@ -41,10 +41,11 @@ namespace Nexta.Domain.Models.Order
             _products.AddRange(products);
         }
 
-        public void DeleteProduct(Guid productId)
+        public OrderItem DeleteProduct(Guid productId)
         {
             var orderProduct = _products.FirstOrDefault(x => x.ProductId == productId);
             _products.Remove(orderProduct);
+            return orderProduct;
         }
 
         public void AddProduct(Guid productId, int count = 1)

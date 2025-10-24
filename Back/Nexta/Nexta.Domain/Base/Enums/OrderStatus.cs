@@ -5,8 +5,9 @@
 		Unknown = -1, //Неизвестный статус
 		Accepted = 0, //Принят
 		InProgress = 1, //В работе
-		Canceled = 2, //Отменён
+		Canceled = 2, //Отклонён
 		Ready = 3, //Готов к выдаче
-		Complete = 4 //Завершён
+		Complete = 4, //Завершён
+		Rejected = 5 //Отменён клиентом
 	}
 }

@@ -4,9 +4,9 @@ namespace Nexta.Web.Areas.Models
 {
     public class GetAdminOrdersRequest
     {
-        public List<OrderStatus> Statuses { get; set; }
+        public List<OrderStatus> Statuses { get; init; }
         public string? SearchTerm { get; init; }
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 8;
+        public int PageNumber { get; init; } = 1;
+        public int PageSize { get; init; } = 8;
     }
 }

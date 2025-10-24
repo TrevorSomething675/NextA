@@ -59,7 +59,7 @@ namespace Nexta.Web.Areas.Controllers
 		}
 
         [HttpDelete("[action]")]
-        [ProducesResponseType(typeof(DeleteProductFromOrderCommandResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderItemDto), StatusCodes.Status200OK)]
         public async Task<IResult> Delete([FromQuery] DeleteProductFromOrderRequest request, CancellationToken ct = default)
         {
             var command = _mapper.Map<DeleteProductFromOrderCommand>(request);

@@ -1,32 +1,39 @@
-﻿using Nexta.Domain.Abstractions;
+﻿using Nexta.Application.DTO.Order;
+using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
 using FluentValidation;
+using AutoMapper;
 using MediatR;
 
 namespace Nexta.Application.Commands.Admin.DeleteProductFromOrderCommand
 {
-	public class DeleteProductFromOrderCommandHandler : IRequestHandler<DeleteProductFromOrderCommand, DeleteProductFromOrderCommandResponse>
+	public class DeleteProductFromOrderCommandHandler : IRequestHandler<DeleteProductFromOrderCommand, OrderItemDto>
 	{
 		private readonly IValidator<DeleteProductFromOrderCommand> _validator;
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
 
-		public DeleteProductFromOrderCommandHandler(IValidator<DeleteProductFromOrderCommand> validator, IUnitOfWork unitOfWork)
+		public DeleteProductFromOrderCommandHandler(IMapper mapper, IValidator<DeleteProductFromOrderCommand> validator, IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
 			_validator = validator;
+			_mapper = mapper;
 		}
 
-		public async Task<DeleteProductFromOrderCommandResponse> Handle(DeleteProductFromOrderCommand request, CancellationToken ct = default)
+		public async Task<OrderItemDto> Handle(DeleteProductFromOrderCommand request, CancellationToken ct = default)
 		{
 			var validationResult = await _validator.ValidateAsync(request, ct);
 			if (!validationResult.IsValid)
 				throw new BadRequestException(string.Join(',', validationResult.Errors));
 
 			var orders = await _unitOfWork.Orders.GetAsync(request.OrderId, ct);
-			orders.DeleteProduct(request.ProductId);
+			var deletetedProduct = orders.DeleteProduct(request.ProductId);
 			_unitOfWork.Orders.Update(orders);
 
-			return new DeleteProductFromOrderCommandResponse(request.OrderId, request.ProductId);
-		}
+			var response = _mapper.Map<OrderItemDto>(deletetedProduct);
+
+			return response;
+
+        }
 	}
 }
