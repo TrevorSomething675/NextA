@@ -1,6 +1,6 @@
 import Button from '../../../../sharedLegacy/components/Button/Button';
-import { useCategoriesStore } from '../../../../stores/categoriesStore';
-import { useSearchProductsStore } from '../../../../stores/SearchProductsStore/searchProductsStore';
+import { useCategoriesStore } from '../../../../shared/stores/categories/categoriesStore';
+import { useSearchProductsStore } from '../../../../shared/stores/searchProduct/searchProductsStore';
 import { SidebarPriceFilter } from '../SidebarPriceFilter/SidebarPriceFilter';
 import styles from './SearchSidebar.module.css';
 import ProductsService from '../../../../services/ProductService';

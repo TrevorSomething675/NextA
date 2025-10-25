@@ -6,5 +6,5 @@ export interface User{
     phone:string;
     passwordhash:string;
     role:string;
-    notifications:Notification[]
+    notifications?:Notification[]
 }

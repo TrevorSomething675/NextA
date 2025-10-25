@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../../../../services/AuthService";
 import { VerifyCodeRequest } from "../../../../http/models/auth/VerifyCode";
 import { UserData } from "../../pages/AuthPage";
 import { ErrorResponseModel } from "../../../../sharedLegacy/models/ErrorResponseModel";
@@ -9,7 +8,6 @@ import styles from './CodeVerify.module.css';
 import authStore from "../../../../stores/AuthStore/authStore";
 import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
 import basket from "../../../../stores/basket";
-import BasketService from "../../../../services/BasketService";
 
 const CODE_LENGTH = 6;
 

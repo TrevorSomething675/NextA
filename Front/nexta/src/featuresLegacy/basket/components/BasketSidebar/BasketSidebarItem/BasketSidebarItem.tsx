@@ -6,8 +6,8 @@ import authStore from "../../../../../stores/AuthStore/authStore";
 import BasketService from "../../../../../services/BasketService";
 import basket from "../../../../../stores/basket";
 import { useNotifications } from "../../../../../sharedLegacy/components/Notifications/Notifications";
-import CheckSvg from "../../../../../sharedLegacy/svgs/CheckSvg/CheckSvg";
-import TrashSvg from "../../../../../sharedLegacy/svgs/TrashSvg/TrashSvg";
+import CheckSvg from "../../../../../widgets/ui/svg/CheckSvg/CheckSvg";
+import TrashSvg from "../../../../../widgets/ui/svg/TrashSvg/TrashSvg";
 import { useNavigate } from "react-router-dom";
 
 export const BasketSidebarItem:React.FC<{product: UserBasketProduct}> = ({product}) => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from './SearchPage.module.css';
 import { SearchProductsContainer } from "../../../product/components/SearchProductsContainer/SearchProductsContainer";
 import ProductsService from "../../../../services/ProductService";
-import { useSearchProductsStore } from "../../../../stores/SearchProductsStore/searchProductsStore";
+import { useSearchProductsStore } from "../../../../shared/stores/searchProduct/searchProductsStore";
 import { SearchSidebar } from "../../components/SearchSidebar/SearchSidebar";
 import Button from "../../../../sharedLegacy/components/Button/Button";
 

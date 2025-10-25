@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import styles from './SearchProducts.module.css';
-import { useSearchProductsStore } from "../../../../stores/SearchProductsStore/searchProductsStore";
+import { useSearchProductsStore } from "../../../../shared/stores/searchProduct/searchProductsStore";
 import { GetProductsResponse } from "../../../../http/models/product/GetProducts";
 import ProductsService from "../../../../services/ProductService";
-import SearchSvg from "../../../../sharedLegacy/svgs/SearchSvg/SearchSvg";
+import SearchSvg from "../../../../widgets/ui/svg/SearchSvg/SearchSvg";
 import authStore from "../../../../stores/AuthStore/authStore";
 
 interface Props {

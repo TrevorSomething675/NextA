@@ -7,7 +7,7 @@ import { BasketSidebarItem } from "./BasketSidebarItem/BasketSidebarItem";
 import { useNavigate } from "react-router-dom";
 import authStore from "../../../../stores/AuthStore/authStore";
 import OrderService from "../../../../services/OrderService";
-import orderStore from "../../../../stores/orderStore";
+import orderStore from "../../../../shared/stores/order/orderStore";
 import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
 
 export const BasketSidebar = observer(() => {

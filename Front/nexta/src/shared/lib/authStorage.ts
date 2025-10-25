@@ -10,8 +10,9 @@ export const ClearAuthStore = () => {
     localStorage.removeItem('role');
 }
 
-export const SetAuthData = (userId:string, firstName:string, lastName:string, 
-    middleName:string, email:string, phone:string, accessToken:string, role:string
+export const SetAuthData = (userId:string | null, firstName:string, lastName:string, 
+    middleName:string | null, email:string, phone:string | null | undefined, 
+    accessToken:string, role:string
 ) => {
     localStorage.setItem('userId', userId ?? '');
     localStorage.setItem('firstName', firstName ?? '');
@@ -20,11 +21,16 @@ export const SetAuthData = (userId:string, firstName:string, lastName:string,
     localStorage.setItem('email', email ?? '');
     localStorage.setItem('phone', phone ?? '');
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('isAuth', 'true');
     localStorage.setItem('role', role ?? '');
+
+    localStorage.setItem('isAuth', 'true');
 }
 
 export const SetToken = (accessToken:string) => {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('isAuth', 'true');
+}
+
+export const ChangeAuthStatus = (status:boolean) => {
+    localStorage.setItem('isAuth', status.toString());
 }

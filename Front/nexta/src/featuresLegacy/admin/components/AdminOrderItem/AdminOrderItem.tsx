@@ -3,7 +3,7 @@ import styles from './AdminOrderItem.module.css';
 import { useState } from "react";
 import Button from "../../../../sharedLegacy/components/Button/Button";
 import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
-import RightArrowSvg from "../../../../sharedLegacy/svgs/RightArrowSvg/RightArrowSvg";
+import RightArrowSvg from "../../../../widgets/ui/svg/RightArrowSvg/RightArrowSvg";
 import { OrderStatus, UserOrder } from "../../../../models/order/UserOrder";
 import OrderService from "../../../../services/OrderService";
 import { UpdateAdminOrderRequest } from "../../../../http/models/adminOrders/UpdateAdminOrder";

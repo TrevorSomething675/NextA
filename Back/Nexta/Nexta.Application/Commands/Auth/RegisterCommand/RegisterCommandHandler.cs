@@ -1,13 +1,12 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Abstractions.Services;
+﻿using Nexta.Domain.Abstractions.Services;
+using Nexta.Application.DTO.User;
+using Nexta.Domain.Abstractions;
+using Nexta.Domain.Models.User;
 using Nexta.Domain.Exceptions;
 using Nexta.Domain.Constants;
 using FluentValidation;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Models.User;
-using Nexta.Application.DTO.User;
-using Nexta.Domain.Abstractions;
 
 namespace Nexta.Application.Commands.Auth.RegisterCommand
 {
@@ -59,8 +58,9 @@ namespace Nexta.Application.Commands.Auth.RegisterCommand
 			var accessToken = _jwtTokenService.CreateAccessToken(createdUser.Email!, createdUser.Role);
 
 			await _emailService.SendEmailAsync(createdUser.Email, "", "Успешная регистрация!", NotificationKeys.CompleteRegistration, ct);
+			var response = _mapper.Map<RegisterCommandResponse>(createdUser) with { AccessToken = accessToken };
 
-            return new RegisterCommandResponse(createdUser, accessToken);
-		}
+			return response;
+        }
 	}
 }

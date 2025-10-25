@@ -3,8 +3,8 @@ import styles from './HeaderBottom.module.css';
 import { HeaderExit } from '../HeaderNav/HeaderExit/HeaderExit';
 import authStore from '../../../../stores/AuthStore/authStore';
 import { observer } from 'mobx-react';
-import { useCategoriesStore } from '../../../../stores/categoriesStore';
-import { useSearchProductsStore } from '../../../../stores/SearchProductsStore/searchProductsStore';
+import { useCategoriesStore } from '../../../../shared/stores/categories/categoriesStore';
+import { useSearchProductsStore } from '../../../../shared/stores/searchProduct/searchProductsStore';
 import ProductsService from '../../../../services/ProductService';
 
 export const HeaderBottom = observer(() => {

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styles from './OrderItem.module.css';
 import { OrderStatus, UserOrder } from "../../../../models/order/UserOrder";
 
-const OrderItem:React.FC<{order:UserOrder}> = ({order}) => {
+const OrderItemL:React.FC<{order:UserOrder}> = ({order}) => {
     const navigate = useNavigate();
     const statusLabel = {
         [OrderStatus.Unknown]: 'Неизвестный статус',
@@ -124,4 +124,4 @@ const OrderItem:React.FC<{order:UserOrder}> = ({order}) => {
     </li>
 }
 
-export default OrderItem;
+export default OrderItemL;

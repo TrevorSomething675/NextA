@@ -7,7 +7,7 @@ import styles from './BasketFooter.module.css';
 import { useNotifications } from "../../../../../sharedLegacy/components/Notifications/Notifications";
 import authStore from "../../../../../stores/AuthStore/authStore";
 import Button from "../../../../../sharedLegacy/components/Button/Button";
-import orderStore from "../../../../../stores/orderStore";
+import orderStore from "../../../../../shared/stores/order/orderStore";
 
 const BasketFooter = observer(() => {
     const navigate = useNavigate();

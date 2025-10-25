@@ -9,7 +9,7 @@ import authStore from "../../../../stores/AuthStore/authStore";
 import BasketService from "../../../../services/BasketService";
 import basket from "../../../../stores/basket";
 import OrderService from "../../../../services/OrderService";
-import orderStore from "../../../../stores/orderStore";
+import orderStore from "../../../../shared/stores/order/orderStore";
 
 interface RegisterSecondStepProps{
     authUser: UserData,

@@ -1,4 +1,4 @@
-import { useSearchProductsStore } from '../../../../stores/SearchProductsStore/searchProductsStore';
+import { useSearchProductsStore } from '../../../../shared/stores/searchProduct/searchProductsStore';
 import styles from './SidebarPriceFilter.module.css';
 
 export const SidebarPriceFilter = () => {

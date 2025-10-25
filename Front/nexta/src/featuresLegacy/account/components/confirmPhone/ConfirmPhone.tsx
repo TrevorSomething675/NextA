@@ -4,8 +4,8 @@ import authStore from '../../../../stores/AuthStore/authStore';
 import styles from './ConfirmPhone.module.css';
 import { ConfirmPhoneFormRequest } from '../../../../http/models/auth/ConfirmPhone';
 import { observer } from 'mobx-react';
-import { TrueSvg } from '../../../../sharedLegacy/svgs/TrueSvg/TrueSvg';
-import { FalseSvg } from '../../../../sharedLegacy/svgs/FalseSvg/FalseSvg';
+import { TrueSvg } from '../../../../widgets/ui/svg/TrueSvg/TrueSvg';
+import { FalseSvg } from '../../../../widgets/ui/svg/FalseSvg/FalseSvg';
 
 export const ConfirmPhone = observer(() => {
     const { register, handleSubmit } = useForm<ConfirmPhoneFormRequest>();

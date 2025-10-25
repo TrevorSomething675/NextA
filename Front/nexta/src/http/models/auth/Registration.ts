@@ -6,7 +6,7 @@ export interface RegistrationRequest {
     middleName:string,
     lastName:string,
     password:string,
-    confirmPassword:string
+    confirmPassword:string,
     code: string
 }
 

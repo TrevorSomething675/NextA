@@ -1,5 +1,5 @@
-﻿using Nexta.Application.Queries.Auth.SendVerificationCodeQuery;
-using Nexta.Application.Commands.Auth.VerifyCodeQuery;
+﻿using Nexta.Application.Commands.Auth.SendVerifyCodeCommand;
+using Nexta.Application.Commands.Auth.VerifyCodeCommand;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
@@ -16,7 +16,7 @@ namespace Nexta.Web.Controllers
 
 		[HttpPost("[action]")]
 		[ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-		public async Task<IResult> SendVerificationCode([FromBody] SendVerificationCodeQueryRequest request, CancellationToken ct = default)
+		public async Task<IResult> SendVerificationCode([FromBody] SendVerifyCodeCommand request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);

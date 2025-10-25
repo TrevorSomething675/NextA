@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import AdminService from "../../../../services/AdminService";
 import styles from './AdminSearch.module.css';
-import SearchSvg from "../../../../sharedLegacy/svgs/SearchSvg/SearchSvg";
+import SearchSvg from "../../../../widgets/ui/svg/SearchSvg/SearchSvg";
 import { GetAdminProductsRequest, GetAdminProductsResponse } from "../../../../http/models/adminProduct/GetAdminProducts";
 
 interface GlobalSearchProps {

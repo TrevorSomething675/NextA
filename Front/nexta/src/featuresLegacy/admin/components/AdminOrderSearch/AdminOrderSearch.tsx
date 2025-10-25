@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import SearchSvg from "../../../../sharedLegacy/svgs/SearchSvg/SearchSvg";
+import SearchSvg from "../../../../widgets/ui/svg/SearchSvg/SearchSvg";
 import styles from './AdminOrderSearch.module.css';
 import AdminOrderService from "../../../../services/AdminOrderService";
 import { GetAdminOrdersRequest, GetAdminOrdersResponse } from "../../../../http/models/adminOrders/GetAdminOrders";

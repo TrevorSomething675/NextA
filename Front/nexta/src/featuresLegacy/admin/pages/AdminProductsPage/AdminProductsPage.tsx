@@ -4,7 +4,7 @@ import { SearchProductsContainer } from "../../../product/components/SearchProdu
 import Pagging from "../../../../sharedLegacy/components/Pagging/Pagging";
 import { useEffect, useState } from "react";
 import { GetProductsResponse } from "../../../../http/models/product/GetProducts";
-import { useSearchProductsStore } from "../../../../stores/SearchProductsStore/searchProductsStore";
+import { useSearchProductsStore } from "../../../../shared/stores/searchProduct/searchProductsStore";
 import ProductsService from "../../../../services/ProductService";
 import authStore from "../../../../stores/AuthStore/authStore";
 import { SearchProducts } from "../../../search/components/Search/SearchProducts";
