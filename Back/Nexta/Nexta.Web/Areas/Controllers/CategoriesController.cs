@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Nexta.Application.Commands.Admin.AddNewsCommand;
+﻿using Nexta.Application.Commands.Categories.DeleteCategoryCommand;
 using Nexta.Application.Commands.Categories.AddCategoryCommand;
-using Nexta.Application.Commands.Categories.DeleteCategoryCommand;
-using Nexta.Web.Areas.Models;
+using Microsoft.AspNetCore.Authorization;
 using Nexta.Web.Models.Categories;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using MediatR;
 
 namespace Nexta.Web.Areas.Controllers
 {

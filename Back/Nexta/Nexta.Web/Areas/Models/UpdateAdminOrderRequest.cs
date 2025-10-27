@@ -1,11 +1,13 @@
-﻿using Nexta.Domain.Enums;
+﻿using Nexta.Application.DTO.Order;
+using Nexta.Domain.Enums;
 
 namespace Nexta.Web.Areas.Models
 {
     public class UpdateAdminOrderRequest
     {
-        public Guid Id { get; init; }
+        public Guid OrderId { get; init; }
         public Guid UserId { get; init; }
         public OrderStatus Status { get; init; }
+        public List<OrderItemDto> Products { get; init; }
     }
 }

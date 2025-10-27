@@ -4,15 +4,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { NotificationsProvider } from "./sharedLegacy/components/Notifications/Notifications"
 import BasketPage from "./featuresLegacy/basket/pages/BasketPage"
 import SearchPage from "./featuresLegacy/search/pages/SearchPage/SearchPage"
-import OrderPage from "./featuresLegacy/order/pages/OrdersPage"
 import Footer from "./sharedLegacy/components/Footer/Footer"
 import AccountPage from "./featuresLegacy/account/pages/AccountPage"
 import AdminOrdersPage from "./featuresLegacy/admin/pages/AdminOrdersPage/AdminOrdersPage"
 import AdminNewsPage from "./featuresLegacy/admin/pages/AdminNewsPage/AdminNewsPage"
 import { ProtectedAdminRoute } from "./http/ProtectedAdminRoute"
 import { ProductPage } from "./featuresLegacy/product/pages/ProductPage/ProductPage"
-import { AuthPage } from "./featuresLegacy/auth/pages/AuthPage"
-import basket from "./stores/basket"
 import { AdminProductPage } from "./featuresLegacy/admin/pages/AdminProductPage/AdminProductPage"
 import { AdminProductsPage } from "./featuresLegacy/admin/pages/AdminProductsPage/AdminProductsPage"
 import { BasketSidebar } from "./featuresLegacy/basket/components/BasketSidebar/BasketSidebar"
@@ -23,6 +20,9 @@ import { Header } from "./widgets/ui/header/Header"
 import { HeaderTop } from "./widgets/ui/header/headerTop/HeaderTop"
 import { HomePage } from "./pages/home"
 import { ErrorPage } from "./pages/error"
+import basketStore from "./shared/stores/basket/basketStore"
+import { AuthPage } from "./pages/auth"
+import { OrderPage } from "./pages/order"
 
 const App = observer(() => {
   return <div className='page-container'>
@@ -31,7 +31,7 @@ const App = observer(() => {
           <HeaderTop />
           <Header />
           <div className='page-body'>
-            {basket.isVisibleBasket && <BasketSidebar />}
+            {basketStore.isVisibleBasket && <BasketSidebar />}
             <Routes>
               <Route path="/Error" element={<ErrorPage />} />
               <Route path="*" element={<HomePage />} />

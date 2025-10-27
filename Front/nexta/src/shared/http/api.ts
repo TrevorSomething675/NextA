@@ -1,6 +1,6 @@
 import axios from 'axios';
-import authStore from '../../stores/AuthStore/authStore';
-import { AuthService } from '../../services/AuthService';
+import authStore from '../stores/auth/authStore';
+import { ClearAuthStore } from '../lib/authStorage';
 
 export const API_URL = 'https://localhost:7268';
 
@@ -27,7 +27,7 @@ api.interceptors.response.use(
         if(error.response?.status === 401){
             
             authStore.logout();
-            AuthService.logout();
+            ClearAuthStore();
             
             window.location.href = '/auth';
         }

@@ -1,13 +1,13 @@
 import api from "../../../shared/http/api";
 import { ApiResponse } from "../../../shared/http/models/BaseResponse";
 import { ErrorResponseModel } from "../../../sharedLegacy/models/ErrorResponseModel";
-import { News } from "../models/news";
+import { Category } from "../models/category";
 import axios from 'axios';
 
-export class NewsApi{
-    static Get = async():Promise<ApiResponse<News[], ErrorResponseModel>> => {
+export class CategoryApi{
+    static Get = async():Promise<ApiResponse<Category[], ErrorResponseModel>> => {
         try{
-            const response = await api.get<News[]>('News/Get');
+            const response = await api.get<Category[]>('Categories/Get');
             return {
                 success:true,
                 data:response.data,
@@ -27,15 +27,12 @@ export class NewsApi{
             }
         }
     }
-    static Add = async(header:string, description:string, imageName:string, imageBase64String:string):Promise<ApiResponse<News, ErrorResponseModel>> => {
+    static Add = async(name:string):Promise<ApiResponse<string, ErrorResponseModel>> => {
         try{
             const request = {
-                header,
-                description,
-                imageName,
-                imageBase64String
-            }
-            const response = await api.post<News>('Admin/News/Add', request);
+                name
+            };
+            const response = await api.post<string>('Admin/Categories/Add', request);
             return {
                 success:true,
                 data:response.data,
@@ -55,9 +52,13 @@ export class NewsApi{
             }
         }
     }
-    static Delete = async(id:string):Promise<ApiResponse<string, ErrorResponseModel>> => {
+    static Delete = async(name:string):Promise<ApiResponse<string, ErrorResponseModel>> => {
         try{
-            const response = await api.delete<string>(`Admin/News/Delete/${id}`);
+            const response = await api.delete(`Admin/Categories/Delete`, {
+                params: {
+                    name
+                }
+            });
             return {
                 success:true,
                 data:response.data,

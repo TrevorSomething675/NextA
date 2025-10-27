@@ -8,12 +8,14 @@
 
     public record OrderItemDto
     {
-        public OrderItemDto(Guid productId, int count)
+        public OrderItemDto(Guid orderId, Guid productId, int count)
         {
             ProductId = productId;
+            OrderId = orderId;
             Count = count;
         }
 
+        public Guid OrderId { get; }
         public Guid ProductId { get; }
         public int Count { get; }
     }

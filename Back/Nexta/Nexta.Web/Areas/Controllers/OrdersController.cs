@@ -40,7 +40,7 @@ namespace Nexta.Web.Areas.Controllers
 
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
-        public async Task<IResult> Add([FromBody] AddAdminProductToOrderRequest request, CancellationToken ct = default)
+        public async Task<IResult> AddProduct([FromBody] AddAdminProductToOrderRequest request, CancellationToken ct = default)
         {
 			var command = _mapper.Map<AddAdminProductToOrderCommand>(request);
             var response = await _mediator.Send(command, ct);
@@ -60,7 +60,7 @@ namespace Nexta.Web.Areas.Controllers
 
         [HttpDelete("[action]")]
         [ProducesResponseType(typeof(OrderItemDto), StatusCodes.Status200OK)]
-        public async Task<IResult> Delete([FromQuery] DeleteProductFromOrderRequest request, CancellationToken ct = default)
+        public async Task<IResult> DeleteProduct([FromQuery] DeleteProductFromOrderRequest request, CancellationToken ct = default)
         {
             var command = _mapper.Map<DeleteProductFromOrderCommand>(request);
             var response = await _mediator.Send(command, ct);

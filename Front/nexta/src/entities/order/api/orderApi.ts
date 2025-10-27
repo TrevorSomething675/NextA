@@ -5,8 +5,118 @@ import { PagedData } from "../../../sharedLegacy/models/PagedDataT";
 import { Order } from "../models/order";
 import axios from 'axios';
 import { OrderItem } from "../models/orderItem";
+import qs from "qs";
+import { Product } from "../../../models/Product";
 
 export class OrderApi{
+    static AddProduct = async(userId:string, productId:string, count:number):Promise<ApiResponse<Product, ErrorResponseModel>> => {
+        try{
+            const request = {
+                userId,
+                productId,
+                count
+            }
+            const response = await api.post<Product>('Admin/Orders/AddProduct', request);
+            return {
+                success:true,
+                data:response.data,
+                status:response.status
+            }
+        }
+        catch(error){
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
+    static DeleteProduct = async(orderId:string, productId:string):Promise<ApiResponse<OrderItem, ErrorResponseModel>> => {
+        try{
+            const response = await api.delete<OrderItem>('Admin/Orders/DeleteProduct', {
+                params: {
+                    orderId,
+                    productId
+                }
+            });
+            return {
+                success:true,
+                data:response.data,
+                status:response.status
+            }
+        }
+        catch(error){
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
+    static Update = async(orderId:string, userId:string, status:number[], products:OrderItem[]):Promise<ApiResponse<string, ErrorResponseModel>> => {
+        try{
+            const request = {
+                orderId,
+                userId,
+                status,
+                products
+            }
+            const response = await api.patch<string>('Admin/Order/Update', request);
+            return {
+                success:true,
+                data:response.data,
+                status:response.status
+            }
+        }
+        catch(error){
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
+    static GetByUserId = async(searchTerm:string, statuses:number[], pageNumber:number, pageSize:number):Promise<ApiResponse<PagedData<Order>, ErrorResponseModel>> => {
+        try{
+            const response = await api.get<PagedData<Order>>('Admin/Orders/Get', {
+                params: {
+                    searchTerm,
+                    statuses,
+                    pageNumber,
+                    pageSize
+                },
+                paramsSerializer: params => qs.stringify(params, { arrayFormat: "repeat" })
+            });
+            return {
+                success:true,
+                data:response.data,
+                status:response.status
+            }
+        }
+        catch(error){
+            if(axios.isAxiosError(error) && error.response){
+                return {
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
+                    status: error.response.status
+                };
+            } else {
+                throw new Error('Сетевая ошибка или ошибка конфигурации');
+            }
+        }
+    }
     static Get = async(userId:string, searchTerm:string, pageNumber:number, pageSize:number):Promise<ApiResponse<PagedData<Order>, ErrorResponseModel>> => {
         try{
             const response = await api.get<PagedData<Order>>('Orders/Get', {
