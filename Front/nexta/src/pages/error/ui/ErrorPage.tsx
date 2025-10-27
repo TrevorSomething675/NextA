@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from './ErrorPage.module.css';
-import Button from "../../../shared/ui/Button/Button";
+import Button from "../../../shared/ui/button/Button";
 
 export const ErrorPage = () => {
 

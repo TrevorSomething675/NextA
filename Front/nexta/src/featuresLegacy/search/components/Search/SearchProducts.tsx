@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import styles from './SearchProducts.module.css';
 import { useSearchProductsStore } from "../../../../shared/stores/searchProduct/searchProductsStore";
-import { GetProductsResponse } from "../../../../http/models/product/GetProducts";
-import ProductsService from "../../../../services/ProductService";
 import SearchSvg from "../../../../widgets/ui/svg/SearchSvg/SearchSvg";
-import authStore from "../../../../stores/AuthStore/authStore";
+import authStore from "../../../../shared/stores/auth/authStore";
+import { ProductApi } from "../../../../entities/product/api/productApi";
 
 interface Props {
     className?:string
@@ -14,8 +13,7 @@ export const SearchProducts:React.FC<Props> = ({className}) => {
     const container = `${styles.container} ${className || ''}`.trim();
 
     const debounceTimeout = useRef<null | number>(null);
-    const { setProducts, setSearchTerm, searchTerm } = useSearchProductsStore();
-    const [response, setResponse] = useState<GetProductsResponse>({} as GetProductsResponse);
+    const { setSearchTerm } = useSearchProductsStore();
     const [isLoading, setLoading] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,11 +32,9 @@ export const SearchProducts:React.FC<Props> = ({className}) => {
     const fetchData = async (query:string) => {
         setLoading(true);
         const isAdmin = authStore.isAdmin;
-        const response = await ProductsService.Get(query, '', 8, 1, isAdmin);
+        const response = await ProductApi.GetAll(query, '', 8, 1, isAdmin);
         if(response.success && response.status === 200){
             setSearchTerm(query);
-            setResponse(response.data);
-            setProducts(response.data.data.items);
         }
         setLoading(false);
     };

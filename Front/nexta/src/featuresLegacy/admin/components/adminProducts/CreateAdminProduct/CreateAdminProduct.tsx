@@ -3,9 +3,8 @@ import { useState } from "react";
 import { useNotifications } from "../../../../../sharedLegacy/components/Notifications/Notifications";
 import AdminService from "../../../../../services/AdminService";
 import styles from './CreateAdminProduct.module.css';
-import Button from "../../../../../sharedLegacy/components/Button/Button";
-import Image from "../../../../../sharedLegacy/components/Image/Image";
 import { CreateAdminProductRequest } from "../../../../../http/models/adminProduct/CreateAdminProduct";
+import { Button, Image } from "../../../../../shared/ui";
 
 export const CreateAdminProduct = () => {
     const { handleSubmit, setValue, register } = useForm<CreateAdminProductRequest>();

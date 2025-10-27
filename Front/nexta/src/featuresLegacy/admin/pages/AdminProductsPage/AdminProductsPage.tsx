@@ -5,9 +5,9 @@ import Pagging from "../../../../sharedLegacy/components/Pagging/Pagging";
 import { useEffect, useState } from "react";
 import { GetProductsResponse } from "../../../../http/models/product/GetProducts";
 import { useSearchProductsStore } from "../../../../shared/stores/searchProduct/searchProductsStore";
-import ProductsService from "../../../../services/ProductService";
-import authStore from "../../../../stores/AuthStore/authStore";
 import { SearchProducts } from "../../../search/components/Search/SearchProducts";
+import authStore from "../../../../shared/stores/auth/authStore";
+import { ProductApi } from "../../../../entities/product/api/productApi";
 
 export const AdminProductsPage = () => {
     const [page, setPage] = useState<number>(1);
@@ -29,13 +29,10 @@ export const AdminProductsPage = () => {
         setIsLoading(true);
         try {
             const isAdmin:boolean = authStore.isAdmin;
-            const response = await ProductsService.Get(searchTerm, '', pageSize, pageNumber, isAdmin);
+            const response = await ProductApi.GetAll(searchTerm, '', pageSize, pageNumber, isAdmin);
 
             if (response.success && response.status === 200) {
                 setSearchTerm(searchTerm);
-                setProductsResponse(response.data);
-                setTotalPageCount(response.data.data.pageCount);
-                setProducts(response.data.data.items);
             } else {
                 setProductsResponse({} as GetProductsResponse);
             }

@@ -3,10 +3,10 @@ import SearchSvg from "../../../../widgets/ui/svg/SearchSvg/SearchSvg";
 import styles from './AdminOrderSearch.module.css';
 import AdminOrderService from "../../../../services/AdminOrderService";
 import { GetAdminOrdersRequest, GetAdminOrdersResponse } from "../../../../http/models/adminOrders/GetAdminOrders";
-import { UserOrder } from "../../../../models/order/UserOrder";
+import { Order } from "../../../../entities/order/models/order";
 
 interface OrderSearchProps {
-    onResponseChange: (orders: UserOrder[]) => void;
+    onResponseChange: (orders: Order[]) => void;
 }
 
 export const AdminOrderSearch: React.FC<OrderSearchProps> = ({ onResponseChange }) => {

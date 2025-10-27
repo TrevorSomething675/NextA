@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import NewsService from '../../../../services/NewsService';
 import AdminNews from '../../components/AdminNews/AdminNews';
 import CreateNews from '../../components/CreateNews/CreateNews';
 import styles from './AdminNewsPage.module.css';
-import { GetNewsResponse } from '../../../../http/models/adminNews/GetNews';
+import { NewsApi } from '../../../../entities/news/api/newsApi';
+import { News } from '../../../../entities/news/models/news';
 
 const AdminNewsPage = () => {
-    const [newsResponse, setNewsResponse] = useState({} as GetNewsResponse);
+    const [newsResponse, setNewsResponse] = useState<News[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = async () => {
-        const response = await NewsService.Get();
+        const response = await NewsApi.Get();
         if(response.success && response.status === 200){
             setNewsResponse(response.data);
             setIsLoading(false);
@@ -20,7 +20,7 @@ const AdminNewsPage = () => {
     const handleNewsDelete = (id: string) => {
         setNewsResponse(prev => ({
             ...prev,
-            news: prev.news?.filter(newsItem => newsItem.id !== id) || []
+            news: prev?.filter(newsItem => newsItem.id !== id) || []
         }));
     }
 

@@ -1,17 +1,17 @@
 import { useState } from "react";
-import Image from "../../../../sharedLegacy/components/Image/Image";
 import styles from './CreateNews.module.css';
 import { SubmitHandler, useForm } from "react-hook-form";
 import AdminService from "../../../../services/AdminService";
 import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
-import { AddNewsRequest } from "../../../../http/models/news/AddNews";
+import { Image } from "../../../../shared/ui";
+import { AddNewsRequest } from "../../../../widgets/ui/admin-news/models/AddNewsRequest";
 
 interface CreateNewsProps {
     fetchData: () => Promise<void>;
 }
 
 const CreateNews: React.FC<CreateNewsProps> = ({ fetchData }) => {
-    const { register, setValue, handleSubmit, formState: {errors}, reset } = useForm<AddNewsRequest>();
+    const { register, setValue, handleSubmit, formState: { errors }, reset } = useForm<AddNewsRequest>();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const { addNotification } = useNotifications();
     const [error, setError] = useState<string>('');
@@ -25,7 +25,7 @@ const CreateNews: React.FC<CreateNewsProps> = ({ fetchData }) => {
         reader.onload = (event) => {
             const base64String = event.target?.result?.toString().split(',')[1];
             setPreviewImage(base64String!);
-            setValue('imageBase64String', base64String!);
+            setValue('base64String', base64String!);
             setValue('imageName', name);
         }
         reader.readAsDataURL(file);

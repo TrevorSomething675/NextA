@@ -8,7 +8,7 @@ interface Props{
     isLoading?:boolean
 };
 
-const Image: React.FC<Props> = ({ isBase64Image, srcImage, base64String, className, isLoading }) => {
+export const Image: React.FC<Props> = ({ isBase64Image, srcImage, base64String, className, isLoading }) => {
     const combinedClassName = `${styles.image} ${className || ''}`.trim();
 
     if (isLoading) {
@@ -25,5 +25,3 @@ const Image: React.FC<Props> = ({ isBase64Image, srcImage, base64String, classNa
 
     return <img src={srcImage} className={combinedClassName} />;
 };
-
-export default Image;

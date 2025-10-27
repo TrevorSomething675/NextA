@@ -1,20 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import styles from './AdminOrderItem.module.css';
 import { useState } from "react";
-import Button from "../../../../sharedLegacy/components/Button/Button";
 import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
 import RightArrowSvg from "../../../../widgets/ui/svg/RightArrowSvg/RightArrowSvg";
-import { OrderStatus, UserOrder } from "../../../../models/order/UserOrder";
-import OrderService from "../../../../services/OrderService";
 import { UpdateAdminOrderRequest } from "../../../../http/models/adminOrders/UpdateAdminOrder";
 import AdminOrderService from "../../../../services/AdminOrderService";
 import { AdminProduct } from "../../models/AdminProduct";
 import { AdminAddProductToOrderRightBar } from "../AdminAddProductToOrderRightBar/AdminAddProductToOrderRightBar";
 import { OrderProduct } from "../../../../sharedLegacy/entities/OrderProduct";
+import { Order, OrderStatus } from "../../../../entities/order/models/order";
+import { OrderApi } from "../../../../entities/order/api/orderApi";
+import { Button } from "../../../../shared/ui";
 
-export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialOrder} ) => {
-    const [order, setOrder] = useState<UserOrder>(initialOrder);
-    const [originalOrder, setOriginalOrder] = useState<UserOrder>(initialOrder);
+export const AdminOrderItem : React.FC<{ order: Order}> = ({ order: initialOrder} ) => {
+    const [order, setOrder] = useState<Order>(initialOrder);
+    const [originalOrder, setOriginalOrder] = useState<Order>(initialOrder);
     const [isDeleted, setIsDeleted] = useState(false);
     const { addNotification } = useNotifications();
     const navigate = useNavigate();
@@ -42,19 +42,19 @@ export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialO
     if (!product || newCount < 1) return;
 
     setOrder(prevOrder => {
-        const existingIndex = prevOrder.orderProducts.findIndex(p => p.id === product.id);
+        const existingIndex = prevOrder.products.findIndex(p => p.productId === product.id);
 
         let updatedProducts;
 
         if (existingIndex > -1) {
-            updatedProducts = [...prevOrder.orderProducts];
+            updatedProducts = [...prevOrder.products];
             updatedProducts[existingIndex] = {
                 ...updatedProducts[existingIndex],
                 count: newCount
             };
         } else {
             updatedProducts = [
-                ...prevOrder.orderProducts,
+                ...prevOrder.products,
                 {
                     id: product.id,
                     name: product.name,
@@ -86,7 +86,7 @@ export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialO
     }
 
     const handleDeleteOrder = async () => {
-        const response = await OrderService.Delete(order.id);
+        const response = await OrderApi.Delete(order.id);
         if(response.success && response.status === 200){
             setIsDeleted(true);
         }
@@ -95,7 +95,7 @@ export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialO
     const handleDeleteProductFromOrder = async (productId: string) => {
         setOrder(prevOrder => ({
             ...prevOrder,
-            orderProducts: prevOrder?.orderProducts?.filter(d => d.id !== productId)
+            orderProducts: prevOrder?.products?.filter(d => d.productId !== productId)
         }));
     }
 
@@ -104,8 +104,8 @@ export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialO
         
         setOrder(prevOrder => ({
             ...prevOrder,
-            orderProducts: prevOrder.orderProducts.map(od => 
-                od.id === productId
+            orderProducts: prevOrder.products.map(od => 
+                od.productId === productId
                     ? { ...od, count: newCount } 
                     : od
             )
@@ -122,9 +122,9 @@ export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialO
 
     const handleSaveChanges = async () => {
         try {
-            const productsToUpdate: OrderProduct[] = order.orderProducts.map(products => ({
+            const productsToUpdate: OrderProduct[] = order.products.map(products => ({
                 orderId: order.id,
-                productId: products.id,
+                productId: products.productId,
                 count: products.count
             }));
             const request: UpdateAdminOrderRequest = {
@@ -194,22 +194,22 @@ export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialO
                     </tr>
                 </thead>
                 <tbody>
-                    {(order?.orderProducts?.length > 0) && order && order.orderProducts.map((product) =>
-                        <tr className={styles.tr} key={product.id}>
+                    {(order?.products?.length > 0) && order && order.products.map((orderProduct) =>
+                        <tr className={styles.tr} key={orderProduct.productId}>
                             <td>
-                                <button onClick={ () => goToProductPage(product.id) } className={styles.button}>
-                                    {product.name}
+                                <button onClick={ () => goToProductPage(orderProduct.product.id) } className={styles.button}>
+                                    {orderProduct.product.name}
                                 </button>
                             </td>
-                            <td>{product.article}</td>
-                            <td>{product.description}</td>
+                            <td>{orderProduct.product.article}</td>
+                            <td>{orderProduct.product.description}</td>
                             <td>
                                 <span className={styles.newPrice}>
-                                    {product.newPrice} руб.
+                                    {orderProduct.product.newPrice} руб.
                                 </span>
-                                {(product.oldPrice !== undefined && product.oldPrice != 0) &&
+                                {(orderProduct.product.oldPrice !== undefined && orderProduct.product.oldPrice != 0) &&
                                     <span className={styles.oldPrice}>
-                                        {product.oldPrice} руб.
+                                        {orderProduct.product.oldPrice} руб.
                                     </span>
                                 }
                             </td>
@@ -218,13 +218,13 @@ export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialO
                                 <input
                                     type="number"
                                     min="1"
-                                    value={product.count}
-                                    onChange={ (e) => handleChangeProductCount(product.id, parseInt(e.target.value) || 1) }
+                                    value={orderProduct.count}
+                                    onChange={ (e) => handleChangeProductCount(orderProduct.productId, parseInt(e.target.value) || 1) }
                                     className={styles.countInput}
                                 />
                             </td>
                             <td className={styles.trashContainer}>
-                                <button className={styles.removeBasketBtn} onClick={ async () => handleDeleteProductFromOrder(product.id) }>
+                                <button className={styles.removeBasketBtn} onClick={ async () => handleDeleteProductFromOrder(orderProduct.productId) }>
                                     <svg xmlns="http://www.w3.org/2000/svg" className={styles.trash} fill="currentColor" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
@@ -264,7 +264,7 @@ export const AdminOrderItem : React.FC<{ order: UserOrder}> = ({ order: initialO
                         К оплате:
                     </span>
                     <span className={styles.totalSum}>
-                        {(order?.orderProducts?.reduce((total, products) => total + (products.count * products.newPrice), 0))} руб.
+                        {(order?.products?.reduce((total, products) => total + (products.count * products.product.newPrice), 0))} руб.
                     </span>
                     <span>Статус заказа: </span>
                     <select

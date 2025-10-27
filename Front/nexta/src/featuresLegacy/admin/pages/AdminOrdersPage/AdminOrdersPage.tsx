@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { AdminOrderSearch } from '../../components/AdminOrderSearch/AdminOrderSearch';
 import styles from './AdminOrdersPage.module.css';
 import { AdminOrderItem } from '../../components/AdminOrderItem/AdminOrderItem';
-import { UserOrder } from '../../../../models/order/UserOrder';
+import { Order } from '../../../../entities/order/models/order';
 
 const AdminOrdersPage = () => {
-    const [orders, setOrdersResponse] = useState<UserOrder[]>([]);
+    const [orders, setOrdersResponse] = useState<Order[]>([]);
 
-    const handleOrdersResponse = (orders:UserOrder[]) => {
+    const handleOrdersResponse = (orders:Order[]) => {
         setOrdersResponse(orders);
     }
 

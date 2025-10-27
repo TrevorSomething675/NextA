@@ -88,7 +88,7 @@ export class OrderApi{
             }
         }
     }
-    static GetByUserId = async(searchTerm:string, statuses:number[], pageNumber:number, pageSize:number):Promise<ApiResponse<PagedData<Order>, ErrorResponseModel>> => {
+    static GetByUserId = async(searchTerm:string, statuses:number[], pageNumber?:number, pageSize?:number):Promise<ApiResponse<PagedData<Order>, ErrorResponseModel>> => {
         try{
             const response = await api.get<PagedData<Order>>('Admin/Orders/Get', {
                 params: {

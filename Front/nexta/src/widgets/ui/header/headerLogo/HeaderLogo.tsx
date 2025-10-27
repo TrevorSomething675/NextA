@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Image from "../../../../shared/ui/Image/Image";
 import styles from './HeaderLogo.module.css';
+import { Image } from "../../../../shared/ui";
 
 const HeaderLogo = () => {
     return <div className={styles.container}>

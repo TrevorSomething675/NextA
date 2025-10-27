@@ -6,11 +6,11 @@ import { HeaderBasket } from '../headerNav/headerBasket/HeaderBasket';
 import styles from './HeaderTop.module.css';
 import { HeaderOrder } from '../headerNav/headerOrder/HeaderOrder';
 import { HeaderAuth } from '../headerNav/headerAuth/HeaderAuth';
-import basket from '../../../../stores/basket';
+import basketStore from '../../../../shared/stores/basket/basketStore';
 
 export const HeaderTop = () => {
     const HandleOpenBasket = () => {
-        basket.setVisibleBasket(true);
+        basketStore.setVisibleBasket(true);
     }
 
     return <div className={styles.container}>

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import styles from './BasketPage.module.css';
 import BasketItem from '../../../featuresLegacy/basket/components/Basket/BasketItem/BasketItem';
-import Button from '../../../shared/ui/Button/Button';
+import Button from '../../../shared/ui/button/Button';
 import { useNavigate } from 'react-router-dom';
 import { useNotifications } from '../../../sharedLegacy/components/Notifications/Notifications';
 import { useState } from 'react';

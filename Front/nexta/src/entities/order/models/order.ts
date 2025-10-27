@@ -1,10 +1,13 @@
+import { User } from "../../user/models/user";
 import { OrderItem } from "./orderItem";
 
 export interface Order{
+	id:string;
     userId:string;
     status:OrderStatus;
     createdDate:string;
-    products:OrderItem;
+    products:OrderItem[];
+	user:User;
 }
 
 export enum OrderStatus{

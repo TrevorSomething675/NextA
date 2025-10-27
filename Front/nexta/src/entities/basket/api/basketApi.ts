@@ -80,7 +80,7 @@ export class BasketApi{
             throw new Error('Сетевая ошибка или ошибка конфигурации');
         }
     }
-    static DeleteProductFromBasket = async(productId:string, userId:string):Promise<ApiResponse<string, ErrorResponseModel>> => {
+    static DeleteProductFromBasket = async(userId:string, productId:string):Promise<ApiResponse<string, ErrorResponseModel>> => {
         try{
             const response = await api.delete('Basket/Delete', {
                 params: {
