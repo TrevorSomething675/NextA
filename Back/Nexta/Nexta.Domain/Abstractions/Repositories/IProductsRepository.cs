@@ -6,9 +6,9 @@ namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface IProductsRepository
     {
-        Task<Product> GetAsync(Guid id, CancellationToken ct = default);
+        Task<Product> GetByIdAsync(Guid id, CancellationToken ct = default);
         Task<List<Product>> GetByIdsAsync(List<Guid> productIds, CancellationToken ct = default);
-        Task<PagedData<Product>> GetAllAsync(ISpecification<Product> spec, CancellationToken ct = default);
+        Task<PagedData<Product>> GetAsync(ISpecification<Product> spec, CancellationToken ct = default);
         
         Task<Product> AddAsync(Product product, CancellationToken ct = default);
     }

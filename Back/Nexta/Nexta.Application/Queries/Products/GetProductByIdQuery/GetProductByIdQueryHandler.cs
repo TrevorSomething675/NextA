@@ -18,7 +18,7 @@ namespace Nexta.Application.Queries.Products.GetProductByIdQuery
 
         public async Task<ProductDto> Handle(GetProductByIdQuery query, CancellationToken ct = default)
         {
-            var product = await _unitOfWork.Products.GetAsync(query.Id, ct);
+            var product = await _unitOfWork.Products.GetByIdAsync(query.Id, ct);
             var response = _mapper.Map<ProductDto>(product);
 
             return response;

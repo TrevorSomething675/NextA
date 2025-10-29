@@ -18,7 +18,7 @@ namespace Nexta.Application.Queries.Admin.GetProductQuery
 
 		public async Task<AdminProductDto> Handle(GetAdminProductQuery request, CancellationToken ct = default)
 		{
-			var product = await _unitOfWork.Products.GetAsync(request.ProductId, ct);
+			var product = await _unitOfWork.Products.GetByIdAsync(request.ProductId, ct);
 			var response = _mapper.Map<AdminProductDto>(product);
 
 			return response;

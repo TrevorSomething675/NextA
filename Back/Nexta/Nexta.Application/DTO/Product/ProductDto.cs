@@ -9,5 +9,6 @@
         public int NewPrice { get; init; }
         public int OldPrice { get; init; }
         public int Count { get; init; }
+        public ProductImageDto? Image { get; init; }
     }
 }

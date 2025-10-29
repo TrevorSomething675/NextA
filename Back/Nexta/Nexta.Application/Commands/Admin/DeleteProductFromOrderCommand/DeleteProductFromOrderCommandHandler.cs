@@ -26,7 +26,7 @@ namespace Nexta.Application.Commands.Admin.DeleteProductFromOrderCommand
 			if (!validationResult.IsValid)
 				throw new BadRequestException(string.Join(',', validationResult.Errors));
 
-			var orders = await _unitOfWork.Orders.GetAsync(request.OrderId, ct);
+			var orders = await _unitOfWork.Orders.GetByIdAsync(request.OrderId, ct);
 			var deletetedProduct = orders.DeleteProduct(request.ProductId);
 			_unitOfWork.Orders.Update(orders);
 

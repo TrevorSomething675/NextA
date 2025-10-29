@@ -1,5 +1,6 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Admin;
+﻿using Nexta.Application.DTO.Admin;
+using Nexta.Domain.Specification;
+using Nexta.Domain.Abstractions;
 using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
@@ -8,18 +9,19 @@ namespace Nexta.Application.Queries.Admin.GetUsersQuery
 {
     public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PagedData<AdminUserResponse>>
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetUsersQueryHandler(IUsersRepository usersRepository, IMapper mapper)
+        public GetUsersQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _usersRepository = usersRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<PagedData<AdminUserResponse>> Handle(GetUsersQuery query, CancellationToken ct)
         {
-            var users = await _usersRepository.GetAllAsync(query.Filter, ct);
+            var spec = new AdminUsersSpecification(query.SearchTerm, query.PageNumber, query.PageSize);
+            var users = await _unitOfWork.Users.GetAsync(spec, ct);
 
             var response = _mapper.Map<PagedData<AdminUserResponse>>(users);
 

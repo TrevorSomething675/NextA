@@ -1,7 +1,6 @@
 ﻿using Nexta.Application.Commands.Orders.CreateNewOrderCommand;
 using Nexta.Application.Queries.Orders.GetOrdersForUserQuery;
 using Nexta.Web.Models.Orders;
-using Nexta.Domain.Filters;
 using AutoMapper;
 
 namespace Nexta.Web.Mappings
@@ -10,11 +9,8 @@ namespace Nexta.Web.Mappings
     {
         public OrdersProfile()
         {
-            CreateMap<GetOrdersForUserRequest, GetOrdersFilter>()
-                .ForMember(src => src.SearchTerm, opt => opt.MapFrom(x => x.SearchTerm ?? ""));
 
-            CreateMap<GetOrdersForUserRequest, GetOrdersForUserQuery>()
-                .ForMember(src => src.Filter, opt => opt.MapFrom(x => x));
+            CreateMap<GetOrdersForUserRequest, GetOrdersForUserQuery>();
 
             CreateMap<CreateNewOrderRequest, CreateNewOrderCommand>();
         }

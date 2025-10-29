@@ -1,5 +1,5 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Abstractions.Services;
+﻿using Nexta.Domain.Abstractions.Services;
+using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
@@ -10,13 +10,13 @@ namespace Nexta.Application.Commands.Account.UpdateEmailCommand
     {
         private readonly IVerificationCodeService _verificationCodeService;
         private readonly IValidator<UpdateEmailCommand> _validator;
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateEmailCommandHandler(IUsersRepository usersRepository, 
+        public UpdateEmailCommandHandler(IUnitOfWork unitOfWork, 
             IVerificationCodeService verificationCodeService, IValidator<UpdateEmailCommand> validator)
         {
             _verificationCodeService = verificationCodeService;
-            _usersRepository = usersRepository;
+            _unitOfWork = unitOfWork;
             _validator = validator;
         }
 
@@ -31,7 +31,7 @@ namespace Nexta.Application.Commands.Account.UpdateEmailCommand
             if (!verifyResult)
                 throw new BadRequestException("Неверный код");
 
-            var dbUser = await _usersRepository.GetByEmailAsync(command.LegacyEmail, ct);
+            var dbUser = await _unitOfWork.Users.GetByEmailAsync(command.LegacyEmail, ct);
             if (dbUser == null)
                 throw new NotFoundException("Пользователь не зарегистрирован");
 
@@ -40,7 +40,7 @@ namespace Nexta.Application.Commands.Account.UpdateEmailCommand
 
             dbUser.ChangeEmail(command.Email);
 
-            var updateUser = await _usersRepository.UpdateAsync(dbUser, ct);
+            var updateUser = _unitOfWork.Users.Update(dbUser);
 
             return new UpdateEmailCommandResponse(updateUser);
         }

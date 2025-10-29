@@ -1,4 +1,5 @@
 export interface Notification{
+    id:string;
     userId:string;
     header:string;
     message:string;

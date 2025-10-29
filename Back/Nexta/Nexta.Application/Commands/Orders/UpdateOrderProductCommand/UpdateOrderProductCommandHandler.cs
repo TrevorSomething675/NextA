@@ -18,11 +18,11 @@ namespace Nexta.Application.Commands.Orders.UpdateOrderProductCommand
 
 		public async Task<OrderItemDto> Handle(UpdateOrderProductCommand command, CancellationToken ct = default)
 		{
-			var order = await _unitOfWork.Orders.GetAsync(command.OrderId, ct);
+			var order = await _unitOfWork.Orders.GetByIdAsync(command.OrderId, ct);
 			order.UpdateProduct(command.ProductId, command.Count);
 			await _unitOfWork.SaveChangesAsync(ct);
 
-			var productItem = _unitOfWork.Products.GetAsync(command.ProductId, ct);
+			var productItem = _unitOfWork.Products.GetByIdAsync(command.ProductId, ct);
 			var response = _mapper.Map<OrderItemDto>(productItem);
 
 			return response;

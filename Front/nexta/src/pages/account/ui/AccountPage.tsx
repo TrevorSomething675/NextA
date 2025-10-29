@@ -1,9 +1,9 @@
 import { observer } from "mobx-react";
 import styles from './AccountPage.module.css';
 import Orders from "../../../widgets/ui/order/ui/Orders/Orders";
-import { UserInfo } from "../../../featuresLegacy/account/components/userInfo/UserInfo";
-import { ConfirmPhone } from "../../../featuresLegacy/account/components/confirmPhone/ConfirmPhone";
-import { ChangePassword } from "../../../featuresLegacy/account/components/changePassword/ChangePassword";
+import { UserInfo } from "../../../features/account/userInfo/ui/UserInfo";
+import { ConfirmPhone } from "../../../features/account/confirmPhone/ui/ConfirmPhone";
+import { ChangePassword } from "../../../features/account/changePassword/ui/ChangePassword";
 
 export const AccountPage = observer(() => {
     return <div className={styles.container}>

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import basket from '../../../../../stores/basket';
 import BasketService from '../../../../../services/BasketService';
 import authStore from '../../../../../stores/AuthStore/authStore';
-import BasketItem from '../BasketItem/BasketItem';
+import BasketItem from '../../../../../widgets/ui/basket/ui/BasketProductItem';
 
 const BasketBody = observer(() => {
     useEffect(() => {

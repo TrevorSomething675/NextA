@@ -1,18 +1,18 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions;
+using Nexta.Domain.Models.User;
 using AutoMapper;
 using MediatR;
-using Nexta.Domain.Models.User;
 
 namespace Nexta.Application.Commands.Account.UpdateAccountCommand
 {
     public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand, UpdateAccountCommandResponse>
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UpdateAccountCommandHandler(IUsersRepository usersRepository, IMapper mapper)
+        public UpdateAccountCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _usersRepository = usersRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -20,7 +20,8 @@ namespace Nexta.Application.Commands.Account.UpdateAccountCommand
         {
             var userToUpdate = _mapper.Map<User>(command);
 
-            var updatedUser = await _usersRepository.UpdateAsync(userToUpdate, ct);
+            var updatedUser = _unitOfWork.Users.Update(userToUpdate);
+            await _unitOfWork.SaveChangesAsync(ct);
 
             return new UpdateAccountCommandResponse(updatedUser);
         }

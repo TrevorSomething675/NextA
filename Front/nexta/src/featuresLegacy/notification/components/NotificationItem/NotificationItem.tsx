@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { UserNotification } from "../../models/UserNotification"
 import styles from './NotificationItem.module.css';
+import { Notification } from "../../../../entities/user/models/notification";
 
-export const NotificationItem:React.FC<{notification:UserNotification}> = ({notification}) => {
+export const NotificationItem:React.FC<{notification:Notification}> = ({notification}) => {
     const[isRead, setRead] = useState<boolean>(false);
 
     return <div className={styles.container}>

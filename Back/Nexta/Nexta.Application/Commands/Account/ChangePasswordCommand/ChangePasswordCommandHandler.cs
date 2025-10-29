@@ -1,5 +1,5 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Abstractions.Services;
+﻿using Nexta.Domain.Abstractions.Services;
+using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
@@ -9,14 +9,14 @@ namespace Nexta.Application.Commands.Account.ChangePasswordCommand
     public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
     {
         private readonly IValidator<ChangePasswordCommand> _validator;
-        private readonly IUsersRepository _usersRepository;
         private readonly IHashService _hashService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public ChangePasswordCommandHandler(IHashService hashService,
-            IValidator<ChangePasswordCommand> validator, IUsersRepository usersRepository)
+            IValidator<ChangePasswordCommand> validator, IUnitOfWork unitOfWork)
         {
-            _usersRepository = usersRepository;
             _hashService = hashService;
+            _unitOfWork = unitOfWork;
             _validator = validator;
         }
 
@@ -27,7 +27,7 @@ namespace Nexta.Application.Commands.Account.ChangePasswordCommand
             if(!validationResult.IsValid)
                 throw new BadRequestException(string.Join(", ", validationResult.Errors));
 
-            var user = await _usersRepository.GetAsync(command.UserId, ct);
+            var user = await _unitOfWork.Users.GetByIdAsync(command.UserId, ct);
             if (user == null)
                 throw new NotFoundException("Пользователь не найден");
 
@@ -37,7 +37,8 @@ namespace Nexta.Application.Commands.Account.ChangePasswordCommand
             var passwordHash = _hashService.Generate(command.Password);
             user.ChangePassword(passwordHash);
 
-            var result = await _usersRepository.UpdateAsync(user, ct);
+            var result = _unitOfWork.Users.Update(user);
+            await _unitOfWork.SaveChangesAsync(ct);
 
             if(result == null)
                 throw new BadRequestException("Не удалось обновить пользователя");

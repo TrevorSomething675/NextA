@@ -5,7 +5,7 @@ namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface IBasketRepository
     {
-        Task<Basket?> GetAsync(Guid id, CancellationToken ct = default);
+        Task<Basket?> GetByIdAsync(Guid id, CancellationToken ct = default);
         Task<Basket?> GetByUserIdAsync(ISpecification<Basket> spec, CancellationToken ct = default);
         Basket Update(Basket basket);
     }

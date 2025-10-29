@@ -1,5 +1,5 @@
 import styles from './SearchProductsContainer.module.css';
-import { ProductCard } from '../ProductCard/ProductCard';
+import { ProductCard } from '../../../../widgets/ui/product-card/ui/ProductCard';
 import { Product } from '../../../../models/Product';
 
 export const SearchProductsContainer: React.FC<{ products?: Product[] }> = ({ products }) => {

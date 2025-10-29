@@ -9,7 +9,7 @@ import { AdminProduct } from "../../models/AdminProduct";
 import { AdminAddProductToOrderRightBar } from "../AdminAddProductToOrderRightBar/AdminAddProductToOrderRightBar";
 import { OrderProduct } from "../../../../sharedLegacy/entities/OrderProduct";
 import { Order, OrderStatus } from "../../../../entities/order/models/order";
-import { OrderApi } from "../../../../entities/order/api/orderApi";
+import { OrderApi } from "../../../../shared/http/order/orderApi";
 import { Button } from "../../../../shared/ui";
 
 export const AdminOrderItem : React.FC<{ order: Order}> = ({ order: initialOrder} ) => {

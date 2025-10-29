@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './LoginFirstStepForm.module.css';
 import { useState } from 'react';
-import { AuthApi } from '../../../../../entities/auth/api/authApi';
+import { AuthApi } from '../../../../../shared/http/auth/authApi';
 import { AuthStep } from '../../../../../widgets/ui/auth-panel/models/AuthStep';
 import { AuthData } from '../../../../../entities/auth/models/authData';
 import { LoginFormRequest } from '../models/LoginFirstStepFormRequest';

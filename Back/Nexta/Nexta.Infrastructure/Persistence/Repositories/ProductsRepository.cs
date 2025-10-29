@@ -22,7 +22,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return result.Entity;
         }
 
-        public async Task<PagedData<Product>> GetAllAsync(ISpecification<Product> spec, CancellationToken ct = default)
+        public async Task<PagedData<Product>> GetAsync(ISpecification<Product> spec, CancellationToken ct = default)
         {
             var query = _context.Products
                 .WithSearchTerm(spec.SearchTerm)
@@ -42,7 +42,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return pagedProducts;
         }
 
-        public async Task<Product> GetAsync(Guid id, CancellationToken ct = default)
+        public async Task<Product> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id, ct);
             return product;

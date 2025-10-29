@@ -18,7 +18,7 @@ namespace Nexta.Application.Queries.News.GetNewsQuery
 
 		public async Task<List<NewsDto>> Handle(GetNewsQueryRequest query, CancellationToken ct = default)
 		{
-			var news = await _newsRepository.GetAllAsync(ct);
+			var news = await _newsRepository.GetAsync(ct);
 
 			var response = _mapper.Map<List<NewsDto>>(news);
 

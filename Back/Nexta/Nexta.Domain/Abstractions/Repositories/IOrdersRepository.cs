@@ -6,8 +6,8 @@ namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface IOrdersRepository
     {
-        Task<Order?> GetAsync(Guid id, CancellationToken ct = default);
-        Task<PagedData<Order>> GetPagedAsync(ISpecification<Order> spec, CancellationToken ct = default);
+        Task<Order?> GetByIdAsync(Guid id, CancellationToken ct = default);
+        Task<PagedData<Order>> GetAsync(ISpecification<Order> spec, CancellationToken ct = default);
         Task<PagedData<Order>> GetOrdersByFullNameAsync(ISpecification<Order> spec, CancellationToken ct = default);
 
         Order Update(Order order);

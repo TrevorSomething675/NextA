@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import AdminNews from '../../components/AdminNews/AdminNews';
 import CreateNews from '../../components/CreateNews/CreateNews';
 import styles from './AdminNewsPage.module.css';
-import { NewsApi } from '../../../../entities/news/api/newsApi';
+import { NewsApi } from '../../../../shared/http/news/newsApi';
 import { News } from '../../../../entities/news/models/news';
 
 const AdminNewsPage = () => {

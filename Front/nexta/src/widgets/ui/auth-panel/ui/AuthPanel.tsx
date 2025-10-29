@@ -5,6 +5,8 @@ import { RegisterFirstStepForm } from "../../../../features/auth/register/firstS
 import { RegisterSecondStepForm } from "../../../../features/auth/register/secondStep/ui/RegisterSecondStepForm";
 import { LoginFirstStepForm } from "../../../../features/auth/login/firstStep/ui/LoginFirstStepForm";
 import { LoginSecondStepForm } from "../../../../features/auth/login/secondStep/ui/LoginSecondStepForm";
+import { AccessRecoveryFirstStep } from "../../../../features/account/accessRecovery/firstStep/ui/AccessRecoveryFirstStep";
+import { AccessRecoverySecondStep } from "../../../../features/account/accessRecovery/secondStep/ui/AccessRecoverySecondStep";
 
 export const AuthPanel = () => {
     const [authStep, setAuthStep] = useState<AuthStep>("loginFirstStep");
@@ -34,6 +36,16 @@ export const AuthPanel = () => {
         {authStep === 'registerSecondStep' && (
             <RegisterSecondStepForm
                 authData={authData}
+            />
+        )}
+        {authStep === 'accessRecoveryFirstStep' && (
+            <AccessRecoveryFirstStep 
+                handleChangeAuth={handleChangeStep}
+            />
+        )}
+        {authStep === 'accessRecoverySecondStep' && (
+            <AccessRecoverySecondStep
+                handleChangeAuth={handleChangeStep}
             />
         )}
     </>

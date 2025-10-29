@@ -14,7 +14,7 @@ namespace Nexta.Application.Commands.Categories.DeleteCategoryCommand
 
         public async Task<Unit> Handle(DeleteCategoryCommand command, CancellationToken ct)
         {
-            var category = await _unitOfWork.Categories.GetAsync(command.Id, ct);
+            var category = await _unitOfWork.Categories.GetByIdAsync(command.Id, ct);
             var deletedCategory = _unitOfWork.Categories.Delete(category, ct);
 
             await _unitOfWork.SaveChangesAsync(ct);

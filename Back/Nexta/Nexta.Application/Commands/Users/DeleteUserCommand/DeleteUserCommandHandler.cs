@@ -1,20 +1,23 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions;
 using MediatR;
 
 namespace Nexta.Application.Commands.Users.DeleteUserCommand
 {
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Unit>
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUnitOfWork _unitOfWork;
         
-        public DeleteUserCommandHandler(IUsersRepository usersRepository)
+        public DeleteUserCommandHandler(IUnitOfWork unitOfWork)
         {
-            _usersRepository = usersRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(DeleteUserCommand command, CancellationToken ct)
         {
-            var result = await _usersRepository.DeleteAsync(command.UserId, ct);
+            var user = await _unitOfWork.Users.GetByIdAsync(command.UserId, ct);
+            var result = _unitOfWork.Users.Delete(user);
+
+            await _unitOfWork.SaveChangesAsync(ct);
 
             return Unit.Value;
         }

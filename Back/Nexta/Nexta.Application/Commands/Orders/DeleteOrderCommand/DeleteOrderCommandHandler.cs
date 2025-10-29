@@ -14,7 +14,7 @@ namespace Nexta.Application.Commands.Orders.DeleteOrderCommand
 
 		public async Task<Guid> Handle(DeleteOrderCommand command, CancellationToken ct)
 		{
-			var order = await _unitOfWork.Orders.GetAsync(command.OrderId, ct);
+			var order = await _unitOfWork.Orders.GetByIdAsync(command.OrderId, ct);
 			_unitOfWork.Orders.Delete(order);
 			await _unitOfWork.SaveChangesAsync(ct);
 

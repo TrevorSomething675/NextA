@@ -1,4 +1,5 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Domain.Specification;
 using Nexta.Application.DTO.User;
 using Nexta.Domain.Base;
 using AutoMapper;
@@ -19,7 +20,9 @@ namespace Nexta.Application.Queries.Notifications.GetNotificationsQuery
 
         public async Task<PagedData<NotificationDto>> Handle(GetNotificationsQuery query, CancellationToken ct)
         {
-            var notifications = await _notificationsRepository.GetAsync(query.Filter, ct);
+            var spec = new NotificationSpecification(query.SearchTerm, query.UserId, query.PageNumber, query.PageSize);
+
+            var notifications = await _notificationsRepository.GetAsync(spec, ct);
             var response = _mapper.Map<PagedData<NotificationDto>>(notifications);
 
             return response;

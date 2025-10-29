@@ -4,8 +4,8 @@ namespace Nexta.Domain.Abstractions.Repositories
 {
     public interface INewsRepository
     {
-        Task<List<News>> GetAllAsync(CancellationToken ct = default);
-        Task<News> GetAsync(Guid id, CancellationToken ct = default);
+        Task<List<News>> GetAsync(CancellationToken ct = default);
+        Task<News> GetByIdAsync(Guid id, CancellationToken ct = default);
 
         Task<News> AddAsync(News news, CancellationToken ct = default);
         Guid Update(News news, CancellationToken ct = default);

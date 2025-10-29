@@ -1,10 +1,15 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styles from './ProductPage.module.css';
-import { Product, ProductStatus } from "../../../models/Product";
 import { useNotifications } from "../../../sharedLegacy/components/Notifications/Notifications";
 import { ViewAlreadyExistProductInBasket } from "../../../sharedLegacy/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket";
 import { ProductAttributes } from "../../../featuresLegacy/product/components/ProductAttributes/ProductAttributes";
+import { ProductApi } from "../../../shared/http/product/productApi";
+import { Product, ProductStatus } from "../../../entities/product/models/product";
+import { BasketApi } from "../../../shared/http/basket/basketApi";
+import authStore from "../../../shared/stores/auth/authStore";
+import basketStore from "../../../shared/stores/basket/basketStore";
+import { Image } from "../../../shared/ui";
 
 const statusLabels = {
     [ProductStatus.Unknown]: 'Неизвестный статус',
@@ -22,9 +27,9 @@ export const ProductPage = () => {
     useEffect(() => {
         const fetch = async() =>{
             if(id !== undefined){
-                const response = await ProductsService.GetById(id);
+                const response = await ProductApi.GetById(id);
                 if(response.success && response.status === 200){
-                    setProduct(response.data.product);
+                    setProduct(response.data);
                 }
             }
         }
@@ -48,18 +53,16 @@ export const ProductPage = () => {
     };
 
     const handleAddToBasket = async () => {
-        const request:AddBasketProductRequest = {
-            userId: authStore?.user?.id ?? '',
-            productId: product.id,
-            countToPay: count
-        };
+        const userId = authStore?.user?.id ?? '';
+        const productId = product.id;
+        const countToPay = count;
 
-        const response = await BasketService.AddBasketProduct(request);
+        const response = await BasketApi.AddProductToBasket(userId, productId, countToPay);
         if (response.success && response.status === 200) {
             addNotification({
-                header: `Товар ${response.data.basketProduct.name} добавлен в корзину`
+                header: 'Товар добавлен в корзину'
             });
-            basket.addBasketProduct(response.data.basketProduct)
+            basketStore.addBasketProduct(response.data);
         } else if (!response.success && response.status === 409){
             setIsModalOpen(true);
         } 
@@ -82,7 +85,7 @@ export const ProductPage = () => {
                 </h2>
                 <div className={styles.headerProduct}>
                     <div className={styles.imageContainer}>
-                        <Image isBase64Image={true} base64String={product?.image?.base64String} className={styles.image} />
+                        <Image isBase64Image={true} base64String={product?.images[0]?.base64String} className={styles.image} />
                     </div>
                     <div className={styles.productContainer}>
                         <ul className={styles.ul}>

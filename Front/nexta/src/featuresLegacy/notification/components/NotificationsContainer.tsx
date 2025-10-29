@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import NotificationService from "../../../services/NotificationService"
-import { GetNotificationsResponse } from "../../../http/models/notifications/GetNotifications"
-import authStore from "../../../stores/AuthStore/authStore";
 import { NotificationItem } from "./NotificationItem/NotificationItem";
 import styles from './NotificationsContainer.module.css';
+import authStore from "../../../shared/stores/auth/authStore";
+import { NotificationApi } from "../../../shared/http/notification/notificationApi";
+import { Notification } from "../../../entities/user/models/notification";
 
 export const NotificationsContainer = () => {
-    const [notifications, setNotifications] = useState<GetNotificationsResponse>();
+    const [notifications, setNotifications] = useState<Notification[]>();
 
     useEffect(() => {
         fetchData();
@@ -14,15 +14,15 @@ export const NotificationsContainer = () => {
     
     const fetchData = async() => {
         const userId = authStore.user.id ?? '';
-        const response = await NotificationService.Get(userId);
+        const response = await NotificationApi.Get(userId);
 
         if(response.success && response.status === 200){
-            setNotifications(response.data);
+            setNotifications(response.data.items);
         }
     }
 
     return <div className={styles.container}>
-        {notifications && notifications?.data?.items?.length > 0 && notifications.data.items.map(notification => 
+        {notifications && notifications?.length > 0 && notifications.map(notification => 
             <NotificationItem key={notification.id} notification={notification} />
         )}
     </div>

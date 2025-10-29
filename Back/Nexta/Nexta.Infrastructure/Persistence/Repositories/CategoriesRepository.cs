@@ -19,7 +19,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return result.Entity.Id;
         }
 
-        public async Task<List<Category>> GetAllAsync(CancellationToken ct = default)
+        public async Task<List<Category>> GetAsync(CancellationToken ct = default)
         {
             var result = await _context.Categories.ToListAsync(ct);
             return result;
@@ -31,7 +31,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return category.Id;
         }
 
-        public async Task<Category> GetAsync(Guid id, CancellationToken ct = default)
+        public async Task<Category?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             var category = await _context.Categories.FirstOrDefaultAsync(ct);
             return category;

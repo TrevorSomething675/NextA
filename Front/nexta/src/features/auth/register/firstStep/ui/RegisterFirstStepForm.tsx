@@ -1,7 +1,7 @@
 import { VerificationApi } from "../../../../../entities/auth/verification/api/verificationApi";
 import { RegisterFirstStepRequest } from "../models/RegisterFirstStepRequest";
 import { AuthStep } from "../../../../../widgets/ui/auth-panel/models/AuthStep";
-import { AuthApi } from "../../../../../entities/auth/api/authApi";
+import { AuthApi } from "../../../../../shared/http/auth/authApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from './RegisterFirstStepForm.module.css';
 import { useState } from "react";

@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import { OrderItem } from "../../../entities/order/models/orderItem";
+import { Order } from "../../../entities/order/models/order";
 
 class OrderStore{
-    items: OrderItem[] = [];
+    items: Order[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -12,7 +12,7 @@ class OrderStore{
         return this.items.length ?? 0;
     }
 
-    setOrderItems = (newOrders: OrderItem[]) => {
+    setOrderItems = (newOrders: Order[]) => {
         this.items = newOrders;
     }
 }

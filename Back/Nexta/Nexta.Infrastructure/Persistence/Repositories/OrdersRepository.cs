@@ -27,7 +27,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return result.Entity;
         }
 
-        public async Task<Order?> GetAsync(Guid id, CancellationToken ct = default)
+        public async Task<Order?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id, ct);
             return order;
@@ -60,7 +60,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             return pagedOrders;
         }
 
-        public async Task<PagedData<Order>> GetPagedAsync(ISpecification<Order> spec, CancellationToken ct = default)
+        public async Task<PagedData<Order>> GetAsync(ISpecification<Order> spec, CancellationToken ct = default)
         {
             var query = _context.Orders
                 .Include(o => spec.Includes)
@@ -81,8 +81,8 @@ namespace Nexta.Infrastructure.Persistence.Repositories
 
         public Order Update(Order order)
         {
-            var result = _context.Orders.Update(order);
-            return result.Entity;
+            var updatedOrder = _context.Orders.Update(order);
+            return updatedOrder.Entity;
         }
     }
 }

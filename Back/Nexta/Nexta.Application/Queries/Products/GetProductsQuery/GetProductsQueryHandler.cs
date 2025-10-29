@@ -20,8 +20,8 @@ namespace Nexta.Application.Queries.Products.GetProductsQuery
 
         public async Task<PagedData<ProductDto>> Handle(GetProductsQuery query, CancellationToken ct)
         {
-            var spec = new ProductSpecification(query.Filter.PageNumber, query.Filter.PageSize);
-            var products = await _unitOfWork.Products.GetAllAsync(spec, ct);
+            var spec = new ProductSpecification(query.PageNumber, query.PageSize);
+            var products = await _unitOfWork.Products.GetAsync(spec, ct);
 
             var response = _mapper.Map<PagedData<ProductDto>>(products);
 

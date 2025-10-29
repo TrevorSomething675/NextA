@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
+﻿using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
 using MediatR;
 
@@ -6,22 +6,23 @@ namespace Nexta.Application.Commands.Account.ConfirmPhoneCommand
 {
     public class ConfirmPhoneCommandHandler : IRequestHandler<ConfirmPhoneCommand, ConfirmPhoneCommandResponse>
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ConfirmPhoneCommandHandler(IUsersRepository usersRepository)
+        public ConfirmPhoneCommandHandler(IUnitOfWork unitOfWork)
         {
-            _usersRepository = usersRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ConfirmPhoneCommandResponse> Handle(ConfirmPhoneCommand command, CancellationToken ct = default)
         {
-            var user = await _usersRepository.GetByEmailAsync(command.Email, ct);
+            var user = await _unitOfWork.Users.GetByEmailAsync(command.Email, ct);
 
             if (user == null)
                 throw new NotFoundException("Пользователь не найден");
 
             user.ChangePhone(command.Phone);
-            var updatedUser = await _usersRepository.UpdateAsync(user, ct);
+            var updatedUser = _unitOfWork.Users.Update(user);
+            await _unitOfWork.SaveChangesAsync(ct);
 
             if (updatedUser?.Phone == null)
                 throw new BadRequestException("Не удалось обновить номер");

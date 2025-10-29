@@ -14,7 +14,7 @@ namespace Nexta.Application.Commands.Admin.DeleteNewsCommand
 
         public async Task<Guid> Handle(DeleteNewsCommandRequest request, CancellationToken ct = default)
         {
-            var news = await _unitOfWork.News.GetAsync(request.Id, ct);
+            var news = await _unitOfWork.News.GetByIdAsync(request.Id, ct);
             var deletedNewsId = _unitOfWork.News.DeleteAsync(news, ct);
 
             await _unitOfWork.SaveChangesAsync(ct);

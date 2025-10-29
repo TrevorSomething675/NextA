@@ -14,7 +14,7 @@ namespace Nexta.Application.Commands.Orders.UpdateOrderStatusCommand
 
         public async Task<Unit> Handle(UpdateOrderStatusCommand request, CancellationToken ct = default)
         {
-            var order = await _unitOfWork.Orders.GetAsync(request.OrderId, ct);
+            var order = await _unitOfWork.Orders.GetByIdAsync(request.OrderId, ct);
             order.UpdateStatus(request.Status);
 
             await _unitOfWork.SaveChangesAsync(ct);

@@ -2,6 +2,7 @@ import { ProductAttribute } from "./productAttribute";
 import { ProductImage } from "./productImage";
 
 export interface Product{
+    id:string;
     name:string;
     article:string;
     description:string;
@@ -12,7 +13,7 @@ export interface Product{
     oldPrice:number;
     isVisible:boolean;
     attributes:ProductAttribute[];
-    images:ProductImage[];
+    images?:ProductImage[];
 }
 
 export enum ProductStatus{

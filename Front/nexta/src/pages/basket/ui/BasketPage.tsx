@@ -1,16 +1,16 @@
 import { observer } from 'mobx-react';
 import styles from './BasketPage.module.css';
-import BasketItem from '../../../featuresLegacy/basket/components/Basket/BasketItem/BasketItem';
-import Button from '../../../shared/ui/button/Button';
 import { useNavigate } from 'react-router-dom';
 import { useNotifications } from '../../../sharedLegacy/components/Notifications/Notifications';
 import { useState } from 'react';
 import authStore from '../../../shared/stores/auth/authStore';
-import { OrderApi } from '../../../entities/order/api/orderApi';
+import { OrderApi } from '../../../shared/http/order/orderApi';
 import { OrderItem } from '../../../entities/order/models/orderItem';
 import basketStore from '../../../shared/stores/basket/basketStore';
+import { Button } from '../../../shared/ui';
+import { BasketProductItem } from '../../../widgets/ui/basket/ui/BasketProductItem';
 
-const BasketPage = observer(() => {
+export const BasketPage = observer(() => {
     const navigate = useNavigate();
     const {addNotification} = useNotifications();
 
@@ -34,16 +34,17 @@ const BasketPage = observer(() => {
         if(response.success && response.status === 200){
             basketStore.clear();
             
+            /*
             const newOrdersResponse = await OrderService.GetOrdersForUser(userId);
 
             if(newOrdersResponse.success && newOrdersResponse.status === 200){
                 orderStore.setOrderItems(newOrdersResponse.data.data.items);
             }  
-            
+            */
             navigate('/Order');
             addNotification({
                 header: 'Заказ сформирован',
-                body: `Ваш заказ [${response.data.id}] был успешно сформирован. Скоро с вами свяжется оператор.`
+                body: `Ваш заказ [${response.data}] был успешно сформирован. Скоро с вами свяжется оператор.`
             })
         }
         setLoading(false);
@@ -52,7 +53,7 @@ const BasketPage = observer(() => {
     return <div className={styles.container}>
         <h2 className={styles.h2}>Корзина</h2>
         <div className={styles.container}>
-        {(basket?.items !== undefined) && (basket.items.length > 0) ? (<table className={styles.table}>
+        {(basketStore?.items !== undefined) && (basketStore.items.length > 0) ? (<table className={styles.table}>
             <thead className={styles.thead}>
                 <tr className={styles.tr}>
                     <th>Название</th>
@@ -65,8 +66,8 @@ const BasketPage = observer(() => {
                 </tr>
             </thead>
             <tbody className={styles.tbody}>
-                {basket.items.length > 0 && basket.items.map((product) => 
-                    <BasketItem product={product} key={product.productId} />
+                {basketStore.items.length > 0 && basketStore.items.map((product) => 
+                    <BasketProductItem basketProduct={product} key={product.productId} />
                 )}
             </tbody>
         </table>)
@@ -77,15 +78,15 @@ const BasketPage = observer(() => {
     </div> 
     {
 
-        (basket?.items !== undefined) && (basket.items.length > 0) && <div className={styles.container}>
+        (basketStore?.items !== undefined) && (basketStore.items.length > 0) && <div className={styles.container}>
             <div className={styles.footerItem}>
-                <Button content='Оформить заказ' className={styles.button} onClick={handleCreateOrder} isLoading={isLoading} />
+                <Button className={styles.button} onClick={handleCreateOrder}>
+                    Оформить заказ
+                </Button>
             </div>
             <div className={styles.footerPrice}>
-                <div className={styles.priceContainer}>Итого: {basket.totalPrice} руб.</div>
+                <div className={styles.priceContainer}>Итого: {basketStore.totalPrice} руб.</div>
             </div>
         </div>}
     </div>
 });
-
-export default BasketPage;

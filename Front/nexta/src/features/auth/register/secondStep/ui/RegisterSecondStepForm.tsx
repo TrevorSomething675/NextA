@@ -4,7 +4,7 @@ import styles from './RegisterSecondStepForm.module.css';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { VerificationApi } from "../../../../../entities/auth/verification/api/verificationApi";
-import { AuthApi } from "../../../../../entities/auth/api/authApi";
+import { AuthApi } from "../../../../../shared/http/auth/authApi";
 import { SetAuthData } from "../../../../../shared/lib/authStorage";
 
 interface RegisterSecondStepProps {

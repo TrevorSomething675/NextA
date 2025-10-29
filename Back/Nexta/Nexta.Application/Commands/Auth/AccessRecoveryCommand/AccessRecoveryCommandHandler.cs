@@ -1,6 +1,5 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Abstractions.Services;
-using Nexta.Domain.Models.User;
+﻿using Nexta.Domain.Abstractions.Services;
+using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
 using Nexta.Domain.Constants;
 using FluentValidation;
@@ -10,19 +9,19 @@ namespace Nexta.Application.Commands.Auth.AccessRecoveryCommand
 {
     public class AccessRecoveryCommandHandler : IRequestHandler<AccessRecoveryCommand, Unit>
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IHashService _passwordHashService;
-        private readonly IUsersRepository _usersRepository;
         private readonly IEmailService _emailService;
         private readonly IValidator<AccessRecoveryCommand> _validator;
         private readonly IVerificationCodeService _verificationCodeService;
 
-        public AccessRecoveryCommandHandler(IUsersRepository usersRepository, IVerificationCodeService verificationCodeService
+        public AccessRecoveryCommandHandler(IUnitOfWork unitOfWork, IVerificationCodeService verificationCodeService
             , IValidator<AccessRecoveryCommand> validator, IHashService passwordHashService, IEmailService emailService)
         {
             _verificationCodeService = verificationCodeService;
             _passwordHashService = passwordHashService;
-            _usersRepository = usersRepository;
             _emailService = emailService;
+            _unitOfWork = unitOfWork;
             _validator = validator;
         }
 
@@ -37,20 +36,21 @@ namespace Nexta.Application.Commands.Auth.AccessRecoveryCommand
             if (!verifyResult)
                 throw new BadRequestException("Неверный код");
 
-            var dbUser = await _usersRepository.GetByEmailAsync(command.Email, ct);
+            var user = await _unitOfWork.Users.GetByEmailAsync(command.Email, ct);
 
-            if (dbUser == null)
+            if (user == null)
                 throw new NotFoundException("Пользователь не зарегистрирован");
 
             var passwordHash = _passwordHashService.Generate(command.Password);
 
-            dbUser.ChangePassword(passwordHash);
-            dbUser.AddNotification(
+            user.ChangePassword(passwordHash);
+            user.AddNotification(
                     "Пароль бы успешно обновлён.",
                     NotificationKeys.WarningScamAccessRecovery);
 
-            await _usersRepository.UpdateAsync(dbUser, ct);
-            await _emailService.SendEmailAsync(dbUser.Email!, "", "Пароль бы успешно обновлён.", NotificationKeys.WarningScamAccessRecovery, ct);
+            _unitOfWork.Users.Update(user);
+            await _unitOfWork.SaveChangesAsync(ct);
+            await _emailService.SendEmailAsync(user.Email!, "", "Пароль бы успешно обновлён.", NotificationKeys.WarningScamAccessRecovery, ct);
 
             return Unit.Value;
         }

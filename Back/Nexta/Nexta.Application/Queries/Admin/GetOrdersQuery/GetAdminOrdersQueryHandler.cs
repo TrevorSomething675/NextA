@@ -20,7 +20,7 @@ namespace Nexta.Application.Queries.Admin.GetAllOrdersQuery
 
 		public async Task<PagedData<OrderDto>> Handle(GetAdminOrdersQuery query, CancellationToken ct = default)
 		{
-			var spec = new OrderByUserDataSpecification(query.Filter.SearchTerm, query.Filter.PageNumber, query.Filter.PageSize);
+			var spec = new OrderByUserDataSpecification(query.SearchTerm, query.PageNumber, query.PageSize);
 
 			var orders = await _unitOfWork.Orders.GetOrdersByFullNameAsync(spec, ct);
 			var response = _mapper.Map<PagedData<OrderDto>>(orders);

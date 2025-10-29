@@ -20,9 +20,9 @@ namespace Nexta.Application.Queries.Admin.GetProductsQuery
 
 		public async Task<PagedData<AdminProductDto>> Handle(GetAdminProductsQuery query, CancellationToken ct = default)
 		{
-			var spec = new ProductSpecification(query.Filter.PageNumber, query.Filter.PageSize);
+			var spec = new ProductSpecification(query.PageNumber, query.PageSize);
 
-			var products = await _unitOfWork.Products.GetAllAsync(spec, ct);
+			var products = await _unitOfWork.Products.GetAsync(spec, ct);
 
 			var response = _mapper.Map<PagedData<AdminProductDto>>(products);
 

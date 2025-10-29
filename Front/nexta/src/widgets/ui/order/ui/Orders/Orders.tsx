@@ -4,7 +4,7 @@ import Pagging from '../../../../../sharedLegacy/components/Pagging/Pagging';
 import OrderItem from '../OrderItem/OrderItem';
 import styles from './Orders.module.css';
 import authStore from '../../../../../shared/stores/auth/authStore';
-import { OrderApi } from '../../../../../entities/order/api/orderApi';
+import { OrderApi } from '../../../../../shared/http/order/orderApi';
 import { Order } from '../../../../../entities/order/models/order';
 
 const Orders = observer(() => {

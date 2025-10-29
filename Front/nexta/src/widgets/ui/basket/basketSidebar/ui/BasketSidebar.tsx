@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useNotifications } from "../../../../../sharedLegacy/components/Notifications/Notifications";
 import basketStore from "../../../../../shared/stores/basket/basketStore";
 import authStore from "../../../../../shared/stores/auth/authStore";
-import { OrderApi } from "../../../../../entities/order/api/orderApi";
+import { OrderApi } from "../../../../../shared/http/order/orderApi";
 import styles from './BasketSidebar.module.css';
 import { OrderItem } from "../../../../../entities/order/models/orderItem";
 import { Button } from "../../../../../shared/ui";
@@ -14,14 +14,13 @@ export const BasketSidebar = observer(() => {
     const sidebarRef = useRef<HTMLDivElement>(null);
     const [isClosing, setIsClosing] = useState(false);
     const navigate = useNavigate();
-    const {addNotification} = useNotifications();
-
+    const { addNotification } = useNotifications();
 
     const handleClose = () => {
         setIsClosing(true);
         setTimeout(() => {
-        basketStore.setVisibleBasket(false);
-        setIsClosing(false);
+            basketStore.setVisibleBasket(false);
+            setIsClosing(false);
         }, 300);
     };
 

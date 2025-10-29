@@ -1,5 +1,5 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Filters.Notifications;
+﻿using Nexta.Domain.Specification.Abstractions;
+using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Models.User;
@@ -16,22 +16,20 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<PagedData<Notification>> GetAsync(GetNotificationsFilter filter, CancellationToken ct = default)
+        public async Task<PagedData<Notification>> GetAsync(ISpecification<Notification> spec, CancellationToken ct = default)
         {
-            var searchTerm = filter.SearchTerm.ToLower() ?? "";
-
             var query = _context.Notifications
-                .WithSearchTerm(searchTerm)
-                .Where(n => n.UserId == filter.UserId)
+                .WithSearchTerm(spec.SearchTerm)
+                .Where(spec.Creteria)
                 .AsNoTracking();
 
             var notificationEntities = await _context.Notifications
-                .Skip((filter.PageNumber - 1) * filter.PageSize)
-                .Take(filter.PageSize)
+                .Skip((spec.PageNumber - 1) * spec.PageSize)
+                .Take(spec.PageSize)
                 .ToListAsync(ct);
 
             var countNotifications = await query.CountAsync(ct);
-            var pageCount = (int)Math.Ceiling((double)countNotifications / filter.PageSize);
+            var pageCount = (int)Math.Ceiling((double)countNotifications / spec.PageSize);
 
             var pagedNotifications = new PagedData<Notification>(notificationEntities, notificationEntities.Count, pageCount);
 

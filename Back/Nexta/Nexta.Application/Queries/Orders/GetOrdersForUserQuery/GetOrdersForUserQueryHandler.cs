@@ -22,12 +22,12 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 		public async Task<PagedData<OrderDto>> Handle(GetOrdersForUserQuery query, CancellationToken ct = default)
 		{
 			var spec = new OrderByStatusSpecification(
-				query.Filter.UserId,
+				query.UserId,
                 [OrderStatus.Accepted, OrderStatus.InProgress, OrderStatus.Ready],
-				query.Filter.PageNumber,
-				query.Filter.PageSize);
+				query.PageNumber,
+				query.PageSize);
 
-			var orders = await _unitOfWork.Orders.GetPagedAsync(spec, ct);
+			var orders = await _unitOfWork.Orders.GetAsync(spec, ct);
 
 			var response = _mapper.Map<PagedData<OrderDto>>(orders);
 

@@ -1,5 +1,7 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Filters.Users;
+﻿using Nexta.Domain.Specification.Abstractions;
+using Nexta.Domain.Abstractions.Repositories;
+using Nexta.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Models.User;
 using Nexta.Domain.Base;
 
@@ -7,34 +9,60 @@ namespace Nexta.Infrastructure.Persistence.Repositories
 {
     public class UsersRepository : IUsersRepository
     {
-        public Task<User> AddAsync(User user, CancellationToken ct = default)
+        private readonly MainContext _context;
+
+        public UsersRepository(MainContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Guid> DeleteAsync(Guid id, CancellationToken ct = default)
+        public async Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id, ct);
+            return user;
         }
 
-        public Task<PagedData<User>> GetAllAsync(GetAdminUsersFilter filter, CancellationToken ct = default)
+        public async Task<User?> GetByEmailAsync(string email, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
+            return user;
         }
 
-        public Task<User?> GetAsync(Guid id, CancellationToken ct = default)
+        public async Task<PagedData<User>> GetAsync(ISpecification<User> spec, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var query = _context.Users
+                .Where(spec.Creteria)
+                .WithSearchTerm(spec.SearchTerm);
+
+            var users = await query
+                .Skip((spec.PageNumber - 1) * spec.PageSize)
+                .Take(spec.PageSize)
+                .ToListAsync(ct);
+
+            var usersCount = await query.CountAsync(ct);
+            var pageCount = (int)Math.Ceiling((double)usersCount / spec.PageSize);
+
+            var pagedUsers = new PagedData<User>(users, users.Count, pageCount);
+
+            return pagedUsers;
         }
 
-        public Task<User?> GetByEmailAsync(string email, CancellationToken ct = default)
+        public async Task<User> AddAsync(User user, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var createdUser = await _context.Users.AddAsync(user, ct);
+            return createdUser.Entity;
         }
 
-        public Task<User> UpdateAsync(User user, CancellationToken ct = default)
+        public User Delete(User user)
         {
-            throw new NotImplementedException();
+            var deletedUser = _context.Users.Remove(user);
+            return deletedUser.Entity;
+        }
+
+        public User Update(User user)
+        {
+            var updatedUser = _context.Users.Update(user);
+            return updatedUser.Entity;
         }
     }
 }

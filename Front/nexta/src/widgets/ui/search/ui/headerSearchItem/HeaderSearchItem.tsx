@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from './HeaderSearchItem.module.css';
-import { Product } from "../../../../../models/Product";
+import { Product } from "../../../../../entities/product/models/product";
 
 export const HeaderSearchItem: React.FC<{ product: Product }> = ({ product }) => {
     const navigate = useNavigate();

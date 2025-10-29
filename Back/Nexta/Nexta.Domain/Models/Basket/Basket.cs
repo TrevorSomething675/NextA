@@ -8,10 +8,12 @@ namespace Nexta.Domain.Models.Basket
 
         public Guid UserId { get; private set; }
 
-        public void AddProduct(Guid productId, int count)
+        public BasketItem AddProduct(Guid productId, int count)
         {
             var basketProduct = new BasketItem(Id, productId, count);
             _products.Add(basketProduct);
+
+            return basketProduct;
         }
 
         public void UpdateProduct(Guid productId, int count)

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authStore from "../shared/stores/auth/authStore";
-import { AuthApi } from "../entities/auth/api/authApi";
+import { AuthApi } from "../shared/http/auth/authApi";
 
 export const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
     const [isAuthorized, setIsAuthorized] = useState(false);

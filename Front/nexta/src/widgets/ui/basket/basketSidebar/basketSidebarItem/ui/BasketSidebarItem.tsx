@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import styles from './BasketSidebarItem.module.css';
 import { useNotifications } from "../../../../../../sharedLegacy/components/Notifications/Notifications";
 import CheckSvg from "../../../../svg/CheckSvg/CheckSvg";
 import TrashSvg from "../../../../svg/TrashSvg/TrashSvg";
@@ -7,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { BasketItem } from "../../../../../../entities/basket/models/basketItem";
 import authStore from "../../../../../../shared/stores/auth/authStore";
 import basketStore from "../../../../../../shared/stores/basket/basketStore";
-import { BasketApi } from "../../../../../../entities/basket/api/basketApi";
+import { BasketApi } from "../../../../../../shared/http/basket/basketApi";
+import styles from './BasketSidebarItem.module.css';
 
 export const BasketSidebarItem:React.FC<{basketItem: BasketItem}> = ({basketItem}) => {
     const [count, setCount] = useState(basketItem.count);
     const [legacyCount, setLegacyCount] = useState(basketItem.count);
     const navigate = useNavigate();
-    const {addNotification} = useNotifications();
+    const { addNotification } = useNotifications();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = parseInt(e.target.value, 10);

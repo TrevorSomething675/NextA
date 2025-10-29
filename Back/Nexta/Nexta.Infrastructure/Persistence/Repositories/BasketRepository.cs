@@ -14,7 +14,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<Basket?> GetAsync(Guid id, CancellationToken ct = default)
+        public async Task<Basket?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             var result = await _context.Basket.FirstOrDefaultAsync(b => b.Id == id, ct);
             return result;

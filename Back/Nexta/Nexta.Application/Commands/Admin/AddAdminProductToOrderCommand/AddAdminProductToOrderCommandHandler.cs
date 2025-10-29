@@ -27,11 +27,11 @@ namespace Nexta.Application.Commands.Admin.AddAdminProductToOrderCommand
             if (!validationResult.IsValid)
                 throw new ValidationException(string.Join(',' ,validationResult.Errors));
 
-            var order = await _unitOfWork.Orders.GetAsync(command.UserId, ct);
+            var order = await _unitOfWork.Orders.GetByIdAsync(command.UserId, ct);
             order.AddProduct(command.ProductId, command.Count);
             await _unitOfWork.SaveChangesAsync(ct);
 
-            var product = await _unitOfWork.Products.GetAsync(command.ProductId, ct);
+            var product = await _unitOfWork.Products.GetByIdAsync(command.ProductId, ct);
 
             return _mapper.Map<ProductDto>(product);
         }

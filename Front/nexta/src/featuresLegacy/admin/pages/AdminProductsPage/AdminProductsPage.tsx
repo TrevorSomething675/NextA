@@ -5,9 +5,9 @@ import Pagging from "../../../../sharedLegacy/components/Pagging/Pagging";
 import { useEffect, useState } from "react";
 import { GetProductsResponse } from "../../../../http/models/product/GetProducts";
 import { useSearchProductsStore } from "../../../../shared/stores/searchProduct/searchProductsStore";
-import { SearchProducts } from "../../../search/components/Search/SearchProducts";
+import { SearchProducts } from "../../../../widgets/ui/search/ui/headerSearch/searchProduct/SearchProducts";
 import authStore from "../../../../shared/stores/auth/authStore";
-import { ProductApi } from "../../../../entities/product/api/productApi";
+import { ProductApi } from "../../../../shared/http/product/productApi";
 
 export const AdminProductsPage = () => {
     const [page, setPage] = useState<number>(1);

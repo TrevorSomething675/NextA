@@ -13,13 +13,13 @@ namespace Nexta.Infrastructure.Persistence.Repositories
 			_context = context;
 		}
 
-		public async Task<News> GetAsync(Guid id, CancellationToken ct = default)
+		public async Task<News> GetByIdAsync(Guid id, CancellationToken ct = default)
 		{
 			var news = await _context.News.FirstOrDefaultAsync(n => n.Id == id, ct);
 			return news;
 		}
 
-		public async Task<List<News>> GetAllAsync(CancellationToken ct = default)
+		public async Task<List<News>> GetAsync(CancellationToken ct = default)
 		{
 			var news = await _context.News.ToListAsync(ct);
 			return news;

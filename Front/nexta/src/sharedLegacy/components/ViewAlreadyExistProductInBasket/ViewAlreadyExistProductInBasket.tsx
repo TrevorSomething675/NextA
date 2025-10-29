@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
-import authStore from '../../../stores/AuthStore/authStore';
 import styles from './ViewAlreadyExistProductInBasket.module.css';
-import Button from '../Button/Button';
-import BasketService from '../../../services/BasketService';
 import { useNotifications } from '../Notifications/Notifications';
-import basket from '../../../stores/basket';
-import Image from '../Image/Image';
-import { Product, ProductStatus } from '../../../models/Product';
-import { UpdateBasketProductRequest } from '../../../http/models/basketProduct/UpdateBasketProduct';
+import authStore from '../../../shared/stores/auth/authStore';
+import { BasketApi } from '../../../shared/http/basket/basketApi';
+import basketStore from '../../../shared/stores/basket/basketStore';
+import { Button, Image } from '../../../shared/ui';
+import { Product, ProductStatus } from '../../../entities/product/models/product';
 
 interface ViewAlreadyExistProductInBasketProps {
     isOpen: boolean;
@@ -17,7 +15,7 @@ interface ViewAlreadyExistProductInBasketProps {
     onCountChange: (count: number) => void;
 }
 
-export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductInBasketProps> = ({ 
+export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductInBasketProps> = ({
     isOpen,
     onClose,
     product,
@@ -59,16 +57,10 @@ export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductIn
 
     const handleUpdateProduct = async() => {
         const userId = authStore.user.id ?? '';
-
-        const request:UpdateBasketProductRequest = {
-            userId: userId,
-            productId: product.id,
-            count: productCount
-        }
-        const response = await BasketService.UpdateBasketProduct(request);
+        const response = await BasketApi.Update(userId, product.id, productCount);
 
         if (response.success && response.status === 200) {
-            basket.changeProductCount(response.data.productId, response.data.count);
+            basketStore.changeProductCount(response.data.productId, response.data.count);
             addNotification({
                 header: 'Корзина обновлена'
             });
@@ -86,7 +78,7 @@ export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductIn
                 </div>
                 <div className={styles.productContainer}>
                     <div className={styles.imageContainer}>
-                        <Image isBase64Image={true} base64String={product?.image?.base64String} className={styles.image} />
+                        {product.images && <Image isBase64Image={true} base64String={product?.images[0]?.base64String} className={styles.image} />}
                     </div>
                     <div className={styles.productData}>
                         <ul className={styles.ul}>
@@ -119,7 +111,9 @@ export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductIn
                                 }
                             </div>
                             <div>
-                                <Button className={styles.updateButton} onClick={handleUpdateProduct} content='Обновить товар' />
+                                <Button className={styles.updateButton} onClick={handleUpdateProduct}>
+                                    Обновить товар
+                                </Button>
                             </div>
                         </div>
                     </div>
