@@ -1,6 +1,6 @@
 ﻿using Nexta.Application.Queries.Products.GetProductByIdQuery;
 using Nexta.Application.Queries.Products.GetProductsQuery;
-using Nexta.Application.DTO.Product;
+using Nexta.Application.DTO.Products;
 using Nexta.Web.Models.Products;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Domain.Base;

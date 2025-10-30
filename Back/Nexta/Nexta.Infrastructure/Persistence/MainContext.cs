@@ -1,12 +1,12 @@
 ﻿using Nexta.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Nexta.Domain.Models.Product;
-using Nexta.Domain.Models.Basket;
-using Nexta.Domain.Models.News;
-using Nexta.Domain.Models.Order;
-using Nexta.Domain.Models.User;
+using Nexta.Domain.Models.Products;
+using Nexta.Domain.Models.Baskets;
+using Nexta.Domain.Models.Orders;
+using Nexta.Domain.Models.Users;
 using Nexta.Domain.Options;
+using Nexta.Domain.Models;
 
 namespace Nexta.Infrastructure.Persistence
 {

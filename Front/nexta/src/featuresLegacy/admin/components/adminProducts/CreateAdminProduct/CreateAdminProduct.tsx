@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
-import { useNotifications } from "../../../../../sharedLegacy/components/Notifications/Notifications";
+import { useNotifications } from "../../../../../shared/contexts/notifications/NotificationsContext";
 import AdminService from "../../../../../services/AdminService";
 import styles from './CreateAdminProduct.module.css';
 import { CreateAdminProductRequest } from "../../../../../http/models/adminProduct/CreateAdminProduct";

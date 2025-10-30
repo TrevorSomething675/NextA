@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './ProductsContainer.module.css';
 import { ProductCard } from '../../../../widgets/ui/product-card/ui/ProductCard';
-import Pagging from '../../../../sharedLegacy/components/Pagging/Pagging';
+import Pagging from '../../../../shared/ui/pagging/Pagging';
 import ProductsService from '../../../../services/ProductService';
 import { GetProductsResponse } from '../../../../http/models/product/GetProducts';
 import authStore from '../../../../stores/AuthStore/authStore';

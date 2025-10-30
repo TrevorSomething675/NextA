@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AuthData } from "../../../../../entities/auth/models/authData";
 import { AuthStep } from "../../../../../widgets/ui/auth-panel/models/AuthStep";
 import { useEffect, useState } from "react";
-import { ErrorResponseModel } from "../../../../../sharedLegacy/models/ErrorResponseModel";
+import { ErrorResponseModel } from "../../../../../shared/models/ErrorResponseModel";
 import { AccessRecoverySecondStepRequest } from "../models/accessRecoverySecondStepRequest";
 import { VerificationApi } from "../../../../../entities/auth/verification/api/verificationApi";
 import styles from './AccessRecoverySecondStep.module.css';

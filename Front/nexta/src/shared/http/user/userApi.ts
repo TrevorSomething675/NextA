@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { ErrorResponseModel } from '../../../sharedLegacy/models/ErrorResponseModel';
+import { ErrorResponseModel } from '../../models/ErrorResponseModel';
 import api from '../api';
 import { ApiResponse } from '../models/BaseResponse';
-import { PagedData } from '../../../sharedLegacy/models/PagedDataT';
+import { PagedData } from '../../models/PagedDataT';
 import { User } from '../../../entities/user/models/user';
 
 export class UserApi{

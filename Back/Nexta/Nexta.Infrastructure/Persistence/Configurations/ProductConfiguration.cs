@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.Products;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {

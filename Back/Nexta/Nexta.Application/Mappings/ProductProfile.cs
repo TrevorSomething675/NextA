@@ -1,5 +1,5 @@
-﻿using Nexta.Application.DTO.Product;
-using Nexta.Domain.Models.Product;
+﻿using Nexta.Application.DTO.Products;
+using Nexta.Domain.Models.Products;
 using Nexta.Domain.Base;
 using AutoMapper;
 

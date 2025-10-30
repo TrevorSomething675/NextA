@@ -4,6 +4,6 @@
     {
         public Guid UserId { get; set; }
         public Guid ProductId { get; set; }
-        public int CountToPay { get; set; }
+        public int Count { get; set; }
     }
 }

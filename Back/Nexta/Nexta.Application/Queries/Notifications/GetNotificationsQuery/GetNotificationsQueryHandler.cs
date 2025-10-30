@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Domain.Specification;
-using Nexta.Application.DTO.User;
+using Nexta.Application.DTO.Users;
 using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;

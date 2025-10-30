@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import styles from './AdminUsersPage.module.css';
 import AdminService from "../../../../services/AdminService";
 import { AdminUser } from "../../../../models/AdminUser";
-import Pagging from "../../../../sharedLegacy/components/Pagging/Pagging";
+import Pagging from "../../../../shared/ui/pagging/Pagging";
 import { AdminUserItem } from "../../components/AdminUserItem/AdminUserItem";
 
 export const AdminUsersPage = () => {

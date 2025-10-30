@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import styles from './UserInfo.module.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNotifications } from '../../../../sharedLegacy/components/Notifications/Notifications';
+import { useNotifications } from '../../../../shared/contexts/notifications/NotificationsContext';
 import { useEffect, useState } from 'react';
 import { UpdateAccountRequest } from '../models/updateAccountRequest';
 import authStore from '../../../../shared/stores/auth/authStore';

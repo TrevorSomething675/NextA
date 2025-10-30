@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './AdminAddCategory.module.css';
 import { AddCategoryRequest } from '../../../../http/models/categories/AddCategory';
 import CategoryService from '../../../../services/CategoryService';
-import { useNotifications } from '../../../../sharedLegacy/components/Notifications/Notifications';
+import { useNotifications } from '../../../../shared/contexts/notifications/NotificationsContext';
 
 export const AdminAddCategory = () => {
     const { register, handleSubmit, formState: {errors} } = useForm<AddCategoryRequest>();

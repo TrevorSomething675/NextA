@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Specification.Abstractions;
-using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.Products;
 using Nexta.Domain.Base;
 
 namespace Nexta.Domain.Abstractions.Repositories

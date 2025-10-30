@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Product;
+﻿using Nexta.Application.DTO.Products;
 using Nexta.Domain.Abstractions;
 using FluentValidation;
 using AutoMapper;

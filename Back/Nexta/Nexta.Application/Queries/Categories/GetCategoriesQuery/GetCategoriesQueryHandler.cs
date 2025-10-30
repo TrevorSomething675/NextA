@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Application.DTO.Category;
+using Nexta.Application.DTO.Categories;
 using AutoMapper;
 using MediatR;
 

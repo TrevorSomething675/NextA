@@ -1,4 +1,4 @@
-import { ErrorResponseModel } from "../../../sharedLegacy/models/ErrorResponseModel";
+import { ErrorResponseModel } from "../../models/ErrorResponseModel";
 import { ApiResponse } from "../models/BaseResponse";
 import { User } from "../../../entities/user/models/user";
 import api from "../api";

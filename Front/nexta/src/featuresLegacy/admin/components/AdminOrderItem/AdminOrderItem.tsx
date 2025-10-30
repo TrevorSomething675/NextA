@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from './AdminOrderItem.module.css';
 import { useState } from "react";
-import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
+import { useNotifications } from "../../../../shared/contexts/notifications/NotificationsContext";
 import RightArrowSvg from "../../../../widgets/ui/svg/RightArrowSvg/RightArrowSvg";
 import { UpdateAdminOrderRequest } from "../../../../http/models/adminOrders/UpdateAdminOrder";
 import AdminOrderService from "../../../../services/AdminOrderService";

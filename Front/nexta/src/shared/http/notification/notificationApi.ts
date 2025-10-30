@@ -1,7 +1,7 @@
 import api from "../api";
 import { ApiResponse } from "../models/BaseResponse";
-import { ErrorResponseModel } from "../../../sharedLegacy/models/ErrorResponseModel";
-import { PagedData } from "../../../sharedLegacy/models/PagedDataT";
+import { ErrorResponseModel } from "../../models/ErrorResponseModel";
+import { PagedData } from "../../models/PagedDataT";
 import axios from 'axios';
 import { Notification } from "../../../entities/user/models/notification";
 

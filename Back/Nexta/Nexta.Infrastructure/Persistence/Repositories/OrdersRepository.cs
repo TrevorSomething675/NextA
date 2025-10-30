@@ -1,7 +1,7 @@
 ﻿using Nexta.Domain.Specification.Abstractions;
 using Nexta.Domain.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Models.Order;
+using Nexta.Domain.Models.Orders;
 using Nexta.Domain.Base;
 
 namespace Nexta.Infrastructure.Persistence.Repositories

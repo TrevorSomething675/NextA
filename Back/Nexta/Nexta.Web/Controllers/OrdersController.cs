@@ -3,7 +3,7 @@ using Nexta.Application.Commands.Orders.CreateNewOrderCommand;
 using Nexta.Application.Queries.Orders.GetOrdersForUserQuery;
 using Nexta.Application.Commands.Orders.DeleteOrderCommand;
 using Microsoft.AspNetCore.Authorization;
-using Nexta.Application.DTO.Order;
+using Nexta.Application.DTO.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Models.Orders;
 using Nexta.Domain.Base;

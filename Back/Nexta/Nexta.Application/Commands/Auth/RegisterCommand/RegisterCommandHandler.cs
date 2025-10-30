@@ -1,7 +1,7 @@
 ﻿using Nexta.Domain.Abstractions.Services;
-using Nexta.Application.DTO.User;
+using Nexta.Application.DTO.Users;
 using Nexta.Domain.Abstractions;
-using Nexta.Domain.Models.User;
+using Nexta.Domain.Models.Users;
 using Nexta.Domain.Exceptions;
 using Nexta.Domain.Constants;
 using FluentValidation;
@@ -49,7 +49,7 @@ namespace Nexta.Application.Commands.Auth.RegisterCommand
 
 			var passwordHash = _passwordHashService.Generate(command.Password);
 
-			var user = new User(command.FirstName, command.MiddleName, command.Email ,command.LastName, passwordHash);
+			var user = new User(command.FirstName, command.MiddleName, command.LastName, command.Email, passwordHash);
 			user.AddNotification("Успешная регистрация!", NotificationKeys.CompleteRegistration);
 			var createdUser = _mapper.Map<UserDto>(await _unitOfWork.Users.AddAsync(user, ct));
 

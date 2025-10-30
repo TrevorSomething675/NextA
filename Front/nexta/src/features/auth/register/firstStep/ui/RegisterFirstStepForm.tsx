@@ -17,7 +17,7 @@ export const RegisterFirstStepForm:React.FC<RegisterFirstStepProps> = ({changeAu
     const [hasError, setError] = useState('');
 
     const handleToLogin = () => {
-        changeAuth('login');
+        changeAuth('loginFirstStep');
     }
     
     const submit:SubmitHandler<RegisterFirstStepRequest> = async(data: RegisterFirstStepRequest) => {
@@ -25,9 +25,17 @@ export const RegisterFirstStepForm:React.FC<RegisterFirstStepProps> = ({changeAu
             setLoading(true);
             const response = await AuthApi.IsRegister(data.email);
             if(response.success && response.status === 200){
-                if(response.data.exist){
+                if(response.data.exist === false){
                     await VerificationApi.SendVerificationCode(data.email);
-                    changeAuth('registerSecondStep', );
+                    const authData = {
+                        email: data.email,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        middleName: data.middleName,
+                        password: data.password,
+                        confirmPassword: data.confirmPassword
+                    } as AuthData
+                    changeAuth('registerSecondStep', authData);
                 } else {
                     setError('Такой пользователь уже существует');
                 }

@@ -22,7 +22,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Nexta.Domain.Models.Basket.Basket", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Baskets.Basket", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("Basket");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Basket.BasketItem", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Baskets.BasketItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("BasketItem");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.News.News", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.News", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,13 +84,13 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("News", (string)null);
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Order.Order", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Orders.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Status")
@@ -107,7 +107,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Order.OrderItem", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Orders.OrderItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,7 +133,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("OrderProducts");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Product.Category", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Products.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -148,7 +148,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Product.Product", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Products.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -202,7 +202,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Product.ProductAttribute", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Products.ProductAttribute", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -226,7 +226,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("ProductAttributes");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Product.ProductImage", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Products.ProductImage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -250,13 +250,13 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.User.Notification", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Users.Notification", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Header")
@@ -280,7 +280,7 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.User.User", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -318,99 +318,99 @@ namespace Nexta.Infrastructure.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Basket.Basket", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Baskets.Basket", b =>
                 {
-                    b.HasOne("Nexta.Domain.Models.User.User", null)
+                    b.HasOne("Nexta.Domain.Models.Users.User", null)
                         .WithOne()
-                        .HasForeignKey("Nexta.Domain.Models.Basket.Basket", "UserId")
+                        .HasForeignKey("Nexta.Domain.Models.Baskets.Basket", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Basket.BasketItem", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Baskets.BasketItem", b =>
                 {
-                    b.HasOne("Nexta.Domain.Models.Basket.Basket", null)
+                    b.HasOne("Nexta.Domain.Models.Baskets.Basket", null)
                         .WithMany("Products")
                         .HasForeignKey("BasketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Nexta.Domain.Models.Product.Product", null)
+                    b.HasOne("Nexta.Domain.Models.Products.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Order.Order", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Orders.Order", b =>
                 {
-                    b.HasOne("Nexta.Domain.Models.User.User", null)
+                    b.HasOne("Nexta.Domain.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Order.OrderItem", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Orders.OrderItem", b =>
                 {
-                    b.HasOne("Nexta.Domain.Models.Order.Order", null)
+                    b.HasOne("Nexta.Domain.Models.Orders.Order", null)
                         .WithMany("Products")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Nexta.Domain.Models.Product.Product", null)
+                    b.HasOne("Nexta.Domain.Models.Products.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Product.ProductAttribute", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Products.ProductAttribute", b =>
                 {
-                    b.HasOne("Nexta.Domain.Models.Product.Product", null)
+                    b.HasOne("Nexta.Domain.Models.Products.Product", null)
                         .WithMany("Attributes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Product.ProductImage", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Products.ProductImage", b =>
                 {
-                    b.HasOne("Nexta.Domain.Models.Product.Product", null)
+                    b.HasOne("Nexta.Domain.Models.Products.Product", null)
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.User.Notification", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Users.Notification", b =>
                 {
-                    b.HasOne("Nexta.Domain.Models.User.User", null)
+                    b.HasOne("Nexta.Domain.Models.Users.User", null)
                         .WithMany("Notifications")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Basket.Basket", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Baskets.Basket", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Order.Order", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Orders.Order", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.Product.Product", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Products.Product", b =>
                 {
                     b.Navigation("Attributes");
 
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("Nexta.Domain.Models.User.User", b =>
+            modelBuilder.Entity("Nexta.Domain.Models.Users.User", b =>
                 {
                     b.Navigation("Notifications");
                 });

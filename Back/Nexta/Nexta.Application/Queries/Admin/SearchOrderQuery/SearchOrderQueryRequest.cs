@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Order;
+﻿using Nexta.Application.DTO.Orders;
 using MediatR;
 
 namespace Nexta.Application.Queries.Admin.SearchOrderQuery

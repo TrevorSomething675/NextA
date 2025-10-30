@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Abstractions;
-using Nexta.Domain.Models.User;
+using Nexta.Domain.Models.Users;
 using AutoMapper;
 using MediatR;
 

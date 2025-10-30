@@ -2,7 +2,7 @@ import NewsService from "../../../../services/NewsService";
 import { GetNewsResponse } from "../../../../http/models/adminNews/GetNews";
 import Image from "../../../../sharedLegacy/components/Image/Image";
 import styles from './AdminNews.module.css';
-import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
+import { useNotifications } from "../../../../shared/contexts/notifications/NotificationsContext";
 
 interface AdminNewsProps {
     newsResponse: GetNewsResponse;

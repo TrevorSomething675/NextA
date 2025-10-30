@@ -1,0 +1,29 @@
+﻿using Nexta.Domain.Specification;
+using Nexta.Domain.Abstractions;
+using MediatR;
+
+namespace Nexta.Application.Commands.Baskets.DeleteBasketProductCommand
+{
+	public class DeleteBasketProductCommandHandler : IRequestHandler<DeleteBasketProductCommand, Guid>
+	{
+		private readonly IUnitOfWork _unitOfWork;
+
+		public DeleteBasketProductCommandHandler(IUnitOfWork unitOfWork)
+		{
+			_unitOfWork = unitOfWork;
+		}
+
+		public async Task<Guid> Handle(DeleteBasketProductCommand command, CancellationToken ct)
+		{
+			var spec = new BasketByUserIdSpecification(command.UserId);
+
+			var basket = await _unitOfWork.Baskets.GetByUserIdAsync(spec, ct);
+            basket.RemoveProduct(command.ProductId);
+			var response = _unitOfWork.Baskets.Update(basket);
+
+			await _unitOfWork.SaveChangesAsync(ct);
+
+			return response.Id;
+		}
+	}
+}

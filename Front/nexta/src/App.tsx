@@ -1,7 +1,7 @@
 import "./globals.css"
 import "./colors.css"
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { NotificationsProvider } from "./sharedLegacy/components/Notifications/Notifications"
+import { NotificationsProvider } from "./shared/contexts/notifications/NotificationsContext"
 import AdminOrdersPage from "./featuresLegacy/admin/pages/AdminOrdersPage/AdminOrdersPage"
 import AdminNewsPage from "./featuresLegacy/admin/pages/AdminNewsPage/AdminNewsPage"
 import { ProtectedAdminRoute } from "./http/ProtectedAdminRoute"
@@ -23,8 +23,27 @@ import { BasketSidebar } from "./widgets/ui/basket/basketSidebar/ui/BasketSideba
 import { BasketPage } from "./pages/basket"
 import { SearchPage } from "./pages/search"
 import { Footer } from "./widgets/ui/footer/Footer"
+import { useEffect } from "react"
+import authStore from "./shared/stores/auth/authStore"
+import { BasketApi } from "./shared/http/basket/basketApi"
+import { toJS } from "mobx"
 
 const App = observer(() => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async() => {
+    if(authStore.isAuthenticated){
+      const basketResponse = await BasketApi.GetByUserId(authStore.user.id!);
+      if(basketResponse.success && basketResponse.status === 200){
+        console.warn(basketResponse);
+        basketStore.setBasketItems(basketResponse.data.products);
+        console.error(toJS(basketStore.items))
+      }
+    }
+  }
+
   return <div className='page-container'>
       <NotificationsProvider>
         <BrowserRouter>

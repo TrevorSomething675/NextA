@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Category;
+﻿using Nexta.Application.DTO.Categories;
 using MediatR;
 
 namespace Nexta.Application.Queries.Categories.GetCategoriesQuery

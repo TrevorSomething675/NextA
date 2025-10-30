@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Models.News;
+using Nexta.Domain.Models;
 
 namespace Nexta.Infrastructure.Persistence.Repositories
 {

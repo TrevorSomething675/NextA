@@ -39,18 +39,21 @@ class AuthStore {
         }
     }
 
-    setUserData = (user:AuthUser) => {
-        this.user = user;
+    authenticate = (id:string, email:string, firstName:string, lastName:string, middleName?:string,
+        role?:string, phone?:string
+    ) => {
+        const user = {
+            id,
+            email,
+            firstName,
+            middleName,
+            lastName,
+            role: role ?? 'User',
+            phone
+        } as AuthUser
         this.isAuthenticated = true;
-        this.user.role = user.role
         this.setRole(user.role ?? 'User');
         this.isAdmin = user.role === 'Admin';
-        localStorage.setItem('firstName', user.firstName ?? '');
-        localStorage.setItem('lastName', user.lastName ?? '');
-        localStorage.setItem('middleName', user.middleName ?? '');
-        localStorage.setItem('phone', user.phone ?? '');
-        localStorage.setItem('role', user.role ?? '');
-        localStorage.setItem('email', user.email ?? '');
     }
 
     secondStepAuthenticate = async (user: AuthUser) => {
@@ -86,9 +89,9 @@ class AuthStore {
             phone: localStorage.getItem('phone'),
             accessToken: localStorage.getItem('accessToken'),
             role: localStorage.getItem('role')
-        } as AuthUser
+        } as AuthUser;
 
-        this.isAuthenticated = localStorage.getItem('isAuth')?.toLowerCase() === "true" ? true : false
+        this.isAuthenticated = localStorage.getItem('isAuth')?.toLowerCase() === "true" ? true : false;
         this.isAdmin = localStorage.getItem('role') === 'Admin';
         this.user = user;
     }

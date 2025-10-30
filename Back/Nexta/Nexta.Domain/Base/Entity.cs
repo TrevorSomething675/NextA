@@ -4,10 +4,7 @@
     {
         public Guid Id { get; protected set; }
 
-        protected Entity()
-        {
-            Id = Guid.NewGuid();
-        }
+        protected Entity() { }
 
         protected Entity(Guid id)
         {
@@ -33,22 +30,5 @@
         {
             return Id.GetHashCode();
         }
-
-        /*
-        public static bool operator ==(Entity? a, Entity? b)
-        {
-            if (a is null && b is null)
-                return false;
-            if (a is null || b is null)
-                return false;
-
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(Entity? a, Entity? b)
-        {
-            return !(a == b);
-        }
-        */
     }
 }

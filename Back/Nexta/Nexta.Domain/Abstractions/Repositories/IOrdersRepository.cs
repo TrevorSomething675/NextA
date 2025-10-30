@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Specification.Abstractions;
-using Nexta.Domain.Models.Order;
+using Nexta.Domain.Models.Orders;
 using Nexta.Domain.Base;
 
 namespace Nexta.Domain.Abstractions.Repositories

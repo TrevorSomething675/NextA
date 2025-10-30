@@ -3,7 +3,7 @@ using Nexta.Application.Commands.Auth.CheckAuthCommand;
 using Nexta.Application.Commands.Auth.RegisterCommand;
 using Nexta.Application.Commands.Auth.LoginCommand;
 using Microsoft.AspNetCore.Authorization;
-using Nexta.Application.DTO.User;
+using Nexta.Application.DTO.Users;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Models.Auth;
 using AutoMapper;

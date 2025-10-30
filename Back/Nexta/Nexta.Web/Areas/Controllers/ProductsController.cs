@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Areas.Models;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Product;
+using Nexta.Application.DTO.Products;
 using Nexta.Domain.Base;
 
 namespace Nexta.Web.Areas.Controllers

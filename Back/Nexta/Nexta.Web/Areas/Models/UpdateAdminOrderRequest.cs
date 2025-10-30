@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Order;
+﻿using Nexta.Application.DTO.Orders;
 using Nexta.Domain.Enums;
 
 namespace Nexta.Web.Areas.Models

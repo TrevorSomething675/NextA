@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styles from './ProductPage.module.css';
-import { useNotifications } from "../../../sharedLegacy/components/Notifications/Notifications";
-import { ViewAlreadyExistProductInBasket } from "../../../sharedLegacy/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket";
+import { useNotifications } from "../../../shared/contexts/notifications/NotificationsContext";
+import { ViewAlreadyExistProductInBasket } from "../../../features/basket/viewAlreadyExistProductInBasket/ui/ViewAlreadyExistProductInBasket";
 import { ProductAttributes } from "../../../featuresLegacy/product/components/ProductAttributes/ProductAttributes";
 import { ProductApi } from "../../../shared/http/product/productApi";
 import { Product, ProductStatus } from "../../../entities/product/models/product";

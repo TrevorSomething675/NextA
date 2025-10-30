@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './ProductCard.module.css';
-import { useNotifications } from '../../../../sharedLegacy/components/Notifications/Notifications';
-import { ViewAlreadyExistProductInBasket } from '../../../../sharedLegacy/components/ViewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket';
+import { useNotifications } from '../../../../shared/contexts/notifications/NotificationsContext';
+import { ViewAlreadyExistProductInBasket } from '../../../../features/basket/viewAlreadyExistProductInBasket/ui/ViewAlreadyExistProductInBasket';
 import { Product } from '../../../../entities/product/models/product';
 import authStore from '../../../../shared/stores/auth/authStore';
 import { BasketApi } from '../../../../shared/http/basket/basketApi';
@@ -60,6 +60,7 @@ export const ProductCard:React.FC<{product:Product}> = ({product}) => {
         const response = await BasketApi.AddProductToBasket(userId, productId, count);
         if(response.success && response.status === 200)
         {
+            console.warn(response.data);
             addNotification({
                 header: 'Товар добавлен в корзину'
             });

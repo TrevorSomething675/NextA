@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './AdminAddProductToOrderRightBar.module.css';
-import Pagging from '../../../../sharedLegacy/components/Pagging/Pagging';
+import Pagging from '../../../../shared/ui/pagging/Pagging';
 import Button from '../../../../sharedLegacy/components/Button/Button';
 import { AdminGlobalSearch } from '../GlobalSearch/AdminSearch';
 import { AdminProduct } from '../../models/AdminProduct';

@@ -1,7 +1,7 @@
 import api from "../api";
 import { ApiResponse } from "../models/BaseResponse";
-import { ErrorResponseModel } from "../../../sharedLegacy/models/ErrorResponseModel";
-import { PagedData } from "../../../sharedLegacy/models/PagedDataT";
+import { ErrorResponseModel } from "../../models/ErrorResponseModel";
+import { PagedData } from "../../models/PagedDataT";
 import { Order } from "../../../entities/order/models/order";
 import axios from 'axios';
 import { OrderItem } from "../../../entities/order/models/orderItem";

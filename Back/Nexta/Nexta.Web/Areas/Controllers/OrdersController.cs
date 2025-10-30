@@ -3,13 +3,13 @@ using Nexta.Application.Commands.Admin.DeleteProductFromOrderCommand;
 using Nexta.Application.Commands.Admin.UpdateOrderCommand;
 using Nexta.Application.Queries.Admin.GetAllOrdersQuery;
 using Microsoft.AspNetCore.Authorization;
-using Nexta.Application.DTO.Order;
+using Nexta.Application.DTO.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Areas.Models;
 using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Product;
+using Nexta.Application.DTO.Products;
 
 namespace Nexta.Web.Areas.Controllers
 {

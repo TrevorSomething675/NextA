@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Order;
+﻿using Nexta.Application.DTO.Orders;
 
 namespace Nexta.Web.Models.Orders
 {

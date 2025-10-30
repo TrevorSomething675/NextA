@@ -2,7 +2,7 @@
 using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Models.User;
+using Nexta.Domain.Models.Users;
 using Nexta.Domain.Base;
 
 namespace Nexta.Infrastructure.Persistence.Repositories

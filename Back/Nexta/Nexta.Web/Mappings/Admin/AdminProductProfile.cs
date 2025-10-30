@@ -1,5 +1,5 @@
 ﻿using Nexta.Application.Queries.Admin.GetProductsQuery;
-using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.Products;
 using Nexta.Application.DTO.Admin;
 using Nexta.Web.Areas.Models;
 using AutoMapper;

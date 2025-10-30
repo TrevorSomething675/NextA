@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useNotifications } from "../../../../../sharedLegacy/components/Notifications/Notifications";
+import { useNotifications } from "../../../../../shared/contexts/notifications/NotificationsContext";
 import basketStore from "../../../../../shared/stores/basket/basketStore";
 import authStore from "../../../../../shared/stores/auth/authStore";
 import { OrderApi } from "../../../../../shared/http/order/orderApi";
@@ -35,7 +35,7 @@ export const BasketSidebar = observer(() => {
             count: product.count,
             productId: product.productId
         } as OrderItem));
-        
+
         const response = await OrderApi.CreateNewOrder(userId, products);
         
         if(response.success && response.status === 200){
@@ -102,8 +102,8 @@ export const BasketSidebar = observer(() => {
                     </div>
                 </div>}
                 <div className={styles.footer}>
-                    <Button content="Оформить заказ" className={styles.createOrder} onClick={HandleCreateOrder} />
-                    <Button content="Перейти в корзину" className={styles.toBasket} onClick={HandleGoToBasket}/>
+                    <Button className={styles.createOrder} onClick={HandleCreateOrder}>Оформить заказ</Button>
+                    <Button className={styles.toBasket} onClick={HandleGoToBasket}>Перейти в корзину</Button>
                 </div>
             </div>
         </>

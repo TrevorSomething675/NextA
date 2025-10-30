@@ -7,8 +7,9 @@ import styles from './HeaderTop.module.css';
 import { HeaderOrder } from '../headerNav/headerOrder/HeaderOrder';
 import { HeaderAuth } from '../headerNav/headerAuth/HeaderAuth';
 import basketStore from '../../../../shared/stores/basket/basketStore';
+import { observer } from 'mobx-react';
 
-export const HeaderTop = () => {
+export const HeaderTop = observer(() => {
     const HandleOpenBasket = () => {
         basketStore.setVisibleBasket(true);
     }
@@ -31,4 +32,4 @@ export const HeaderTop = () => {
             </div>
         </div>
     </div>
-}
+});

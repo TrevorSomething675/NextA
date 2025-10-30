@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.Products;
 using Nexta.Domain.Exceptions;
 using FluentValidation;
 using AutoMapper;

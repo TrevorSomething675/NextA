@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Models.News;
+using Nexta.Domain.Models;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {

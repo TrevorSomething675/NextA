@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Abstractions.Services;
-using Nexta.Application.DTO.User;
+using Nexta.Application.DTO.Users;
 using Nexta.Domain.Abstractions;
 using Nexta.Domain.Exceptions;
 using FluentValidation;

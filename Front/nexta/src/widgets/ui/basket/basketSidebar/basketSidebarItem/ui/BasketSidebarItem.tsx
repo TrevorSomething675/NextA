@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useNotifications } from "../../../../../../sharedLegacy/components/Notifications/Notifications";
+import { useNotifications } from "../../../../../../shared/contexts/notifications/NotificationsContext";
 import CheckSvg from "../../../../svg/CheckSvg/CheckSvg";
 import TrashSvg from "../../../../svg/TrashSvg/TrashSvg";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,10 @@ import authStore from "../../../../../../shared/stores/auth/authStore";
 import basketStore from "../../../../../../shared/stores/basket/basketStore";
 import { BasketApi } from "../../../../../../shared/http/basket/basketApi";
 import styles from './BasketSidebarItem.module.css';
+import { toJS } from "mobx";
 
 export const BasketSidebarItem:React.FC<{basketItem: BasketItem}> = ({basketItem}) => {
+    console.log(toJS(basketItem));
     const [count, setCount] = useState(basketItem.count);
     const [legacyCount, setLegacyCount] = useState(basketItem.count);
     const navigate = useNavigate();

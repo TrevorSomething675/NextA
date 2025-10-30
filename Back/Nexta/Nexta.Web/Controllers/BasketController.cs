@@ -1,10 +1,10 @@
-﻿using Nexta.Application.Commands.Basket.UpdateBasketProductCommand;
-using Nexta.Application.Commands.Basket.DeleteBasketProductCommand;
-using Nexta.Application.Commands.Basket.AddBasketProductCommand;
+﻿using Nexta.Application.Commands.Baskets.UpdateBasketProductCommand;
+using Nexta.Application.Commands.Baskets.DeleteBasketProductCommand;
+using Nexta.Application.Commands.Baskets.AddBasketProductCommand;
 using Nexta.Application.Queries.Basket.GetBasketProductsQuery;
 using Microsoft.AspNetCore.Authorization;
-using Nexta.Application.DTO.Product;
-using Nexta.Application.DTO.Basket;
+using Nexta.Application.DTO.Products;
+using Nexta.Application.DTO.Baskets;
 using Microsoft.AspNetCore.Mvc;
 using Nexta.Web.Models.Basket;
 using AutoMapper;

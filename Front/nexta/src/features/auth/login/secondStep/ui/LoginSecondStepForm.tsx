@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNotifications } from '../../../../../sharedLegacy/components/Notifications/Notifications';
-import styles from './LoginSecondStepForm.module.css';
+import { useNotifications } from '../../../../../shared/contexts/notifications/NotificationsContext';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AuthStep } from '../../../../../widgets/ui/auth-panel/models/AuthStep';
 import { AuthData } from '../../../../../entities/auth/models/authData';
 import { VerificationApi } from '../../../../../entities/auth/verification/api/verificationApi';
 import { SetAuthData } from '../../../../../shared/lib/authStorage';
-import { ErrorResponseModel } from '../../../../../sharedLegacy/models/ErrorResponseModel';
+import { ErrorResponseModel } from '../../../../../shared/models/ErrorResponseModel';
+import styles from './LoginSecondStepForm.module.css';
+import authStore from '../../../../../shared/stores/auth/authStore';
 
 const CODE_LENGTH = 6;
 
@@ -119,7 +120,7 @@ export const LoginSecondStepForm:React.FC<LoginSecondStepFormProps> = ({changeAu
                 addNotification({
                     header: 'Успешная авторизация!'
                 });
-
+                authStore.authenticate(data.id!, data.email, data.firstName, data.lastName, data.middleName, data.role, data.phone);
                 navigate('/');
             }
         }

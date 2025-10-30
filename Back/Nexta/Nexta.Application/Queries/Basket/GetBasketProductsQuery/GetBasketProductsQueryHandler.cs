@@ -1,5 +1,5 @@
-﻿using Nexta.Application.DTO.Product;
-using Nexta.Application.DTO.Basket;
+﻿using Nexta.Application.DTO.Products;
+using Nexta.Application.DTO.Baskets;
 using Nexta.Domain.Specification;
 using Nexta.Domain.Abstractions;
 using AutoMapper;

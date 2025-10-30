@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DeleteCategoryRequest } from "../../../../http/models/categories/DeleteCategory";
-import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
+import { useNotifications } from "../../../../shared/contexts/notifications/NotificationsContext";
 import CategoryService from "../../../../services/CategoryService";
 import styles from './AdminDeleteCategory.module.css';
 

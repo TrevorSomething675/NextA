@@ -1,7 +1,7 @@
 import { AdminNewsResponse } from "../http/models/adminNews/AdminNews";
 import api from "../shared/http/api";
 import axios from 'axios';
-import { ErrorResponseModel } from "../sharedLegacy/models/ErrorResponseModel";
+import { ErrorResponseModel } from "../shared/models/ErrorResponseModel";
 import { ApiResponse } from "../shared/http/models/BaseResponse";
 import { GetAdminProductsRequest, GetAdminProductsResponse } from "../http/models/adminProduct/GetAdminProducts";
 import { GetAdminProductResponse } from "../http/models/adminProduct/GetAdminProduct";

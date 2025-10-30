@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Nexta.Application.DTO.Order;
+using Nexta.Application.DTO.Orders;
 
 namespace Nexta.Application.Commands.Orders.UpdateOrderProductCommand
 {

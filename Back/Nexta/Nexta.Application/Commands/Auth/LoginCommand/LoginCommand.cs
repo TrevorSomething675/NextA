@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.User;
+﻿using Nexta.Application.DTO.Users;
 using MediatR;
 
 namespace Nexta.Application.Commands.Auth.LoginCommand

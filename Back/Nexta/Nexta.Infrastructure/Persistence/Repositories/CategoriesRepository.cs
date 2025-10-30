@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.Products;
 
 namespace Nexta.Infrastructure.Persistence.Repositories
 {

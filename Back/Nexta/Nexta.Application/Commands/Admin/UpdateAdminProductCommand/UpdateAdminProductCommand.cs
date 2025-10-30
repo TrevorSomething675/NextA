@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Product;
+﻿using Nexta.Application.DTO.Products;
 using MediatR;
 
 namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand

@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
-import Pagging from '../../../../../sharedLegacy/components/Pagging/Pagging';
 import OrderItem from '../OrderItem/OrderItem';
 import styles from './Orders.module.css';
 import authStore from '../../../../../shared/stores/auth/authStore';
 import { OrderApi } from '../../../../../shared/http/order/orderApi';
 import { Order } from '../../../../../entities/order/models/order';
+import { Pagging } from '../../../../../shared/ui';
 
 const Orders = observer(() => {
     const [orders, setOrders] = useState<Order[]>([]);

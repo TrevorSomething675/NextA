@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Order;
+﻿using Nexta.Application.DTO.Orders;
 using Nexta.Domain.Specification;
 using Nexta.Domain.Abstractions;
 using Nexta.Domain.Enums;

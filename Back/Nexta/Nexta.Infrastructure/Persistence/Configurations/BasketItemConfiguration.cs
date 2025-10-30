@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Models.Basket;
-using Nexta.Domain.Models.Product;
+using Nexta.Domain.Models.Baskets;
+using Nexta.Domain.Models.Products;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {
-    internal class BasketItemConfiguration : IEntityTypeConfiguration<BasketItem>
+    public class BasketItemConfiguration : IEntityTypeConfiguration<BasketItem>
     {
         public void Configure(EntityTypeBuilder<BasketItem> builder)
         {

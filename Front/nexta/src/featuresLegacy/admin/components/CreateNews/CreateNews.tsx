@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from './CreateNews.module.css';
 import { SubmitHandler, useForm } from "react-hook-form";
 import AdminService from "../../../../services/AdminService";
-import { useNotifications } from "../../../../sharedLegacy/components/Notifications/Notifications";
+import { useNotifications } from "../../../../shared/contexts/notifications/NotificationsContext";
 import { Image } from "../../../../shared/ui";
 import { AddNewsRequest } from "../../../../widgets/ui/admin-news/models/AddNewsRequest";
 

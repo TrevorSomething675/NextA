@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Nexta.Application.DTO.Product;
+using Nexta.Application.DTO.Products;
 
 namespace Nexta.Application.Commands.Admin.UpdateAdminProductCommand
 {

@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Basket;
+﻿using Nexta.Application.DTO.Baskets;
 
 namespace Nexta.Application.Queries.Basket.GetBasketProductsQuery
 {

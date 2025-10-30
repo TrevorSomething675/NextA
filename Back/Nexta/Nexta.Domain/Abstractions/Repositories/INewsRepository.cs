@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Models.News;
+﻿using Nexta.Domain.Models;
 
 namespace Nexta.Domain.Abstractions.Repositories
 {

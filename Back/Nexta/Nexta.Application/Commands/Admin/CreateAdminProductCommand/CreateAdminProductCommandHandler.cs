@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Models.Product;
+﻿using Nexta.Domain.Models.Products;
 using Nexta.Domain.Abstractions;
 using MediatR;
 

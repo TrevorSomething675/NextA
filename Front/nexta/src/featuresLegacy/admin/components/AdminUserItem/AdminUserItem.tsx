@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import styles from './AdminUserItem.module.css';
 import { UpdateAccountRequest } from '../../../../http/models/account/UpdateAccount';
-import { useNotifications } from '../../../../sharedLegacy/components/Notifications/Notifications';
+import { useNotifications } from '../../../../shared/contexts/notifications/NotificationsContext';
 import { AdminUser } from '../../../../models/AdminUser';
 import AccountService from '../../../../services/AccountService';
 import AdminService from '../../../../services/AdminService';

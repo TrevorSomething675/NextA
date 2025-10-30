@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Models.Basket;
+﻿using Nexta.Domain.Models.Baskets;
 
 namespace Nexta.Domain.Specification
 {
@@ -6,7 +6,7 @@ namespace Nexta.Domain.Specification
     {
         public BasketByUserIdSpecification(Guid userId)
         {
-            Creteria = b => b.Id == userId;
+            Creteria = b => b.UserId == userId;
             AddInclude("Products");
         }
     }

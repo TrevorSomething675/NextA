@@ -1,6 +1,6 @@
-﻿using Nexta.Application.Commands.Basket.DeleteBasketProductCommand;
-using Nexta.Application.Commands.Basket.UpdateBasketProductCommand;
-using Nexta.Application.Commands.Basket.AddBasketProductCommand;
+﻿using Nexta.Application.Commands.Baskets.DeleteBasketProductCommand;
+using Nexta.Application.Commands.Baskets.UpdateBasketProductCommand;
+using Nexta.Application.Commands.Baskets.AddBasketProductCommand;
 using Nexta.Web.Models.Basket;
 using AutoMapper;
 

@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './ConfirmUpdateEmail.module.css';
 import { useEffect, useState } from 'react';
-import { useNotifications } from '../../../../sharedLegacy/components/Notifications/Notifications';
+import { useNotifications } from '../../../../shared/contexts/notifications/NotificationsContext';
 import { ConfirmUpdateEmailRequest } from '../models/confirmUpdateEmailRequest';
 import authStore from '../../../../shared/stores/auth/authStore';
 import { AccountApi } from '../../../../shared/http/account/accountApi';

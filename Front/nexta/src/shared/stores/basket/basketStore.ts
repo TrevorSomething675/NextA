@@ -16,14 +16,14 @@ class BasketStore {
     
     get totalPrice() {
         return this.items.reduce((sum, item) => {
-            const price = this.num(item.product!.newPrice, 0);
-            const count = this.num(item.product!.count, 0);
+            const price = this.num(item.product?.newPrice, 0);
+            const count = this.num(item.count, 0);
             return sum + price * count;
         }, 0);
     }
 
     get totalCount() {
-        return this.items.reduce((sum, item) => sum + item.product!.count, 0);
+        return this.items.reduce((sum, item) => sum + item.count, 0);
     }
 
     setVisibleBasket = (state:boolean) => {
@@ -34,7 +34,7 @@ class BasketStore {
         const existingItem = this.items.find(item => item.productId === product.productId)!;
         
         if (existingItem) {
-        existingItem.product!.count += 1;
+        existingItem.count += 1;
         } else {
             this.items.push(product);
         }
@@ -50,7 +50,7 @@ class BasketStore {
         const n = this.num(newCount, 1);
         const count = n > 0 ? Math.floor(n) : 1;
         const item = this.items.find(i => i.productId === id);
-        if (item) item.product!.count = count;
+        if (item) item.count = count;
     };
 
     incrementCount = (id: string) => {
@@ -78,7 +78,7 @@ class BasketStore {
         ...it,
         newPrice: this.num(it.product!.newPrice, 0),
             count: (() => { 
-                const n = this.num(it.product!.count, 1);
+                const n = this.num(it.count, 1);
                 return n > 0 ? Math.floor(n) : 1;
             })(),
         }));

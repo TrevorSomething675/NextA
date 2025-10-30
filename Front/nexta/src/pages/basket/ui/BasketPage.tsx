@@ -1,14 +1,14 @@
 import { observer } from 'mobx-react';
 import styles from './BasketPage.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useNotifications } from '../../../sharedLegacy/components/Notifications/Notifications';
+import { useNotifications } from '../../../shared/contexts/notifications/NotificationsContext';
 import { useState } from 'react';
 import authStore from '../../../shared/stores/auth/authStore';
 import { OrderApi } from '../../../shared/http/order/orderApi';
 import { OrderItem } from '../../../entities/order/models/orderItem';
 import basketStore from '../../../shared/stores/basket/basketStore';
 import { Button } from '../../../shared/ui';
-import { BasketProductItem } from '../../../widgets/ui/basket/ui/BasketProductItem';
+import { BasketProductItem } from '../../../widgets/ui/basket/basketProductItem/ui/BasketProductItem';
 
 export const BasketPage = observer(() => {
     const navigate = useNavigate();

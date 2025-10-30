@@ -1,6 +1,6 @@
 import api from "../api";
 import { ApiResponse } from "../models/BaseResponse";
-import { ErrorResponseModel } from "../../../sharedLegacy/models/ErrorResponseModel";
+import { ErrorResponseModel } from "../../models/ErrorResponseModel";
 import { Basket } from "../../../entities/basket/models/basket";
 import axios from 'axios';
 import { BasketItem } from "../../../entities/basket/models/basketItem";
@@ -61,6 +61,7 @@ export class BasketApi{
                 productId,
                 count
             }
+            console.warn(request);
             const response = await api.patch('Basket/Update', request);
             return {
                 success:true,

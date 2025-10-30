@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Nexta.Domain.Models.Order;
-using Nexta.Domain.Models.User;
+using Nexta.Domain.Models.Orders;
+using Nexta.Domain.Models.Users;
 
 namespace Nexta.Infrastructure.Persistence.Configurations
 {

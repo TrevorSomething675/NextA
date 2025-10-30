@@ -1,5 +1,5 @@
 ﻿using Nexta.Application.Queries.Categories.GetCategoriesQuery;
-using Nexta.Application.DTO.Category;
+using Nexta.Application.DTO.Categories;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using MediatR;

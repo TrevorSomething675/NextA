@@ -1,7 +1,7 @@
 import { ApiResponse } from "../../../shared/http/models/BaseResponse";
 import api from "../../../shared/http/api";
 import axios from 'axios';
-import { ErrorResponseModel } from "../../../sharedLegacy/models/ErrorResponseModel";
+import { ErrorResponseModel } from "../../../shared/models/ErrorResponseModel";
 import { Order } from "../../../entities/order/models/order";
 import qs from "qs";
 import { Product } from "../../../models/Product";

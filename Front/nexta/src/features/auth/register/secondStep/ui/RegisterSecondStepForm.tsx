@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { AuthData } from "../../../../../entities/auth/models/authData";
-import styles from './RegisterSecondStepForm.module.css';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { VerificationApi } from "../../../../../entities/auth/verification/api/verificationApi";
 import { AuthApi } from "../../../../../shared/http/auth/authApi";
 import { SetAuthData } from "../../../../../shared/lib/authStorage";
+import authStore from "../../../../../shared/stores/auth/authStore";
+import styles from './RegisterSecondStepForm.module.css';
 
 interface RegisterSecondStepProps {
     authData?:AuthData;
@@ -102,7 +103,6 @@ export const RegisterSecondStepForm:React.FC<RegisterSecondStepProps> = ({authDa
 
     const submit: SubmitHandler<CodeInputs> = async (data) => {
         const code = data.code.join('');
-
         setLoading(true);
         try {
             if(authData){
@@ -140,6 +140,7 @@ export const RegisterSecondStepForm:React.FC<RegisterSecondStepProps> = ({authDa
                         data.accessToken!,
                         data.role
                     );
+                    authStore.authenticate(data.id!, data.email, data.firstName, data.lastName, data.middleName, data.role, data.phone);
                     navigate('/');
                 }
             }

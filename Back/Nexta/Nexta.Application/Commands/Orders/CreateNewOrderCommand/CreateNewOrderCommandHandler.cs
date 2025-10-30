@@ -1,5 +1,5 @@
 ﻿using Nexta.Domain.Specification;
-using Nexta.Domain.Models.Order;
+using Nexta.Domain.Models.Orders;
 using Nexta.Domain.Abstractions;
 using FluentValidation;
 using AutoMapper;

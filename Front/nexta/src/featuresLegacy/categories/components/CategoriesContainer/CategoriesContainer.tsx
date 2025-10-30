@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './CategoriesContainer.module.css';
 import { Category } from '../../../../models/Category';
 import CategoryService from '../../../../services/CategoryService';
-import { useNotifications } from '../../../../sharedLegacy/components/Notifications/Notifications';
+import { useNotifications } from '../../../../shared/contexts/notifications/NotificationsContext';
 import { CategoryItem } from '../CategoryItem/CategoryItem';
 
 export const CategoriesContainer = () => {

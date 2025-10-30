@@ -6,6 +6,7 @@ import { AuthStep } from '../../../../../widgets/ui/auth-panel/models/AuthStep';
 import { AuthData } from '../../../../../entities/auth/models/authData';
 import { LoginFormRequest } from '../models/LoginFirstStepFormRequest';
 import { Button } from '../../../../../shared/ui';
+import { VerificationApi } from '../../../../../entities/auth/verification/api/verificationApi';
 
 interface LoginFormProps {
     changeAuth: (step:AuthStep, data?:AuthData) => void;
@@ -38,6 +39,7 @@ export const LoginFirstStepForm:React.FC<LoginFormProps> = ({changeAuth}) => {
                     phone:response.data.phone ?? '',
                     role:response.data.role
                 }
+                await VerificationApi.SendVerificationCode(data.email);
                 changeAuth('loginSecondStep', data);
             } else if(!response.success && response.status !== 200){
                 setError(response.data.Message ?? '');

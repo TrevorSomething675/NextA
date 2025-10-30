@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.Product;
+﻿using Nexta.Application.DTO.Products;
 using Nexta.Domain.Enums;
 
 namespace Nexta.Application.DTO.Admin

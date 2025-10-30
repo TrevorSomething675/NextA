@@ -1,6 +1,6 @@
 import api from "../api";
 import { ApiResponse } from "../models/BaseResponse";
-import { ErrorResponseModel } from "../../../sharedLegacy/models/ErrorResponseModel";
+import { ErrorResponseModel } from "../../models/ErrorResponseModel";
 import { News } from "../../../entities/news/models/news";
 import axios from 'axios';
 

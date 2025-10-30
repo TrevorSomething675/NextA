@@ -1,4 +1,4 @@
-﻿using Nexta.Application.DTO.User;
+﻿using Nexta.Application.DTO.Users;
 
 namespace Nexta.Application.Commands.Auth.CheckAuthCommand
 {

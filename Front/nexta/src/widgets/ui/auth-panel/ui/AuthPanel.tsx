@@ -13,6 +13,7 @@ export const AuthPanel = () => {
     const [authData, setAuthData] = useState<AuthData>();
 
     const handleChangeStep = (authStep:AuthStep, authData?:AuthData) => {
+        console.log(authData);
         setAuthData(authData);
         setAuthStep(authStep);
     }
@@ -26,6 +27,7 @@ export const AuthPanel = () => {
         {authStep === 'loginSecondStep' && (
             <LoginSecondStepForm 
                 changeAuth={handleChangeStep}
+                authData={authData}
             />
         )}
         {authStep === "registerFirstStep" && (
@@ -46,6 +48,7 @@ export const AuthPanel = () => {
         {authStep === 'accessRecoverySecondStep' && (
             <AccessRecoverySecondStep
                 handleChangeAuth={handleChangeStep}
+                authData={authData}
             />
         )}
     </>

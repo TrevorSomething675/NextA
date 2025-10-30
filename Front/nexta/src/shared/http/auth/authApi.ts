@@ -1,6 +1,6 @@
 import axios from 'axios';
 import api from '../api';
-import { ErrorResponseModel } from '../../../sharedLegacy/models/ErrorResponseModel';
+import { ErrorResponseModel } from '../../models/ErrorResponseModel';
 import { ApiResponse } from '../models/BaseResponse';
 import { User } from '../../../entities/user/models/user';
 import { AuthData } from '../../../entities/auth/models/authData';

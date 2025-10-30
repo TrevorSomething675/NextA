@@ -1,0 +1,126 @@
+import { useEffect } from 'react';
+import styles from './ViewAlreadyExistProductInBasket.module.css';
+import { useNotifications } from '../../../../shared/contexts/notifications/NotificationsContext';
+import authStore from '../../../../shared/stores/auth/authStore';
+import { BasketApi } from '../../../../shared/http/basket/basketApi';
+import basketStore from '../../../../shared/stores/basket/basketStore';
+import { Button, Image } from '../../../../shared/ui';
+import { Product, ProductStatus } from '../../../../entities/product/models/product';
+import { toJS } from 'mobx';
+
+interface ViewAlreadyExistProductInBasketProps {
+    isOpen: boolean;
+    onClose: () => void;
+    product: Product;
+    productCount: number;
+    onCountChange: (count: number) => void;
+}
+
+export const ViewAlreadyExistProductInBasket: React.FC<ViewAlreadyExistProductInBasketProps> = ({
+    isOpen,
+    onClose,
+    product,
+    productCount,
+    onCountChange
+}) => {
+    const { addNotification } = useNotifications();
+    
+    useEffect(() => {
+        if (isOpen) {
+            onCountChange(productCount ?? 1);
+        }
+    }, [isOpen, productCount]);
+
+    const statusLabels = {
+        [ProductStatus.Unknown]: 'Неизвестный статус',
+        [ProductStatus.InStock]: 'Есть на складе',
+        [ProductStatus.OutOfStock]: 'Нет на складе',
+    };
+    
+    const decrement = () => {
+        if(productCount > 0){
+            onCountChange(Math.max(1, productCount - 1));
+        }
+    };
+    
+    const increment = () => {
+        if(productCount < 10){
+            onCountChange(productCount + 1);
+        }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value, 10);
+        if(value > 0 && value <= 10){
+            onCountChange(!isNaN(value) && value >= 1 ? value : 1);
+        }
+    };
+
+    const handleUpdateProduct = async() => {
+        const userId = authStore.user.id ?? '';
+        const response = await BasketApi.Update(userId, product.id, productCount);
+        console.error(response);
+        if (response.success && response.status === 200) {
+            basketStore.changeProductCount(response.data.productId, response.data.count);
+            console.warn(toJS(basketStore.items));
+            addNotification({
+                header: 'Корзина обновлена'
+            });
+            onClose();
+        }
+    }
+
+    return (
+        <div className={`${styles.modal} ${isOpen ? styles.open : styles.closed}`}>
+            <div className={styles.modalContent}>
+                <div className={styles.header}>
+                    <button className={styles.closeButton} onClick={onClose}>×</button>
+                    <h2>Товар уже в корзине</h2>
+                    <div>Вы можете отредактировать количество.</div>
+                </div>
+                <div className={styles.productContainer}>
+                    <div className={styles.imageContainer}>
+                        {product.images && <Image isBase64Image={true} base64String={product?.images[0]?.base64String} className={styles.image} />}
+                    </div>
+                    <div className={styles.productData}>
+                        <ul className={styles.ul}>
+                            <li> - {product.name}</li>
+                            <li> - {product.description}</li>
+                            <li> - {statusLabels[product.status]}</li>
+                            <li> - Осталось на складе: {product.count}</li>
+                        </ul>
+                        <div className={styles.productFooter}>
+                            <div>
+                                <button type="button" className={styles.down} onClick={decrement}>◄</button>
+                                <input
+                                    value={productCount}
+                                    type="number"
+                                    name="quantity"
+                                    min="1"
+                                    max="10"
+                                    step="1"
+                                    className={styles.countInput}
+                                    onChange={handleInputChange}
+                                />
+                                <button type="button" className={styles.up} onClick={increment}>►</button>
+                                <span className={styles.newPrice}>
+                                    {product.newPrice * productCount} руб.
+                                </span>
+                                {(product.oldPrice !== undefined && product.oldPrice != 0) &&
+                                    <span className={styles.oldPrice}>
+                                        {product.oldPrice * productCount} руб.
+                                    </span>
+                                }
+                            </div>
+                            <div>
+                                <Button className={styles.updateButton} onClick={handleUpdateProduct}>
+                                    Обновить товар
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};

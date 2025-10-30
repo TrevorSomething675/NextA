@@ -1,4 +1,4 @@
-﻿using Nexta.Domain.Models.Order;
+﻿using Nexta.Domain.Models.Orders;
 using Nexta.Domain.Enums;
 
 namespace Nexta.Domain.Specification
