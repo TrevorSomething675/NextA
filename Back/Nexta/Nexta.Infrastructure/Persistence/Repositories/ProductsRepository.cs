@@ -1,9 +1,9 @@
-﻿using Nexta.Domain.Specification.Abstractions;
-using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Infrastructure.Extensions;
+﻿using Nexta.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Nexta.Domain.Models.Products;
 using Nexta.Domain.Base;
+using Nexta.Application.Abstractions.Repositories;
+using Nexta.Application.Abstractions.Specification;
 
 namespace Nexta.Infrastructure.Persistence.Repositories
 {

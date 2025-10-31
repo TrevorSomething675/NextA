@@ -1,6 +1,6 @@
-﻿using Nexta.Domain.Abstractions.Repositories;
-using Nexta.Domain.Abstractions;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Nexta.Application.Abstractions;
+using Nexta.Application.Abstractions.Repositories;
 
 namespace Nexta.Infrastructure.Persistence
 {

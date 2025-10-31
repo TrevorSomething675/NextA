@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using Nexta.Domain.Abstractions.Services;
 using Nexta.Infrastructure.Models;
 using Nexta.Domain.Exceptions;
+using Nexta.Application.Interfaces;
+using Nexta.Domain.Services.VerificationCode;
 
 namespace Nexta.Infrastructure.Services
 {

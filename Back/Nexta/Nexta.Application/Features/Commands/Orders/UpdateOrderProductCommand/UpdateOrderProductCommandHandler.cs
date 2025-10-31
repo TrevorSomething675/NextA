@@ -1,0 +1,31 @@
+﻿using Nexta.Application.DTO.Orders;
+using AutoMapper;
+using MediatR;
+using Nexta.Application.Abstractions;
+
+namespace Nexta.Application.Commands.Orders.UpdateOrderProductCommand
+{
+	public class UpdateOrderProductCommandHandler : IRequestHandler<UpdateOrderProductCommand, OrderItemDto>
+	{
+		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
+
+		public UpdateOrderProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) 
+		{
+			_unitOfWork = unitOfWork;
+			_mapper = mapper;
+		}
+
+		public async Task<OrderItemDto> Handle(UpdateOrderProductCommand command, CancellationToken ct = default)
+		{
+			var order = await _unitOfWork.Orders.GetByIdAsync(command.OrderId, ct);
+			order.UpdateProduct(command.ProductId, command.Count);
+			await _unitOfWork.SaveChangesAsync(ct);
+
+			var productItem = _unitOfWork.Products.GetByIdAsync(command.ProductId, ct);
+			var response = _mapper.Map<OrderItemDto>(productItem);
+
+			return response;
+        }
+	}
+}

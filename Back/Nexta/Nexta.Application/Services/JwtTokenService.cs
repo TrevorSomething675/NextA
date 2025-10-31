@@ -1,10 +1,10 @@
-﻿using Nexta.Domain.Abstractions.Services;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using Nexta.Domain.Options;
 using System.Text;
+using Nexta.Application.Interfaces;
 
 namespace Nexta.Application.Services
 {

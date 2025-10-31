@@ -1,7 +1,7 @@
 ﻿using Nexta.Infrastructure.Persistence.Repositories;
-using Nexta.Domain.Abstractions.Repositories;
 using Nexta.Infrastructure.Persistence;
-using Nexta.Domain.Abstractions;
+using Nexta.Application.Abstractions;
+using Nexta.Application.Abstractions.Repositories;
 
 namespace Nexta.Web.Extensions
 {

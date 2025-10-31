@@ -1,8 +1,8 @@
-﻿using Nexta.Domain.Abstractions.Services;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Nexta.Domain.Options;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Nexta.Application.Abstractions;
 
 namespace Nexta.Infrastructure.Services
 {
