@@ -14,3 +14,18 @@
     text-align: center;
     text-underline-offset: 0.2rem;
 }
+
+.productsContainer{
+    margin:  0 0 1.4rem 0;
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.button{
+    background-color: var(--context-color);
+    width: 12rem;
+    margin: 0 0 1.4rem 0;
+}

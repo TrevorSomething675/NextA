@@ -1,6 +1,6 @@
 import { ErrorResponseModel } from "../../models/ErrorResponseModel";
 import { ApiResponse } from "../models/BaseResponse";
-import { User } from "../../../entities/user/models/user";
+import { User } from "../../../entities/user/user";
 import api from "../api";
 import axios from 'axios';
 

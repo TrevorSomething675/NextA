@@ -5,7 +5,7 @@ import { useNotifications } from '../../../../shared/contexts/notifications/Noti
 import { ConfirmUpdateEmailRequest } from '../models/confirmUpdateEmailRequest';
 import authStore from '../../../../shared/stores/auth/authStore';
 import { AccountApi } from '../../../../shared/http/account/accountApi';
-import { VerificationApi } from '../../../../entities/auth/verification/api/verificationApi';
+import { VerificationApi } from '../../../../shared/http/account/verification/verificationApi';
 import { Button } from '../../../../shared/ui';
 
 interface ConfirmUpdateEmailProps {

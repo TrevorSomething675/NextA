@@ -1,7 +1,7 @@
 import api from "../api";
 import { ApiResponse } from "../models/BaseResponse";
 import { ErrorResponseModel } from "../../models/ErrorResponseModel";
-import { News } from "../../../entities/news/models/news";
+import { News } from "../../../entities/news/news";
 import axios from 'axios';
 
 export class NewsApi{

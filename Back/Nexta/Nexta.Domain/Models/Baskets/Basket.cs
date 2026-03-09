@@ -37,7 +37,7 @@ namespace Nexta.Domain.Models.Baskets
             _products.Clear();
         }
 
-        public void RemoveProduct(Guid productId)
+        public Guid RemoveProduct(Guid productId)
         {
             var product = _products.Find(p => p.ProductId == productId);
 
@@ -45,6 +45,8 @@ namespace Nexta.Domain.Models.Baskets
                 throw new ArgumentNullException($"Product with id [{productId}] is null");
 
             _products.Remove(product);
+
+            return product.ProductId;
         }
 
         public IReadOnlyCollection<BasketItem> Products => _products.AsReadOnly();

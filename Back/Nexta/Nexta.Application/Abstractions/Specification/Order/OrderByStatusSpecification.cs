@@ -11,6 +11,7 @@ namespace Nexta.Domain.Specification
             Creteria = o => status.Contains(o.Status) && o.UserId == userId;
             PageNumber = pageNumber;
             PageSize = pageSize;
+            AddInclude("Products");
         }
     }
 }

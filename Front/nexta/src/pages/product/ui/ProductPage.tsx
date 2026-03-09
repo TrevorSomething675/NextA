@@ -2,14 +2,14 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styles from './ProductPage.module.css';
 import { useNotifications } from "../../../shared/contexts/notifications/NotificationsContext";
-import { ViewAlreadyExistProductInBasket } from "../../../features/basket/viewAlreadyExistProductInBasket/ui/ViewAlreadyExistProductInBasket";
-import { ProductAttributes } from "../../../featuresLegacy/product/components/ProductAttributes/ProductAttributes";
+import { ViewAlreadyExistProductInBasket } from "../../../widgets/ui/basket/viewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket";
 import { ProductApi } from "../../../shared/http/product/productApi";
-import { Product, ProductStatus } from "../../../entities/product/models/product";
 import { BasketApi } from "../../../shared/http/basket/basketApi";
 import authStore from "../../../shared/stores/auth/authStore";
 import basketStore from "../../../shared/stores/basket/basketStore";
 import { Image } from "../../../shared/ui";
+import { Product, ProductStatus } from "../../../entities/product/product";
+import { ProductAttributes } from "../../../widgets/ui/product-attributes/ProductAttributes";
 
 const statusLabels = {
     [ProductStatus.Unknown]: 'Неизвестный статус',
@@ -65,7 +65,7 @@ export const ProductPage = () => {
             basketStore.addBasketProduct(response.data);
         } else if (!response.success && response.status === 409){
             setIsModalOpen(true);
-        } 
+        }
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value, 10);
@@ -76,7 +76,7 @@ export const ProductPage = () => {
             setCount(1);
         }
     };
-        
+    
     if(product) {
         return <div className={styles.container}>
             <div className={styles.cardContainer}>
@@ -85,7 +85,7 @@ export const ProductPage = () => {
                 </h2>
                 <div className={styles.headerProduct}>
                     <div className={styles.imageContainer}>
-                        <Image isBase64Image={true} base64String={product?.images[0]?.base64String} className={styles.image} />
+                        <Image isBase64Image={true} base64String={product?.images?.[0]?.base64String} className={styles.image} />
                     </div>
                     <div className={styles.productContainer}>
                         <ul className={styles.ul}>

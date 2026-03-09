@@ -3,6 +3,7 @@ using Nexta.Domain.Models.Orders;
 using Nexta.Domain.Base;
 using Nexta.Application.Abstractions.Repositories;
 using Nexta.Application.Abstractions.Specification;
+using Nexta.Infrastructure.Extensions;
 
 namespace Nexta.Infrastructure.Persistence.Repositories
 {
@@ -63,7 +64,7 @@ namespace Nexta.Infrastructure.Persistence.Repositories
         public async Task<PagedData<Order>> GetAsync(ISpecification<Order> spec, CancellationToken ct = default)
         {
             var query = _context.Orders
-                .Include(o => spec.Includes)
+                .Includes(spec.Includes)
                 .Where(spec.Creteria);
 
             var orders = await query

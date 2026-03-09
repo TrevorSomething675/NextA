@@ -1,4 +1,6 @@
-﻿namespace Nexta.Application.DTO.Products
+﻿using Nexta.Domain.Enums;
+
+namespace Nexta.Application.DTO.Products
 {
     public class ProductDto
     {
@@ -10,5 +12,6 @@
         public int OldPrice { get; init; }
         public int Count { get; init; }
         public ProductImageDto? Image { get; init; }
+        public ProductStatus Status { get; }
     }
 }

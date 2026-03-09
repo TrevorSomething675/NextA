@@ -1,6 +1,6 @@
 import { CreateAdminProduct } from "../../components/adminProducts/CreateAdminProduct/CreateAdminProduct";
 import styles from './AdminProductsPage.module.css';
-import { SearchProductsContainer } from "../../../product/components/SearchProductsContainer/SearchProductsContainer";
+import { SearchProductsContainer } from "../../../../widgets/ui/search/ui/searchProductsContainer/SearchProductsContainer";
 import Pagging from "../../../../shared/ui/pagging/Pagging";
 import { useEffect, useState } from "react";
 import { GetProductsResponse } from "../../../../http/models/product/GetProducts";

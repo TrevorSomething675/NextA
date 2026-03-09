@@ -10,7 +10,7 @@ import authStore from '../../../../stores/AuthStore/authStore';
 import basket from '../../../../stores/basket';
 import { AddBasketProductRequest } from '../../../../http/models/basketProduct/AddBasketProduct';
 import Image from '../../../../sharedLegacy/components/Image/Image';
-import { ViewAlreadyExistProductInBasket } from '../../../../features/basket/viewAlreadyExistProductInBasket/ui/ViewAlreadyExistProductInBasket';
+import { ViewAlreadyExistProductInBasket } from '../../../../widgets/ui/basket/viewAlreadyExistProductInBasket/ViewAlreadyExistProductInBasket';
 import { ProductOperationType, UpdateAdminProductRequest } from '../../../../http/models/adminProduct/UpdateAdminProduct';
 import { ProductAttributes } from '../../../product/components/ProductAttributes/ProductAttributes';
 import { AdminProductAttributes } from '../../components/AdminProductAttributes/AdminProductAttributes';

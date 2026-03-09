@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { AuthData } from "../../../../../entities/auth/models/authData";
+import { AuthData } from "../../../../../entities/auth/authData";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { VerificationApi } from "../../../../../entities/auth/verification/api/verificationApi";
+import { VerificationApi } from "../../../../../shared/http/account/verification/verificationApi";
 import { AuthApi } from "../../../../../shared/http/auth/authApi";
 import { SetAuthData } from "../../../../../shared/lib/authStorage";
 import authStore from "../../../../../shared/stores/auth/authStore";

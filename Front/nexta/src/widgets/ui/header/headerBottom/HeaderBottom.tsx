@@ -8,7 +8,7 @@ import { observer } from "mobx-react";
 
 export const HeaderBottom = observer(() => {
     const { categories } = useCategoriesStore();
-    const { setCategory} = useSearchProductsStore();
+    const { setCategory } = useSearchProductsStore();
     const navigator = useNavigate();
 
     const fetchData = async (query:string, category:string = '') => {
@@ -31,7 +31,8 @@ export const HeaderBottom = observer(() => {
                 {categories?.slice(0, 5).map(category => 
                     <button key={category.name} className={styles.headerItem} onClick={() => handleSearchOnCategory(category.name)}>
                         {category.name}
-                    </button>)}
+                    </button>
+                )}
             </div>
             <div>
                 Бесплатный подбор: +7 (915) 562-95-13

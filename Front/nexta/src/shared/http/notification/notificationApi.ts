@@ -3,10 +3,10 @@ import { ApiResponse } from "../models/BaseResponse";
 import { ErrorResponseModel } from "../../models/ErrorResponseModel";
 import { PagedData } from "../../models/PagedDataT";
 import axios from 'axios';
-import { Notification } from "../../../entities/user/models/notification";
+import { UserNotification } from "../../../entities/user/userNotification";
 
 export class NotificationApi {
-    static async Get(userId:string, pageSize?:number, pageNumber?:number) : Promise<ApiResponse<PagedData<Notification>, ErrorResponseModel>> {
+    static async Get(userId:string, pageSize?:number, pageNumber?:number) : Promise<ApiResponse<PagedData<UserNotification>, ErrorResponseModel>> {
         try{
             const response = await api.get(`Notifications/Get/${userId}`, {
                 params:{

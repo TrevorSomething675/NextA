@@ -3,7 +3,7 @@ import { ErrorResponseModel } from '../../models/ErrorResponseModel';
 import api from '../api';
 import { ApiResponse } from '../models/BaseResponse';
 import { PagedData } from '../../models/PagedDataT';
-import { User } from '../../../entities/user/models/user';
+import { User } from '../../../entities/user/user';
 
 export class UserApi{
     static Get = async(searchTerm:string, pageNumber:number, pageSize:number):Promise<ApiResponse<PagedData<User>, ErrorResponseModel>> => {

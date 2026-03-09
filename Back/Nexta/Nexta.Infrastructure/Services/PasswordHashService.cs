@@ -1,4 +1,4 @@
-﻿using Nexta.Application.Interfaces;
+﻿using Nexta.Application.Abstractions;
 
 namespace Nexta.Application.Services
 {

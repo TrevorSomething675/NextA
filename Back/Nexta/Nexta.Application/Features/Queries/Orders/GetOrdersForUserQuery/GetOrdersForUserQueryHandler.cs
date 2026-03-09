@@ -1,10 +1,11 @@
-﻿using Nexta.Application.DTO.Orders;
+﻿using Nexta.Application.Abstractions;
+using Nexta.Application.DTO.Orders;
 using Nexta.Domain.Specification;
 using Nexta.Domain.Enums;
 using Nexta.Domain.Base;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.Abstractions;
+using Nexta.Application.DTO.Products;
 
 namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 {
@@ -25,9 +26,21 @@ namespace Nexta.Application.Queries.Orders.GetOrdersForUserQuery
 				query.UserId,
                 [OrderStatus.Accepted, OrderStatus.InProgress, OrderStatus.Ready],
 				query.PageNumber,
-				query.PageSize);
+				query.PageSize
+			);
 
-			var orders = await _unitOfWork.Orders.GetAsync(spec, ct);
+			var orders = _mapper.Map<PagedData<OrderDto>>(await _unitOfWork.Orders.GetAsync(spec, ct));
+
+			foreach (var order in orders?.Items)
+			{
+				var productIds = order.Products.Select(p => p.ProductId).ToList();
+				var products = await _unitOfWork.Products.GetByIdsAsync(productIds, ct);
+
+				foreach (var product in order.Products)
+				{
+					product.Product = _mapper.Map<ProductDto>(products.Find(p => p.Id == product.ProductId));
+				}
+			}
 
 			var response = _mapper.Map<PagedData<OrderDto>>(orders);
 

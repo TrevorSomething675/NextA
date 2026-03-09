@@ -1,4 +1,4 @@
-import { BasketItem } from "../../../entities/basket/models/basketItem";
+import { BasketItem } from "../../../entities/basket/basketItem";
 import { makeAutoObservable, runInAction } from "mobx";
 
 class BasketStore {
@@ -56,14 +56,14 @@ class BasketStore {
     incrementCount = (id: string) => {
         const item = this.items.find(item => item.productId === id);
         if (item) {
-            item.product!.count += 1;
+            item.count += 1;
         }
     }
 
     decrementCount = (id: string) => {
         const item = this.items.find(item => item.productId === id);
-        if (item && item.product!.count > 1) {
-            item.product!.count -= 1;
+        if (item && item.count > 1) {
+            item.count -= 1;
         } else if (item) {
             this.deleteBasketProduct(id);
         }

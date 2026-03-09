@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Order } from "../../../entities/order/models/order";
+import { Order } from "../../../entities/order/order";
 
 class OrderStore{
     items: Order[] = [];

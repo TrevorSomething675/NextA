@@ -3,12 +3,14 @@ import { useNotifications } from '../../../../../shared/contexts/notifications/N
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AuthStep } from '../../../../../widgets/ui/auth-panel/models/AuthStep';
-import { AuthData } from '../../../../../entities/auth/models/authData';
-import { VerificationApi } from '../../../../../entities/auth/verification/api/verificationApi';
+import { AuthData } from '../../../../../entities/auth/authData';
+import { VerificationApi } from '../../../../../shared/http/account/verification/verificationApi';
 import { SetAuthData } from '../../../../../shared/lib/authStorage';
 import { ErrorResponseModel } from '../../../../../shared/models/ErrorResponseModel';
 import styles from './LoginSecondStepForm.module.css';
 import authStore from '../../../../../shared/stores/auth/authStore';
+import { BasketApi } from '../../../../../shared/http/basket/basketApi';
+import basketStore from '../../../../../shared/stores/basket/basketStore';
 
 const CODE_LENGTH = 6;
 
@@ -44,7 +46,7 @@ export const LoginSecondStepForm:React.FC<LoginSecondStepFormProps> = ({changeAu
             setCountdown(countdown - 1);
         }, 1000);
         } else if (countdown === 0) {
-        setIsDisabled(false);
+            setIsDisabled(false);
         }
         
         return () => clearTimeout(timer);
@@ -121,6 +123,12 @@ export const LoginSecondStepForm:React.FC<LoginSecondStepFormProps> = ({changeAu
                     header: 'Успешная авторизация!'
                 });
                 authStore.authenticate(data.id!, data.email, data.firstName, data.lastName, data.middleName, data.role, data.phone);
+                
+                const basketResponse = await BasketApi.GetByUserId(data.id);
+                if(basketResponse.success && basketResponse.status === 200){
+                    basketStore.setBasketItems(basketResponse.data.products);
+                }
+
                 navigate('/');
             }
         }

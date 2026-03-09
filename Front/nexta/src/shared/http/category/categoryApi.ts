@@ -1,7 +1,7 @@
 import api from "../api";
 import { ApiResponse } from "../models/BaseResponse";
 import { ErrorResponseModel } from "../../models/ErrorResponseModel";
-import { Category } from "../../../entities/category/models/category";
+import { Category } from "../../../entities/category/category";
 import axios from 'axios';
 
 export class CategoryApi{

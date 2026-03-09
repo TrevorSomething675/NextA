@@ -3,10 +3,10 @@ import styles from './LoginFirstStepForm.module.css';
 import { useState } from 'react';
 import { AuthApi } from '../../../../../shared/http/auth/authApi';
 import { AuthStep } from '../../../../../widgets/ui/auth-panel/models/AuthStep';
-import { AuthData } from '../../../../../entities/auth/models/authData';
+import { AuthData } from '../../../../../entities/auth/authData';
 import { LoginFormRequest } from '../models/LoginFirstStepFormRequest';
 import { Button } from '../../../../../shared/ui';
-import { VerificationApi } from '../../../../../entities/auth/verification/api/verificationApi';
+import { VerificationApi } from '../../../../../shared/http/account/verification/verificationApi';
 
 interface LoginFormProps {
     changeAuth: (step:AuthStep, data?:AuthData) => void;

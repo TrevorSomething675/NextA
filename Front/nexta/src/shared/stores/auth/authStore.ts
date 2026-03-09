@@ -51,6 +51,7 @@ class AuthStore {
             role: role ?? 'User',
             phone
         } as AuthUser
+        this.user = user;
         this.isAuthenticated = true;
         this.setRole(user.role ?? 'User');
         this.isAdmin = user.role === 'Admin';

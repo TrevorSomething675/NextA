@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from './News.module.css';
-import { News } from "../../../entities/news/models/news";
+import { News } from "../../../entities/news/news";
 import { NewsApi } from "../../../shared/http/news/newsApi";
 import { Image } from "../../../shared/ui";
 

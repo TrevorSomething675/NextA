@@ -3,19 +3,20 @@ import { useNotifications } from "../../../../../../shared/contexts/notification
 import CheckSvg from "../../../../svg/CheckSvg/CheckSvg";
 import TrashSvg from "../../../../svg/TrashSvg/TrashSvg";
 import { useNavigate } from "react-router-dom";
-import { BasketItem } from "../../../../../../entities/basket/models/basketItem";
+import { BasketItem } from "../../../../../../entities/basket/basketItem";
 import authStore from "../../../../../../shared/stores/auth/authStore";
-import basketStore from "../../../../../../shared/stores/basket/basketStore";
-import { BasketApi } from "../../../../../../shared/http/basket/basketApi";
 import styles from './BasketSidebarItem.module.css';
-import { toJS } from "mobx";
+import { observer } from "mobx-react";
+import { useRemoveProductFromBasket } from "../../../../../../features/basket/removeProductFromBasket/useRemoveProductFromBasket";
+import { useUpdateProductInBasket } from "../../../../../../features/basket/updateProductInBasket/useUpdateProductInBasket";
 
-export const BasketSidebarItem:React.FC<{basketItem: BasketItem}> = ({basketItem}) => {
-    console.log(toJS(basketItem));
+export const BasketSidebarItem:React.FC<{basketItem: BasketItem}> = observer(({basketItem}) => {
     const [count, setCount] = useState(basketItem.count);
     const [legacyCount, setLegacyCount] = useState(basketItem.count);
     const navigate = useNavigate();
     const { addNotification } = useNotifications();
+    const { removeProductFromBasket } = useRemoveProductFromBasket();
+    const { updateBasketProduct } = useUpdateProductInBasket();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = parseInt(e.target.value, 10);
@@ -39,26 +40,16 @@ export const BasketSidebarItem:React.FC<{basketItem: BasketItem}> = ({basketItem
 
     const handleUpdateProduct = async(productId:string, count:number) => {
         const userId = authStore?.user?.id ?? '';
-        const response = await BasketApi.Update(userId, productId, count);
-
-        if(response.success == true && response.status === 200){
-            basketStore.changeProductCount(response.data.productId, response.data.count);
-            setLegacyCount(response.data.count);
-            addNotification({
-                header: 'Корзина обновлена',
-                body: `Товар: ${basketItem.product?.name}. Изменения успешно внесены.`
-            })
-        }
+        await updateBasketProduct(userId, productId, count);
+        setLegacyCount(count);
     }
 
-    const handleDeleteProductFromBasket = async() =>{
+    const handleDeleteProductFromBasket = async() => {
+        
         const userId = authStore?.user?.id ?? '';
         const productId = basketItem.productId;
 
-        const response = await BasketApi.DeleteProductFromBasket(userId, productId);
-        if(response.success && response.status === 200){
-            basketStore.deleteBasketProduct(productId);
-        }
+        await removeProductFromBasket(productId, userId);
     };
 
     return <div className={styles.container}>
@@ -112,4 +103,4 @@ export const BasketSidebarItem:React.FC<{basketItem: BasketItem}> = ({basketItem
             </div>
         </div>
     </div>
-}
+});

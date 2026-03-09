@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Nexta.Application;
 using Nexta.Application.Abstractions;
-using Nexta.Application.Interfaces;
 using Nexta.Application.Services;
 using Nexta.Domain.Models.Baskets;
 using Nexta.Domain.Models.Products;

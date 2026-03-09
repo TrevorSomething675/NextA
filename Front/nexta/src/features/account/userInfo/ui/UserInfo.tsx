@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { UpdateAccountRequest } from '../models/updateAccountRequest';
 import authStore from '../../../../shared/stores/auth/authStore';
 import { AccountApi } from '../../../../shared/http/account/accountApi';
-import { VerificationApi } from '../../../../entities/auth/verification/api/verificationApi';
+import { VerificationApi } from '../../../../shared/http/account/verification/verificationApi';
 import { Button } from '../../../../shared/ui';
 import { ConfirmUpdateEmail } from '../../confirmUpdateEmail/ui/ConfirmUpdateEmail';
 
@@ -84,7 +84,9 @@ export const UserInfo = observer(() => {
                 </ul>
             </div>
             <div className={styles.footer}>
-                <Button content='Обновить профиль' className={styles.submitBtn} type='submit' />
+                <Button className={styles.submitBtn} type='submit'>
+                    Обновить профиль
+                </Button>
             </div>
         </form>
         <ConfirmUpdateEmail 

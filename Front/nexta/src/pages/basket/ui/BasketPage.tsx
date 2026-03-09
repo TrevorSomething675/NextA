@@ -7,13 +7,13 @@ import authStore from '../../../shared/stores/auth/authStore';
 import { OrderApi } from '../../../shared/http/order/orderApi';
 import { OrderItem } from '../../../entities/order/models/orderItem';
 import basketStore from '../../../shared/stores/basket/basketStore';
-import { Button } from '../../../shared/ui';
-import { BasketProductItem } from '../../../widgets/ui/basket/basketProductItem/ui/BasketProductItem';
+import { BasketContainer } from '../../../widgets/ui/basket/basketContainer/BasketContainer';
 
 export const BasketPage = observer(() => {
     const navigate = useNavigate();
     const {addNotification} = useNotifications();
 
+    /*
     const [isLoading, setLoading] = useState(false);
 
     const handleCreateOrder = () =>{
@@ -34,13 +34,11 @@ export const BasketPage = observer(() => {
         if(response.success && response.status === 200){
             basketStore.clear();
             
-            /*
             const newOrdersResponse = await OrderService.GetOrdersForUser(userId);
 
             if(newOrdersResponse.success && newOrdersResponse.status === 200){
                 orderStore.setOrderItems(newOrdersResponse.data.data.items);
             }  
-            */
             navigate('/Order');
             addNotification({
                 header: 'Заказ сформирован',
@@ -49,44 +47,10 @@ export const BasketPage = observer(() => {
         }
         setLoading(false);
     }
+    */
 
     return <div className={styles.container}>
         <h2 className={styles.h2}>Корзина</h2>
-        <div className={styles.container}>
-        {(basketStore?.items !== undefined) && (basketStore.items.length > 0) ? (<table className={styles.table}>
-            <thead className={styles.thead}>
-                <tr className={styles.tr}>
-                    <th>Название</th>
-                    <th>Артикул</th>
-                    <th>Описание</th>
-                    <th>Кол-во, шт</th>
-                    <th></th>
-                    <th>Стоимость, ₽</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody className={styles.tbody}>
-                {basketStore.items.length > 0 && basketStore.items.map((product) => 
-                    <BasketProductItem basketProduct={product} key={product.productId} />
-                )}
-            </tbody>
-        </table>)
-        :
-        (<div className={styles.noBasketProducts}>
-            Ваша корзина пуста.
-        </div>)}
-    </div> 
-    {
-
-        (basketStore?.items !== undefined) && (basketStore.items.length > 0) && <div className={styles.container}>
-            <div className={styles.footerItem}>
-                <Button className={styles.button} onClick={handleCreateOrder}>
-                    Оформить заказ
-                </Button>
-            </div>
-            <div className={styles.footerPrice}>
-                <div className={styles.priceContainer}>Итого: {basketStore.totalPrice} руб.</div>
-            </div>
-        </div>}
+        <BasketContainer />
     </div>
 });

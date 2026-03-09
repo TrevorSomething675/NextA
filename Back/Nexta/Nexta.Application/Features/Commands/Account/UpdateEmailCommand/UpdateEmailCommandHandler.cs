@@ -1,7 +1,6 @@
 ﻿using Nexta.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
-using Nexta.Application.Interfaces;
 using Nexta.Application.Abstractions;
 
 namespace Nexta.Application.Commands.Account.UpdateEmailCommand

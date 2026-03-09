@@ -2,9 +2,9 @@ import axios from 'axios';
 import api from '../api';
 import { ErrorResponseModel } from '../../models/ErrorResponseModel';
 import { ApiResponse } from '../models/BaseResponse';
-import { User } from '../../../entities/user/models/user';
-import { AuthData } from '../../../entities/auth/models/authData';
-import { IsRegisterResponse } from '../../../entities/auth/models/isRegisterResponse';
+import { User } from '../../../entities/user/user';
+import { AuthData } from '../../../entities/auth/authData';
+import { IsRegisterResponse } from './models/isRegisterResponse';
 
 export class AuthApi{
     static async AccessRecovery(email:string, code:string, password:string, confirmPassword:string) : Promise<ApiResponse<string, ErrorResponseModel>>{

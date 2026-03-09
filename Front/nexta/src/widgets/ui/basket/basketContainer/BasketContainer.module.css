@@ -1,0 +1,41 @@
+.container{
+    font-size: 1rem;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--dark-default-color);
+    padding: 0.8rem 2rem;
+    align-items: center;
+}
+
+.button{
+    background-color: var(--context-color);
+    width: 11rem;
+}
+
+.table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tr > th{
+    padding: 1.4rem;
+}
+
+.thead{
+    background-color: var(--dark-default-color);
+}
+
+.noBasketProducts{
+    font-size: 1.5rem;
+}
+
+.priceContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    margin: 0 2rem 0 0;
+}

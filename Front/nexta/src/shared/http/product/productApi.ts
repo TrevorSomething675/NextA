@@ -2,24 +2,24 @@ import api from "../api"
 import { ApiResponse } from "../models/BaseResponse"
 import { ErrorResponseModel } from "../../models/ErrorResponseModel"
 import { PagedData } from "../../models/PagedDataT";
-import { Product } from "../../../entities/product/models/product"
 import axios from 'axios';
+import { Product } from "../../../entities/product/product";
 
 export class ProductApi{
     static GetById = async(id:string):Promise<ApiResponse<Product, ErrorResponseModel>> => {
         try{
             const response = await api.get<Product>(`Products/GetById/${id}`);
             return {
-                success:true,
-                data:response.data,
-                status:response.status
+                success: true,
+                data: response.data,
+                status: response.status
             }
         }
         catch(error){
             if(axios.isAxiosError(error) && error.response){
                 return {
-                    success:false,
-                    data:error.response.data as ErrorResponseModel,
+                    success: false,
+                    data: error.response.data as ErrorResponseModel,
                     status: error.response.status
                 }
             }

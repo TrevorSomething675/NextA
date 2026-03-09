@@ -5,7 +5,6 @@ import { NotificationsProvider } from "./shared/contexts/notifications/Notificat
 import AdminOrdersPage from "./featuresLegacy/admin/pages/AdminOrdersPage/AdminOrdersPage"
 import AdminNewsPage from "./featuresLegacy/admin/pages/AdminNewsPage/AdminNewsPage"
 import { ProtectedAdminRoute } from "./http/ProtectedAdminRoute"
-import { ProductPage } from "./pages/product/ui/ProductPage"
 import { AdminProductPage } from "./featuresLegacy/admin/pages/AdminProductPage/AdminProductPage"
 import { AdminProductsPage } from "./featuresLegacy/admin/pages/AdminProductsPage/AdminProductsPage"
 import { observer } from "mobx-react"
@@ -26,20 +25,22 @@ import { Footer } from "./widgets/ui/footer/Footer"
 import { useEffect } from "react"
 import authStore from "./shared/stores/auth/authStore"
 import { BasketApi } from "./shared/http/basket/basketApi"
-import { toJS } from "mobx"
+import { useGetCategories } from "./features/category/getAdminCategories/useGetAdminCategories"
+import { ProductPage } from "./pages/product"
 
 const App = observer(() => {
+  const { getCategories } = useGetCategories();
+  
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async() => {
+    await getCategories();
     if(authStore.isAuthenticated){
       const basketResponse = await BasketApi.GetByUserId(authStore.user.id!);
       if(basketResponse.success && basketResponse.status === 200){
-        console.warn(basketResponse);
         basketStore.setBasketItems(basketResponse.data.products);
-        console.error(toJS(basketStore.items))
       }
     }
   }

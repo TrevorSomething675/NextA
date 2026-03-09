@@ -2,7 +2,6 @@
 using FluentValidation;
 using AutoMapper;
 using MediatR;
-using Nexta.Application.Interfaces;
 using Nexta.Application.Abstractions;
 
 namespace Nexta.Application.Commands.Auth.CheckAuthCommand

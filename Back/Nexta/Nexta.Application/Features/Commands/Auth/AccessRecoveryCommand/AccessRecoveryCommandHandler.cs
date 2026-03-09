@@ -2,7 +2,6 @@
 using Nexta.Domain.Constants;
 using FluentValidation;
 using MediatR;
-using Nexta.Application.Interfaces;
 using Nexta.Application.Abstractions;
 
 namespace Nexta.Application.Commands.Auth.AccessRecoveryCommand

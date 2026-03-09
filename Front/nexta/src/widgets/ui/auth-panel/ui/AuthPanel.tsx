@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { AuthStep } from "../models/AuthStep";
-import { AuthData } from "../../../../entities/auth/models/authData";
+import { AuthData } from "../../../../entities/auth/authData";
 import { RegisterFirstStepForm } from "../../../../features/auth/register/firstStep/ui/RegisterFirstStepForm";
 import { RegisterSecondStepForm } from "../../../../features/auth/register/secondStep/ui/RegisterSecondStepForm";
 import { LoginFirstStepForm } from "../../../../features/auth/login/firstStep/ui/LoginFirstStepForm";
@@ -13,7 +13,6 @@ export const AuthPanel = () => {
     const [authData, setAuthData] = useState<AuthData>();
 
     const handleChangeStep = (authStep:AuthStep, authData?:AuthData) => {
-        console.log(authData);
         setAuthData(authData);
         setAuthStep(authStep);
     }

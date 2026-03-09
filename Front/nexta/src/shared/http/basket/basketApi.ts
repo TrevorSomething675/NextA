@@ -1,9 +1,9 @@
 import api from "../api";
 import { ApiResponse } from "../models/BaseResponse";
 import { ErrorResponseModel } from "../../models/ErrorResponseModel";
-import { Basket } from "../../../entities/basket/models/basket";
+import { Basket } from "../../../entities/basket/basket";
 import axios from 'axios';
-import { BasketItem } from "../../../entities/basket/models/basketItem";
+import { BasketItem } from "../../../entities/basket/basketItem";
 import { AddBasketProductRequest } from "../../../features/basket/models/addBasketProductRequest";
 
 export class BasketApi{

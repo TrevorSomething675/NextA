@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
 using Nexta.Application.Abstractions;
-using Nexta.Application.Interfaces;
 
 namespace Nexta.Application.Commands.Auth.SendVerifyCodeCommand
 {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from './SearchPage.module.css';
-import { SearchProductsContainer } from "../../../featuresLegacy/product/components/SearchProductsContainer/SearchProductsContainer";
+import { SearchProductsContainer } from "../../../widgets/ui/search/ui/searchProductsContainer/SearchProductsContainer";
 import { useSearchProductsStore } from "../../../shared/stores/searchProduct/searchProductsStore";
 import { SearchSidebar } from "../../../widgets/ui/search/ui/searchSidebar/SearchSidebar";
 import { Button } from "../../../shared/ui";
@@ -110,10 +110,11 @@ export const SearchPage = () => {
                         <SearchProductsContainer products={products} />
                     </div>
                     {page !== totalPageCount && <Button 
-                        onClick={handleScrollDown} 
-                        content='Загрузить ещё'
+                        onClick={handleScrollDown}
                         className={styles.scrollBtn}
-                    />}
+                    >
+                        Загрузить ещё
+                    </Button>}
                 </>
             )}
         </div>

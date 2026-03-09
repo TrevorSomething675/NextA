@@ -24,16 +24,17 @@ export const BasketSidebar = observer(() => {
         }, 300);
     };
 
-    const HandleGoToBasket = () => {
+    const handleGoToBasket = () => {
         navigate('/basket');
         handleClose();
     };
 
-    const HandleCreateOrder = async() => {
+    const handleCreateOrder = async() => {
         const userId = authStore?.user?.id ?? '';
         const products = basketStore.items.map((product) => ({
-            count: product.count,
-            productId: product.productId
+            productId: product.productId,
+            product: product.product,
+            count: product.count
         } as OrderItem));
 
         const response = await OrderApi.CreateNewOrder(userId, products);
@@ -43,7 +44,7 @@ export const BasketSidebar = observer(() => {
             navigate('/Order');
             addNotification({
                 header: 'Заказ сформирован',
-                body: `Ваш заказ [${response.data}] был успешно сформирован. Скоро с вами свяжется оператор.`
+                body: `Ваш заказ был успешно сформирован. Скоро с вами свяжется оператор.`
             })
         }
         handleClose();
@@ -102,8 +103,8 @@ export const BasketSidebar = observer(() => {
                     </div>
                 </div>}
                 <div className={styles.footer}>
-                    <Button className={styles.createOrder} onClick={HandleCreateOrder}>Оформить заказ</Button>
-                    <Button className={styles.toBasket} onClick={HandleGoToBasket}>Перейти в корзину</Button>
+                    <Button className={styles.createOrder} onClick={handleCreateOrder}>Оформить заказ</Button>
+                    <Button className={styles.toBasket} onClick={handleGoToBasket}>Перейти в корзину</Button>
                 </div>
             </div>
         </>

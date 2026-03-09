@@ -1,5 +1,5 @@
-import { Product } from "../../../models/Product"
 import { create } from 'zustand';
+import { Product } from '../../../entities/product/models/product';
 
 type ProductsState = {
     products:Product[];

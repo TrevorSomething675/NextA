@@ -81,7 +81,9 @@ export const ChangePassword = observer(() => {
                         (<img src="/loading2.gif" className={styles.loading} />)
                         : 
                         (<p className={styles.p}>
-                            <Button content='Сменить пароль' className={styles.confirmPasswordBtn} type={'submit'} />
+                            <Button className={styles.confirmPasswordBtn} type={'submit'}>
+                                Сменить пароль
+                            </Button>
                         </p>)
                     }
                 </div>
