@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Search.AI.Api/Search.AI.Api.csproj" />
+  <Project Path="Search.AI.Application/Search.AI.Application.csproj" />
+  <Project Path="Search.AI.Domain/Search.AI.Domain.csproj" />
+  <Project Path="Search.AI.Infrastructure/Search.AI.Infrastructure.csproj" />
+</Solution>
