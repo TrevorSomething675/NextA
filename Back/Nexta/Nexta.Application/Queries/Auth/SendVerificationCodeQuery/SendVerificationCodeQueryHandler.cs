@@ -4,20 +4,20 @@ using MediatR;
 
 namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
 {
-    public class SendVerificationCodeQueryHandler : IRequestHandler<SendVerificationCodeQueryRequest, Unit>
+    public class SendVerificationCodeQueryHandler : IRequestHandler<SendVerificationCodeQuery, Unit>
     {
         private readonly IVerificationCodeService _verificationService;
         private readonly IEmailService _emailService;
-        private readonly IValidator<SendVerificationCodeQueryRequest> _validator;
+        private readonly IValidator<SendVerificationCodeQuery> _validator;
 		public SendVerificationCodeQueryHandler(IVerificationCodeService verificationService, 
-            IEmailService emailService, IValidator<SendVerificationCodeQueryRequest> validator)
+            IEmailService emailService, IValidator<SendVerificationCodeQuery> validator)
         {
             _verificationService = verificationService;
             _emailService = emailService;
             _validator = validator;
         }
 
-		public async Task<Unit> Handle(SendVerificationCodeQueryRequest request, CancellationToken ct = default)
+		public async Task<Unit> Handle(SendVerificationCodeQuery request, CancellationToken ct = default)
 		{
             var validationResult = await _validator.ValidateAsync(request, ct);
             if (!validationResult.IsValid)

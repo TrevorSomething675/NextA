@@ -7,7 +7,8 @@ using MediatR;
 
 namespace Nexta.Web.Controllers
 {
-    [Route("[controller]")]
+    [ApiController]
+    [Route("api/products")]
     public class ProductsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -19,9 +20,10 @@ namespace Nexta.Web.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("[action]/{id}")]
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(GetProductByIdQueryResponse), StatusCodes.Status200OK)]
-        public async Task<IResult> GetById([FromRoute] Guid id, CancellationToken ct = default)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IResult> GetByIdAsync([FromRoute] Guid id, CancellationToken ct = default)
         {
             var query = new GetProductByIdQuery(id);
             var response = await _mediator.Send(query, ct);
@@ -29,9 +31,10 @@ namespace Nexta.Web.Controllers
             return Results.Ok(response);
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         [ProducesResponseType(typeof(GetProductsQueryResponse), StatusCodes.Status200OK)]
-        public async Task<IResult> Get([FromQuery] GetProductsRequest request, CancellationToken ct = default)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IResult> GetAsync([FromQuery] GetProductsRequest request, CancellationToken ct = default)
         {
             var query = _mapper.Map<GetProductsQuery>(request);
             var response = await _mediator.Send(query, ct);

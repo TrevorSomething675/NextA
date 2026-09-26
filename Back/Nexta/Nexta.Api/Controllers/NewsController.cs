@@ -18,7 +18,7 @@ namespace Nexta.Web.Controllers
 		[ProducesResponseType(typeof(GetNewsQueryResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Get(CancellationToken ct = default)
 		{
-			var response = await _mediator.Send(new GetNewsQueryRequest(), ct);
+			var response = await _mediator.Send(new GetNewsQuery(), ct);
 			return Results.Ok(response);
 		}
     }

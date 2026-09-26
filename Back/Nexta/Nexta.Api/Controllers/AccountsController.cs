@@ -12,7 +12,7 @@ using Nexta.Application.Commands.Account.UpdateEmailCommand;
 
 namespace Nexta.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/accounts")]
     public class AccountsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -24,7 +24,7 @@ namespace Nexta.Web.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         [ProducesResponseType(typeof(ConfirmPhoneCommandResponse), StatusCodes.Status200OK)]
         public async Task<IResult> ConfirmPhone([FromBody] ConfirmPhoneRequest request, CancellationToken ct = default)
         {
@@ -35,7 +35,7 @@ namespace Nexta.Web.Controllers
         }
 
         [Authorize]
-        [HttpPost("[action]")]
+        [HttpPost]
         [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
         public async Task<IResult> ChangePassword([FromBody] ChangePasswordRequest request, CancellationToken ct = default)
         {
@@ -45,7 +45,7 @@ namespace Nexta.Web.Controllers
             return Results.Ok(response);
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
         public async Task<IResult> AccessRecovery([FromBody] AccessRecoveryRequest request, CancellationToken ct = default)
         {
@@ -56,7 +56,7 @@ namespace Nexta.Web.Controllers
         }
 
         [Authorize]
-        [HttpPatch("[action]")]
+        [HttpPatch]
         [ProducesResponseType(typeof(UpdateAccountCommandResponse), StatusCodes.Status200OK)]
         public async Task<IResult> UpdateEmail([FromBody] UpdateEmailRequest request, CancellationToken ct = default)
         {
@@ -67,7 +67,7 @@ namespace Nexta.Web.Controllers
         }
 
         [Authorize]
-        [HttpPatch("[action]")]
+        [HttpPatch]
         [ProducesResponseType(typeof(UpdateAccountCommandResponse), StatusCodes.Status200OK)]
         public async Task<IResult> Update([FromBody] UpdateAccountRequest request, CancellationToken ct = default)
         {

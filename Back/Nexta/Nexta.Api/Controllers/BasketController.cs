@@ -11,7 +11,8 @@ using MediatR;
 namespace Nexta.Web.Controllers
 {
 	[Authorize]
-	[Route("[controller]")]
+	[ApiController]
+	[Route("api/basket")]
 	public class BasketController : ControllerBase
 	{
 		private readonly IMediator _mediator;
@@ -23,9 +24,10 @@ namespace Nexta.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpGet("[action]/{userId}")]
+		[HttpGet("{userId:guid}")]
 		[ProducesResponseType(typeof(GetBasketProductsQueryResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Get([FromRoute] Guid userId, CancellationToken ct = default)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IResult> Get([FromRoute] Guid userId, CancellationToken ct = default)
 		{
 			var query = new GetBasketProductsQuery(userId);
             var response = await _mediator.Send(query, ct);
@@ -33,9 +35,10 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPost("[action]")]
+		[HttpPost]
 		[ProducesResponseType(typeof(AddBasketProductCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Add([FromBody] AddBasketProductRequest request, CancellationToken ct = default)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IResult> Add([FromBody] AddBasketProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<AddBasketProductCommand>(request);
 			var response = await _mediator.Send(command, ct);
@@ -43,9 +46,10 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPatch("[action]")]
+		[HttpPatch]
 		[ProducesResponseType(typeof(UpdateBasketProductCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Update([FromBody] UpdateBasketProductRequest request, CancellationToken ct = default)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IResult> Update([FromBody] UpdateBasketProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<UpdateBasketProductCommand>(request);
 			var response = await _mediator.Send(command, ct);
@@ -53,9 +57,10 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpDelete("[action]")]
+		[HttpDelete]
 		[ProducesResponseType(typeof(DeleteBasketProductCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Delete([FromQuery] DeleteBasketProductRequest request, CancellationToken ct = default)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IResult> Delete([FromQuery] DeleteBasketProductRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<DeleteBasketProductCommand>(request);
 			var response = await _mediator.Send(command, ct);

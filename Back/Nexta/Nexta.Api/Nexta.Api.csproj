@@ -18,12 +18,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Minio" Version="6.0.4" />
     <PackageReference Include="NLog" Version="5.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Nexta.Application\Nexta.Application.csproj" />
-    <ProjectReference Include="..\Nexta.Domain\Nexta.Domain.csproj" />
     <ProjectReference Include="..\Nexta.Infrastructure\Nexta.Infrastructure.csproj" />
   </ItemGroup>
 

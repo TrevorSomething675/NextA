@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace Nexta.Application.Commands.Auth.RegisterCommand
+namespace Nexta.Application.Commands.Auth.RegistrationCommand
 {
-    public class RegisterCommand : IRequest<RegisterCommandResponse>
+    public class RegistrationCommand : IRequest<RegistrationCommandResponse>
     {
 		public string Email { get; init; } = null!;
 		public string FirstName { get; init; } = null!;

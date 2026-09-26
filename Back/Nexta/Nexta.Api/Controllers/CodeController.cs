@@ -16,7 +16,7 @@ namespace Nexta.Web.Controllers
 
 		[HttpPost("[action]")]
 		[ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-		public async Task<IResult> SendVerificationCode([FromBody] SendVerificationCodeQueryRequest request, CancellationToken ct = default)
+		public async Task<IResult> SendVerificationCode([FromBody] SendVerificationCodeQuery request, CancellationToken ct = default)
 		{
 			var response = await _mediator.Send(request, ct);
 			return Results.Ok(response);

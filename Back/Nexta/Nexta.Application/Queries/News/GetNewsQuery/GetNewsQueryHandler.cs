@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Nexta.Application.Queries.News.GetNewsQuery
 {
-	public class GetNewsQueryHandler : IRequestHandler<GetNewsQueryRequest, GetNewsQueryResponse>
+	public class GetNewsQueryHandler : IRequestHandler<GetNewsQuery, GetNewsQueryResponse>
 	{
 		private readonly INewsRepository _newsRepository;
 		private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ namespace Nexta.Application.Queries.News.GetNewsQuery
 			_mapper = mapper;
 		}
 
-		public async Task<GetNewsQueryResponse> Handle(GetNewsQueryRequest query, CancellationToken ct = default)
+		public async Task<GetNewsQueryResponse> Handle(GetNewsQuery query, CancellationToken ct = default)
 		{
 			var news = await _newsRepository.GetAllAsync(ct);
 

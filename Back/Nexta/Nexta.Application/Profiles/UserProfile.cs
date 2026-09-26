@@ -1,10 +1,10 @@
 ﻿using Nexta.Application.Commands.Account.UpdateAccountCommand;
-using Nexta.Application.Commands.Auth.RegisterCommand;
 using Nexta.Domain.Models.DataModels;
 using Nexta.Application.DTO.Response;
 using Nexta.Application.DTO.Admin;
 using Nexta.Domain.Models;
 using AutoMapper;
+using Nexta.Application.Commands.Auth.RegistrationCommand;
 
 namespace Nexta.Application.Profiles
 {
@@ -12,7 +12,7 @@ namespace Nexta.Application.Profiles
     {
         public UserProfile() 
         {
-            CreateMap<RegisterCommand, User>();
+            CreateMap<RegistrationCommand, User>();
             CreateMap<User, UserResponse>();
             CreateMap<UpdateAccountCommand, User>();
             

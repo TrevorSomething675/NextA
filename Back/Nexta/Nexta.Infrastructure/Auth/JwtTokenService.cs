@@ -6,7 +6,7 @@ using System.Security.Claims;
 using Nexta.Domain.Options;
 using System.Text;
 
-namespace Nexta.Application.Services
+namespace Nexta.Infrastructure.Auth
 {
 	public class JwtTokenService : IJwtTokenService
 	{

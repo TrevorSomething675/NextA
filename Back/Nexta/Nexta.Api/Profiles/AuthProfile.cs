@@ -1,8 +1,8 @@
 ﻿using Nexta.Application.Commands.Auth.CheckAuthCommand;
-using Nexta.Application.Commands.Auth.RegisterCommand;
 using Nexta.Application.Commands.Auth.LoginCommand;
 using Nexta.Web.Models.Auth;
 using AutoMapper;
+using Nexta.Application.Commands.Auth.RegistrationCommand;
 
 namespace Nexta.Web.Profiles
 {
@@ -10,7 +10,7 @@ namespace Nexta.Web.Profiles
     {
         public AuthProfile()
         {
-            CreateMap<RegistrationRequest, RegisterCommand>();
+            CreateMap<RegistrationRequest, RegistrationCommand>();
 
             CreateMap<LoginRequest, LoginCommand>();
 

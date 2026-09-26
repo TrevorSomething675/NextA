@@ -44,7 +44,7 @@ namespace Nexta.Application.Commands.Auth.AccessRecoveryCommand
 
             var passwordHash = _passwordHashService.Generate(command.Password);
 
-            CreateUserToRegister(ref dbUser, passwordHash!);
+            CreateUserToRegistration(ref dbUser, passwordHash!);
 
             await _usersRepository.UpdateAsync(dbUser, ct);
             await _emailService.SendEmailAsync(dbUser.Email!, "", "Пароль бы успешно обновлён.", NotificationKeys.WarningScamAccessRecovery, ct);
@@ -52,7 +52,7 @@ namespace Nexta.Application.Commands.Auth.AccessRecoveryCommand
             return Unit.Value;
         }
 
-        private User CreateUserToRegister(ref User user, string passwordHash)
+        private User CreateUserToRegistration(ref User user, string passwordHash)
         {
             user.PasswordHash = passwordHash;
 

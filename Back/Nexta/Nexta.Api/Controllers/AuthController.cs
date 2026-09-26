@@ -1,12 +1,12 @@
-﻿using Nexta.Application.Queries.Auth.IsRegisteredQuery;
-using Nexta.Application.Commands.Auth.LoginCommand;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using MediatR;
-using Nexta.Web.Models.Auth;
-using Nexta.Application.Commands.Auth.RegisterCommand;
 using Nexta.Application.Commands.Auth.CheckAuthCommand;
+using Nexta.Application.Commands.Auth.LoginCommand;
+using Nexta.Application.Commands.Auth.RegistrationCommand;
+using Nexta.Application.Queries.Auth.IsRegistrationQuery;
+using Nexta.Web.Models.Auth;
 
 namespace Nexta.Web.Controllers
 {
@@ -22,7 +22,7 @@ namespace Nexta.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpPost("[action]")]
+		[HttpPost("login")]
 		[ProducesResponseType(typeof(LoginCommandResponse), StatusCodes.Status200OK)]
 		public async Task<IResult> Login([FromBody] LoginRequest request, CancellationToken ct = default)
 		{
@@ -32,30 +32,30 @@ namespace Nexta.Web.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpPost("[action]")]
-		[ProducesResponseType(typeof(RegisterCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> Register([FromBody] RegistrationRequest request, CancellationToken ct = default)
+		[HttpPost("registration")]
+		[ProducesResponseType(typeof(RegistrationCommandResponse), StatusCodes.Status200OK)]
+		public async Task<IResult> RegistrationAsync([FromBody] RegistrationRequest request, CancellationToken ct = default)
 		{
-			var command = _mapper.Map<RegisterCommand>(request);
+			var command = _mapper.Map<RegistrationCommand>(request);
 			var response = await _mediator.Send(command, ct);
 
-			return Results.Ok(response);
+			return Results.Ok(response); 
 		}
 
-        [HttpGet("[action]")]
+        [HttpGet("isRegistration")]
 		[ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-		public async Task<IResult> IsRegisterUser([FromQuery] string email, CancellationToken ct = default)
+		public async Task<IResult> IsRegistrationUserAsync([FromQuery] string email, CancellationToken ct = default)
 		{
-			var query = new IsRegisteredQuery(email);
+			var query = new IsRegistrationQuery(email);
 			var response = await _mediator.Send(query, ct);
 
 			return Results.Ok(response);
 		}
 
 		[Authorize]
-		[HttpPost("[action]")]
+		[HttpPost("registreation-status")]
 		[ProducesResponseType(typeof(CheckAuthCommandResponse), StatusCodes.Status200OK)]
-		public async Task<IResult> CheckAuth([FromBody] CheckUserAuthRequest request, CancellationToken ct = default)
+		public async Task<IResult> IsAuthAsync([FromBody] CheckUserAuthRequest request, CancellationToken ct = default)
 		{
 			var command = _mapper.Map<CheckAuthCommand>(request);
 			var response = await _mediator.Send(command, ct);

@@ -2,18 +2,18 @@
 using Nexta.Domain.Exceptions;
 using MediatR;
 
-namespace Nexta.Application.Queries.Auth.IsRegisteredQuery
+namespace Nexta.Application.Queries.Auth.IsRegistrationQuery
 {
-	public class IsRegisteredQueryHandler : IRequestHandler<IsRegisteredQuery, Unit>
+	public class IsRegistrationQueryHandler : IRequestHandler<IsRegistrationQuery, Unit>
 	{
 		private readonly IUsersRepository _usersRepository;
 
-		public IsRegisteredQueryHandler(IUsersRepository usersRepository)
+		public IsRegistrationQueryHandler(IUsersRepository usersRepository)
 		{
 			_usersRepository = usersRepository;
 		}
 
-		public async Task<Unit> Handle(IsRegisteredQuery query, CancellationToken ct = default)
+		public async Task<Unit> Handle(IsRegistrationQuery query, CancellationToken ct = default)
 		{
 			var user = await _usersRepository.GetByEmailAsync(query.Email, ct);
 			if (user == null)

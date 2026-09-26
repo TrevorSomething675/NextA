@@ -1,8 +1,8 @@
 ﻿using Nexta.Domain.Abstractions.Services;
-using Nexta.Infrastructure.Minio;
 using Minio.DataModel.Args;
 using Nexta.Domain.Options;
 using Minio;
+using Nexta.Infrastructure.Minio;
 
 namespace Nexta.Web.Extensions
 {

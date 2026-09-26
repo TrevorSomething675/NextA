@@ -8,19 +8,19 @@ using FluentValidation;
 using AutoMapper;
 using MediatR;
 
-namespace Nexta.Application.Commands.Auth.RegisterCommand
+namespace Nexta.Application.Commands.Auth.RegistrationCommand
 {
-	public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterCommandResponse>
+	public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, RegistrationCommandResponse>
 	{
 		private readonly IMapper _mapper;
 		private readonly IEmailService _emailService;
         private readonly IUsersRepository _usersRepository;
         private readonly IJwtTokenService _jwtTokenService;
 		private readonly IHashService _passwordHashService;
-		private readonly IValidator<RegisterCommand> _validator;
+		private readonly IValidator<RegistrationCommand> _validator;
         private readonly IVerificationCodeService _verificationCodeService;
-        public RegisterCommandHandler(IUsersRepository usersRepository, IMapper mapper, 
-			IHashService passwordHashService, IValidator<RegisterCommand> validator, IEmailService emailService, 
+        public RegistrationCommandHandler(IUsersRepository usersRepository, IMapper mapper, 
+			IHashService passwordHashService, IValidator<RegistrationCommand> validator, IEmailService emailService, 
 			IJwtTokenService jwtTokenService, IVerificationCodeService verificationCodeService)
 		{
 			_verificationCodeService = verificationCodeService;
@@ -32,7 +32,7 @@ namespace Nexta.Application.Commands.Auth.RegisterCommand
 			_mapper = mapper;
 		}
 
-		public async Task<RegisterCommandResponse> Handle(RegisterCommand command, CancellationToken ct)
+		public async Task<RegistrationCommandResponse> Handle(RegistrationCommand command, CancellationToken ct)
 		{
 			var validationResult = await _validator.ValidateAsync(command, ct);
 
@@ -50,7 +50,7 @@ namespace Nexta.Application.Commands.Auth.RegisterCommand
 			var passwordHash = _passwordHashService.Generate(command.Password);
 
 			var user = _mapper.Map<User>(command);
-			var userToCreate = CreateUserToRegister(user, passwordHash!);
+			var userToCreate = CreateUserToRegistration(user, passwordHash!);
 
 			var createdUser = _mapper.Map<UserResponse>(await _usersRepository.AddAsync(userToCreate, ct));
 			var accessToken = _jwtTokenService.CreateAccessToken(createdUser.Email!, createdUser.Role);
@@ -58,10 +58,10 @@ namespace Nexta.Application.Commands.Auth.RegisterCommand
 			await _emailService.SendEmailAsync(createdUser.Email, "", "Успешная регистрация!", NotificationKeys.CompleteRegistration, ct);
 
 
-            return new RegisterCommandResponse(createdUser, accessToken);
+            return new RegistrationCommandResponse(createdUser, accessToken);
 		}
 
-		private User CreateUserToRegister(User user, string passwordHash)
+		private User CreateUserToRegistration(User user, string passwordHash)
 		{
 			var userToCreate = new User
 			{

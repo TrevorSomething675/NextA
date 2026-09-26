@@ -1,6 +1,6 @@
 ﻿using Nexta.Domain.Abstractions.Services;
 
-namespace Nexta.Application.Services
+namespace Nexta.Infrastructure.Security
 {
 	public class PasswordHashService : IHashService
 	{

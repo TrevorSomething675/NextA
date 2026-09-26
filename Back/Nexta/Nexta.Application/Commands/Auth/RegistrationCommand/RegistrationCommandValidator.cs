@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Nexta.Application.Commands.Auth.RegisterCommand
+namespace Nexta.Application.Commands.Auth.RegistrationCommand
 {
-    public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+    public class RegistrationCommandValidator : AbstractValidator<RegistrationCommand>
     {
-        public RegisterCommandValidator()
+        public RegistrationCommandValidator()
         {
             RuleFor(r => r.Email)
                 .NotEmpty()

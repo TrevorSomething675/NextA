@@ -2,7 +2,7 @@
 
 namespace Nexta.Application.Queries.Auth.SendVerificationCodeQuery
 {
-    public class SendVerificationCodeQueryValidator : AbstractValidator<SendVerificationCodeQueryRequest>
+    public class SendVerificationCodeQueryValidator : AbstractValidator<SendVerificationCodeQuery>
     {
         public SendVerificationCodeQueryValidator() 
         {
